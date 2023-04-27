@@ -2,9 +2,9 @@ import { marked } from "marked";
 
 export interface CartaOptions {
   /**
-   * Markdown parsing options, more on that [here](https://marked.js.org/using_advanced)
+   * Editor/viewer extensions.
    */
-  markedOptions?: marked.MarkedOptions;
+  extensions?: CartaExtension[];
   /**
    * Renderer debouncing timeout, in ms.
    * @defaults 300ms
@@ -12,10 +12,25 @@ export interface CartaOptions {
   rendererDebounce?: number;
 }
 
+export interface CartaExtension {
+  /**
+   * Marked extensions, more on that [here](https://marked.js.org/using_advanced)
+  */
+  markedExtensions?: marked.MarkedExtension[];
+}
+
 export class Carta {
   public constructor(
     public readonly options?: CartaOptions
-  ) {}
+  ) {
+    const markedExtensions = this.options
+      ?.extensions
+      ?.flatMap(ext => ext.markedExtensions)
+      .filter(ext => ext != null) as marked.MarkedExtension[] | undefined;
+    // Load marked extensions
+    if (markedExtensions)
+      marked.use(...markedExtensions);
+  }
   
   /**
    * Render markdown to html.
@@ -25,7 +40,6 @@ export class Carta {
   public render(markdown: string): string {
     return marked.parse(
       markdown,
-      this.options?.markedOptions
     );
   }
 }

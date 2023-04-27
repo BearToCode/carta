@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CartaRenderer from "./CartaRenderer.svelte";
+	import CartaRenderer from "./internal/components/CartaRenderer.svelte";
   import MarkdownInput from "./internal/components/MarkdownInput.svelte";
 	import type { Carta } from "./internal/carta";
 

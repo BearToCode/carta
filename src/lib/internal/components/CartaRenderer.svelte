@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Carta } from "./internal/carta";
-	import { debounce } from "./internal/utils";
+	import type { Carta } from "../carta";
+	import { debounce } from "../utils";
 
   export let carta: Carta;
   export let value: string;
@@ -12,7 +12,7 @@
     value = value;
     debounce(() => {
       renderedHtml = carta.render(value);
-    }, carta.options?.rendererDebounce ?? 0)();
+    }, carta.options?.rendererDebounce ?? 300)();
   }
 </script>
 

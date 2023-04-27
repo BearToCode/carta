@@ -1,0 +1,9 @@
+.carta-input__default { 
+  caret-color: #4d4d4c;
+  /* background: #181818; */
+  font-size: 0.95rem;
+}
+
+.carta-body__default ::selection {
+  background: #b5f0ff3d;
+}
