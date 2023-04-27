@@ -3,7 +3,7 @@
 	import { Carta } from "$lib/internal/carta";
 
 	import '$lib/default-theme.css';
-	import '$lib/dracula.css';
+	import '$lib/light.css';
 
 	const carta = new Carta();
 </script>

@@ -9,7 +9,7 @@
 </script>
 
 <div class="carta-body carta-body__{theme}">
-  <MarkdownInput {carta} bind:value {theme} />
+  <MarkdownInput bind:value {theme} />
   <CartaRenderer {carta} bind:value />
 </div>
 

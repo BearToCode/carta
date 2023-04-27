@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
-    "Carta"
+    "Carta",
+    "prismjs"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

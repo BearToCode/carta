@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { Carta } from "../carta";
-  import hljs from 'highlight.js';
 
-  export let carta: Carta;
+  import Prism from 'prismjs';
+  import 'prismjs/components/prism-markdown.js';
+
   export let value = "";
   export let theme: string;
 
   let highlighted: string;
   $: {
-    highlighted = hljs.highlight(value, { language: 'md' }).value;
+    highlighted = Prism.highlight(value, Prism.languages.markdown, 'language-markdown');
     console.log(highlighted)
   }
 
