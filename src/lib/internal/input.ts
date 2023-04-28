@@ -38,7 +38,8 @@ export class CartaInput {
 
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
-		private readonly shortcuts: KeyboardShortcut[]
+		private readonly shortcuts: KeyboardShortcut[],
+		private readonly onUpdate: () => void
 	) {
 		this.pressedKeys = new Set();
 
@@ -115,6 +116,7 @@ export class CartaInput {
 				shortcut.action(this);
 				// Save state for shortcuts
 				if (!shortcut.preventSave) this.history.saveState(this.textarea.value);
+				this.onUpdate();
 			}
 
 			this.onKeyDownValue = undefined;

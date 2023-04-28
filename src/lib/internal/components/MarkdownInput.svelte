@@ -28,7 +28,7 @@
 	}
 
 	onMount(() => {
-		carta.setInput(textarea);
+		carta.setInput(textarea, () => value = textarea.value);
 	});
 </script>
 

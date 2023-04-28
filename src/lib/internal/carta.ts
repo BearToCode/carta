@@ -81,8 +81,9 @@ export class Carta {
 	/**
 	 * Set the input element.
 	 * @param textarea The input textarea element.
+	 * @param onUpdate Update callback.
 	 */
-	public setInput(textarea: HTMLTextAreaElement) {
-		this.input = new CartaInput(textarea, this.getKeyboardShortcuts());
+	public setInput(textarea: HTMLTextAreaElement, onUpdate: () => void) {
+		this.input = new CartaInput(textarea, this.getKeyboardShortcuts(), onUpdate);
 	}
 }
