@@ -1,4 +1,4 @@
-import { CartaHistory } from './history';
+import { CartaHistory, type CartaHistoryOptions } from './history';
 import { areEqualSets } from './utils';
 
 /**
@@ -39,7 +39,8 @@ export class CartaInput {
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
 		private readonly shortcuts: KeyboardShortcut[],
-		private readonly onUpdate: () => void
+		private readonly onUpdate: () => void,
+		historyOptions?: Partial<CartaHistoryOptions>
 	) {
 		this.pressedKeys = new Set();
 
@@ -55,10 +56,7 @@ export class CartaInput {
 
 		textarea.addEventListener('mousedown', this.handleMouseDown.bind(this));
 
-		this.history = new CartaHistory({
-			minInterval: 300,
-			maxSize: 1_000_000
-		});
+		this.history = new CartaHistory(historyOptions);
 		// Save initial value
 		this.history.saveState(this.textarea.value);
 	}

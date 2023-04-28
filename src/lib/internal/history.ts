@@ -31,7 +31,7 @@ export class CartaHistory {
 	private currentIndex = -1; // Only <= 0 numbers
 	private size = 0;
 	private readonly options: CartaHistoryOptions;
-	constructor(options: Partial<CartaHistoryOptions>) {
+	constructor(options?: Partial<CartaHistoryOptions>) {
 		this.options = mergeDefaultInterface(options, defaultHistoryOptions);
 	}
 
