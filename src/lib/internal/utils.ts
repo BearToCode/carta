@@ -35,3 +35,17 @@ export function areEqualSets<T>(a: Set<T>, b: Set<T>) {
 
   return true;
 }
+
+/**
+ * Merge a partial interface with the provided one.
+ * @param partial The partial interface.
+ * @param def Default interface values.
+ * @returns The merged interface.
+ */
+export function mergeDefaultInterface<T extends object>(partial: Partial<T>, def: T): T {
+  const final = { ...def };
+  Object.entries(partial).forEach(([key, value]) => {
+    final[key as keyof T] = value as T[keyof T];
+  });
+  return final;
+}

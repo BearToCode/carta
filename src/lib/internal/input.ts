@@ -39,7 +39,6 @@ export class CartaInput {
   constructor(
     public readonly textarea: HTMLTextAreaElement,
     private readonly shortcuts: KeyboardShortcut[],
-    private readonly updateCallback: () => void
   ) {
     this.pressedKeys = new Set();
 
@@ -107,7 +106,6 @@ export class CartaInput {
       // Execute all the shortcuts
       for (const shortcut of shortcuts) {
         shortcut.action(this);
-        this.updateCallback();
         // Save state for shortcuts
         if (!shortcut.preventSave)
           this.history.saveState(this.textarea.value);

@@ -1,5 +1,6 @@
 import { marked } from "marked";
-import type { KeyboardShortcut } from "./input";
+import type { CartaHistoryOptions } from "./history";
+import { CartaInput, type KeyboardShortcut } from "./input";
 import { DefaultKeyboardShortcuts } from "./shortcuts";
 
 export interface CartaOptions {
@@ -16,6 +17,10 @@ export interface CartaOptions {
    * Remove default shortcuts.
    */
   disableDefaultShortcuts?: boolean;
+  /**
+   * History options.
+   */
+  historyOptions: CartaHistoryOptions;
 }
 
 export interface CartaExtension {
@@ -31,6 +36,7 @@ export interface CartaExtension {
 
 export class Carta {
   private readonly keyboardShortcuts: KeyboardShortcut[];
+  public input: CartaInput | undefined;
 
   public constructor(
     public readonly options?: CartaOptions
@@ -76,5 +82,16 @@ export class Carta {
    */
   public getKeyboardShortcuts() {
     return this.keyboardShortcuts;
+  }
+
+  /**
+   * Set the input element.
+   * @param textarea The input textarea element.
+   */
+  public setInput(textarea: HTMLTextAreaElement) {
+    this.input = new CartaInput(
+      textarea,
+      this.getKeyboardShortcuts()
+    )
   }
 }

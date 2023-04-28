@@ -3,13 +3,11 @@
   import Prism from 'prismjs';
   import 'prismjs/components/prism-markdown.js';
 	import type { Carta } from "../carta";
-	import { CartaInput } from "../input";
   
   export let carta: Carta;
   export let value = "";
   export let theme: string;
 
-  let helper: CartaInput;
   let textarea: HTMLTextAreaElement;
   let highlighted: string;
 
@@ -30,11 +28,7 @@
   }
 
   onMount(() => {
-    helper = new CartaInput(
-      textarea,
-      carta.getKeyboardShortcuts(),
-      () => value = textarea.value
-    );
+    carta.setInput(textarea);
   });
 </script>
 

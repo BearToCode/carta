@@ -1,3 +1,5 @@
+import { mergeDefaultInterface } from "./utils";
+
 interface HistoryStates {
   timestamp: Date,
   value: string
@@ -6,13 +8,20 @@ interface HistoryStates {
 export interface CartaHistoryOptions {
   /**
    * Minimum interval between save states in ms.
+   * @default 300ms
    */
   minInterval: number;
   /**
    * Maximum history size in bytes.
+   * @default 1MB
    */
   maxSize: number;
 } 
+
+const defaultHistoryOptions: CartaHistoryOptions = {
+  minInterval: 300,
+  maxSize: 1_000_000
+}
 
 /**
  * Input undo/redo functionality.
@@ -21,9 +30,12 @@ export class CartaHistory {
   private states: HistoryStates[] = [];
   private currentIndex = -1; // Only <= 0 numbers
   private size = 0;
+  private readonly options: CartaHistoryOptions
   constructor(
-    public readonly options: CartaHistoryOptions
-  ) {}
+    options: Partial<CartaHistoryOptions>
+  ) {
+    this.options = mergeDefaultInterface(options, defaultHistoryOptions);
+  }
   
   /**
    * Rollback to the previous state.
