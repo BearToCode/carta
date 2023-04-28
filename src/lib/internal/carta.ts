@@ -20,7 +20,7 @@ export interface CartaOptions {
 	/**
 	 * History options.
 	 */
-	historyOptions: CartaHistoryOptions;
+	historyOptions?: Partial<CartaHistoryOptions>;
 }
 
 export interface CartaExtension {
