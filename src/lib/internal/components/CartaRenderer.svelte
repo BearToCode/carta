@@ -4,6 +4,7 @@
 
   export let carta: Carta;
   export let value: string;
+  export let theme: string;
 
   let renderedHtml = "";
 
@@ -16,7 +17,7 @@
   }
 </script>
 
-<div>
+<div class="carta-renderer__{theme}">
   {@html renderedHtml}
 </div>
 

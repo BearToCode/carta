@@ -1,9 +1,25 @@
-.carta-input__default { 
-  caret-color: #4d4d4c;
-  /* background: #181818; */
-  font-size: 0.95rem;
+.carta-editor__default ::selection {
+  background: #b5f0ff3d;
 }
 
-.carta-body__default ::selection {
-  background: #b5f0ff3d;
+.carta-editor__default {
+  padding: 0 1rem 0 1rem;
+  border: 1px solid #b9b9b9;
+  border-radius: 0.5rem;
+}
+
+.carta-editor__default > * {
+  padding: 1rem 0 1rem 0;
+}
+
+.carta-input__default {
+  caret-color: #4d4d4c;
+  font-size: 0.95rem;
+
+  padding-right: 1rem;
+  border-right: 1px solid #b9b9b9;
+}
+
+.carta-renderer__default {
+  padding-left: 1rem;
 }

@@ -8,14 +8,15 @@
   export let value = "";
 </script>
 
-<div class="carta-body carta-body__{theme}">
-  <MarkdownInput bind:value {theme} />
-  <CartaRenderer {carta} bind:value />
+<div class="carta-editor__{theme}">
+  <MarkdownInput {carta} bind:value {theme} />
+  <CartaRenderer {carta} bind:value {theme} />
 </div>
 
 <style>
-  .carta-body {
+  div {
     display: flex;
-    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
   }
 </style>

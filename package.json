@@ -1,5 +1,13 @@
 {
 	"name": "carta",
+	"license": "MIT",
+	"files": ["dist"],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",

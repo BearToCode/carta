@@ -3,8 +3,9 @@
 
   export let carta: Carta;
   export let value: string;
+  export let theme = "default";
 </script>
 
-<div>
+<div class="carta-viewer__{theme}">
   {@html carta.render(value)}
 </div>

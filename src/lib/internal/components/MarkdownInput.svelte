@@ -1,19 +1,18 @@
 <script lang="ts">
-	import type { Carta } from "../carta";
-
+  import { onMount } from "svelte";
   import Prism from 'prismjs';
   import 'prismjs/components/prism-markdown.js';
-
+	import type { Carta } from "../carta";
+	import { CartaInput } from "../input";
+  
+  export let carta: Carta;
   export let value = "";
   export let theme: string;
 
-  let highlighted: string;
-  $: {
-    highlighted = Prism.highlight(value, Prism.languages.markdown, 'language-markdown');
-    console.log(highlighted)
-  }
-
+  let helper: CartaInput;
   let textarea: HTMLTextAreaElement;
+  let highlighted: string;
+
   const focus = () => {
     // Allow text selection
     const selectedText = window.getSelection()?.toString();
@@ -22,14 +21,27 @@
     textarea.focus();
   };
   const resize = () => {
+    textarea.style.height = "0";
     textarea.style.height = textarea.scrollHeight + "px";
   };
+
+  $: {
+    highlighted = Prism.highlight(value, Prism.languages.markdown, 'language-markdown');
+  }
+
+  onMount(() => {
+    helper = new CartaInput(
+      textarea,
+      carta.getKeyboardShortcuts(),
+      () => value = textarea.value
+    );
+  });
 </script>
 
 <div
   on:click={focus}
   on:keydown={focus}
-  class="carta-input carta-input__{theme}"
+  class="carta-input__{theme}"
 >
   <pre class="hljs" aria-hidden="true">{@html highlighted}</pre>
 
@@ -44,9 +56,10 @@
 </div>
 
 <style>
-  .carta-input {
+  div {
     position: relative;
-    width: 50%;
+    flex-grow: 1;
+    flex-shrink: 0;
   }
 
   textarea {
@@ -78,6 +91,9 @@
     bottom: 0;
     margin: 0;
     user-select: none;
+
+    padding: inherit;
+    margin: inherit;
 
     word-wrap: break-word;
     white-space: pre-wrap;
