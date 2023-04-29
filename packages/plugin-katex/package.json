@@ -1,0 +1,16 @@
+{
+	"name": "@cartamd/katex",
+	"type": "module",
+	"scripts": {
+		"build": "tsc"
+	},
+	"devDependencies": {
+		"carta-md": "workspace:*"
+	},
+	"peerDependencies": {
+		"carta-md": "^0.1.3"
+	},
+	"files": [
+		"dist"
+	]
+}

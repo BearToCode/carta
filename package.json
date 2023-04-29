@@ -3,6 +3,7 @@
 	"type": "module",
 	"module": "esnext",
 	"scripts": {
+		"preinstall": "npx only-allow pnpm",
 		"dev": "cd packages/carta-md && npm run dev",
 		"check": "node scripts/check.js",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
@@ -22,9 +23,6 @@
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.0"
 	},
-	"workspaces": [
-		"packages/*"
-	],
 	"lint-staged": {
 		"*.{js,ts,svelte}": "eslint --cache --fix",
 		"*.{js,ts,css,md,svelte,html,yml,json,cjs}": "prettier --write"

@@ -9,7 +9,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"composite": true,
-		"outDir": "dist",
+		"outDir": "./dist",
 		"module": "ESNext",
 		"target": "ESNext"
 	}
