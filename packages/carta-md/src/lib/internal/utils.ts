@@ -4,7 +4,7 @@
  * @param wait The time to wait in milliseconds.
  */
 export function debounce<T extends unknown[]>(cb: (...args: T) => unknown, wait = 1000) {
-	let timeout: number;
+	let timeout: NodeJS.Timeout;
 	return (...args: T) => {
 		clearTimeout(timeout);
 		timeout = setTimeout(() => cb(...args), wait);
@@ -42,7 +42,10 @@ export function areEqualSets<T>(a: Set<T>, b: Set<T>) {
  * @param def Default interface values.
  * @returns The merged interface.
  */
-export function mergeDefaultInterface<T extends object>(partial: Partial<T> | undefined, def: T): T {
+export function mergeDefaultInterface<T extends object>(
+	partial: Partial<T> | undefined,
+	def: T
+): T {
 	if (!partial) return def;
 	const final = { ...def };
 	Object.entries(partial).forEach(([key, value]) => {
