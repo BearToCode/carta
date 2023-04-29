@@ -3,6 +3,9 @@ import type { CartaHistoryOptions } from './history';
 import { CartaInput, type KeyboardShortcut } from './input';
 import { DefaultKeyboardShortcuts } from './shortcuts';
 
+/**
+ * Carta editor options.
+ */
 export interface CartaOptions {
 	/**
 	 * Editor/viewer extensions.
@@ -23,6 +26,9 @@ export interface CartaOptions {
 	historyOptions?: Partial<CartaHistoryOptions>;
 }
 
+/**
+ * Carta editor extensions.
+ */
 export interface CartaExtension {
 	/**
 	 * Marked extensions, more on that [here](https://marked.js.org/using_advanced).

@@ -5,12 +5,18 @@
 		"build": "tsc"
 	},
 	"devDependencies": {
+		"@types/katex": "^0.16.0",
+		"@types/marked": "^4.0.8",
 		"carta-md": "workspace:*"
 	},
 	"peerDependencies": {
-		"carta-md": "^0.1.3"
+		"carta-md": "^0.1.3",
+		"marked": "^4.3.0"
 	},
 	"files": [
 		"dist"
-	]
+	],
+	"dependencies": {
+		"katex": "^0.16.7"
+	}
 }
