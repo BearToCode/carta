@@ -18,11 +18,56 @@
 	/>
 </svelte:head>
 
-<CartaEditor {carta} />
+<main>
+	<h1>Carta</h1>
+	<h2>Lightweight, fully customizable, Markdown editor</h2>
+
+	<CartaEditor {carta} />
+</main>
 
 <style>
-	:root {
+	:global(body) {
+		margin: 0;
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
+		min-height: 100vh;
+	}
+
+	main {
+		max-width: 1536px;
+		margin: 0 auto 0 auto;
+		padding: 2rem 0 2rem 0;
+	}
+
+	/* Responsive main */
+
+	@media screen and (max-width: 640px) {
+		main {
+			width: 95%;
+		}
+	}
+
+	@media screen and (min-width: 640px) and (max-width: 767px) {
+		main {
+			width: 640px;
+		}
+	}
+
+	@media screen and (min-width: 767px) and (max-width: 1023px) {
+		main {
+			width: 768px;
+		}
+	}
+
+	@media screen and (min-width: 1023px) and (max-width: 1279px) {
+		main {
+			width: 1024px;
+		}
+	}
+
+	@media screen and (min-width: 1279px) and (max-width: 1535px) {
+		main {
+			width: 1280px;
+		}
 	}
 </style>

@@ -5,10 +5,16 @@
 .carta-editor__default {
 	padding: 0 1rem 0 1rem;
 	border: 1px solid #b9b9b9;
-	border-radius: 0.5rem;
+	height: 600px;
+	overflow-y: scroll;
 }
 
-.carta-editor__default > * {
+.carta-wrapper__default {
+	height: fit-content;
+	min-height: 100%;
+}
+
+.carta-wrapper__default > * {
 	padding: 1rem 0 1rem 0;
 }
 

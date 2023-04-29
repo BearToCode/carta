@@ -9,8 +9,10 @@
 </script>
 
 <div class="carta-editor__{theme}">
-	<MarkdownInput {carta} bind:value {theme} />
-	<CartaRenderer {carta} bind:value {theme} />
+	<div class="carta-wrapper__{theme}">
+		<MarkdownInput {carta} bind:value {theme} />
+		<CartaRenderer {carta} bind:value {theme} />
+	</div>
 </div>
 
 <style>

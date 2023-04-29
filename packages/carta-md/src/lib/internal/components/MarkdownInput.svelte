@@ -55,7 +55,7 @@
 	textarea {
 		position: relative;
 		width: 100%;
-		min-height: 600px;
+		min-height: 100%;
 
 		overflow-y: hidden;
 		resize: none;
