@@ -8,6 +8,10 @@ interface KatexExtensionOptions {
 	 */
 	inline?: {
 		katexOptions?: KatexOptions;
+		/**
+		 * @default control+m
+		 */
+		shortcut?: Set<string>;
 	};
 	/**
 	 * Option for block katex, eg:
@@ -24,6 +28,10 @@ interface KatexExtensionOptions {
 		 * Class for generated katex.
 		 */
 		class?: string;
+		/**
+		 * @default ctrl+shift+m
+		 */
+		shortcut?: Set<string>;
 		katexOptions?: KatexOptions;
 	};
 }
@@ -36,6 +44,16 @@ export const KatexExtension = (options: KatexExtensionOptions): CartaExtension =
 		markedExtensions: [
 			{
 				extensions: [inlineKatex(options.inline), blockKatex(options.block)]
+			}
+		],
+		shortcuts: [
+			{
+				combination: options.block?.shortcut ?? new Set(['control', 'm']),
+				action: (input) => input.toggleSelectionSurrounding('$')
+			},
+			{
+				combination: options.block?.shortcut ?? new Set(['control', 'shift', 'm']),
+				action: (input) => input.toggleSelectionSurrounding(['$$\n', '\n$$'])
 			}
 		]
 	};
