@@ -4,6 +4,7 @@
 	"module": "esnext",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
+		"postinstall": "pnpm run build",
 		"dev": "cd packages/carta-md && npm run dev",
 		"check": "cd packages/carta-md && npm run check",
 		"build": "node scripts/build.js",
