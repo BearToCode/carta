@@ -1,31 +1,62 @@
-.carta-editor__default ::selection {
-	background: #b5f0ff3d;
+.carta-theme__default {
+	--border-color: #b9b9b9;
+	--selection-color: #b5f0ff3d;
+	--focus-outline: #76bbf3;
+	--hover-color: #e9e9e9;
 }
 
-.carta-editor__default {
-	padding: 0 1rem 0 1rem;
-	border: 1px solid #b9b9b9;
+.carta-theme__default.carta-editor {
+	border: 1px solid var(--border-color);
 	height: 600px;
 	overflow-y: scroll;
+	border-radius: 4px;
 }
 
-.carta-wrapper__default {
-	height: fit-content;
-	min-height: 100%;
+.carta-theme__default .carta-editor ::selection {
+	background: var(--selection-color);
 }
 
-.carta-wrapper__default > * {
+/* Box sizings */
+.carta-theme__default .carta-toolbar {
+	border-bottom: 1px solid var(--border-color);
+}
+
+.carta-theme__default .carta-wrapper {
+	padding: 0 1rem 0 1rem;
+}
+
+.carta-theme__default .carta-wrapper > * {
 	padding: 1rem 0 1rem 0;
 }
 
-.carta-input__default {
+/* Text settings */
+.carta-theme__default .carta-input {
 	caret-color: #4d4d4c;
 	font-size: 0.95rem;
-
-	padding-right: 1rem;
-	border-right: 1px solid #b9b9b9;
 }
 
-.carta-renderer__default {
+/* Splitter */
+.carta-theme__default .mode-split .carta-input {
+	padding-right: 1rem;
+	border-right: 1px solid var(--border-color);
+}
+
+.carta-theme__default .carta-renderer {
 	padding-left: 1rem;
 }
+
+.carta-theme__default .carta-icon {
+	border: 0;
+	background: transparent;
+}
+
+.carta-theme__default .carta-icon:hover {
+	background: var(--hover-color);
+}
+
+/* textarea input */
+/* 
+.carta-theme__default .carta-input textarea {
+
+}
+*/

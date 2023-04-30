@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+pnpm run build
 npx lint-staged
-npm run check
+pnpm run check

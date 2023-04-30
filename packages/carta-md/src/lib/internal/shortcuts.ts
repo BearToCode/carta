@@ -4,19 +4,28 @@ import type { KeyboardShortcut } from './input';
  * Default keyboard shortcuts. Can be disabled in `Carta` by
  * passing the `disableDefaultShortcuts` option.
  */
-export const DefaultKeyboardShortcuts: KeyboardShortcut[] = [
+export const defaultKeyboardShortcuts: KeyboardShortcut[] = [
 	// Bold text
 	{
+		id: 'bold',
 		combination: new Set(['control', 'b']),
 		action: (input) => input.toggleSelectionSurrounding('**')
 	},
 	// Italic text
 	{
+		id: 'italic',
 		combination: new Set(['control', 'i']),
-		action: (input) => input.toggleSelectionSurrounding('*')
+		action: (input) => input.toggleSelectionSurrounding('_')
+	},
+	// Quote
+	{
+		id: 'quote',
+		combination: new Set(['control', 'shift', ',']),
+		action: (input) => input.toggleLinePrefix('>')
 	},
 	// Link
 	{
+		id: 'link',
 		combination: new Set(['control', 'k']),
 		action: (input) => {
 			input.toggleSelectionSurrounding(['[', ']']);
@@ -25,13 +34,21 @@ export const DefaultKeyboardShortcuts: KeyboardShortcut[] = [
 			input.textarea.setSelectionRange(position + 1, position + 4);
 		}
 	},
+	// Strikethrough
+	{
+		id: 'strikethrough',
+		combination: new Set(['control', 'shift', 'x']),
+		action: (input) => input.toggleSelectionSurrounding('~~')
+	},
 	// Code
 	{
-		combination: new Set(['control', 'shift', 'k']),
+		id: 'code',
+		combination: new Set(['control', 'e']),
 		action: (input) => input.toggleSelectionSurrounding('`')
 	},
 	// Undo
 	{
+		id: 'undo',
 		combination: new Set(['control', 'z']),
 		preventSave: true,
 		action: (input) => {
@@ -41,6 +58,7 @@ export const DefaultKeyboardShortcuts: KeyboardShortcut[] = [
 	},
 	// Redo
 	{
+		id: 'redo',
 		combination: new Set(['control', 'y']),
 		preventSave: true,
 		action: (input) => {

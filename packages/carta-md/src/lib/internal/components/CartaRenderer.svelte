@@ -4,7 +4,6 @@
 
 	export let carta: Carta;
 	export let value: string;
-	export let theme: string;
 
 	let renderedHtml = '';
 
@@ -17,12 +16,14 @@
 	}
 </script>
 
-<div class="carta-renderer__{theme}">
+<div class="carta-renderer">
 	{@html renderedHtml}
 </div>
 
 <style>
-	div {
-		width: 50%;
+	.carta-renderer {
+		word-wrap: break-word;
+		white-space: pre-wrap;
+		word-break: break-word;
 	}
 </style>

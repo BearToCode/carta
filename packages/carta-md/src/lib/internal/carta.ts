@@ -1,7 +1,7 @@
 import { marked } from 'marked';
 import type { CartaHistoryOptions } from './history';
 import { CartaInput, type KeyboardShortcut } from './input';
-import { DefaultKeyboardShortcuts } from './shortcuts';
+import { defaultKeyboardShortcuts } from './shortcuts';
 
 /**
  * Carta editor options.
@@ -17,9 +17,9 @@ export interface CartaOptions {
 	 */
 	rendererDebounce?: number;
 	/**
-	 * Remove default shortcuts.
+	 * Remove default shortcuts by ids.
 	 */
-	disableDefaultShortcuts?: boolean;
+	disabledShortcuts?: string[];
 	/**
 	 * History options.
 	 */
@@ -57,8 +57,11 @@ export class Carta {
 			this.keyboardShortcuts = this.keyboardShortcuts.concat(extensionKeyboardShortcuts);
 
 		// Load default keyboard shortcuts
-		if (!options?.disableDefaultShortcuts)
-			this.keyboardShortcuts = this.keyboardShortcuts.concat(DefaultKeyboardShortcuts);
+		this.keyboardShortcuts = this.keyboardShortcuts.concat(
+			defaultKeyboardShortcuts.filter(
+				(shortcut) => !options?.disabledShortcuts?.includes(shortcut.id)
+			)
+		);
 
 		const markedExtensions = this.options?.extensions
 			?.flatMap((ext) => ext.markedExtensions)

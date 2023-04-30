@@ -6,7 +6,6 @@
 
 	export let carta: Carta;
 	export let value = '';
-	export let theme: string;
 
 	let textarea: HTMLTextAreaElement;
 	let highlighted: string;
@@ -23,16 +22,18 @@
 		textarea.style.height = textarea.scrollHeight + 'px';
 	};
 
-	$: {
-		highlighted = Prism.highlight(value, Prism.languages.markdown, 'language-markdown');
-	}
+	const highlight = (val: string) => {
+		highlighted = Prism.highlight(val, Prism.languages.markdown, 'language-markdown');
+	};
+
+	$: highlight(value);
 
 	onMount(() => {
 		carta.setInput(textarea, () => (value = textarea.value));
 	});
 </script>
 
-<div on:click={focus} on:keydown={focus} class="carta-input__{theme}">
+<div on:click={focus} on:keydown={focus} class="carta-input">
 	<pre class="hljs" aria-hidden="true">{@html highlighted}</pre>
 
 	<textarea
@@ -48,8 +49,6 @@
 <style>
 	div {
 		position: relative;
-		flex-grow: 1;
-		flex-shrink: 0;
 	}
 
 	textarea {

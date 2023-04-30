@@ -19,9 +19,6 @@
 </svelte:head>
 
 <main>
-	<h1>Carta</h1>
-	<h2>Lightweight, fully customizable, Markdown editor</h2>
-
 	<CartaEditor {carta} />
 </main>
 

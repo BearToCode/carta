@@ -15,6 +15,7 @@ export interface TextSelection {
  * Keyboard shortcut data.
  */
 export interface KeyboardShortcut {
+	id: string;
 	/**
 	 * Set of keys, corresponding to the `e.key` of `KeyboardEvent`s, but lowercase.
 	 */
@@ -202,4 +203,38 @@ export class CartaInput {
 			);
 		}
 	}
+
+	public toggleLinePrefix(prefix: string, whitespace: 'attach' | 'detach' = 'attach') {
+		const selection = this.getSelection();
+		let index = selection.start;
+		while (index > 0 && this.textarea.value.at(index - 1) !== '\n') index--;
+
+		let newPosition = selection.start;
+
+		const currentPrefix = this.textarea.value.slice(index, prefix.length);
+		if (currentPrefix === prefix) {
+			if (whitespace === 'attach' && this.textarea.value.at(index + prefix.length) === ' ') {
+				this.removeAt(index, prefix.length + 1);
+				newPosition -= prefix.length + 1;
+			} else {
+				this.removeAt(index, prefix.length);
+				newPosition -= prefix.length;
+			}
+		} else {
+			if (whitespace === 'attach') {
+				this.insertAt(index, prefix + ' ');
+				newPosition += prefix.length + 1;
+			} else {
+				this.insertAt(index, prefix);
+				newPosition += prefix.length;
+			}
+		}
+
+		this.textarea.setSelectionRange(newPosition, newPosition + selection.slice.length);
+	}
+
+	/**
+	 * Update the textarea.
+	 */
+	public update = () => this.onUpdate();
 }

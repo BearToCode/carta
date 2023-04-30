@@ -48,10 +48,12 @@ export const KatexExtension = (options: KatexExtensionOptions): CartaExtension =
 		],
 		shortcuts: [
 			{
+				id: 'inlineKatex',
 				combination: options.block?.shortcut ?? new Set(['control', 'm']),
 				action: (input) => input.toggleSelectionSurrounding('$')
 			},
 			{
+				id: 'blockKatex',
 				combination: options.block?.shortcut ?? new Set(['control', 'shift', 'm']),
 				action: (input) => input.toggleSelectionSurrounding(['$$\n', '\n$$'])
 			}
