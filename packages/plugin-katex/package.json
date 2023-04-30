@@ -7,7 +7,8 @@
 	"devDependencies": {
 		"@types/katex": "^0.16.0",
 		"@types/marked": "^4.0.8",
-		"carta-md": "workspace:*"
+		"carta-md": "workspace:*",
+		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
 		"carta-md": "^0.1.3",

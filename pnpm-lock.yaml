@@ -96,6 +96,9 @@ importers:
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
 
 packages:
 

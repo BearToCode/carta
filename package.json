@@ -5,7 +5,8 @@
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"dev": "cd packages/carta-md && npm run dev",
-		"check": "node scripts/check.js",
+		"check": "cd packages/carta-md && npm run check",
+		"build": "node scripts/build.js",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install"
