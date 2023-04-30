@@ -1,4 +1,6 @@
 import { CartaHistory, type CartaHistoryOptions } from './history';
+import type { Prefix } from './prefixes';
+import type { KeyboardShortcut } from './shortcuts';
 import { areEqualSets } from './utils';
 
 /**
@@ -11,26 +13,6 @@ export interface TextSelection {
 	slice: string;
 }
 
-/**
- * Keyboard shortcut data.
- */
-export interface KeyboardShortcut {
-	id: string;
-	/**
-	 * Set of keys, corresponding to the `e.key` of `KeyboardEvent`s, but lowercase.
-	 */
-	combination: Set<string>;
-	/**
-	 * Callback action.
-	 * @param input Input helper.
-	 */
-	action: (input: CartaInput) => void;
-	/**
-	 * Prevent saving the current state in history.
-	 */
-	preventSave?: boolean;
-}
-
 export class CartaInput {
 	private pressedKeys: Set<string>;
 	public readonly history: CartaHistory;
@@ -40,6 +22,7 @@ export class CartaInput {
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
 		private readonly shortcuts: KeyboardShortcut[],
+		private readonly prefixes: Prefix[],
 		private readonly onUpdate: () => void,
 		historyOptions?: Partial<CartaHistoryOptions>
 	) {
@@ -120,6 +103,11 @@ export class CartaInput {
 
 			this.onKeyDownValue = undefined;
 		} else {
+			// On newline
+			if (key === 'enter') {
+				// Check prefixes
+				this.handleNewLine(e);
+			}
 			this.onKeyDownValue = this.textarea.value;
 		}
 	}
@@ -130,6 +118,34 @@ export class CartaInput {
 
 		if (this.onKeyDownValue !== undefined && this.textarea.value != this.onKeyDownValue) {
 			this.history.saveState(this.textarea.value);
+		}
+	}
+
+	private handleNewLine(e: KeyboardEvent) {
+		const cursor = this.textarea.selectionStart;
+		// Get all the line
+		let lineStartingIndex;
+		for (
+			lineStartingIndex = cursor;
+			lineStartingIndex > 0 && this.textarea.value.at(lineStartingIndex - 1) !== '\n';
+			lineStartingIndex--
+		);
+
+		const line = this.textarea.value.slice(lineStartingIndex, cursor);
+		for (const prefix of this.prefixes) {
+			const match = prefix.match(line);
+			if (match) {
+				e.preventDefault();
+
+				const newPrefix = prefix.maker(match, line);
+				this.insertAt(cursor, '\n' + newPrefix);
+
+				this.onUpdate();
+				// Update cursor position
+				const newCursorPosition = cursor + newPrefix.length + 1;
+				this.textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+				break;
+			}
 		}
 	}
 

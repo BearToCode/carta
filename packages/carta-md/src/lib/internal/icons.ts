@@ -9,13 +9,16 @@ import ListBulletedIcon from './components/icons/ListBulletedIcon.svelte';
 import ListNumberedIcon from './components/icons/ListNumberedIcon.svelte';
 import ListTaskIcon from './components/icons/ListTaskIcon.svelte';
 
+/**
+ * Editor toolbar icon information.
+ */
 export interface CartaIcon {
 	id: string;
 	action: (input: CartaInput) => void;
 	component: ComponentType;
 }
 
-export const defaultIcons: CartaIcon[] = [
+export const defaultIcons = [
 	{
 		id: 'heading',
 		action: (input) => input.toggleLinePrefix('###'),
@@ -53,23 +56,19 @@ export const defaultIcons: CartaIcon[] = [
 	},
 	{
 		id: 'bulletedList',
-		action: (input) => {
-			throw new Error('Unimplemented');
-		},
+		action: (input) => input.toggleLinePrefix('- ', 'detach'),
 		component: ListBulletedIcon
 	},
 	{
 		id: 'numberedList',
-		action: (input) => {
-			throw new Error('Unimplemented');
-		},
+		action: (input) => input.toggleLinePrefix('1. ', 'detach'),
 		component: ListNumberedIcon
 	},
 	{
 		id: 'taskList',
-		action: (input) => {
-			throw new Error('Unimplemented');
-		},
+		action: (input) => input.toggleLinePrefix('- [ ] ', 'detach'),
 		component: ListTaskIcon
 	}
-];
+] as const satisfies readonly CartaIcon[];
+
+export type DefaultIconId = (typeof defaultIcons)[number]['id'];

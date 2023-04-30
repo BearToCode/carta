@@ -25,7 +25,7 @@
 		<div class="carta-toolbar">
 			<div class="carta-toolbar-left" />
 			<div class="carta-toolbar-right">
-				{#each defaultIcons as icon}
+				{#each carta.icons as icon}
 					<button
 						on:click|preventDefault|stopPropagation={(e) => {
 							carta.input && icon.action(carta.input);

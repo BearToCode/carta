@@ -1,7 +1,13 @@
 import { marked } from 'marked';
 import type { CartaHistoryOptions } from './history';
-import { CartaInput, type KeyboardShortcut } from './input';
-import { defaultKeyboardShortcuts } from './shortcuts';
+import { CartaInput } from './input';
+import {
+	defaultKeyboardShortcuts,
+	type DefaultShortcutId,
+	type KeyboardShortcut
+} from './shortcuts';
+import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
+import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 
 /**
  * Carta editor options.
@@ -19,7 +25,15 @@ export interface CartaOptions {
 	/**
 	 * Remove default shortcuts by ids.
 	 */
-	disabledShortcuts?: string[];
+	disableShortcuts?: DefaultShortcutId[];
+	/**
+	 * Remove default icons by ids.
+	 */
+	disableIcons?: DefaultIconId[];
+	/**
+	 * Remove default prefixes by ids.
+	 */
+	disablePrefixes?: DefaultPrefixId[];
 	/**
 	 * History options.
 	 */
@@ -38,35 +52,57 @@ export interface CartaExtension {
 	 * Additional keyboard shortcuts.
 	 */
 	shortcuts?: KeyboardShortcut[];
+	/**
+	 * Additional icons.
+	 */
+	icons?: CartaIcon[];
+	/**
+	 * Additional prefixes.
+	 */
+	prefixes?: Prefix[];
 }
 
 export class Carta {
-	private readonly keyboardShortcuts: KeyboardShortcut[];
+	public readonly keyboardShortcuts: KeyboardShortcut[];
+	public readonly icons: CartaIcon[];
+	public readonly prefixes: Prefix[];
 	public input: CartaInput | undefined;
 
 	public constructor(public readonly options?: CartaOptions) {
 		this.keyboardShortcuts = [];
+		this.icons = [];
+		this.prefixes = [];
 
-		// Load keyboard shortcuts
-		const extensionKeyboardShortcuts =
-			(this.options?.extensions
-				?.flatMap((ext) => ext.shortcuts)
-				.filter((shortcut) => shortcut != null) as KeyboardShortcut[] | undefined) ?? [];
-
-		if (extensionKeyboardShortcuts)
-			this.keyboardShortcuts = this.keyboardShortcuts.concat(extensionKeyboardShortcuts);
+		for (const ext of options?.extensions ?? []) {
+			this.keyboardShortcuts = this.keyboardShortcuts.concat(
+				this.keyboardShortcuts,
+				ext.shortcuts ?? []
+			);
+			this.icons = this.icons.concat(this.icons, ext.icons ?? []);
+			this.prefixes = this.prefixes.concat(this.prefixes, ext.prefixes ?? []);
+		}
 
 		// Load default keyboard shortcuts
 		this.keyboardShortcuts = this.keyboardShortcuts.concat(
 			defaultKeyboardShortcuts.filter(
-				(shortcut) => !options?.disabledShortcuts?.includes(shortcut.id)
+				(shortcut) => !options?.disableShortcuts?.includes(shortcut.id)
 			)
 		);
 
+		// Load default icons
+		this.icons = this.icons.concat(
+			defaultIcons.filter((icon) => !options?.disableIcons?.includes(icon.id))
+		);
+
+		// Load default prefixes
+		this.prefixes = this.prefixes.concat(
+			defaultPrefixes.filter((prefix) => !options?.disablePrefixes?.includes(prefix.id))
+		);
+
+		// Load marked extensions
 		const markedExtensions = this.options?.extensions
 			?.flatMap((ext) => ext.markedExtensions)
 			.filter((ext) => ext != null) as marked.MarkedExtension[] | undefined;
-		// Load marked extensions
 		if (markedExtensions) marked.use(...markedExtensions);
 	}
 
@@ -80,14 +116,6 @@ export class Carta {
 	}
 
 	/**
-	 * Get all the registered keyboard shortcuts.
-	 * @returns Registered keyboard shortcuts.
-	 */
-	public getKeyboardShortcuts() {
-		return this.keyboardShortcuts;
-	}
-
-	/**
 	 * Set the input element.
 	 * @param textarea The input textarea element.
 	 * @param onUpdate Update callback.
@@ -95,7 +123,8 @@ export class Carta {
 	public setInput(textarea: HTMLTextAreaElement, onUpdate: () => void) {
 		this.input = new CartaInput(
 			textarea,
-			this.getKeyboardShortcuts(),
+			this.keyboardShortcuts,
+			this.prefixes,
 			onUpdate,
 			this.options?.historyOptions
 		);

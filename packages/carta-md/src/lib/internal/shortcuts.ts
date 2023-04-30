@@ -1,10 +1,30 @@
-import type { KeyboardShortcut } from './input';
+import type { CartaInput } from './input';
+
+/**
+ * Keyboard shortcut data.
+ */
+export interface KeyboardShortcut {
+	id: string;
+	/**
+	 * Set of keys, corresponding to the `e.key` of `KeyboardEvent`s, but lowercase.
+	 */
+	combination: Set<string>;
+	/**
+	 * Callback action.
+	 * @param input Input helper.
+	 */
+	action: (input: CartaInput) => void;
+	/**
+	 * Prevent saving the current state in history.
+	 */
+	preventSave?: boolean;
+}
 
 /**
  * Default keyboard shortcuts. Can be disabled in `Carta` by
  * passing the `disableDefaultShortcuts` option.
  */
-export const defaultKeyboardShortcuts: KeyboardShortcut[] = [
+export const defaultKeyboardShortcuts = [
 	// Bold text
 	{
 		id: 'bold',
@@ -66,4 +86,6 @@ export const defaultKeyboardShortcuts: KeyboardShortcut[] = [
 			if (successiveValue !== undefined) input.textarea.value = successiveValue;
 		}
 	}
-];
+] as const satisfies readonly KeyboardShortcut[];
+
+export type DefaultShortcutId = (typeof defaultKeyboardShortcuts)[number]['id'];
