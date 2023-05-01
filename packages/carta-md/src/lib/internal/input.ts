@@ -1,3 +1,4 @@
+import type { CartaListener } from './carta';
 import { CartaHistory, type CartaHistoryOptions } from './history';
 import type { Prefix } from './prefixes';
 import type { KeyboardShortcut } from './shortcuts';
@@ -16,13 +17,14 @@ export interface TextSelection {
 export class CartaInput {
 	private pressedKeys: Set<string>;
 	public readonly history: CartaHistory;
-	// Used to detect keys that actually changed value
+	// Used to detect keys that actually changed the textarea value
 	private onKeyDownValue: string | undefined;
 
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
 		private readonly shortcuts: KeyboardShortcut[],
 		private readonly prefixes: Prefix[],
+		private readonly listeners: CartaListener[],
 		private readonly onUpdate: () => void,
 		historyOptions?: Partial<CartaHistoryOptions>
 	) {
@@ -43,6 +45,9 @@ export class CartaInput {
 		this.history = new CartaHistory(historyOptions);
 		// Save initial value
 		this.history.saveState(this.textarea.value);
+
+		// Register listeners
+		for (const listener of listeners) textarea.addEventListener(...listener);
 	}
 
 	private isWordCharacter(char: string) {
@@ -138,7 +143,7 @@ export class CartaInput {
 				e.preventDefault();
 
 				// Check if anything was typed.
-				// If none, remove the prefix.
+				// If not, remove the prefix.
 				const content = line.slice(match.length).trim();
 				if (content === '') {
 					this.removeAt(lineStartingIndex, cursor);

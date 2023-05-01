@@ -35,7 +35,7 @@ export interface CartaOptions {
 	 */
 	disablePrefixes?: DefaultPrefixId[];
 	/**
-	 * History options.
+	 * History (Undo/Redo) options.
 	 */
 	historyOptions?: Partial<CartaHistoryOptions>;
 }
@@ -60,18 +60,30 @@ export interface CartaExtension {
 	 * Additional prefixes.
 	 */
 	prefixes?: Prefix[];
+	/**
+	 * Textarea event listeners.
+	 */
+	listeners?: CartaListener;
 }
+
+export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
+	type: K,
+	listener: (this: HTMLTextAreaElement, ev: HTMLElementEventMap[K]) => unknown,
+	options?: boolean | AddEventListenerOptions
+];
 
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
+	public readonly listeners: CartaListener[];
 	public input: CartaInput | undefined;
 
 	public constructor(public readonly options?: CartaOptions) {
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
+		this.listeners = [];
 
 		for (const ext of options?.extensions ?? []) {
 			this.keyboardShortcuts = this.keyboardShortcuts.concat(
@@ -80,6 +92,7 @@ export class Carta {
 			);
 			this.icons = this.icons.concat(this.icons, ext.icons ?? []);
 			this.prefixes = this.prefixes.concat(this.prefixes, ext.prefixes ?? []);
+			this.listeners = this.listeners.concat(this.listeners, ext.listeners ?? []);
 		}
 
 		// Load default keyboard shortcuts
@@ -125,6 +138,7 @@ export class Carta {
 			textarea,
 			this.keyboardShortcuts,
 			this.prefixes,
+			this.listeners,
 			onUpdate,
 			this.options?.historyOptions
 		);
