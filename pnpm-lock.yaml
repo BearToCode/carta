@@ -40,9 +40,9 @@ importers:
 
   demo:
     dependencies:
-      '@cartamd/katex':
+      '@cartamd/plugin-math':
         specifier: workspace:^
-        version: link:../packages/plugin-katex
+        version: link:../packages/plugin-math
       carta-md:
         specifier: workspace:^
         version: link:../packages/carta-md
@@ -118,7 +118,7 @@ importers:
         specifier: ^4.0.0
         version: 4.3.3(@types/node@18.16.3)
 
-  packages/plugin-katex:
+  packages/plugin-math:
     dependencies:
       katex:
         specifier: ^0.16.7

@@ -1,5 +1,5 @@
 {
-	"name": "@cartamd/katex",
+	"name": "@cartamd/plugin-math",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

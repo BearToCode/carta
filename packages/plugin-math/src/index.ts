@@ -2,7 +2,7 @@ import type { CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 import katex, { KatexOptions } from 'katex';
 
-interface KatexExtensionOptions {
+interface MathExtensionOptions {
 	/**
 	 * Options for inline katex, eg: $a^2+b^2=c^2$
 	 */
@@ -37,9 +37,9 @@ interface KatexExtensionOptions {
 }
 
 /**
- * Carta katex plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
+ * Carta math plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
-export const katexExtension = (options?: KatexExtensionOptions): CartaExtension => {
+export const math = (options?: MathExtensionOptions): CartaExtension => {
 	return {
 		markedExtensions: [
 			{
@@ -62,7 +62,7 @@ export const katexExtension = (options?: KatexExtensionOptions): CartaExtension 
 };
 
 const inlineKatex = (
-	options?: KatexExtensionOptions['inline']
+	options?: MathExtensionOptions['inline']
 ): marked.TokenizerAndRendererExtension => {
 	return {
 		name: 'inlineKatex',
@@ -83,7 +83,7 @@ const inlineKatex = (
 };
 
 const blockKatex = (
-	options?: KatexExtensionOptions['block']
+	options?: MathExtensionOptions['block']
 ): marked.TokenizerAndRendererExtension => {
 	return {
 		name: 'blockKatex',

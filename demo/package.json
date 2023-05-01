@@ -21,7 +21,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@cartamd/katex": "workspace:^",
+		"@cartamd/plugin-math": "workspace:^",
 		"carta-md": "workspace:^",
 		"katex": "^0.16.7"
 	}
