@@ -8,6 +8,7 @@ import {
 } from './shortcuts';
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
+import type { ComponentType } from 'svelte';
 
 /**
  * Carta editor options.
@@ -64,6 +65,12 @@ export interface CartaExtension {
 	 * Textarea event listeners.
 	 */
 	listeners?: CartaListener;
+	/**
+	 * Additional components, that will be put after the editor.
+	 * The editor has a `relative` position, so you position
+	 * elements absolutely.
+	 */
+	components?: ComponentType[];
 }
 
 export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
@@ -77,6 +84,7 @@ export class Carta {
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
 	public readonly listeners: CartaListener[];
+	public readonly components: ComponentType[];
 	public input: CartaInput | undefined;
 
 	public constructor(public readonly options?: CartaOptions) {
@@ -84,6 +92,7 @@ export class Carta {
 		this.icons = [];
 		this.prefixes = [];
 		this.listeners = [];
+		this.components = [];
 
 		for (const ext of options?.extensions ?? []) {
 			this.keyboardShortcuts = this.keyboardShortcuts.concat(
@@ -93,6 +102,7 @@ export class Carta {
 			this.icons = this.icons.concat(this.icons, ext.icons ?? []);
 			this.prefixes = this.prefixes.concat(this.prefixes, ext.prefixes ?? []);
 			this.listeners = this.listeners.concat(this.listeners, ext.listeners ?? []);
+			this.components = this.components.concat(this.components, ext.components ?? []);
 		}
 
 		// Load default keyboard shortcuts

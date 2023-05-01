@@ -1,7 +1,6 @@
 <script lang="ts">
 	import CartaRenderer from './internal/components/CartaRenderer.svelte';
 	import MarkdownInput from './internal/components/MarkdownInput.svelte';
-	import { defaultIcons } from './internal/icons';
 	import type { Carta } from './internal/carta';
 
 	export let carta: Carta;
@@ -49,10 +48,16 @@
 			<CartaRenderer {carta} bind:value />
 		{/if}
 	</div>
+
+	<!-- Extensions components -->
+	{#each carta.components as component}
+		<svelte:component this={component} />
+	{/each}
 </div>
 
 <style>
 	.carta-editor {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 	}
