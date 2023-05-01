@@ -137,6 +137,15 @@ export class CartaInput {
 			if (match) {
 				e.preventDefault();
 
+				// Check if anything was typed.
+				// If none, remove the prefix.
+				const content = line.slice(match.length).trim();
+				if (content === '') {
+					this.removeAt(lineStartingIndex, cursor);
+					this.onUpdate();
+					return;
+				}
+
 				const newPrefix = prefix.maker(match, line);
 				this.insertAt(cursor, '\n' + newPrefix);
 
@@ -220,6 +229,11 @@ export class CartaInput {
 		}
 	}
 
+	/**
+	 * Toggle a prefix for the current line.
+	 * @param prefix The string prefix.
+	 * @param whitespace Whether to handle whitespace separations.
+	 */
 	public toggleLinePrefix(prefix: string, whitespace: 'attach' | 'detach' = 'attach') {
 		const selection = this.getSelection();
 		let index = selection.start;
