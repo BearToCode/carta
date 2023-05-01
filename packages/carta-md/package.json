@@ -5,7 +5,16 @@
 	"exports": {
 		".": {
 			"types": "./package/index.d.ts",
-			"svelte": "./package/index.js"
+			"svelte": "./package/index.js",
+			"import": "./package/index.js"
+		},
+		"./default-theme.css": {
+			"import": "./package/default-theme.css",
+			"require": "./package/default-theme.css"
+		},
+		"./light.css": {
+			"import": "./package/light.css",
+			"require": "./package/light.css"
 		}
 	},
 	"version": "0.1.5",
@@ -25,7 +34,8 @@
 		"@types/prismjs": "^1.26.0",
 		"svelte-check": "^3.2.0",
 		"tslib": "^2.4.1",
-		"typescript": "^4.8.4",
+		"typescript": "^4.9.4",
+		"typescript-plugin-css-modules": "^5.0.1",
 		"vite": "^4.0.0"
 	},
 	"type": "module",

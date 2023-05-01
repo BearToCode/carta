@@ -11,3 +11,4 @@ vite.config.ts.timestamp-*
 .eslintcache
 **/dist
 .pnpm-debug.log
+**/tsconfig.tsbuildinfo

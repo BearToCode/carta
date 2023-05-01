@@ -5,7 +5,6 @@
 	"version": "0.1.5",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
-		"postinstall": "pnpm run build",
 		"core": "cd packages/carta-md && npm run dev",
 		"dev": "cd demo && npm run dev",
 		"check": "cd packages/carta-md && npm run check",

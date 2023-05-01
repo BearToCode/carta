@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { Carta } from 'carta-md';
+	import { Carta, CartaEditor } from 'carta-md';
 	import { katexExtension } from '@cartamd/katex';
+	import 'carta-md/default-theme.css';
+	import 'carta-md/light.css';
+	import 'katex/dist/katex.css';
 
 	const carta = new Carta({
 		extensions: [katexExtension()]
 	});
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<CartaEditor {carta} />

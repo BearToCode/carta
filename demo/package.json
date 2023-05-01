@@ -12,6 +12,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
+		"@types/katex": "^0.16.0",
 		"svelte": "^3.54.0",
 		"svelte-check": "^3.0.1",
 		"tslib": "^2.4.1",
@@ -21,6 +22,7 @@
 	"type": "module",
 	"dependencies": {
 		"@cartamd/katex": "workspace:^",
-		"carta-md": "workspace:^"
+		"carta-md": "workspace:^",
+		"katex": "^0.16.7"
 	}
 }
