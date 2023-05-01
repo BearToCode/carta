@@ -2,7 +2,7 @@
 	"name": "carta",
 	"type": "module",
 	"module": "esnext",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"core": "cd packages/carta-md && npm run dev",

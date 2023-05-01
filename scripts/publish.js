@@ -68,4 +68,4 @@ for (const pkg of packages) {
 	}
 }
 
-spinner.succeed(`All packages publish`);
+spinner.succeed(`All packages published`);
