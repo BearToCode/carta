@@ -57,6 +57,15 @@ for (const pkg of packages) {
 	const pkgPath = `packages/${pkg}/package.json`;
 	await updatePackageVersion(pkgPath);
 
+	// Build package
+	spinner.text = `Building ${pkg}`;
+	try {
+		await execAsync(`cd packages/${pkg} && npm run build`);
+	} catch (e) {
+		spinner.fail(`Failed to build ${pkg}: \n ${e}`);
+		process.exit(1);
+	}
+
 	spinner.text = `Publishing ${pkg}`;
 	try {
 		if (pkg === 'carta-md')

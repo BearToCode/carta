@@ -8,7 +8,7 @@
 		"core": "cd packages/carta-md && npm run dev",
 		"dev": "cd demo && npm run dev",
 		"check": "cd packages/carta-md && npm run check",
-		"publish": "npm run build && node scripts/publish.js",
+		"publish": "node scripts/publish.js",
 		"build": "node scripts/build.js",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
