@@ -9,6 +9,8 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .eslintcache
-**/dist
 .pnpm-debug.log
+
+**/dist
 **/tsconfig.tsbuildinfo
+**/.rollup.cache

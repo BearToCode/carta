@@ -9,4 +9,4 @@ export const execAsync = util.promisify(childProcess.exec);
 /**
  * List of all the packages.
  */
-export const packages = ['carta-md', 'plugin-katex'];
+export const packages = ['carta-md', 'plugin-katex', 'plugin-katex'];

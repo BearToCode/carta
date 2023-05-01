@@ -1,0 +1,34 @@
+{
+	"name": "@cartamd/slash",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"build": "rollup -c"
+	},
+	"devDependencies": {
+		"rollup-plugin-svelte": "^7.1.4",
+		"@rollup/plugin-node-resolve": "^9.0.0",
+		"@rollup/plugin-typescript": "^11.1.0",
+		"@tsconfig/svelte": "^4.0.1",
+		"carta-md": "workspace:*",
+		"esbuild": "^0.17.18",
+		"rollup": "^3.21.2",
+		"svelte": "^3.58.0",
+		"typescript": "^5.0.4"
+	},
+	"peerDependencies": {
+		"carta-md": "^0.1.3",
+		"svelte": "^3.54.0"
+	},
+	"files": [
+		"src",
+		"dist"
+	],
+	"version": "0.1.6"
+}

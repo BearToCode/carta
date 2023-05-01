@@ -11,9 +11,7 @@
 		"strict": true,
 		"composite": true,
 		"ignoreDeprecations": "5.0",
-		"plugins": [
-			// { "name": "typescript-plugin-css-modules" }
-		]
+		"plugins": []
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//

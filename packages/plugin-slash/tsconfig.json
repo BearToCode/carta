@@ -1,8 +1,9 @@
 {
-	"extends": "../../tsconfig.json",
+	"extends": ["@tsconfig/svelte/tsconfig.json", "../../tsconfig.json"],
 	"compilerOptions": {
 		"outDir": "dist",
-		"rootDir": "src"
+		"rootDir": "src",
+		"composite": true
 	},
 	"include": ["./src"],
 	"references": [{ "path": "../carta-md" }]
