@@ -39,6 +39,13 @@ importers:
         version: 2.10.0(prettier@2.8.8)(svelte@3.58.0)
 
   demo:
+    dependencies:
+      '@cartamd/katex':
+        specifier: workspace:^
+        version: link:../packages/plugin-katex
+      carta-md:
+        specifier: workspace:^
+        version: link:../packages/carta-md
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^2.0.0

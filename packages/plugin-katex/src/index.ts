@@ -39,22 +39,22 @@ interface KatexExtensionOptions {
 /**
  * Carta katex plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
-export const KatexExtension = (options: KatexExtensionOptions): CartaExtension => {
+export const katexExtension = (options?: KatexExtensionOptions): CartaExtension => {
 	return {
 		markedExtensions: [
 			{
-				extensions: [inlineKatex(options.inline), blockKatex(options.block)]
+				extensions: [inlineKatex(options?.inline), blockKatex(options?.block)]
 			}
 		],
 		shortcuts: [
 			{
 				id: 'inlineKatex',
-				combination: options.block?.shortcut ?? new Set(['control', 'm']),
+				combination: options?.block?.shortcut ?? new Set(['control', 'm']),
 				action: (input) => input.toggleSelectionSurrounding('$')
 			},
 			{
 				id: 'blockKatex',
-				combination: options.block?.shortcut ?? new Set(['control', 'shift', 'm']),
+				combination: options?.block?.shortcut ?? new Set(['control', 'shift', 'm']),
 				action: (input) => input.toggleSelectionSurrounding(['$$\n', '\n$$'])
 			}
 		]
