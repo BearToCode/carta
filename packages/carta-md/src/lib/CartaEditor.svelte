@@ -51,7 +51,7 @@
 
 	<!-- Extensions components -->
 	{#each carta.components as component}
-		<svelte:component this={component} />
+		<svelte:component this={component} {carta} />
 	{/each}
 </div>
 

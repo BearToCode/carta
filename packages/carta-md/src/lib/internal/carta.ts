@@ -8,7 +8,7 @@ import {
 } from './shortcuts';
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
-import type { ComponentType } from 'svelte';
+import type { SvelteComponentTyped } from 'svelte';
 
 /**
  * Carta editor options.
@@ -67,10 +67,11 @@ export interface CartaExtension {
 	listeners?: CartaListener;
 	/**
 	 * Additional components, that will be put after the editor.
+	 * All components are given a `carta: Carta` prop.
 	 * The editor has a `relative` position, so you position
 	 * elements absolutely.
 	 */
-	components?: ComponentType[];
+	components?: CartaExtensionComponent[];
 }
 
 export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
@@ -79,12 +80,15 @@ export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElemen
 	options?: boolean | AddEventListenerOptions
 ];
 
+export type CartaExtensionComponent<T extends { carta: Carta } = { carta: Carta }> =
+	typeof SvelteComponentTyped<T>;
+
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
 	public readonly listeners: CartaListener[];
-	public readonly components: ComponentType[];
+	public readonly components: CartaExtensionComponent[];
 	public input: CartaInput | undefined;
 
 	public constructor(public readonly options?: CartaOptions) {
