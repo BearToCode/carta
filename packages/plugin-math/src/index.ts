@@ -36,6 +36,14 @@ interface MathExtensionOptions {
 	};
 }
 
+function safeRender(tex: string, options?: KatexOptions | undefined) {
+	try {
+		return katex.renderToString(tex, options);
+	} catch (_) {
+		return '';
+	}
+}
+
 /**
  * Carta math plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
@@ -78,7 +86,7 @@ const inlineKatex = (
 				};
 			}
 		},
-		renderer: (token) => katex.renderToString(token.text, options?.katexOptions)
+		renderer: (token) => safeRender(token.text, options?.katexOptions)
 	};
 };
 
@@ -101,7 +109,7 @@ const blockKatex = (
 		},
 		renderer: (token) => {
 			const tag = options?.tag ?? 'p';
-			return `<${tag} class="${options?.class ?? ''}">${katex.renderToString(
+			return `<${tag} class="${options?.class ?? ''}">${safeRender(
 				token.text,
 				options?.katexOptions
 			)}</${tag}>`;
