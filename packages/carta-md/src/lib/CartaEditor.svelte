@@ -2,6 +2,7 @@
 	import CartaRenderer from './internal/components/CartaRenderer.svelte';
 	import MarkdownInput from './internal/components/MarkdownInput.svelte';
 	import type { Carta } from './internal/carta';
+	import { onMount } from 'svelte';
 
 	export let carta: Carta;
 	export let theme = 'default';
@@ -10,13 +11,14 @@
 	export let disableToolbar = false;
 
 	let width: number;
-
+	let selectedTab: 'input' | 'preview' = 'input';
 	let windowMode: 'tab' | 'split';
+	let mounted = false;
+	onMount(() => (mounted = true));
+
 	$: {
 		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tab') : mode;
 	}
-
-	let selectedTab: 'input' | 'preview' = 'input';
 </script>
 
 <div bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
@@ -50,9 +52,13 @@
 	</div>
 
 	<!-- Extensions components -->
-	{#each carta.components as component}
-		<svelte:component this={component} {carta} />
-	{/each}
+	<!-- prevent loading components on ssr renderings -->
+	{#if mounted}
+		{#each carta.components as { component, props }}
+			{@debug component, props}
+			<svelte:component this={component} {carta} {...props} />
+		{/each}
+	{/if}
 </div>
 
 <style>

@@ -1,4 +1,7 @@
 {
+	/**
+	 * Config for scripts and plugin packages.
+	 */
 	"compilerOptions": {
 		"checkJs": false,
 		"esModuleInterop": true,

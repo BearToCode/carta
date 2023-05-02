@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { Carta, CartaEditor } from 'carta-md';
 	import { math } from '@cartamd/plugin-math';
+	import { slash } from '@cartamd/plugin-slash';
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
 	import 'katex/dist/katex.css';
 
 	const carta = new Carta({
-		extensions: [math()]
+		extensions: [math(), slash()]
 	});
 </script>
 

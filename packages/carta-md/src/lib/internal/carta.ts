@@ -68,10 +68,10 @@ export interface CartaExtension {
 	/**
 	 * Additional components, that will be put after the editor.
 	 * All components are given a `carta: Carta` prop.
-	 * The editor has a `relative` position, so you position
+	 * The editor has a `relative` position, so you can position
 	 * elements absolutely.
 	 */
-	components?: CartaExtensionComponent[];
+	components?: CartaExtensionComponentArray;
 }
 
 export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
@@ -80,15 +80,26 @@ export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElemen
 	options?: boolean | AddEventListenerOptions
 ];
 
-export type CartaExtensionComponent<T extends { carta: Carta } = { carta: Carta }> =
-	typeof SvelteComponentTyped<T>;
+export interface CartaExtensionComponent<T extends object> {
+	/**
+	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
+	 */
+	component: typeof SvelteComponentTyped<T & { carta: Carta }>;
+	/**
+	 * Properties that will be handed to the component.
+	 */
+	props: T;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CartaExtensionComponentArray = Array<CartaExtensionComponent<any>>;
 
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
 	public readonly listeners: CartaListener[];
-	public readonly components: CartaExtensionComponent[];
+	public readonly components: CartaExtensionComponentArray;
 	public input: CartaInput | undefined;
 
 	public constructor(public readonly options?: CartaOptions) {
