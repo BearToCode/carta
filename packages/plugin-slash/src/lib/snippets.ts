@@ -73,16 +73,27 @@ export const defaultSnippets = [
 		id: 'taskList',
 		title: 'Task List',
 		description: 'Create a task list',
-		group: 'An',
+		group: 'Basic',
 		action: (input) => insertLine(input, '- [ ] ')
 	},
-
 	{
 		id: 'quote',
 		title: 'Quote',
 		description: 'Create a quote',
-		group: 'An',
+		group: 'Basic',
 		action: (input) => insertLine(input, '> ')
+	},
+	{
+		id: 'code',
+		title: 'Code',
+		description: 'Add a code block',
+		group: 'Basic',
+		action: (input) => {
+			insertLine(input, '```\n');
+			const pos = input.textarea.selectionStart;
+			insertLine(input, '\n```');
+			input.textarea.setSelectionRange(pos, pos);
+		}
 	}
 ] as const satisfies readonly SlashSnippet[];
 

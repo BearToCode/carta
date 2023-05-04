@@ -39,12 +39,7 @@
 				e.preventDefault();
 				const selectedSnippet = filteredSnippets.at(hoveringIndex);
 				if (!selectedSnippet) return;
-
-				// Remove slash and filter
-				carta.input.removeAt(slashPosition - 1, filter.length + 1);
-				carta.input.textarea.selectionStart = slashPosition - 1;
-				selectedSnippet.action(carta.input);
-				carta.input.update();
+				useSnippet(selectedSnippet);
 				visible = false;
 			} else {
 				// Check for arrows
@@ -137,6 +132,14 @@
 		return prevCount + elemIndex;
 	};
 
+	function useSnippet(snippet: SlashSnippet) {
+		// Remove slash and filter
+		carta.input.removeAt(slashPosition - 1, filter.length + 1);
+		carta.input.textarea.selectionStart = slashPosition - 1;
+		snippet.action(carta.input);
+		carta.input.update();
+	}
+
 	$: {
 		// Make statement reactive
 		elemWidth;
@@ -162,7 +165,7 @@
 	}
 </script>
 
-{#if true}
+{#if visible}
 	<div
 		{style}
 		class="carta-slash"
@@ -179,6 +182,7 @@
 			{#each snippets as snippet, elemIndex}
 				<button
 					bind:this={snippetsElements[getSnippetIndex(groupIndex, elemIndex)]}
+					on:click={() => useSnippet(snippet)}
 					class={getSnippetIndex(groupIndex, elemIndex) === hoveringIndex ? 'carta-active' : ''}
 				>
 					<span class="carta-snippet-title">

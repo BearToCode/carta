@@ -34,8 +34,10 @@
 	color: var(--group-color);
 }
 
-.carta-slash button.carta-active {
+.carta-slash button.carta-active,
+.carta-slash button:hover {
 	background: var(--hover-background);
+	cursor: pointer;
 }
 
 .carta-slash .carta-snippet-title {
