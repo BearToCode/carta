@@ -72,8 +72,11 @@ export const defaultKeyboardShortcuts = [
 		combination: new Set(['control', 'z']),
 		preventSave: true,
 		action: (input) => {
-			const previousValue = input.history.undo();
-			if (previousValue !== undefined) input.textarea.value = previousValue;
+			const previousState = input.history.undo();
+			if (!previousState) return;
+			input.textarea.value = previousState.value;
+			input.textarea.selectionStart = previousState.cursor;
+			input.textarea.selectionEnd = previousState.cursor;
 		}
 	},
 	// Redo
@@ -83,7 +86,10 @@ export const defaultKeyboardShortcuts = [
 		preventSave: true,
 		action: (input) => {
 			const successiveValue = input.history.redo();
-			if (successiveValue !== undefined) input.textarea.value = successiveValue;
+			if (!successiveValue) return;
+			input.textarea.value = successiveValue.value;
+			input.textarea.selectionStart = successiveValue.cursor;
+			input.textarea.selectionEnd = successiveValue.cursor;
 		}
 	}
 ] as const satisfies readonly KeyboardShortcut[];

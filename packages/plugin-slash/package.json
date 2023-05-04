@@ -4,10 +4,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"types": "./dist/lib/index.d.ts",
 	"exports": {
 		".": {
 			"import": "./dist/index.js"
+		},
+		"./default-theme.css": {
+			"import": "./dist/default-theme.css",
+			"require": "./dist/default-theme.css"
 		}
 	},
 	"scripts": {
@@ -29,5 +33,8 @@
 	},
 	"peerDependencies": {
 		"carta-md": "^0.1.6"
+	},
+	"dependencies": {
+		"bezier-easing": "^2.1.0"
 	}
 }

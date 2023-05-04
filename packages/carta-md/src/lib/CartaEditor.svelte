@@ -44,18 +44,31 @@
 
 	<div class="mode-{windowMode} carta-wrapper">
 		{#if windowMode == 'split' || selectedTab == 'input'}
-			<MarkdownInput {carta} bind:value />
+			<MarkdownInput {carta} bind:value>
+				<!-- Input extensions components -->
+				{#if mounted}
+					{#each carta.components.filter(({ parent }) => parent === 'input') as { component, props }}
+						<svelte:component this={component} {carta} {...props} />
+					{/each}
+				{/if}
+			</MarkdownInput>
 		{/if}
 		{#if windowMode == 'split' || selectedTab == 'preview'}
-			<CartaRenderer {carta} bind:value />
+			<CartaRenderer {carta} bind:value>
+				<!-- Renderer extensions components -->
+				{#if mounted}
+					{#each carta.components.filter(({ parent }) => parent === 'renderer') as { component, props }}
+						<svelte:component this={component} {carta} {...props} />
+					{/each}
+				{/if}
+			</CartaRenderer>
 		{/if}
 	</div>
 
-	<!-- Extensions components -->
+	<!-- Editor extensions components -->
 	<!-- prevent loading components on ssr renderings -->
 	{#if mounted}
-		{#each carta.components as { component, props }}
-			{@debug component, props}
+		{#each carta.components.filter(({ parent }) => parent === 'editor') as { component, props }}
 			<svelte:component this={component} {carta} {...props} />
 		{/each}
 	{/if}

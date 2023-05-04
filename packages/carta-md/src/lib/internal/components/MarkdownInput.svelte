@@ -44,6 +44,8 @@
 		on:input={resize}
 		spellcheck="false"
 	/>
+
+	<slot />
 </div>
 
 <style>

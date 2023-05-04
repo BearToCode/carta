@@ -44,7 +44,7 @@ export class CartaInput {
 
 		this.history = new CartaHistory(historyOptions);
 		// Save initial value
-		this.history.saveState(this.textarea.value);
+		this.history.saveState(this.textarea.value, this.textarea.selectionStart);
 
 		// Register listeners
 		for (const listener of listeners) textarea.addEventListener(...listener);
@@ -102,7 +102,8 @@ export class CartaInput {
 			for (const shortcut of shortcuts) {
 				shortcut.action(this);
 				// Save state for shortcuts
-				if (!shortcut.preventSave) this.history.saveState(this.textarea.value);
+				if (!shortcut.preventSave)
+					this.history.saveState(this.textarea.value, this.textarea.selectionStart);
 				this.onUpdate();
 			}
 
@@ -122,7 +123,7 @@ export class CartaInput {
 		this.pressedKeys.delete(key);
 
 		if (this.onKeyDownValue !== undefined && this.textarea.value != this.onKeyDownValue) {
-			this.history.saveState(this.textarea.value);
+			this.history.saveState(this.textarea.value, this.textarea.selectionStart);
 		}
 	}
 
@@ -175,6 +176,33 @@ export class CartaInput {
 			end,
 			direction: this.textarea.selectionDirection,
 			slice: this.textarea.value.slice(start, end)
+		};
+	}
+
+	/**
+	 * Get the current line, along with indices information.
+	 * @returns Current line info.
+	 */
+	public getCurrentLine() {
+		let lineStartingIndex, lineEndingIndex;
+		for (
+			lineStartingIndex = this.textarea.selectionStart;
+			lineStartingIndex > 0 && this.textarea.value.at(lineStartingIndex - 1) !== '\n';
+			lineStartingIndex--
+		);
+		for (
+			lineEndingIndex = this.textarea.selectionStart;
+			lineEndingIndex < this.textarea.value.length - 1 &&
+			this.textarea.value.at(lineEndingIndex) !== '\n';
+			lineEndingIndex++
+		);
+		return {
+			start: lineStartingIndex,
+			end: lineEndingIndex,
+			value: this.textarea.value.slice(lineStartingIndex, lineEndingIndex)
+			/**
+			 * Position of the cursor relative to the line.
+			 */
 		};
 	}
 
@@ -272,4 +300,41 @@ export class CartaInput {
 	 * Update the textarea.
 	 */
 	public update = () => this.onUpdate();
+
+	/**
+	 * Returns x, y coordinates for absolute positioning of a span within a given text input
+	 * at a given selection point. [Source](https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a)
+	 * @param selectionPoint The selection point for the input. Defaults at current cursor position.
+	 */
+	public getCursorXY(selectionPoint: number = this.textarea.selectionStart) {
+		const { offsetLeft: inputX, offsetTop: inputY } = this.textarea;
+		const div = document.createElement('div');
+		const copyStyle = getComputedStyle(this.textarea);
+		for (const prop of copyStyle) {
+			// This monstrosity is needed to prevent linting errors...
+			div.style[prop as unknown as number] = copyStyle[prop as unknown as number];
+		}
+		const swap = '.';
+		const inputValue =
+			this.textarea.tagName === 'INPUT'
+				? this.textarea.value.replace(/ /g, swap)
+				: this.textarea.value;
+		const textContent = inputValue.substr(0, selectionPoint);
+		div.textContent = textContent;
+
+		if (this.textarea.tagName === 'TEXTAREA') div.style.height = 'auto';
+		if (this.textarea.tagName === 'INPUT') div.style.width = 'auto';
+
+		const span = document.createElement('span');
+		span.textContent = inputValue.substr(selectionPoint) || '.';
+		div.appendChild(span);
+		document.body.appendChild(div);
+		const { offsetLeft: spanX, offsetTop: spanY } = span;
+		document.body.removeChild(div);
+
+		return {
+			x: inputX + spanX,
+			y: inputY + spanY
+		};
+	}
 }

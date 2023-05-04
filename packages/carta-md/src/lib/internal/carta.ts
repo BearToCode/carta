@@ -89,6 +89,10 @@ export interface CartaExtensionComponent<T extends object> {
 	 * Properties that will be handed to the component.
 	 */
 	props: T;
+	/**
+	 * Where this component will be placed.
+	 */
+	parent: 'editor' | 'input' | 'renderer';
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

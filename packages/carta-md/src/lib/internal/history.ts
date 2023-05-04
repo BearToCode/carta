@@ -1,8 +1,9 @@
 import { mergeDefaultInterface } from './utils';
 
-interface HistoryStates {
+interface HistoryState {
 	timestamp: Date;
 	value: string;
+	cursor: number;
 }
 
 export interface CartaHistoryOptions {
@@ -27,7 +28,7 @@ const defaultHistoryOptions: CartaHistoryOptions = {
  * Input undo/redo functionality.
  */
 export class CartaHistory {
-	private states: HistoryStates[] = [];
+	private states: HistoryState[] = [];
 	private currentIndex = -1; // Only <= 0 numbers
 	private size = 0;
 	private readonly options: CartaHistoryOptions;
@@ -37,33 +38,34 @@ export class CartaHistory {
 
 	/**
 	 * Rollback to the previous state.
-	 * @returns The previous value, if any.
+	 * @returns The previous state, if any.
 	 */
-	public undo(): string | undefined {
+	public undo(): HistoryState | undefined {
 		if (-this.currentIndex > this.states.length) return; // Cannot go back
 		const prev = this.states.at(this.currentIndex - 1);
 		if (!prev) return undefined;
 		this.currentIndex--;
-		return prev.value;
+		return prev;
 	}
 
 	/**
 	 * Move forward one state.
 	 * @returns The successive value, if any.
 	 */
-	public redo(): string | undefined {
+	public redo(): HistoryState | undefined {
 		if (this.currentIndex >= -1) return; // Cannot go forward
 		const next = this.states.at(this.currentIndex + 1);
 		if (!next) return undefined;
 		this.currentIndex++;
-		return next.value;
+		return next;
 	}
 
 	/**
 	 * Save a value into history.
 	 * @param value The value to save.
+	 * @param cursor Cursor position.
 	 */
-	public saveState(value: string) {
+	public saveState(value: string, cursor: number) {
 		const latest = this.states.at(-1);
 		if (latest?.value === value) return;
 
@@ -79,6 +81,7 @@ export class CartaHistory {
 
 		this.states.push({
 			timestamp: new Date(),
+			cursor,
 			value
 		});
 

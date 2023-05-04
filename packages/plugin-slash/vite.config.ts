@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { PluginOption, defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { resolve } from 'path';
@@ -7,10 +7,27 @@ import { resolve } from 'path';
 export default defineConfig({
 	build: {
 		lib: {
-			entry: resolve(__dirname, 'src/index.ts'),
+			entry: resolve(__dirname, 'src/lib/index.ts'),
 			name: 'plugin-slash',
 			fileName: 'index'
 		}
 	},
-	plugins: [svelte(), dts()]
+	plugins: [svelte(), dts(), hmr()]
 });
+
+// Public css hot reload
+function hmr(): PluginOption {
+	return {
+		name: 'custom-hmr',
+		enforce: 'post' as const,
+		// HMR
+		handleHotUpdate({ file, server }) {
+			if (file.endsWith('.css')) {
+				server.ws.send({
+					type: 'full-reload',
+					path: '*'
+				});
+			}
+		}
+	};
+}

@@ -1,0 +1,40 @@
+.carta-slash {
+	--background: #fafafa;
+	--title-color: #232323;
+	--description-color: #313030;
+	--hover-background: #f1f1f1;
+
+	width: 18rem;
+	border-radius: 4px;
+	font-family: inherit;
+	background-color: var(--background);
+	padding: 6px;
+}
+
+.carta-slash span {
+	width: fit-content;
+}
+
+.carta-slash button {
+	background: none;
+	width: 100%;
+	padding: 10px;
+	border: 0;
+	border-radius: 4px;
+}
+
+.carta-slash button.carta-active {
+	background: var(--hover-background);
+}
+
+.carta-slash .carta-snippet-title {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--title-color);
+}
+
+.carta-slash .carta-snippet-description {
+	font-size: 0.8rem;
+	text-overflow: ellipsis;
+	color: var(--description-color);
+}
