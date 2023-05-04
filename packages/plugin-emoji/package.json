@@ -1,0 +1,40 @@
+{
+	"name": "@cartamd/plugin-emoji",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/lib/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js"
+		},
+		"./default-theme.css": {
+			"import": "./dist/default-theme.css",
+			"require": "./dist/default-theme.css"
+		}
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json"
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^2.0.3",
+		"@tsconfig/svelte": "^4.0.1",
+		"carta-md": "workspace:*",
+		"svelte": "^3.39.0",
+		"svelte-check": "^2.10.3",
+		"tslib": "^2.5.0",
+		"typescript": "^5.0.2",
+		"vite": "^4.3.2",
+		"vite-plugin-dts": "^2.3.0"
+	},
+	"peerDependencies": {
+		"carta-md": "^0.1.6"
+	},
+	"dependencies": {
+		"node-emoji": "^1.11.0"
+	}
+}

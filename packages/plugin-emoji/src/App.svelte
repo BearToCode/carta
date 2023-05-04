@@ -1,27 +1,21 @@
 <script lang="ts">
 	import { Carta, CartaEditor } from 'carta-md';
-	import { math } from '@cartamd/plugin-math';
-	import { slash } from '@cartamd/plugin-slash';
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
-	import '@cartamd/plugin-slash/default-theme.css';
-	import 'katex/dist/katex.css';
 
 	const carta = new Carta({
-		extensions: [math(), slash()]
+		extensions: []
 	});
 </script>
 
 <svelte:head>
-	<!-- Custom fonts -->
-	<!-- Fira font -->
+	<!-- Custom font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
 		href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet"
 	/>
-	<!-- Inter -->
 	<link rel="preconnect" href="https://rsms.me/" />
 	<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 </svelte:head>
@@ -31,24 +25,14 @@
 </main>
 
 <style>
-	:global(body) {
-		margin: 0;
-		min-height: 100vh;
+	/* CSS */
+	:global(:root *) {
+		font-family: 'Inter', sans-serif;
 	}
-
-	:global(:root) {
-		font-family: 'Inter var', sans-serif;
-		font-variant-ligatures: normal;
-	}
-
-	:global(.carta-input) {
-		font-family: 'Fira Code', monospace;
-		font-variant-ligatures: normal;
-	}
-
-	:global(.carta-slash *) {
-		font-family: 'Inter var', sans-serif;
-		font-variant-ligatures: normal;
+	@supports (font-variation-settings: normal) {
+		:global(:root *) {
+			font-family: 'Inter var', sans-serif;
+		}
 	}
 
 	main {
