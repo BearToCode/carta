@@ -1,14 +1,18 @@
 .carta-slash {
 	--background: #fafafa;
+	--group-color: #3b3b3b;
 	--title-color: #232323;
 	--description-color: #313030;
 	--hover-background: #f1f1f1;
 
 	width: 18rem;
+	max-height: 14rem;
+	overflow-y: scroll;
 	border-radius: 4px;
 	font-family: inherit;
 	background-color: var(--background);
 	padding: 6px;
+	scroll-padding: 6px;
 }
 
 .carta-slash span {
@@ -21,6 +25,13 @@
 	padding: 10px;
 	border: 0;
 	border-radius: 4px;
+}
+
+.carta-slash .carta-slash-group {
+	padding: 0 4px 0 4px;
+	margin-bottom: 4px;
+	font-size: 0.8rem;
+	color: var(--group-color);
 }
 
 .carta-slash button.carta-active {

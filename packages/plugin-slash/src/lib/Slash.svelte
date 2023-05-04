@@ -11,11 +11,14 @@
 
 	let visible = false;
 	let caretPosition = { x: 0, y: 0 };
-	let hovering = 0;
+	let hoveringIndex = 0;
 	let filter = '';
 	let slashPosition = 0;
 	let filteredSnippets = snippets;
+	let groupedSnippets: [string, SlashSnippet[]][];
 	let elemWidth: number, elemHeight: number;
+	let elem: HTMLDivElement;
+	let snippetsElements: HTMLButtonElement[] = Array(snippets.length);
 	let style = '';
 
 	onMount(() => {
@@ -34,7 +37,7 @@
 			} else if (e.key === 'Enter') {
 				// Use snippet
 				e.preventDefault();
-				const selectedSnippet = filteredSnippets.at(hovering);
+				const selectedSnippet = filteredSnippets.at(hoveringIndex);
 				if (!selectedSnippet) return;
 
 				// Remove slash and filter
@@ -47,10 +50,10 @@
 				// Check for arrows
 				if (e.key === 'ArrowUp') {
 					e.preventDefault();
-					hovering = (hovering - 1 + snippets.length) % snippets.length;
+					hoveringIndex = (hoveringIndex - 1 + filteredSnippets.length) % filteredSnippets.length;
 				} else if (e.key === 'ArrowDown') {
 					e.preventDefault();
-					hovering = (hovering + 1 + snippets.length) % snippets.length;
+					hoveringIndex = (hoveringIndex + 1 + filteredSnippets.length) % filteredSnippets.length;
 				}
 			}
 		} else if (e.key === '/') {
@@ -71,7 +74,7 @@
 		} else if (e.key.length === 1 || e.key === 'Backspace') {
 			filter = carta.input.textarea.value.slice(slashPosition, carta.input.textarea.selectionStart);
 			filteredSnippets = snippets.filter(snippetFilter);
-			hovering = 0;
+			hoveringIndex = 0;
 		}
 	}
 
@@ -112,6 +115,28 @@
 		`;
 	}
 
+	// Groups items by common key
+	type ObjectKey = string | number | symbol;
+	export const groupBy = <K extends ObjectKey, TItem extends Record<K, ObjectKey>>(
+		items: TItem[],
+		key: K
+	): Record<ObjectKey, TItem[]> =>
+		items.reduce(
+			(result, item) => ({
+				...result,
+				[item[key]]: [...(result[item[key]] || []), item]
+			}),
+			{} as Record<ObjectKey, TItem[]>
+		);
+
+	const getSnippetIndex = (groupIndex: number, elemIndex: number) => {
+		// Count of previous elements
+		const prevCount = groupedSnippets
+			.filter((_, i) => i < groupIndex)
+			.reduce<number>((acc, [_, curr]) => acc + curr.length, 0);
+		return prevCount + elemIndex;
+	};
+
 	$: {
 		// Make statement reactive
 		elemWidth;
@@ -119,26 +144,51 @@
 		caretPosition;
 		style = getSlashStyle();
 	}
+
+	$: {
+		groupedSnippets = Object.entries(groupBy(filteredSnippets, 'group'));
+	}
+
+	$: {
+		// Scroll to make hovering snippet always visible
+		const hovering = filteredSnippets.at(hoveringIndex);
+		if (hovering) {
+			const snipElem = snippetsElements[hoveringIndex];
+			snipElem?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'nearest'
+			});
+		}
+	}
 </script>
 
-{#if visible}
+{#if true}
 	<div
 		{style}
 		class="carta-slash"
 		bind:clientWidth={elemWidth}
 		bind:clientHeight={elemHeight}
+		bind:this={elem}
 		in:inTransition
 		out:outTransition
 	>
-		{#each filteredSnippets as snippet, i}
-			<button id="snippet-{snippet.id}" class={i === hovering ? 'carta-active' : ''}>
-				<span class="carta-snippet-title">
-					{snippet.title}
-				</span>
-				<span class="carta-snippet-description">
-					{snippet.description}
-				</span>
-			</button>
+		{#each groupedSnippets as [group, snippets], groupIndex}
+			<span class="carta-slash-group">
+				{group}
+			</span>
+			{#each snippets as snippet, elemIndex}
+				<button
+					bind:this={snippetsElements[getSnippetIndex(groupIndex, elemIndex)]}
+					class={getSnippetIndex(groupIndex, elemIndex) === hoveringIndex ? 'carta-active' : ''}
+				>
+					<span class="carta-snippet-title">
+						{snippet.title}
+					</span>
+					<span class="carta-snippet-description">
+						{snippet.description}
+					</span>
+				</button>
+			{/each}
 		{/each}
 	</div>
 {/if}

@@ -5,6 +5,7 @@ export interface SlashSnippet {
 	 * Unique snipped identifier.
 	 */
 	id: string;
+	group: string;
 	title: string;
 	description: string;
 	/**
@@ -37,19 +38,51 @@ export const defaultSnippets = [
 		id: 'bigHeading',
 		title: 'Heading 1',
 		description: 'Big section heading',
+		group: 'Basic',
 		action: (input) => insertLine(input, '# ')
 	},
 	{
 		id: 'mediumHeading',
 		title: 'Heading 2',
 		description: 'Medium section heading',
+		group: 'Basic',
 		action: (input) => insertLine(input, '## ')
 	},
 	{
 		id: 'smallHeading',
 		title: 'Heading 3',
 		description: 'Small section heading',
+		group: 'Basic',
 		action: (input) => insertLine(input, '### ')
+	},
+	{
+		id: 'numberedList',
+		title: 'Numbered List',
+		description: 'Create a list with numbering',
+		group: 'Basic',
+		action: (input) => insertLine(input, '1. ')
+	},
+	{
+		id: 'bulletedList',
+		title: 'Bulleted List',
+		description: 'Create a bulleted list',
+		group: 'Basic',
+		action: (input) => insertLine(input, '- ')
+	},
+	{
+		id: 'taskList',
+		title: 'Task List',
+		description: 'Create a task list',
+		group: 'An',
+		action: (input) => insertLine(input, '- [ ] ')
+	},
+
+	{
+		id: 'quote',
+		title: 'Quote',
+		description: 'Create a quote',
+		group: 'An',
+		action: (input) => insertLine(input, '> ')
 	}
 ] as const satisfies readonly SlashSnippet[];
 
