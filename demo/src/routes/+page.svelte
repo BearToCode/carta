@@ -4,6 +4,7 @@
 	import { slash } from '@cartamd/plugin-slash';
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
+	import '@cartamd/plugin-slash/default-theme.css';
 	import 'katex/dist/katex.css';
 
 	const carta = new Carta({
@@ -12,13 +13,17 @@
 </script>
 
 <svelte:head>
-	<!-- Custom font -->
+	<!-- Custom fonts -->
+	<!-- Fira font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
 		href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet"
 	/>
+	<!-- Inter -->
+	<link rel="preconnect" href="https://rsms.me/" />
+	<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 </svelte:head>
 
 <main>
@@ -28,9 +33,22 @@
 <style>
 	:global(body) {
 		margin: 0;
+		min-height: 100vh;
+	}
+
+	:global(:root) {
+		font-family: 'Inter var', sans-serif;
+		font-variant-ligatures: normal;
+	}
+
+	:global(.carta-input) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
-		min-height: 100vh;
+	}
+
+	:global(.carta-slash) {
+		font-family: 'Inter var', sans-serif;
+		font-variant-ligatures: normal;
 	}
 
 	main {
