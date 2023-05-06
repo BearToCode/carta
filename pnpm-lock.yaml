@@ -83,12 +83,12 @@ importers:
 
   packages/carta-md:
     dependencies:
+      highlight.js:
+        specifier: ^11.8.0
+        version: 11.8.0
       marked:
         specifier: ^4.3.0
         version: 4.3.0
-      prismjs:
-        specifier: ^1.29.0
-        version: 1.29.0
       svelte:
         specifier: ^3.54.0
         version: 3.55.1
@@ -122,7 +122,7 @@ importers:
         version: 5.0.1(typescript@4.9.4)
       vite:
         specifier: ^4.0.0
-        version: 4.3.3(@types/node@18.16.3)
+        version: 4.3.3
 
   packages/plugin-emoji:
     dependencies:
@@ -182,6 +182,25 @@ importers:
       '@types/katex':
         specifier: ^0.16.0
         version: 0.16.0
+      '@types/marked':
+        specifier: ^4.0.8
+        version: 4.0.8
+      carta-md:
+        specifier: workspace:*
+        version: link:../carta-md
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+
+  packages/plugin-prism:
+    dependencies:
+      marked:
+        specifier: ^4.3.0
+        version: 4.3.0
+      prismjs:
+        specifier: ^1.29.0
+        version: 1.29.0
+    devDependencies:
       '@types/marked':
         specifier: ^4.0.8
         version: 4.0.8
@@ -691,7 +710,7 @@ packages:
       svelte: 3.55.1
       tiny-glob: 0.2.9
       undici: 5.22.0
-      vite: 4.3.3(@types/node@18.16.3)
+      vite: 4.3.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -744,7 +763,7 @@ packages:
       magic-string: 0.30.0
       svelte: 3.55.1
       svelte-hmr: 0.15.1(svelte@3.55.1)
-      vite: 4.3.3(@types/node@18.16.3)
+      vite: 4.3.3
       vitefu: 0.2.4(vite@4.3.3)
     transitivePeerDependencies:
       - supports-color
@@ -1710,6 +1729,11 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
+
+  /highlight.js@11.8.0:
+    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
+    engines: {node: '>=12.0.0'}
+    dev: false
 
   /human-signals@4.3.1:
     resolution: {integrity: sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==}
@@ -3246,6 +3270,38 @@ packages:
       - supports-color
     dev: true
 
+  /vite@4.3.3:
+    resolution: {integrity: sha512-MwFlLBO4udZXd+VBcezo3u8mC77YQk+ik+fbc0GZWGgzfbPP+8Kf0fldhARqvSYmtIWoAJ5BXPClUbMTlqFxrA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.17.18
+      postcss: 8.4.23
+      rollup: 3.21.2
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /vite@4.3.3(@types/node@18.16.3):
     resolution: {integrity: sha512-MwFlLBO4udZXd+VBcezo3u8mC77YQk+ik+fbc0GZWGgzfbPP+8Kf0fldhARqvSYmtIWoAJ5BXPClUbMTlqFxrA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -3287,7 +3343,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.3.3(@types/node@18.16.3)
+      vite: 4.3.3
     dev: true
 
   /wcwidth@1.0.1:

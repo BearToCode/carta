@@ -2,8 +2,7 @@
 	import { Carta, CartaEditor } from 'carta-md';
 	import { slash } from './lib';
 	import 'carta-md/default-theme.css';
-	import 'carta-md/light.css';
-
+	import 'highlight.js/scss/base16/tomorrow.scss';
 	const carta = new Carta({
 		extensions: [slash()]
 	});

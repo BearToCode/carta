@@ -54,6 +54,10 @@
 	background: var(--hover-color);
 }
 
+.carta-input > pre {
+	background: inherit;
+}
+
 /* textarea input */
 /* 
 .carta-theme__default .carta-input textarea {

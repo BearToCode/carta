@@ -9,6 +9,7 @@ import {
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import type { SvelteComponentTyped } from 'svelte';
+import hljs from 'highlight.js/lib/common';
 
 /**
  * Carta editor options.
@@ -39,6 +40,11 @@ export interface CartaOptions {
 	 * History (Undo/Redo) options.
 	 */
 	historyOptions?: Partial<CartaHistoryOptions>;
+	/**
+	 * Code blocks syntax highlight using Prism.
+	 * @defaults true
+	 */
+	codeHighlighting?: boolean;
 }
 
 /**
@@ -141,6 +147,16 @@ export class Carta {
 			?.flatMap((ext) => ext.markedExtensions)
 			.filter((ext) => ext != null) as marked.MarkedExtension[] | undefined;
 		if (markedExtensions) marked.use(...markedExtensions);
+
+		// Code highlighting
+		if ((options?.codeHighlighting ?? true) == true)
+			marked.setOptions({
+				highlight: function (code, lang) {
+					if (hljs.getLanguage(lang)) return hljs.highlight(code, { language: lang }).value;
+					else return hljs.highlight(code, { language: 'text' }).value;
+					// Invalid language
+				}
+			});
 	}
 
 	/**

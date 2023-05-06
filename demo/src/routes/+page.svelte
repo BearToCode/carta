@@ -4,7 +4,7 @@
 	import { slash } from '@cartamd/plugin-slash';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import 'carta-md/default-theme.css';
-	import 'carta-md/light.css';
+	import 'highlight.js/scss/base16/tomorrow.scss';
 	import 'katex/dist/katex.css';
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
