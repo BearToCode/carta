@@ -57,10 +57,12 @@
 				// Check for arrows
 				if (e.key === 'ArrowUp') {
 					e.preventDefault();
-					hoveringIndex = (emojis.length + hoveringIndex - cols) % emojis.length;
+					hoveringIndex =
+						(emojis.length + hoveringIndex - Math.min(cols, emojis.length)) % emojis.length;
 				} else if (e.key === 'ArrowDown') {
 					e.preventDefault();
-					hoveringIndex = (emojis.length + hoveringIndex + cols) % emojis.length;
+					hoveringIndex =
+						(emojis.length + hoveringIndex + Math.min(cols, emojis.length)) % emojis.length;
 				} else if (e.key === 'ArrowLeft') {
 					e.preventDefault();
 					hoveringIndex = (emojis.length + hoveringIndex - 1) % emojis.length;
