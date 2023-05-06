@@ -24,7 +24,7 @@
 		"@sveltejs/vite-plugin-svelte": "^2.0.3",
 		"@tsconfig/svelte": "^4.0.1",
 		"carta-md": "workspace:*",
-		"svelte": "^3.39.0",
+		"svelte": "3.39.0",
 		"svelte-check": "^2.10.3",
 		"tslib": "^2.5.0",
 		"typescript": "^5.0.2",

@@ -23,8 +23,10 @@
 	"devDependencies": {
 		"@sveltejs/vite-plugin-svelte": "^2.0.3",
 		"@tsconfig/svelte": "^4.0.1",
+		"@types/marked": "^4.0.8",
+		"@types/node-emoji": "^1.8.2",
 		"carta-md": "workspace:*",
-		"svelte": "^3.39.0",
+		"svelte": "3.39.0",
 		"svelte-check": "^2.10.3",
 		"tslib": "^2.5.0",
 		"typescript": "^5.0.2",
@@ -32,9 +34,11 @@
 		"vite-plugin-dts": "^2.3.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^0.1.6"
+		"carta-md": "^0.1.6",
+		"marked": "^4.3.0"
 	},
 	"dependencies": {
+		"bezier-easing": "^2.1.0",
 		"node-emoji": "^1.11.0"
 	}
 }

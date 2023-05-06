@@ -64,7 +64,7 @@ export interface CartaExtension {
 	/**
 	 * Textarea event listeners.
 	 */
-	listeners?: CartaListener;
+	listeners?: CartaListener[];
 	/**
 	 * Additional components, that will be put after the editor.
 	 * All components are given a `carta: Carta` prop.
@@ -114,31 +114,26 @@ export class Carta {
 		this.components = [];
 
 		for (const ext of options?.extensions ?? []) {
-			this.keyboardShortcuts = this.keyboardShortcuts.concat(
-				this.keyboardShortcuts,
-				ext.shortcuts ?? []
-			);
-			this.icons = this.icons.concat(this.icons, ext.icons ?? []);
-			this.prefixes = this.prefixes.concat(this.prefixes, ext.prefixes ?? []);
-			this.listeners = this.listeners.concat(this.listeners, ext.listeners ?? []);
-			this.components = this.components.concat(this.components, ext.components ?? []);
+			this.keyboardShortcuts.push(...(ext.shortcuts ?? []));
+			this.icons.push(...(ext.icons ?? []));
+			this.prefixes.push(...(ext.prefixes ?? []));
+			this.listeners.push(...(ext.listeners ?? []));
+			this.components.push(...(ext.components ?? []));
 		}
 
 		// Load default keyboard shortcuts
-		this.keyboardShortcuts = this.keyboardShortcuts.concat(
-			defaultKeyboardShortcuts.filter(
+		this.keyboardShortcuts.push(
+			...defaultKeyboardShortcuts.filter(
 				(shortcut) => !options?.disableShortcuts?.includes(shortcut.id)
 			)
 		);
 
 		// Load default icons
-		this.icons = this.icons.concat(
-			defaultIcons.filter((icon) => !options?.disableIcons?.includes(icon.id))
-		);
+		this.icons.push(...defaultIcons.filter((icon) => !options?.disableIcons?.includes(icon.id)));
 
 		// Load default prefixes
-		this.prefixes = this.prefixes.concat(
-			defaultPrefixes.filter((prefix) => !options?.disablePrefixes?.includes(prefix.id))
+		this.prefixes.push(
+			...defaultPrefixes.filter((prefix) => !options?.disablePrefixes?.includes(prefix.id))
 		);
 
 		// Load marked extensions

@@ -1,24 +1,25 @@
 <script lang="ts">
 	import type { Carta } from 'carta-md';
-	import type { SlashSnippet } from './snippets';
-	import type { TransitionConfig } from 'svelte/transition';
 	import { onDestroy, onMount } from 'svelte';
+	import nodeEmoji from 'node-emoji';
+	import type { TransitionConfig } from 'svelte/transition';
+
+	const cols = 8;
+	const maxRows = 12;
 
 	export let carta: Carta;
-	export let snippets: SlashSnippet[];
 	export let inTransition: (node: Element) => TransitionConfig;
 	export let outTransition: (node: Element) => TransitionConfig;
 
 	let visible = false;
 	let caretPosition = { x: 0, y: 0 };
-	let hoveringIndex = 0;
-	let filter = '';
-	let slashPosition = 0;
-	let filteredSnippets = snippets;
-	let groupedSnippets: [string, SlashSnippet[]][];
 	let elemWidth: number, elemHeight: number;
-	let snippetsElements: HTMLButtonElement[] = Array(snippets.length);
 	let style = '';
+	let filter = '';
+	let colonPosition = 0;
+	let hoveringIndex = 0;
+	let emojis: nodeEmoji.Emoji[] = [];
+	let emojisElements: HTMLButtonElement[] = Array(cols * maxRows);
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -45,27 +46,34 @@
 				// Close
 				visible = false;
 			} else if (e.key === 'Enter') {
-				// Use snippet
-				e.preventDefault();
-				const selectedSnippet = filteredSnippets.at(hoveringIndex);
-				if (!selectedSnippet) return;
-				useSnippet(selectedSnippet);
+				// Complete emoji
+				const emoji = emojis.at(hoveringIndex);
+				if (emoji) {
+					e.preventDefault();
+					selectEmoji(emoji);
+				}
 				visible = false;
 			} else {
 				// Check for arrows
 				if (e.key === 'ArrowUp') {
 					e.preventDefault();
-					hoveringIndex = (hoveringIndex - 1 + filteredSnippets.length) % filteredSnippets.length;
+					hoveringIndex = (emojis.length + hoveringIndex - cols) % emojis.length;
 				} else if (e.key === 'ArrowDown') {
 					e.preventDefault();
-					hoveringIndex = (hoveringIndex + 1 + filteredSnippets.length) % filteredSnippets.length;
+					hoveringIndex = (emojis.length + hoveringIndex + cols) % emojis.length;
+				} else if (e.key === 'ArrowLeft') {
+					e.preventDefault();
+					hoveringIndex = (emojis.length + hoveringIndex - 1) % emojis.length;
+				} else if (e.key === 'ArrowRight') {
+					e.preventDefault();
+					hoveringIndex = (emojis.length + hoveringIndex + 1) % emojis.length;
 				}
 			}
-		} else if (e.key === '/') {
+		} else if (e.key === ':') {
 			// Open
 			visible = true;
 			caretPosition = carta.input.getCursorXY();
-			slashPosition = carta.input.textarea.selectionStart + 1;
+			colonPosition = carta.input.textarea.selectionStart;
 			filter = '';
 		}
 	}
@@ -74,23 +82,17 @@
 		if (!carta.input) return;
 		if (!visible) return;
 		// Has moved out of slash argument
-		if (carta.input.textarea.selectionStart < slashPosition) {
+		if (carta.input.textarea.selectionStart < colonPosition) {
 			visible = false;
 		} else if (e.key.length === 1 || e.key === 'Backspace') {
-			filter = carta.input.textarea.value.slice(slashPosition, carta.input.textarea.selectionStart);
-			filteredSnippets = snippets.filter(snippetFilter);
+			filter = carta.input.textarea.value.slice(
+				colonPosition + 1,
+				carta.input.textarea.selectionStart
+			);
+			emojis = nodeEmoji.search(filter).slice(0, cols * maxRows);
 			hoveringIndex = 0;
 		}
 	}
-
-	const snippetFilter = (snippet: SlashSnippet) => {
-		if (!filter) return true;
-		const lower = filter.toLowerCase();
-		return (
-			snippet.title.toLowerCase().includes(lower) ||
-			snippet.description.toLowerCase().includes(lower)
-		);
-	};
 
 	function getComponentStyle() {
 		if (!carta.input) return ``;
@@ -116,38 +118,18 @@
 			--right: ${right ? right + 'px' : 'unset'};
 			--top: ${top ? top + 'px' : 'unset'};
 			--bottom: ${bottom ? bottom + 'px' : 'unset'};
-			--margin: ${window.getComputedStyle(carta.input.textarea).fontSize}
+			--margin: ${window.getComputedStyle(carta.input.textarea).fontSize};
+      --cols: ${cols};
 		`;
 	}
 
-	// Groups items by common key
-	type ObjectKey = string | number | symbol;
-	export const groupBy = <K extends ObjectKey, TItem extends Record<K, ObjectKey>>(
-		items: TItem[],
-		key: K
-	): Record<ObjectKey, TItem[]> =>
-		items.reduce(
-			(result, item) => ({
-				...result,
-				[item[key]]: [...(result[item[key]] || []), item]
-			}),
-			{} as Record<ObjectKey, TItem[]>
-		);
-
-	const getSnippetIndex = (groupIndex: number, elemIndex: number) => {
-		// Count of previous elements
-		const prevCount = groupedSnippets
-			.filter((_, i) => i < groupIndex)
-			.reduce<number>((acc, [_, curr]) => acc + curr.length, 0);
-		return prevCount + elemIndex;
-	};
-
-	function useSnippet(snippet: SlashSnippet) {
+	function selectEmoji(emoji: nodeEmoji.Emoji) {
 		if (!carta.input) return;
 		// Remove slash and filter
-		carta.input.removeAt(slashPosition - 1, filter.length + 1);
-		carta.input.textarea.selectionStart = slashPosition - 1;
-		snippet.action(carta.input);
+		carta.input.removeAt(colonPosition, filter.length + 1);
+		carta.input.insertAt(colonPosition, ':' + emoji.key + ':');
+		const newPosition = colonPosition + 2 + emoji.key.length;
+		carta.input.textarea.setSelectionRange(newPosition, newPosition);
 		carta.input.update();
 	}
 
@@ -160,14 +142,10 @@
 	}
 
 	$: {
-		groupedSnippets = Object.entries(groupBy(filteredSnippets, 'group'));
-	}
-
-	$: {
 		// Scroll to make hovering snippet always visible
-		const hovering = filteredSnippets.at(hoveringIndex);
+		const hovering = emojisElements.at(hoveringIndex);
 		if (hovering) {
-			const snipElem = snippetsElements[hoveringIndex];
+			const snipElem = emojisElements[hoveringIndex];
 			snipElem?.scrollIntoView({
 				behavior: 'smooth',
 				block: 'nearest'
@@ -179,44 +157,34 @@
 {#if visible}
 	<div
 		{style}
-		class="carta-slash"
+		class="carta-emoji"
 		bind:clientWidth={elemWidth}
 		bind:clientHeight={elemHeight}
 		in:inTransition
 		out:outTransition
 	>
-		{#each groupedSnippets as [group, snippets], groupIndex}
-			<span class="carta-slash-group">
-				{group}
-			</span>
-			{#each snippets as snippet, elemIndex}
-				<button
-					bind:this={snippetsElements[getSnippetIndex(groupIndex, elemIndex)]}
-					on:click={() => useSnippet(snippet)}
-					class={getSnippetIndex(groupIndex, elemIndex) === hoveringIndex ? 'carta-active' : ''}
-				>
-					<span class="carta-snippet-title">
-						{snippet.title}
-					</span>
-					<span class="carta-snippet-description">
-						{snippet.description}
-					</span>
-				</button>
-			{/each}
+		{#each emojis as emoji, i}
+			<button
+				class={i === hoveringIndex ? 'carta-active' : ''}
+				title={emoji.key}
+				on:click={() => selectEmoji(emoji)}
+				bind:this={emojisElements[i]}
+			>
+				{emoji.emoji}
+			</button>
 		{/each}
 	</div>
 {/if}
 
 <style>
-	.carta-slash {
+	.carta-emoji {
 		position: absolute;
 		left: var(--left);
 		right: var(--right);
 		top: calc(var(--top) + var(--margin) + 4px);
 		bottom: calc(var(--bottom) + var(--margin) * 2 + 4px);
-	}
 
-	.carta-slash span {
-		display: block;
+		display: grid;
+		grid-template-columns: repeat(var(--cols), 1fr);
 	}
 </style>

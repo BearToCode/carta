@@ -1,0 +1,37 @@
+.carta-emoji {
+	--background: #fafafa;
+	--group-color: #3b3b3b;
+	--title-color: #232323;
+	--description-color: #313030;
+	--contrast-background: #f1f1f1;
+	--hover-background: #e3e1e1;
+
+	width: 18rem;
+	max-height: 14rem;
+	overflow-y: scroll;
+	border-radius: 4px;
+	font-family: inherit;
+	background-color: var(--background);
+	padding: 6px;
+	scroll-padding: 6px;
+	gap: 6px;
+}
+
+.carta-emoji button {
+	background: var(--contrast-background);
+
+	aspect-ratio: 1;
+	border-radius: 4px;
+	border: 0;
+	padding: 0;
+
+	cursor: pointer;
+
+	font-size: 1.2rem;
+	line-height: 100%;
+}
+
+.carta-emoji button:hover,
+.carta-emoji button.carta-active {
+	background: var(--hover-background);
+}

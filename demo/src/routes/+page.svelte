@@ -2,13 +2,15 @@
 	import { Carta, CartaEditor } from 'carta-md';
 	import { math } from '@cartamd/plugin-math';
 	import { slash } from '@cartamd/plugin-slash';
+	import { emoji } from '@cartamd/plugin-emoji';
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
-	import '@cartamd/plugin-slash/default-theme.css';
 	import 'katex/dist/katex.css';
+	import '@cartamd/plugin-slash/default-theme.css';
+	import '@cartamd/plugin-emoji/default-theme.css';
 
 	const carta = new Carta({
-		extensions: [math(), slash()]
+		extensions: [math(), slash(), emoji()]
 	});
 </script>
 

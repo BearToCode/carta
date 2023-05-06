@@ -48,10 +48,7 @@ export const slash = (options?: SlashExtensionOptions): CartaExtension => {
 				duration: 100
 			}));
 	const slashComponent: CartaExtensionComponent<ComponentProps> = {
-		// Type assertion is needed due to the fact that the Svelte version(3.39.0) is different
-		// from the one of carta-md(3.54.0). That's because upgrading to newer versions cause
-		// this issue: https://github.com/sveltejs/svelte/issues/6584
-		component: SlashComponent as CartaExtensionComponent<ComponentProps>['component'],
+		component: SlashComponent,
 		props: {
 			snippets,
 			inTransition,

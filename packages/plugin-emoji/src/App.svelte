@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { Carta, CartaEditor } from 'carta-md';
+	import { emoji } from './lib';
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
 
 	const carta = new Carta({
-		extensions: []
+		extensions: [emoji()]
 	});
 </script>
 

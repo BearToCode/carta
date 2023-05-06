@@ -1,3 +1,8 @@
 {
-	"references": [{ "path": "carta-md" }, { "path": "plugin-math" }, { "path": "plugin-slash" }]
+	"references": [
+		{ "path": "carta-md" },
+		{ "path": "plugin-math" },
+		{ "path": "plugin-emoji" },
+		{ "path": "plugin-slash" }
+	]
 }
