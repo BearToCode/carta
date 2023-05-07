@@ -3,6 +3,7 @@
 		{ "path": "carta-md" },
 		{ "path": "plugin-math" },
 		{ "path": "plugin-emoji" },
-		{ "path": "plugin-slash" }
+		{ "path": "plugin-slash" },
+		{ "path": "plugin-code" }
 	]
 }

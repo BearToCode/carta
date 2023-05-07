@@ -40,6 +40,9 @@ importers:
 
   demo:
     dependencies:
+      '@cartamd/plugin-code':
+        specifier: workspace:^
+        version: link:../packages/plugin-code
       '@cartamd/plugin-emoji':
         specifier: workspace:^
         version: link:../packages/plugin-emoji
@@ -49,6 +52,9 @@ importers:
       '@cartamd/plugin-slash':
         specifier: workspace:^
         version: link:../packages/plugin-slash
+      '@speed-highlight/core':
+        specifier: ^1.1.11
+        version: 1.1.11
       carta-md:
         specifier: workspace:^
         version: link:../packages/carta-md
@@ -83,12 +89,12 @@ importers:
 
   packages/carta-md:
     dependencies:
-      highlight.js:
-        specifier: ^11.8.0
-        version: 11.8.0
       marked:
         specifier: ^4.3.0
         version: 4.3.0
+      prismjs:
+        specifier: ^1.29.0
+        version: 1.29.0
       svelte:
         specifier: ^3.54.0
         version: 3.55.1
@@ -122,7 +128,38 @@ importers:
         version: 5.0.1(typescript@4.9.4)
       vite:
         specifier: ^4.0.0
-        version: 4.3.3
+        version: 4.3.3(@types/node@18.16.3)
+
+  packages/plugin-code:
+    dependencies:
+      '@speed-highlight/core':
+        specifier: ^1.1.11
+        version: 1.1.11
+      marked:
+        specifier: ^4.3.0
+        version: 4.3.0
+    devDependencies:
+      '@types/marked':
+        specifier: ^4.0.8
+        version: 4.0.8
+      carta-md:
+        specifier: workspace:*
+        version: link:../carta-md
+      tslib:
+        specifier: ^2.5.0
+        version: 2.5.0
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+      vite:
+        specifier: ^4.3.2
+        version: 4.3.3(@types/node@18.16.3)
+      vite-plugin-dts:
+        specifier: ^2.3.0
+        version: 2.3.0(@types/node@18.16.3)(vite@4.3.3)
+      vite-plugin-dynamic-import:
+        specifier: ^1.3.4
+        version: 1.3.4
 
   packages/plugin-emoji:
     dependencies:
@@ -182,25 +219,6 @@ importers:
       '@types/katex':
         specifier: ^0.16.0
         version: 0.16.0
-      '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
-      carta-md:
-        specifier: workspace:*
-        version: link:../carta-md
-      typescript:
-        specifier: ^5.0.4
-        version: 5.0.4
-
-  packages/plugin-prism:
-    dependencies:
-      marked:
-        specifier: ^4.3.0
-        version: 4.3.0
-      prismjs:
-        specifier: ^1.29.0
-        version: 1.29.0
-    devDependencies:
       '@types/marked':
         specifier: ^4.0.8
         version: 4.0.8
@@ -669,6 +687,10 @@ packages:
       string-argv: 0.3.1
     dev: true
 
+  /@speed-highlight/core@1.1.11:
+    resolution: {integrity: sha512-KtUCQahL7WjK8zKEhWwzBa/7t6wimmOF9BFS/gIbVE48BwNEK7NafOkwzfYRF7D6RjENsP2aJDZRANwHDncqnw==}
+    dev: false
+
   /@sveltejs/adapter-auto@1.0.3(@sveltejs/kit@1.15.9):
     resolution: {integrity: sha512-hc7O12YQqvZ1CD4fo1gMJuPzBZvuoG5kwxb2RRoz4fVoB8B2vuPO2cY751Ln0G6T/HMrAf8kCqw6Pg+wbxcstw==}
     peerDependencies:
@@ -710,7 +732,7 @@ packages:
       svelte: 3.55.1
       tiny-glob: 0.2.9
       undici: 5.22.0
-      vite: 4.3.3
+      vite: 4.3.3(@types/node@18.16.3)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -763,7 +785,7 @@ packages:
       magic-string: 0.30.0
       svelte: 3.55.1
       svelte-hmr: 0.15.1(svelte@3.55.1)
-      vite: 4.3.3
+      vite: 4.3.3(@types/node@18.16.3)
       vitefu: 0.2.4(vite@4.3.3)
     transitivePeerDependencies:
       - supports-color
@@ -1367,6 +1389,10 @@ packages:
     dev: true
     optional: true
 
+  /es-module-lexer@1.2.1:
+    resolution: {integrity: sha512-9978wrXM50Y4rTMmW5kXIC09ZdXQZqkE4mxhwkd8VbzsGkXGPgV4zWuqQJgCEzYngdo2dYDa0l8xhX4fkSwJSg==}
+    dev: true
+
   /es6-promise@3.3.1:
     resolution: {integrity: sha512-SOp9Phqvqn7jtEUxPWdWfWoLmyt2VaJ6MpvP9Comy1MceMXqE6bxvaTu4iaxpYYPzhny28Lc+M87/c2cPK6lDg==}
     dev: true
@@ -1729,11 +1755,6 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
-
-  /highlight.js@11.8.0:
-    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
-    engines: {node: '>=12.0.0'}
-    dev: false
 
   /human-signals@4.3.1:
     resolution: {integrity: sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==}
@@ -3270,36 +3291,12 @@ packages:
       - supports-color
     dev: true
 
-  /vite@4.3.3:
-    resolution: {integrity: sha512-MwFlLBO4udZXd+VBcezo3u8mC77YQk+ik+fbc0GZWGgzfbPP+8Kf0fldhARqvSYmtIWoAJ5BXPClUbMTlqFxrA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
+  /vite-plugin-dynamic-import@1.3.4:
+    resolution: {integrity: sha512-Emg0MSQMqkqLWPWBj6L9ErjnAOFInAjCB5LLl/t8BIZMjbwrrOP8x+Ni1Fs+nujYTBPhrLlfUZB64VvSqSEKCQ==}
     dependencies:
-      esbuild: 0.17.18
-      postcss: 8.4.23
-      rollup: 3.21.2
-    optionalDependencies:
-      fsevents: 2.3.2
+      acorn: 8.8.2
+      es-module-lexer: 1.2.1
+      fast-glob: 3.2.12
     dev: true
 
   /vite@4.3.3(@types/node@18.16.3):
@@ -3343,7 +3340,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.3.3
+      vite: 4.3.3(@types/node@18.16.3)
     dev: true
 
   /wcwidth@1.0.1:

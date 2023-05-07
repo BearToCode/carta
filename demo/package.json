@@ -21,9 +21,11 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@cartamd/plugin-code": "workspace:^",
+		"@cartamd/plugin-emoji": "workspace:^",
 		"@cartamd/plugin-math": "workspace:^",
 		"@cartamd/plugin-slash": "workspace:^",
-		"@cartamd/plugin-emoji": "workspace:^",
+		"@speed-highlight/core": "^1.1.11",
 		"carta-md": "workspace:^",
 		"katex": "^0.16.7"
 	}

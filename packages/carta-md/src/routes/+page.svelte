@@ -3,7 +3,7 @@
 	import { Carta } from '$lib/internal/carta';
 
 	import '$lib/default-theme.css';
-	import 'highlight.js/scss/base16/tomorrow.scss';
+	import '$lib/light.css';
 
 	const carta = new Carta();
 </script>

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Carta } from '../carta';
-	import hljs from 'highlight.js/lib/core';
-	import markdown from 'highlight.js/lib/languages/markdown';
-	hljs.registerLanguage('markdown', markdown);
+	import Prism from 'prismjs';
+	import 'prismjs/components/prism-markdown.js';
 
 	export let carta: Carta;
 	export let value = '';
@@ -24,7 +23,7 @@
 	};
 
 	const highlight = (val: string) => {
-		highlighted = hljs.highlight(val, { language: 'markdown', ignoreIllegals: true }).value;
+		highlighted = Prism.highlight(val, Prism.languages.markdown, 'language-markdown');
 	};
 
 	$: highlight(value);

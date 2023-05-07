@@ -10,6 +10,9 @@ export default defineConfig({
 			entry: resolve(__dirname, 'src/lib/index.ts'),
 			name: 'plugin-emoji',
 			fileName: 'index'
+		},
+		rollupOptions: {
+			external: []
 		}
 	},
 	plugins: [svelte(), dts(), hmr()]

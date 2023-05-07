@@ -11,7 +11,7 @@
 		// On value updates
 		value = value;
 		debounce(() => {
-			renderedHtml = carta.render(value);
+			carta.render(value).then((rendered) => (renderedHtml = rendered));
 		}, carta.options?.rendererDebounce ?? 300)();
 	}
 </script>

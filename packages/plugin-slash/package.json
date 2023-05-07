@@ -29,12 +29,10 @@
 		"tslib": "^2.5.0",
 		"typescript": "^5.0.2",
 		"vite": "^4.3.2",
-		"vite-plugin-dts": "^2.3.0"
+		"vite-plugin-dts": "^2.3.0",
+		"bezier-easing": "^2.1.0"
 	},
 	"peerDependencies": {
 		"carta-md": "^0.1.6"
-	},
-	"dependencies": {
-		"bezier-easing": "^2.1.0"
 	}
 }

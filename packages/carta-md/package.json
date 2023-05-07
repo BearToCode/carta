@@ -10,10 +10,8 @@
 			"svelte": "./dist/index.js",
 			"import": "./dist/index.js"
 		},
-		"./default-theme.css": {
-			"import": "./dist/default-theme.css",
-			"require": "./dist/default-theme.css"
-		}
+		"./default-theme.css": "./dist/default-theme.css",
+		"./light.css": "./dist/light.css"
 	},
 	"version": "0.1.6",
 	"scripts": {
@@ -29,6 +27,7 @@
 		"@sveltejs/kit": "^1.0.0-next.587",
 		"@sveltejs/package": "^2.0.2",
 		"@types/marked": "^4.0.8",
+		"@types/prismjs": "^1.26.0",
 		"svelte-check": "^3.2.0",
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.4",
@@ -37,8 +36,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"highlight.js": "^11.8.0",
-		"marked": "^4.3.0"
+		"marked": "^4.3.0",
+		"prismjs": "^1.29.0"
 	},
 	"peerDependencies": {
 		"svelte": "^3.54.0"

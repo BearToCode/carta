@@ -85,6 +85,7 @@
 		width: 100%;
 		height: 2rem;
 		display: flex;
+		flex-shrink: 0;
 	}
 
 	:global(.mode-split > *) {

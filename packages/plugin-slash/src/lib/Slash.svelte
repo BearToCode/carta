@@ -41,7 +41,7 @@
 	function handleKeyDown(e: KeyboardEvent) {
 		if (!carta.input) return;
 		if (visible) {
-			if (e.key === ' ' || (e.key === 'Backspace' && filter === '')) {
+			if (e.key === ' ' || ((e.key === 'Backspace' || e.key === 'Escape') && filter === '')) {
 				// Close
 				visible = false;
 			} else if (e.key === 'Enter') {

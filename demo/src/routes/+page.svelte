@@ -3,14 +3,19 @@
 	import { math } from '@cartamd/plugin-math';
 	import { slash } from '@cartamd/plugin-slash';
 	import { emoji } from '@cartamd/plugin-emoji';
+	import { code } from '@cartamd/plugin-code';
+
 	import 'carta-md/default-theme.css';
-	import 'highlight.js/scss/base16/tomorrow.scss';
+	import 'carta-md/light.css';
+
+	import '@cartamd/plugin-code/default.css';
 	import 'katex/dist/katex.css';
+
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
 
 	const carta = new Carta({
-		extensions: [math(), slash(), emoji()]
+		extensions: [math(), slash(), emoji(), code()]
 	});
 </script>
 
@@ -43,7 +48,7 @@
 		font-variant-ligatures: normal;
 	}
 
-	:global(.carta-input) {
+	:global(.carta-input, code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
 	}

@@ -1,0 +1,16 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"rootDir": "src",
+		"allowJs": true,
+		"strict": false,
+		"typeRoots": ["./node_modules/@types", "./typings"],
+		"baseUrl": "./",
+		"paths": {
+			"*": ["*", "./typings/*"]
+		}
+	},
+	"include": ["./src", "./typings/**/*.d.ts"],
+	"references": [{ "path": "../carta-md" }]
+}
