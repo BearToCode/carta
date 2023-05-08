@@ -5,7 +5,7 @@
 	export let carta: Carta;
 	export let value: string;
 
-	let renderedHtml = '';
+	let renderedHtml = carta.renderSSR(value);
 
 	$: {
 		// On value updates

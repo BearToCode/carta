@@ -163,15 +163,9 @@ importers:
 
   packages/plugin-emoji:
     dependencies:
-      bezier-easing:
-        specifier: ^2.1.0
-        version: 2.1.0
       marked:
         specifier: ^4.3.0
         version: 4.3.0
-      node-emoji:
-        specifier: ^1.11.0
-        version: 1.11.0
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^2.0.3
@@ -185,9 +179,15 @@ importers:
       '@types/node-emoji':
         specifier: ^1.8.2
         version: 1.8.2
+      bezier-easing:
+        specifier: ^2.1.0
+        version: 2.1.0
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
+      node-emoji:
+        specifier: ^1.11.0
+        version: 1.11.0
       svelte:
         specifier: 3.39.0
         version: 3.39.0
@@ -230,10 +230,6 @@ importers:
         version: 5.0.4
 
   packages/plugin-slash:
-    dependencies:
-      bezier-easing:
-        specifier: ^2.1.0
-        version: 2.1.0
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^2.0.3
@@ -241,6 +237,9 @@ importers:
       '@tsconfig/svelte':
         specifier: ^4.0.1
         version: 4.0.1
+      bezier-easing:
+        specifier: ^2.1.0
+        version: 2.1.0
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
@@ -1095,7 +1094,7 @@ packages:
 
   /bezier-easing@2.1.0:
     resolution: {integrity: sha512-gbIqZ/eslnUFC1tjEvtz0sgx+xTK20wDnYMIA27VA04R7w6xxXQPZDbibjA9DTWZRA2CXtwHykkVzlCaAJAZig==}
-    dev: false
+    dev: true
 
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -2070,6 +2069,7 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: true
 
   /log-symbols@5.1.0:
     resolution: {integrity: sha512-l0x2DvrW294C9uDCoQe1VSU4gf529FkSZ6leBl4TiqZH/e+0R7hSfHQBNut2mNygDgHwvYHfFLn6Oxb3VWj2rA==}
@@ -2274,7 +2274,7 @@ packages:
     resolution: {integrity: sha512-wo2DpQkQp7Sjm2A0cq+sN7EHKO6Sl0ctXeBdFZrL9T9+UywORbufTcTZxom8YqpLQt/FqNMUkOpkZrJVYSKD3A==}
     dependencies:
       lodash: 4.17.21
-    dev: false
+    dev: true
 
   /normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}

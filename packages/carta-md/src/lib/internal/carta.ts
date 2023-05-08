@@ -144,7 +144,7 @@ export class Carta {
 	}
 
 	/**
-	 * Render markdown to html.
+	 * Render markdown to html including syntax highlighting.
 	 * @param markdown Markdown input.
 	 * @returns Rendered html.
 	 */
@@ -154,6 +154,15 @@ export class Carta {
 				resolve(val);
 			});
 		});
+	}
+
+	/**
+	 * Render markdown, excluding syntax highlighting (SSR).
+	 * @param markdown Markdown input.
+	 * @returns Rendered html.
+	 */
+	public renderSSR(markdown: string): string {
+		return marked.parse(markdown);
 	}
 
 	/**
