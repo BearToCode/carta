@@ -42,7 +42,7 @@
 	function handleKeyDown(e: KeyboardEvent) {
 		if (!carta.input) return;
 		if (visible) {
-			if (e.key === ' ' || ((e.key === 'Backspace' || e.key === 'Escape') && filter === '')) {
+			if (e.key === ' ' || e.key === 'Escape' || (e.key === 'Backspace' && filter === '')) {
 				// Close
 				visible = false;
 			} else if (e.key === 'Enter') {
