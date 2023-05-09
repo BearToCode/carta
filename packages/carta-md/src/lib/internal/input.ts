@@ -113,6 +113,13 @@ export class CartaInput {
 			if (key === 'enter') {
 				// Check prefixes
 				this.handleNewLine(e);
+			} else if (key == 'tab') {
+				e.preventDefault(); // Don't select other stuff
+				const position = this.textarea.selectionStart;
+				this.insertAt(this.textarea.selectionStart, '\t');
+				this.textarea.selectionStart = position + 1;
+				this.textarea.selectionEnd = position + 1;
+				this.update();
 			}
 			this.onKeyDownValue = this.textarea.value;
 		}

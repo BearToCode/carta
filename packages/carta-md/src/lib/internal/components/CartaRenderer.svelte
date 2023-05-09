@@ -25,7 +25,6 @@
 	.carta-renderer {
 		position: relative;
 		word-wrap: break-word;
-		white-space: pre-wrap;
 		word-break: break-word;
 	}
 </style>
