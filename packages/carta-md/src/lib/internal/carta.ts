@@ -39,6 +39,10 @@ export interface CartaOptions {
 	 * History (Undo/Redo) options.
 	 */
 	historyOptions?: Partial<CartaHistoryOptions>;
+	/**
+	 * HTML sanitizer.
+	 */
+	sanitizer?: (html: string) => string;
 }
 
 /**
@@ -150,8 +154,8 @@ export class Carta {
 	 */
 	public async render(markdown: string): Promise<string> {
 		return new Promise((resolve) => {
-			marked.parse(markdown, (e, val) => {
-				resolve(val);
+			marked.parse(markdown, (e, dirty) => {
+				resolve((this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty);
 			});
 		});
 	}
@@ -162,7 +166,8 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		return marked.parse(markdown);
+		const dirty = marked.parse(markdown);
+		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
 	}
 
 	/**
