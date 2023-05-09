@@ -42,27 +42,29 @@
 		</div>
 	{/if}
 
-	<div class="mode-{windowMode} carta-wrapper">
-		{#if windowMode == 'split' || selectedTab == 'input'}
-			<MarkdownInput {carta} bind:value>
-				<!-- Input extensions components -->
-				{#if mounted}
-					{#each carta.components.filter(({ parent }) => parent === 'input') as { component, props }}
-						<svelte:component this={component} {carta} {...props} />
-					{/each}
-				{/if}
-			</MarkdownInput>
-		{/if}
-		{#if windowMode == 'split' || selectedTab == 'preview'}
-			<CartaRenderer {carta} bind:value>
-				<!-- Renderer extensions components -->
-				{#if mounted}
-					{#each carta.components.filter(({ parent }) => parent === 'renderer') as { component, props }}
-						<svelte:component this={component} {carta} {...props} />
-					{/each}
-				{/if}
-			</CartaRenderer>
-		{/if}
+	<div class="carta-wrapper">
+		<div class="carta-container mode-{windowMode}">
+			{#if windowMode == 'split' || selectedTab == 'input'}
+				<MarkdownInput {carta} bind:value>
+					<!-- Input extensions components -->
+					{#if mounted}
+						{#each carta.components.filter(({ parent }) => parent === 'input') as { component, props }}
+							<svelte:component this={component} {carta} {...props} />
+						{/each}
+					{/if}
+				</MarkdownInput>
+			{/if}
+			{#if windowMode == 'split' || selectedTab == 'preview'}
+				<CartaRenderer {carta} bind:value>
+					<!-- Renderer extensions components -->
+					{#if mounted}
+						{#each carta.components.filter(({ parent }) => parent === 'renderer') as { component, props }}
+							<svelte:component this={component} {carta} {...props} />
+						{/each}
+					{/if}
+				</CartaRenderer>
+			{/if}
+		</div>
 	</div>
 
 	<!-- Editor extensions components -->
@@ -96,12 +98,9 @@
 		width: 100%;
 	}
 
-	.carta-wrapper {
-		flex-grow: 1;
-		height: fit-content;
+	.carta-container {
 		display: flex;
-		flex-grow: 1;
-		flex-shrink: 0;
+		min-height: 100%;
 	}
 
 	.carta-toolbar-left {

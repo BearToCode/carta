@@ -7,8 +7,6 @@
 
 .carta-theme__default.carta-editor {
 	border: 1px solid var(--border-color);
-	height: 600px;
-	overflow-y: scroll;
 	border-radius: 4px;
 }
 
@@ -22,10 +20,12 @@
 }
 
 .carta-theme__default .carta-wrapper {
+	height: 600px;
+	overflow-y: scroll;
 	padding: 0 1rem 0 1rem;
 }
 
-.carta-theme__default .carta-wrapper > * {
+.carta-theme__default .carta-container > * {
 	padding: 1rem 0 1rem 0;
 }
 
