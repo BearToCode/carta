@@ -31,7 +31,7 @@
 		min-height: 100vh;
 	}
 
-	:global(.carta-font-code) {
+	:global(.carta-font-code, code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
 	}
