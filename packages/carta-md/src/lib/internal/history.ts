@@ -30,7 +30,6 @@ const defaultHistoryOptions: CartaHistoryOptions = {
 export class CartaHistory {
 	private states: HistoryState[] = [];
 	private currentIndex = -1; // Only <= 0 numbers
-	private size = 0;
 	private readonly options: CartaHistoryOptions;
 	constructor(options?: Partial<CartaHistoryOptions>) {
 		this.options = mergeDefaultInterface(options, defaultHistoryOptions);
@@ -61,6 +60,11 @@ export class CartaHistory {
 	}
 
 	/**
+	 * Get current stored history in bytes.
+	 */
+	public getSize = () => this.states.reduce<number>((acc, curr) => acc + curr.value.length * 2, 0);
+
+	/**
 	 * Save a value into history.
 	 * @param value The value to save.
 	 * @param cursor Cursor position.
@@ -79,6 +83,8 @@ export class CartaHistory {
 			this.states.pop();
 		}
 
+		let size = this.getSize();
+
 		this.states.push({
 			timestamp: new Date(),
 			cursor,
@@ -86,10 +92,12 @@ export class CartaHistory {
 		});
 
 		// every char is 2 bytes
-		this.size += value.length * 2;
+		size += value.length * 2;
 
-		if (this.size > this.options.maxSize) {
-			this.size -= this.states.shift()?.value.length ?? 0;
+		while (size > this.options.maxSize) {
+			const removed = this.states.shift();
+			if (!removed) break; // This should never happen
+			size -= removed.value.length * 2;
 		}
 	}
 }
