@@ -14,7 +14,7 @@ interface CodeExtensionOptions {
 	autoDetect?: string;
 	/**
 	 * Line numbering.
-	 * @defaults true.
+	 * @defaults false.
 	 */
 	lineNumbering?: boolean;
 }
@@ -33,7 +33,7 @@ export const code = (options?: CodeExtensionOptions): CartaExtension => {
 						if (lang) {
 							try {
 								const highlighted = await highlightText(code, lang, true, {
-									hideLineNumbers: options?.lineNumbering ?? false
+									hideLineNumbers: !(options?.lineNumbering ?? false)
 								});
 								cb && cb(undefined, highlighted);
 								return;
@@ -44,7 +44,7 @@ export const code = (options?: CodeExtensionOptions): CartaExtension => {
 						if (options?.autoDetect ?? true) {
 							const detected = detectLanguage(code);
 							const highlighted = await highlightText(code, detected, true, {
-								hideLineNumbers: !(options?.lineNumbering ?? true)
+								hideLineNumbers: !(options?.lineNumbering ?? false)
 							});
 							cb && cb(undefined, highlighted);
 							return;
