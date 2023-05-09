@@ -7,15 +7,10 @@
 	box-sizing: border-box;
 }
 
-.carta-renderer code > div {
-	padding: 2px 20px;
-	max-width: min(100%, 100vw);
-}
-
 .shj-inline {
 	margin: 0;
 	padding: 2px 5px;
-	display: inline-block;
+	display: inline-table;
 	border-radius: 5px;
 }
 
@@ -24,8 +19,9 @@
 	background: #bdf5;
 }
 .carta-renderer code > div {
-	display: flex;
+	display: inline-flex;
 	overflow: auto;
+	max-width: min(100%, 100vw);
 }
 .carta-renderer code > div :last-child {
 	flex: 1;
