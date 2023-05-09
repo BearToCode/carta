@@ -35,7 +35,7 @@ npm i @carta/plugin-name
 
 ### Basic configuration
 
-```ts
+```svelte
 <script lang="ts">
 	import { Carta, CartaEditor } from 'carta-md';
 	// Component default theme

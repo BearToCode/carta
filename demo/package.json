@@ -11,6 +11,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-static": "1.0.0-next.50",
 		"@sveltejs/kit": "^1.5.0",
 		"@types/katex": "^0.16.0",
 		"svelte": "^3.54.0",

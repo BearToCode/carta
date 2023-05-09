@@ -10,6 +10,7 @@
 		"check": "cd packages/carta-md && npm run check",
 		"publish": "node scripts/publish.js",
 		"build": "node scripts/build.js",
+		"deploy": "node scripts/gh-pages.js",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install"
@@ -23,6 +24,7 @@
 		"eslint-plugin-svelte3": "^4.0.0",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.2",
+		"gh-pages": "^5.0.0",
 		"ora": "^6.3.0",
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.0"
