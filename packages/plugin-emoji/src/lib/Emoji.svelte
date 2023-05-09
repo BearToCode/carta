@@ -46,11 +46,13 @@
 				// Close
 				visible = false;
 			} else if (e.key === 'Enter') {
-				// Complete emoji
-				const emoji = emojis.at(hoveringIndex);
-				if (emoji) {
-					e.preventDefault();
-					selectEmoji(emoji);
+				if (filter.length > 0) {
+					// Complete emoji
+					const emoji = emojis.at(hoveringIndex);
+					if (emoji) {
+						e.preventDefault();
+						selectEmoji(emoji);
+					}
 				}
 				visible = false;
 			} else {
@@ -156,7 +158,7 @@
 	}
 </script>
 
-{#if visible}
+{#if visible && filter.length > 0}
 	<div
 		{style}
 		class="carta-emoji"
