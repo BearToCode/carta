@@ -10,7 +10,7 @@
 		"check": "cd packages/carta-md && npm run check",
 		"publish": "node scripts/publish.js",
 		"build": "node scripts/build.js",
-		"deploy": "node scripts/gh-pages.js",
+		"deploy": "pnpm run build && node scripts/gh-pages.js",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install"
