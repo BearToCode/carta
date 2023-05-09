@@ -8,9 +8,9 @@
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
 
-	import '@cartamd/plugin-code/default.css';
 	import 'katex/dist/katex.css';
 
+	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
 

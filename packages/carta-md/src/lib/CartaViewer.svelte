@@ -14,6 +14,6 @@
 	});
 </script>
 
-<div class="carta-viewer__{theme}">
+<div class="carta-viewer__{theme} markdown-body">
 	{@html rendered}
 </div>

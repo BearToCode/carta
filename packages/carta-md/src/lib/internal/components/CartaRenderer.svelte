@@ -16,7 +16,7 @@
 	}
 </script>
 
-<div class="carta-renderer">
+<div class="carta-renderer markdown-body">
 	{@html renderedHtml}
 	<slot />
 </div>
