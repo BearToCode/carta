@@ -25,14 +25,19 @@
 </main>
 
 <style>
-	/* CSS */
-	:global(:root *) {
-		font-family: 'Inter', sans-serif;
+	:global(body) {
+		margin: 0;
+		font-family: 'Inter var', sans-serif;
+		min-height: 100vh;
 	}
-	@supports (font-variation-settings: normal) {
-		:global(:root *) {
-			font-family: 'Inter var', sans-serif;
-		}
+
+	:global(.carta-font-code) {
+		font-family: 'Fira Code', monospace;
+		font-variant-ligatures: normal;
+	}
+
+	:global(input, textarea, button) {
+		font-family: inherit;
 	}
 
 	main {

@@ -34,7 +34,7 @@
 </script>
 
 <div on:click={focus} on:keydown={focus} class="carta-input">
-	<pre class="hljs" aria-hidden="true">{@html highlighted}</pre>
+	<pre class="hljs carta-font-code" aria-hidden="true">{@html highlighted}</pre>
 
 	<textarea
 		name="md"
@@ -43,6 +43,7 @@
 		bind:this={textarea}
 		on:input={resize}
 		spellcheck="false"
+		class="carta-font-code"
 	/>
 
 	<slot />
@@ -69,7 +70,6 @@
 		background: transparent;
 
 		font-size: inherit;
-		font-family: inherit;
 
 		outline: none;
 	}
@@ -89,7 +89,5 @@
 		word-wrap: break-word;
 		white-space: pre-wrap;
 		word-break: break-word;
-
-		font-family: inherit;
 	}
 </style>

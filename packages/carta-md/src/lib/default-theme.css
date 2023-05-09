@@ -45,6 +45,17 @@
 	padding-left: 1rem;
 }
 
+/* Toolbar */
+.carta-theme__default .carta-toolbar {
+	padding: 0 12px;
+}
+
+.carta-theme__default .carta-toolbar-left {
+	display: flex;
+	align-items: end;
+}
+
+/* Icons */
 .carta-theme__default .carta-icon {
 	border: 0;
 	background: transparent;
@@ -58,9 +69,22 @@
 	background: inherit;
 }
 
-/* textarea input */
-/* 
-.carta-theme__default .carta-input textarea {
-
+/* Buttons */
+.carta-theme__default .carta-toolbar-left button {
+	background: none;
+	border: none;
+	font-size: 0.9rem;
+	padding-bottom: 4px;
+	border-bottom: 2px solid transparent;
+	margin-right: 12px;
+	cursor: pointer;
 }
-*/
+
+.carta-theme__default .carta-toolbar-left button:last-child {
+	margin-right: 0;
+}
+
+.carta-theme__default .carta-toolbar-left button.carta-active {
+	font-weight: 600;
+	border-bottom: 2px solid var(--hover-color);
+}

@@ -7,24 +7,39 @@
 	export let carta: Carta;
 	export let theme = 'default';
 	export let value = '';
-	export let mode: 'tab' | 'split' | 'auto' = 'auto';
+	export let mode: 'tabs' | 'split' | 'auto' = 'auto';
 	export let disableToolbar = false;
 
 	let width: number;
-	let selectedTab: 'input' | 'preview' = 'input';
-	let windowMode: 'tab' | 'split';
+	let selectedTab: 'write' | 'preview' = 'write';
+	let windowMode: 'tabs' | 'split';
 	let mounted = false;
 	onMount(() => (mounted = true));
 
 	$: {
-		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tab') : mode;
+		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tabs') : mode;
 	}
 </script>
 
 <div bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
 	{#if !disableToolbar}
 		<div class="carta-toolbar">
-			<div class="carta-toolbar-left" />
+			<div class="carta-toolbar-left">
+				{#if windowMode == 'tabs'}
+					<button
+						on:click={() => (selectedTab = 'write')}
+						class={selectedTab === 'write' ? 'carta-active' : ''}
+					>
+						Write
+					</button>
+					<button
+						on:click={() => (selectedTab = 'preview')}
+						class={selectedTab === 'preview' ? 'carta-active' : ''}
+					>
+						Preview
+					</button>
+				{/if}
+			</div>
 			<div class="carta-toolbar-right">
 				{#each carta.icons as icon}
 					<button
@@ -44,7 +59,7 @@
 
 	<div class="carta-wrapper">
 		<div class="carta-container mode-{windowMode}">
-			{#if windowMode == 'split' || selectedTab == 'input'}
+			{#if windowMode == 'split' || selectedTab == 'write'}
 				<MarkdownInput {carta} bind:value>
 					<!-- Input extensions components -->
 					{#if mounted}
@@ -84,7 +99,6 @@
 	}
 
 	.carta-toolbar {
-		width: 100%;
 		height: 2rem;
 		display: flex;
 		flex-shrink: 0;
@@ -94,7 +108,7 @@
 		width: 50%;
 	}
 
-	:global(.mode-tab > *) {
+	:global(.mode-tabs > *) {
 		width: 100%;
 	}
 
@@ -113,7 +127,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: end;
-		padding-right: 6px;
 	}
 
 	.carta-icon {

@@ -40,22 +40,17 @@
 <style>
 	:global(body) {
 		margin: 0;
+		font-family: 'Inter var', sans-serif;
 		min-height: 100vh;
 	}
 
-	:global(:root) {
-		font-family: 'Inter var', sans-serif;
-		font-variant-ligatures: normal;
-	}
-
-	:global(.carta-input, code) {
+	:global(.carta-font-code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
 	}
 
-	:global(.carta-slash *) {
-		font-family: 'Inter var', sans-serif;
-		font-variant-ligatures: normal;
+	:global(input, textarea, button) {
+		font-family: inherit;
 	}
 
 	main {

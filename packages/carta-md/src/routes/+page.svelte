@@ -9,25 +9,37 @@
 </script>
 
 <svelte:head>
-	<!-- Custom font -->
+	<!-- Custom fonts -->
+	<!-- Fira font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
 		href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet"
 	/>
+	<!-- Inter -->
+	<link rel="preconnect" href="https://rsms.me/" />
+	<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} />
+	<CartaEditor mode="tabs" {carta} />
 </main>
 
 <style>
 	:global(body) {
 		margin: 0;
+		font-family: 'Inter var', sans-serif;
+		min-height: 100vh;
+	}
+
+	:global(.carta-font-code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
-		min-height: 100vh;
+	}
+
+	:global(input, textarea, button) {
+		font-family: inherit;
 	}
 
 	main {
