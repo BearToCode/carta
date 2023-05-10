@@ -31,7 +31,7 @@ You can also create tables, like so:
 | Sarah | 35  | Doctor     |
 | Alex  | 19  | Student    |
 
-With the \`plugin-code\`, you can also use the **slash** (/) to have a list of commands. Try it!
+With the \`plugin-slash\`, you can also use the **slash** (/) to have a list of commands. Try it!
 
 ## :computer: Code
 
