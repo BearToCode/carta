@@ -1,10 +1,14 @@
 {
 	"name": "@cartamd/plugin-slash",
-	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/lib/index.d.ts",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BearToCode/carta-md.git"
+	},
 	"exports": {
 		".": {
 			"import": "./dist/index.js"
