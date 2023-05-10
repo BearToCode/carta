@@ -9,6 +9,7 @@ import ListBulletedIcon from './components/icons/ListBulletedIcon.svelte';
 import ListNumberedIcon from './components/icons/ListNumberedIcon.svelte';
 import ListTaskIcon from './components/icons/ListTaskIcon.svelte';
 import CodeIcon from './components/icons/CodeIcon.svelte';
+import StrikethroughIcon from './components/icons/StrikethroughIcon.svelte';
 
 /**
  * Editor toolbar icon information.
@@ -34,6 +35,11 @@ export const defaultIcons = [
 		id: 'italic',
 		action: (input) => input.toggleSelectionSurrounding('_'),
 		component: ItalicIcon
+	},
+	{
+		id: 'strikethrough',
+		action: (input) => input.toggleSelectionSurrounding('~~'),
+		component: StrikethroughIcon
 	},
 	{
 		id: 'quote',
