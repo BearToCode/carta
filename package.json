@@ -2,9 +2,12 @@
 	"name": "carta",
 	"type": "module",
 	"module": "esnext",
-	"version": "0.1.6",
+	"version": "0.0.1",
 	"license": "MIT",
-	"repository": { "type": "git", "url": "https://github.com/BearToCode/carta-md.git" },
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BearToCode/carta-md.git"
+	},
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"core": "cd packages/carta-md && npm run dev",

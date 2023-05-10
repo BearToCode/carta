@@ -31,7 +31,7 @@
 	"files": [
 		"dist"
 	],
-	"version": "0.1.6",
+	"version": "0.0.1",
 	"dependencies": {
 		"@speed-highlight/core": "^1.1.11"
 	}
