@@ -91,6 +91,8 @@ If you are using a plugin, look at its _readme_ for its customization.
 
 Markdown highlighting is done using **PrismJS**, [here](https://github.com/PrismJS/prism-themes) you can find some themes, but you can find more by searching online.
 
+You can find Markdown stylesheet. For example [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)(used in the demo), or [tailwind-typography](https://tailwindcss.com/docs/typography-plugin).
+
 ## Extensibility
 
 ### Options
