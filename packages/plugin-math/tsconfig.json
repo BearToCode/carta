@@ -2,7 +2,8 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "dist",
-		"rootDir": "src"
+		"rootDir": "src",
+		"typeRoots": ["./node_modules/@types"]
 	},
 	"include": ["./src"],
 	"references": [{ "path": "../carta-md" }]
