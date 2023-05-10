@@ -24,13 +24,10 @@ switch (process.argv.at(-2)) {
 		versionDigits[2] = 0;
 		break;
 	case 'minor':
-		versionDigits[0] = 0;
 		versionDigits[1]++;
 		versionDigits[2] = 0;
 		break;
 	case 'patch':
-		versionDigits[0] = 0;
-		versionDigits[1] = 0;
 		versionDigits[2]++;
 		break;
 	default:
