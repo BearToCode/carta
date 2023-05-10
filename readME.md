@@ -1,5 +1,8 @@
 # Carta
 
+![npm](https://img.shields.io/npm/v/carta-md?color=red)
+![bundle](https://img.shields.io/bundlephobia/min/carta-md)
+
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
