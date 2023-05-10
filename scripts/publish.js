@@ -34,7 +34,7 @@ switch (process.argv.at(-2)) {
 		versionDigits[2]++;
 		break;
 	default:
-		spinner.fail(`Usage pnpm run publish -- [path | minor | major] <otp>`);
+		spinner.fail(`Usage pnpm run publish -- [patch | minor | major] <otp>`);
 		process.exit(1);
 }
 
@@ -74,9 +74,7 @@ for (const pkg of packages) {
 
 	spinner.text = `Publishing ${pkg}`;
 	try {
-		if (pkg === 'carta-md')
-			await execAsync(`cd packages/${pkg}/package && npm publish --otp=${opt}`);
-		else await execAsync(`cd packages/${pkg} && npm publish --otp=${opt} --access public`);
+		await execAsync(`cd packages/${pkg} && npm publish --otp=${opt} --access public`);
 	} catch (e) {
 		spinner.fail(`Failed to publish ${pkg}: \n ${e}`);
 		process.exit(1);
