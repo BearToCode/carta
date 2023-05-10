@@ -22,16 +22,8 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
-      - name: Build Carta
+      - name: Build packages
         run: pnpm run build
-        working-directory: packages/carta-md
-
-      - name: Build Plugin Math
-        run: pnpm run build
-        working-directory: packages/plugin-math
-
-      # - name: Build packages
-      #   run: pnpm run build
 
       - name: Deploy pages
         uses: peaceiris/actions-gh-pages@v3
