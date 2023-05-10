@@ -42,5 +42,17 @@
 	"peerDependencies": {
 		"carta-md": "^0.1.6",
 		"marked": "^4.3.0"
-	}
+	},
+	"keywords": [
+		"carta",
+		"markdown",
+		"editor",
+		"marked",
+		"text editor",
+		"marked editor",
+		"slash",
+		"syntax highlighting",
+		"emoji",
+		"katex"
+	]
 }

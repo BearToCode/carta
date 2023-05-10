@@ -34,5 +34,17 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"@speed-highlight/core": "^1.1.11"
-	}
+	},
+	"keywords": [
+		"carta",
+		"markdown",
+		"editor",
+		"marked",
+		"text editor",
+		"marked editor",
+		"slash",
+		"syntax highlighting",
+		"emoji",
+		"katex"
+	]
 }

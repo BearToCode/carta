@@ -33,5 +33,17 @@
 	"dependencies": {
 		"katex": "^0.16.7"
 	},
-	"version": "0.0.1"
+	"version": "0.0.1",
+	"keywords": [
+		"carta",
+		"markdown",
+		"editor",
+		"marked",
+		"text editor",
+		"marked editor",
+		"slash",
+		"syntax highlighting",
+		"emoji",
+		"katex"
+	]
 }

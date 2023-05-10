@@ -43,5 +43,17 @@
 	},
 	"peerDependencies": {
 		"svelte": "^3.54.0"
-	}
+	},
+	"keywords": [
+		"carta",
+		"markdown",
+		"editor",
+		"marked",
+		"text editor",
+		"marked editor",
+		"slash",
+		"syntax highlighting",
+		"emoji",
+		"katex"
+	]
 }
