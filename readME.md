@@ -1,7 +1,7 @@
 # Carta
 
-![npm](https://img.shields.io/npm/v/carta-md?color=red)
-![bundle](https://img.shields.io/bundlephobia/min/carta-md)
+[![npm](https://img.shields.io/npm/v/carta-md?color=red)](https://www.npmjs.com/package/carta-md)
+[![bundle](https://img.shields.io/bundlephobia/min/carta-md)](https://bundlephobia.com/package/carta-md)
 
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
