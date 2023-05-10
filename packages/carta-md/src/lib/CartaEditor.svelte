@@ -14,10 +14,12 @@
 	let selectedTab: 'write' | 'preview' = 'write';
 	let windowMode: 'tabs' | 'split';
 	let mounted = false;
+	let hideIcons = false;
 	onMount(() => (mounted = true));
 
 	$: {
 		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tabs') : mode;
+		hideIcons = width < 576;
 	}
 </script>
 
@@ -41,18 +43,20 @@
 				{/if}
 			</div>
 			<div class="carta-toolbar-right">
-				{#each carta.icons as icon}
-					<button
-						on:click|preventDefault|stopPropagation={(e) => {
-							carta.input && icon.action(carta.input);
-							carta.input?.update();
-							carta.input?.textarea.focus();
-						}}
-						class="carta-icon"
-					>
-						<svelte:component this={icon.component} />
-					</button>
-				{/each}
+				{#if !hideIcons}
+					{#each carta.icons as icon}
+						<button
+							on:click|preventDefault|stopPropagation={(e) => {
+								carta.input && icon.action(carta.input);
+								carta.input?.update();
+								carta.input?.textarea.focus();
+							}}
+							class="carta-icon"
+						>
+							<svelte:component this={icon.component} />
+						</button>
+					{/each}
+				{/if}
 			</div>
 		</div>
 	{/if}
