@@ -33,7 +33,7 @@
 	"dependencies": {
 		"katex": "^0.16.7"
 	},
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"keywords": [
 		"carta",
 		"markdown",

@@ -2,7 +2,7 @@
 	"name": "carta",
 	"type": "module",
 	"module": "esnext",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
