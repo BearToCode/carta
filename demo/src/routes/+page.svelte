@@ -4,6 +4,7 @@
 	import { slash } from '@cartamd/plugin-slash';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { code } from '@cartamd/plugin-code';
+	import { placeholderText } from './placeholder';
 
 	import 'carta-md/default-theme.css';
 	import 'carta-md/light.css';
@@ -34,7 +35,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} />
+	<CartaEditor value={placeholderText} {carta} />
 </main>
 
 <style>
