@@ -1,0 +1,1 @@
+var n=[{match:new class{exec(s){let e=this.lastIndex,r,a=l=>{for(;++e<s.length-2;)if(s[e]=="{")a();else if(s[e]=="}")return};for(;e<s.length;e++)if(s[e-1]!="\\"&&s[e]=="$"&&s[e+1]=="{")return r=e++,a(),this.lastIndex=e+1,{index:r,0:s.slice(r,e+1)};return null}},sub:[{type:"kwd",match:/^\${|}$/g},{match:/(?!^\$|{)[^]+(?=}$)/g,sub:"js"}]}],t="str";export{n as default,t as type};
