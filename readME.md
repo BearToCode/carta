@@ -1,6 +1,6 @@
 # Carta
 
-A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](url) to see it in action.
+A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
 
