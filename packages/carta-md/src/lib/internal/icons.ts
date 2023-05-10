@@ -8,6 +8,7 @@ import LinkIcon from './components/icons/LinkIcon.svelte';
 import ListBulletedIcon from './components/icons/ListBulletedIcon.svelte';
 import ListNumberedIcon from './components/icons/ListNumberedIcon.svelte';
 import ListTaskIcon from './components/icons/ListTaskIcon.svelte';
+import CodeIcon from './components/icons/CodeIcon.svelte';
 
 /**
  * Editor toolbar icon information.
@@ -42,7 +43,7 @@ export const defaultIcons = [
 	{
 		id: 'code',
 		action: (input) => input.toggleSelectionSurrounding('`'),
-		component: ItalicIcon
+		component: CodeIcon
 	},
 	{
 		id: 'link',
