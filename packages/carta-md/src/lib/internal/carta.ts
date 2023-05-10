@@ -43,6 +43,10 @@ export interface CartaOptions {
 	 * HTML sanitizer.
 	 */
 	sanitizer?: (html: string) => string;
+	/**
+	 * Custom SSR sanitizer. If none is provided, the default one is used.
+	 */
+	sanitizerSSR?: (html: string) => string;
 }
 
 /**
@@ -167,7 +171,16 @@ export class Carta {
 	 */
 	public renderSSR(markdown: string): string {
 		const dirty = marked.parse(markdown);
-		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
+		if (typeof window === undefined) {
+			// Server
+			const sanitizer = this.options?.sanitizerSSR ?? this.options?.sanitizer;
+			if (sanitizer) return sanitizer(dirty);
+			return dirty;
+		} else {
+			// Client
+			if (this.options?.sanitizer) return this.options.sanitizer(dirty);
+			return dirty;
+		}
 	}
 
 	/**

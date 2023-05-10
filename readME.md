@@ -1,8 +1,5 @@
 # Carta
 
-[![npm](https://img.shields.io/npm/v/carta-md?color=red)](https://www.npmjs.com/package/carta-md)
-[![bundle](https://img.shields.io/bundlephobia/min/carta-md)](https://bundlephobia.com/package/carta-md)
-
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
@@ -102,15 +99,16 @@ You can find Markdown stylesheet. For example [github-markdown-css](https://gith
 
 Carta options:
 
-| Name               | Type                           | Description                                     |
-| ------------------ | ------------------------------ | ----------------------------------------------- |
-| `extensions`       | `CartaExtension[]`             | Editor/viewer extensions                        |
-| `rendererDebounce` | `number`                       | Renderer debouncing timeout, in ms (def. 300ms) |
-| `disableShortcuts` | `DefaultShortcutId[]`          | Remove default shortcuts by ids                 |
-| `disableIcons`     | `DefaultIconId[]`              | Remove default icons by ids                     |
-| `disablePrefixes`  | `DefaultPrefixId[]`            | Remove default prefixes by ids                  |
-| `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                     |
-| `sanitizer`        | `(html: string) => string`     | HTML santizer                                   |
+| Name               | Type                           | Description                                                         |
+| ------------------ | ------------------------------ | ------------------------------------------------------------------- |
+| `extensions`       | `CartaExtension[]`             | Editor/viewer extensions                                            |
+| `rendererDebounce` | `number`                       | Renderer debouncing timeout, in ms (def. 300ms)                     |
+| `disableShortcuts` | `DefaultShortcutId[]`          | Remove default shortcuts by ids                                     |
+| `disableIcons`     | `DefaultIconId[]`              | Remove default icons by ids                                         |
+| `disablePrefixes`  | `DefaultPrefixId[]`            | Remove default prefixes by ids                                      |
+| `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                                         |
+| `sanitizer`        | `(html: string) => string`     | HTML sanitizer                                                      |
+| `sanitizerSSR`     | `(html: string) => string`     | Custom SSR sanitizer. If none is provided, the default one is used. |
 
 You can easily extend Carta by creating custom plugins. Here are all the `CartaExtension` properties:
 
