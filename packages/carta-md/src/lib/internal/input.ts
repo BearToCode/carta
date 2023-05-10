@@ -154,7 +154,8 @@ export class CartaInput {
 				// If not, remove the prefix.
 				const content = line.slice(match.length).trim();
 				if (content === '') {
-					this.removeAt(lineStartingIndex, cursor);
+					this.removeAt(lineStartingIndex, match.length);
+					this.textarea.setSelectionRange(cursor - match.length, cursor - match.length);
 					this.onUpdate();
 					return;
 				}
