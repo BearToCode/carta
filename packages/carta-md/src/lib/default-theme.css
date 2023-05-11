@@ -52,7 +52,7 @@
 
 .carta-theme__default .carta-toolbar-left {
 	display: flex;
-	align-items: end;
+	align-items: flex-end;
 }
 
 /* Icons */
