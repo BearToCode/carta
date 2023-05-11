@@ -4,7 +4,6 @@
 
 	import '$lib/default-theme.css';
 	import '$lib/light.css';
-	import CartaViewer from '$lib/CartaViewer.svelte';
 
 	const carta = new Carta();
 </script>
@@ -25,8 +24,6 @@
 
 <main>
 	<CartaEditor mode="auto" {carta} />
-
-	<CartaViewer {carta} value="# Hello" />
 </main>
 
 <style>

@@ -99,16 +99,15 @@ You can find Markdown stylesheet. For example [github-markdown-css](https://gith
 
 Carta options:
 
-| Name               | Type                           | Description                                                         |
-| ------------------ | ------------------------------ | ------------------------------------------------------------------- |
-| `extensions`       | `CartaExtension[]`             | Editor/viewer extensions                                            |
-| `rendererDebounce` | `number`                       | Renderer debouncing timeout, in ms (def. 300ms)                     |
-| `disableShortcuts` | `DefaultShortcutId[]`          | Remove default shortcuts by ids                                     |
-| `disableIcons`     | `DefaultIconId[]`              | Remove default icons by ids                                         |
-| `disablePrefixes`  | `DefaultPrefixId[]`            | Remove default prefixes by ids                                      |
-| `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                                         |
-| `sanitizer`        | `(html: string) => string`     | HTML sanitizer                                                      |
-| `sanitizerSSR`     | `(html: string) => string`     | Custom SSR sanitizer. If none is provided, the default one is used. |
+| Name               | Type                           | Description                                     |
+| ------------------ | ------------------------------ | ----------------------------------------------- |
+| `extensions`       | `CartaExtension[]`             | Editor/viewer extensions                        |
+| `rendererDebounce` | `number`                       | Renderer debouncing timeout, in ms (def. 300ms) |
+| `disableShortcuts` | `DefaultShortcutId[]`          | Remove default shortcuts by ids                 |
+| `disableIcons`     | `DefaultIconId[]`              | Remove default icons by ids                     |
+| `disablePrefixes`  | `DefaultPrefixId[]`            | Remove default prefixes by ids                  |
+| `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                     |
+| `sanitizer`        | `(html: string) => string`     | HTML sanitizer                                  |
 
 You can easily extend Carta by creating custom plugins. Here are all the `CartaExtension` properties:
 
