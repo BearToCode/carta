@@ -9,6 +9,7 @@ import {
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import type { SvelteComponentTyped } from 'svelte';
+import escape from 'escape-html';
 
 /**
  * Carta editor options.
@@ -153,8 +154,9 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
+		const escaped = escape(markdown);
 		return new Promise((resolve) => {
-			marked.parse(markdown, (e, dirty) => {
+			marked.parse(escaped, (e, dirty) => {
 				resolve((this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty);
 			});
 		});
@@ -166,7 +168,8 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		const dirty = marked.parse(markdown);
+		const escaped = escape(markdown);
+		const dirty = marked.parse(escaped);
 		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
 		return dirty;
 	}
