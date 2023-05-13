@@ -154,8 +154,9 @@ export class CartaInput {
 				// If not, remove the prefix.
 				const content = line.slice(match.length).trim();
 				if (content === '') {
-					this.removeAt(lineStartingIndex, match.length);
-					this.textarea.setSelectionRange(cursor - match.length, cursor - match.length);
+					const line = this.getLine(lineStartingIndex);
+					this.removeAt(lineStartingIndex, line.value.length);
+					this.textarea.setSelectionRange(line.start, line.start);
 					this.onUpdate();
 					return;
 				}
@@ -191,15 +192,15 @@ export class CartaInput {
 	 * Get the current line, along with indices information.
 	 * @returns Current line info.
 	 */
-	public getCurrentLine() {
+	public getLine(index = this.textarea.selectionStart) {
 		let lineStartingIndex, lineEndingIndex;
 		for (
-			lineStartingIndex = this.textarea.selectionStart;
+			lineStartingIndex = index;
 			lineStartingIndex > 0 && this.textarea.value.at(lineStartingIndex - 1) !== '\n';
 			lineStartingIndex--
 		);
 		for (
-			lineEndingIndex = this.textarea.selectionStart;
+			lineEndingIndex = index;
 			lineEndingIndex < this.textarea.value.length - 1 &&
 			this.textarea.value.at(lineEndingIndex) !== '\n';
 			lineEndingIndex++

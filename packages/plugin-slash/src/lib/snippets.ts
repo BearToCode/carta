@@ -16,7 +16,7 @@ export interface SlashSnippet {
 }
 
 function insertLine(input: CartaInput, string: string) {
-	const line = input.getCurrentLine();
+	const line = input.getLine();
 	if (line.value !== '') {
 		input.insertAt(line.end, `\n${string}`);
 		const newPos = line.end + string.length + 1;
@@ -24,7 +24,7 @@ function insertLine(input: CartaInput, string: string) {
 		input.textarea.selectionEnd = newPos;
 	} else {
 		input.insertAt(line.end, `${string}`);
-		const newPos = line.end + string.length + 1;
+		const newPos = line.end + string.length;
 		input.textarea.selectionStart = newPos;
 		input.textarea.selectionEnd = newPos;
 	}
