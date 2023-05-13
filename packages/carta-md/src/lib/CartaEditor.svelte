@@ -3,6 +3,7 @@
 	import MarkdownInput from './internal/components/MarkdownInput.svelte';
 	import type { Carta } from './internal/carta';
 	import { onMount } from 'svelte';
+	import 'prismjs';
 
 	export let carta: Carta;
 	export let theme = 'default';
