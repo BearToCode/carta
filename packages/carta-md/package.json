@@ -57,5 +57,8 @@
 		"syntax highlighting",
 		"emoji",
 		"katex"
+	],
+	"files": [
+		"dist"
 	]
 }
