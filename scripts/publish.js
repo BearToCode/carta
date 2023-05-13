@@ -42,7 +42,7 @@ const version = versionDigits.join('.');
 async function updatePackageVersion(path) {
 	const pkgJson = JSON.parse(fs.readFileSync(path).toString());
 	const prettierConfig = await prettier.resolveConfig(path);
-	// pkgJson.version = version;
+	pkgJson.version = version;
 	if (pkgJson?.peerDependencies?.['carta-md']) {
 		pkgJson.peerDependencies['carta-md'] = `^${version}`;
 	}
