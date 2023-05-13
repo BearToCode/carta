@@ -17,7 +17,7 @@
 		"./default-theme.css": "./dist/default-theme.css",
 		"./light.css": "./dist/light.css"
 	},
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "svelte-kit sync && svelte-package",
