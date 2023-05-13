@@ -7,13 +7,13 @@
 		<meta name="viewport" content="width=device-width" />
 		<meta http-equiv="content-security-policy" content="">
 		<link href="./_app/immutable/assets/2.8abcaa1c.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.cb4db73d.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.095b46f0.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.8cbe03da.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.f12935c0.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.e1e7c2ab.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.d620d1fb.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.32ad4cd7.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.41c905a7.js">
 		<link rel="modulepreload" href="./_app/immutable/nodes/0.c2dae052.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.845ba95b.js"><!-- HEAD_svelte-1pf5t6_START --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="preconnect" href="https://rsms.me/"><link rel="stylesheet" href="https://rsms.me/inter/inter.css"><!-- HEAD_svelte-1pf5t6_END -->
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.d8714a07.js"><!-- HEAD_svelte-1pf5t6_START --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="preconnect" href="https://rsms.me/"><link rel="stylesheet" href="https://rsms.me/inter/inter.css"><!-- HEAD_svelte-1pf5t6_END -->
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">
@@ -80,9 +80,9 @@ Using the <span class="token code-snippet code keyword">`plugin-code`</span>, yo
 <span class="token code-block">fn visit_mars() {
 	let spaceship = get_spaceship();
 
-	spaceship.liftoff(Planet::Mars);
-	spaceship.head_to(mars);
-	thread::sleep(some_time);
+	spaceship.liftoff();
+	spaceship.head_to(Planet::Mars);
+	thread::sleep(Time::Month(6));
 	spaceship.land();
 
 	let humans = spaceship.unload();
@@ -147,9 +147,9 @@ Using the `plugin-code`, you can have syntax highlighting on your code blocks.
 fn visit_mars() {
 	let spaceship = get_spaceship();
 
-	spaceship.liftoff(Planet::Mars);
-	spaceship.head_to(mars);
-	thread::sleep(some_time);
+	spaceship.liftoff();
+	spaceship.head_to(Planet::Mars);
+	thread::sleep(Time::Month(6));
 	spaceship.land();
 
 	let humans = spaceship.unload();
@@ -186,7 +186,7 @@ Try and type a colon (:), you can also search them! :alien:
 			
 			<script>
 				{
-					__sveltekit_1b2xwe3 = {
+					__sveltekit_1d1kyf1 = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -196,8 +196,8 @@ Try and type a colon (:), you can also search them! :alien:
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.cb4db73d.js"),
-						import("./_app/immutable/entry/app.e1e7c2ab.js")
+						import("./_app/immutable/entry/start.095b46f0.js"),
+						import("./_app/immutable/entry/app.32ad4cd7.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],

@@ -396,9 +396,9 @@ Using the \`plugin-code\`, you can have syntax highlighting on your code blocks.
 fn visit_mars() {
 	let spaceship = get_spaceship();
 
-	spaceship.liftoff(Planet::Mars);
-	spaceship.head_to(mars);
-	thread::sleep(some_time);
+	spaceship.liftoff();
+	spaceship.head_to(Planet::Mars);
+	thread::sleep(Time::Month(6));
 	spaceship.land();
 
 	let humans = spaceship.unload();
