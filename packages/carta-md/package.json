@@ -15,7 +15,8 @@
 			"import": "./dist/index.js"
 		},
 		"./default-theme.css": "./dist/default-theme.css",
-		"./light.css": "./dist/light.css"
+		"./light.css": "./dist/light.css",
+		"./dark.css": "./dist/dark.css"
 	},
 	"version": "1.1.7",
 	"scripts": {
