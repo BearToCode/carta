@@ -8,14 +8,13 @@ import readline from 'readline';
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
 
-console.log('Building packages: ');
+const spinner = ora('Building packages').start();
 await execAsync(`npm run build`);
-
-console.log('Publishing packages: ');
+spinner.stop();
 
 const otp = await prompt('Otp: ');
 
-const spinner = ora('Publishing packages').start();
+spinner.start();
 spinner.color = 'green';
 
 // Get current version from main package.json
@@ -82,3 +81,4 @@ for (const pkg of packages) {
 }
 
 spinner.succeed(`All packages published`);
+process.exit(0);
