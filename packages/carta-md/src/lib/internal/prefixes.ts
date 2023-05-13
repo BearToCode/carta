@@ -45,6 +45,11 @@ export const defaultPrefixes = [
 		id: 'numberedList',
 		match: (line) => line.match(/^\d+\./)?.at(0),
 		maker: (prev) => `${Number(prev.slice(0, -1)) + 1}. `
+	},
+	{
+		id: 'blockquote',
+		match: (line) => line.match(/^(> *)+/gm)?.at(0),
+		maker: (prev) => prev
 	}
 ] as const satisfies readonly Prefix[];
 

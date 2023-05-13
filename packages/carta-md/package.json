@@ -39,7 +39,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"escape-html": "^1.0.3",
 		"marked": "^4.3.0",
 		"prismjs": "^1.29.0"
 	},
