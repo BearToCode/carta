@@ -35,14 +35,17 @@ switch (process.argv.at(-2)) {
 		process.exit(1);
 }
 
-const opt = process.argv.at(-1);
+const otp = process.argv.at(-1);
 
 const version = versionDigits.join('.');
 
 async function updatePackageVersion(path) {
 	const pkgJson = JSON.parse(fs.readFileSync(path).toString());
 	const prettierConfig = await prettier.resolveConfig(path);
-	pkgJson.version = version;
+	// pkgJson.version = version;
+	if (pkgJson?.peerDependencies?.['carta-md']) {
+		pkgJson.peerDependencies['carta-md'] = `^${version}`;
+	}
 	const formatted = prettier.format(JSON.stringify(pkgJson), {
 		...prettierConfig,
 		parser: 'json'
@@ -71,7 +74,7 @@ for (const pkg of packages) {
 
 	spinner.text = `Publishing ${pkg}`;
 	try {
-		await execAsync(`cd packages/${pkg} && npm publish --otp=${opt} --access public`);
+		await execAsync(`cd packages/${pkg} && npm publish --otp=${otp} --access public`);
 	} catch (e) {
 		spinner.fail(`Failed to publish ${pkg}: \n ${e}`);
 		process.exit(1);

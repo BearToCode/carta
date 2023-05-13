@@ -40,7 +40,7 @@
 		"bezier-easing": "^2.1.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^0.1.6",
+		"carta-md": "^1.1.2",
 		"marked": "^4.3.0"
 	},
 	"keywords": [
