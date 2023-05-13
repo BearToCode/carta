@@ -3,6 +3,17 @@ import prettier from 'prettier';
 import ora from 'ora';
 import process from 'process';
 import fs from 'fs';
+import readline from 'readline';
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
+
+console.log('Building packages: ');
+await execAsync(`npm run build`);
+
+console.log('Publishing packages: ');
+
+const otp = await prompt('Otp: ');
 
 const spinner = ora('Publishing packages').start();
 spinner.color = 'green';
@@ -17,7 +28,7 @@ if (!currentVersion) {
 
 let versionDigits = currentVersion.split('.').map((digit) => Number(digit));
 
-switch (process.argv.at(-2)) {
+switch (process.argv.at(-1)) {
 	case 'major':
 		versionDigits[0]++;
 		versionDigits[1] = 0;
@@ -31,11 +42,9 @@ switch (process.argv.at(-2)) {
 		versionDigits[2]++;
 		break;
 	default:
-		spinner.fail(`Usage pnpm run publish -- [patch | minor | major] <otp>`);
+		spinner.fail(`Usage pnpm run publish -- [patch | minor | major]`);
 		process.exit(1);
 }
-
-const otp = process.argv.at(-1);
 
 const version = versionDigits.join('.');
 
@@ -62,15 +71,6 @@ for (const pkg of packages) {
 	spinner.text = `Updating ${pkg} version`;
 	const pkgPath = `packages/${pkg}/package.json`;
 	await updatePackageVersion(pkgPath);
-
-	// Build package
-	spinner.text = `Building ${pkg}`;
-	try {
-		await execAsync(`cd packages/${pkg} && npm run build`);
-	} catch (e) {
-		spinner.fail(`Failed to build ${pkg}: \n ${e}`);
-		process.exit(1);
-	}
 
 	spinner.text = `Publishing ${pkg}`;
 	try {
