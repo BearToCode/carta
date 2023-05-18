@@ -30,6 +30,7 @@
 
 	onMount(() => {
 		carta.setInput(textarea, () => (value = textarea.value));
+		resize();
 	});
 </script>
 
