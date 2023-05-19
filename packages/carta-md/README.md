@@ -20,7 +20,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 
 ## Getting started
 
-> :exclamation:Warning: **sanitization** is **not** dealt with by Carta. You need to provided a `sanitizer` function when you create your own Carta.
+> :exclamation:Warning: **sanitization** is **not** dealt with by Carta. You need to provide a `sanitizer` in the options.
 
 ### Installation
 
