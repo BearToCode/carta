@@ -53,11 +53,13 @@
 <style>
 	div {
 		position: relative;
+		font-family: monospace;
 	}
 
-	textarea {
+	textarea#md {
 		position: relative;
 		width: 100%;
+		max-width: 100%;
 		min-height: 100%;
 
 		overflow-y: hidden;
