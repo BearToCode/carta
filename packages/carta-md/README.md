@@ -33,7 +33,7 @@ npm i carta-md
 Plugins:
 
 ```
-npm i @carta/plugin-name
+npm i @cartamd/plugin-name
 ```
 
 ### Basic configuration
