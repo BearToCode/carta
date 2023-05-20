@@ -334,16 +334,40 @@ export class CartaInput {
 		if (this.textarea.tagName === 'TEXTAREA') div.style.height = 'auto';
 		if (this.textarea.tagName === 'INPUT') div.style.width = 'auto';
 
+		// Create an element to measure cursor size
 		const span = document.createElement('span');
+		span.className += 'carta-font-code';
 		span.textContent = inputValue.substr(selectionPoint) || '.';
 		div.appendChild(span);
 		document.body.appendChild(div);
 		const { offsetLeft: spanX, offsetTop: spanY } = span;
 		document.body.removeChild(div);
 
+		// Add carta-input padding
+		const cartaInput = document.querySelector('.carta-input');
+		let padding = {
+			top: 0,
+			bottom: 0,
+			left: 0,
+			right: 0
+		};
+		if (cartaInput) {
+			padding = {
+				top: parseInt(getComputedStyle(cartaInput).paddingTop, 10),
+				bottom: parseInt(getComputedStyle(cartaInput).paddingBottom, 10),
+				left: parseInt(getComputedStyle(cartaInput).paddingLeft, 10),
+				right: parseInt(getComputedStyle(cartaInput).paddingRight, 10)
+			};
+		}
+
 		return {
-			x: inputX + spanX,
-			y: inputY + spanY
+			x: inputX + spanX + padding.left,
+			y: inputY + spanY + padding.right,
+
+			left: inputX + spanX + padding.left,
+			top: inputY + spanY + padding.top,
+			right: this.textarea.clientWidth - inputX + padding.right,
+			bottom: this.textarea.clientHeight - inputY + padding.right
 		};
 	}
 }

@@ -35,29 +35,38 @@
 </script>
 
 <div on:click={focus} on:keydown={focus} class="carta-input">
-	<pre class="hljs carta-font-code" aria-hidden="true">{@html highlighted}</pre>
+	<div class="carta-input-wrapper">
+		<pre class="hljs carta-font-code" aria-hidden="true">{@html highlighted}</pre>
 
-	<textarea
-		name="md"
-		id="md"
-		bind:value
-		bind:this={textarea}
-		on:input={resize}
-		spellcheck="false"
-		class="carta-font-code"
-	/>
+		<textarea
+			name="md"
+			id="md"
+			bind:value
+			bind:this={textarea}
+			on:input={resize}
+			spellcheck="false"
+			class="carta-font-code"
+		/>
+	</div>
 
 	<slot />
 </div>
 
 <style>
-	div {
+	.carta-input {
 		position: relative;
 	}
 
-	textarea {
+	.carta-input-wrapper {
+		height: 100%;
+		position: relative;
+		font-family: monospace;
+	}
+
+	textarea#md {
 		position: relative;
 		width: 100%;
+		max-width: 100%;
 		min-height: 100%;
 
 		overflow-y: hidden;
