@@ -10,7 +10,7 @@
 	export let outTransition: (node: Element) => TransitionConfig;
 
 	let visible = false;
-	let caretPosition = { x: 0, y: 0 };
+	let caretPosition = { left: 0, right: 0, top: 0, bottom: 0 };
 	let hoveringIndex = 0;
 	let filter = '';
 	let slashPosition = 0;
@@ -95,7 +95,7 @@
 	function getComponentStyle() {
 		if (!carta.input) return ``;
 		// Left/Right
-		let left: number | undefined = caretPosition.x;
+		let left: number | undefined = caretPosition.left;
 		let right: number | undefined;
 
 		if (left + elemWidth >= carta.input.textarea.clientWidth) {
@@ -103,7 +103,7 @@
 			left = undefined;
 		}
 		// Top/Bottom
-		let top: number | undefined = caretPosition.y;
+		let top: number | undefined = caretPosition.top;
 		let bottom: number | undefined;
 
 		if (top + elemHeight >= carta.input.textarea.clientHeight) {
@@ -112,11 +112,11 @@
 		}
 
 		return `
-			--left: ${left ? left + 'px' : 'unset'};
-			--right: ${right ? right + 'px' : 'unset'};
-			--top: ${top ? top + 'px' : 'unset'};
-			--bottom: ${bottom ? bottom + 'px' : 'unset'};
-			--margin: ${window.getComputedStyle(carta.input.textarea).fontSize}
+			--left: ${left !== undefined ? left + 'px' : 'unset'};
+			--right: ${right !== undefined ? right + 'px' : 'unset'};
+			--top: ${top !== undefined ? top + 'px' : 'unset'};
+			--bottom: ${bottom !== undefined ? bottom + 'px' : 'unset'};
+			--font-size: ${window.getComputedStyle(carta.input.textarea).fontSize}
 		`;
 	}
 
@@ -212,8 +212,8 @@
 		position: absolute;
 		left: var(--left);
 		right: var(--right);
-		top: calc(var(--top) + var(--margin) + 4px);
-		bottom: calc(var(--bottom) + var(--margin) * 2 + 4px);
+		top: calc(var(--top) + var(--font-size) + 4px);
+		bottom: calc(var(--bottom) + var(--font-size) * 2 + 4px);
 	}
 
 	.carta-slash span {
