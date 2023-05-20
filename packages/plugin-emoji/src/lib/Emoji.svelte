@@ -122,7 +122,7 @@
 			--right: ${right !== undefined ? right + 'px' : 'unset'};
 			--top: ${top !== undefined ? top + 'px' : 'unset'};
 			--bottom: ${bottom !== undefined ? bottom + 'px' : 'unset'};
-			--font-size: ${window.getComputedStyle(carta.input.textarea).fontSize}
+			--font-size: ${window.getComputedStyle(carta.input.textarea).fontSize};
       --cols: ${cols};
 		`;
 	}
