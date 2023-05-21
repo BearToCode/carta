@@ -148,16 +148,13 @@ export class Carta {
 	}
 
 	/**
-	 * Render markdown to html including syntax highlighting.
+	 * Render markdown to html asynchronously.
 	 * @param markdown Markdown input.
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		return new Promise((resolve) => {
-			marked.parse(markdown, (e, dirty) => {
-				resolve((this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty);
-			});
-		});
+		const dirty = await marked.parse(markdown, { async: true });
+		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
 	}
 
 	/**
@@ -166,7 +163,7 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		const dirty = marked.parse(markdown);
+		const dirty = marked.parse(markdown, { async: false });
 		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
 		return dirty;
 	}
