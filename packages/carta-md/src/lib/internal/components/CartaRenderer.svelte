@@ -7,12 +7,14 @@
 
 	let renderedHtml = carta.renderSSR(value);
 
+	const debouncedRenderer = debounce(() => {
+		carta.render(value).then((rendered) => (renderedHtml = rendered));
+	}, carta.options?.rendererDebounce ?? 300);
+
 	$: {
 		// On value updates
 		value = value;
-		debounce(() => {
-			carta.render(value).then((rendered) => (renderedHtml = rendered));
-		}, carta.options?.rendererDebounce ?? 300)();
+		debouncedRenderer();
 	}
 </script>
 

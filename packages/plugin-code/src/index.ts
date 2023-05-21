@@ -1,6 +1,7 @@
 import type { CartaExtension } from 'carta-md';
 import { highlightText } from '@speed-highlight/core';
 import { detectLanguage } from '@speed-highlight/core/detect.js';
+import { markedHighlight } from 'marked-highlight';
 
 interface CodeExtensionOptions {
 	/**
@@ -25,34 +26,31 @@ interface CodeExtensionOptions {
 export const code = (options?: CodeExtensionOptions): CartaExtension => {
 	return {
 		markedExtensions: [
-			{
+			markedHighlight({
 				langPrefix: 'shj-lang-',
-				highlight(code, lang, cb) {
-					(async () => {
-						lang ||= options?.defaultLanguage ?? '';
-						if (lang) {
-							try {
-								const highlighted = await highlightText(code, lang, true, {
-									hideLineNumbers: !(options?.lineNumbering ?? false)
-								});
-								cb && cb(undefined, highlighted);
-								return;
-							} catch (_) {
-								/* empty */
-							}
-						}
-						if (options?.autoDetect ?? true) {
-							const detected = detectLanguage(code);
-							const highlighted = await highlightText(code, detected, true, {
+				async: true,
+				async highlight(code, lang) {
+					lang ||= options?.defaultLanguage ?? '';
+					if (lang) {
+						try {
+							return await highlightText(code, lang, true, {
 								hideLineNumbers: !(options?.lineNumbering ?? false)
 							});
-							cb && cb(undefined, highlighted);
-							return;
+						} catch (_) {
+							/* empty */
 						}
-						cb && cb(undefined, 'basic');
-					})();
+					}
+					if (options?.autoDetect ?? true) {
+						const detected = detectLanguage(code);
+						return await highlightText(code, detected, true, {
+							hideLineNumbers: !(options?.lineNumbering ?? false)
+						});
+					}
+					return await highlightText(code, 'plain', true, {
+						hideLineNumbers: !(options?.lineNumbering ?? false)
+					});
 				}
-			}
+			})
 		]
 	};
 };
