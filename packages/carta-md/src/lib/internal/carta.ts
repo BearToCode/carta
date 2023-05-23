@@ -153,8 +153,8 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		const dirty = await marked.parse(markdown, { async: true });
-		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
+		markdown = this.options?.sanitizer ? this.options?.sanitizer(markdown) : markdown;
+		return await marked.parse(markdown, { async: true });
 	}
 
 	/**
