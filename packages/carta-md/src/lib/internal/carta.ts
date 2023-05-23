@@ -163,9 +163,8 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		const dirty = marked.parse(markdown, { async: false });
-		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
-		return dirty;
+		markdown = this.options?.sanitizer ? this.options?.sanitizer(markdown) : markdown;
+		return marked.parse(markdown);
 	}
 
 	/**
