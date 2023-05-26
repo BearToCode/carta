@@ -3,6 +3,7 @@ import SlashComponent from './Slash.svelte';
 import type { CartaExtension, CartaExtensionComponent } from 'carta-md';
 import BezierEasing from 'bezier-easing';
 import { defaultSnippets, type DefaultSnippetId, type SlashSnippet } from './snippets';
+export * from './default-theme.css?inline';
 
 export interface SlashExtensionOptions {
 	/**

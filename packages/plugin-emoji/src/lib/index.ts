@@ -1,9 +1,10 @@
 import type { CartaExtension, CartaExtensionComponent } from 'carta-md';
+import type { marked } from 'marked';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
-import { marked } from 'marked';
 import nodeEmoji from 'node-emoji';
 import Emoji from './Emoji.svelte';
 import BezierEasing from 'bezier-easing';
+export * from './default-theme.css?inline';
 
 export interface EmojiExtensionOptions {
 	/**
