@@ -1,6 +1,6 @@
 {
 	"name": "@cartamd/plugin-emoji",
-	"version": "1.1.13",
+	"version": "1.2.0",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -39,7 +39,7 @@
 	},
 	"peerDependencies": {
 		"svelte": "^3.54.0",
-		"carta-md": "^1.1.13",
+		"carta-md": "^1.2.0",
 		"marked": "^4.3.0"
 	},
 	"devDependencies": {
