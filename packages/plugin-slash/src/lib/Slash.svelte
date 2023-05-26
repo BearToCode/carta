@@ -98,7 +98,10 @@
 		let left: number | undefined = caretPosition.left;
 		let right: number | undefined;
 
-		if (left + elemWidth >= carta.input.textarea.clientWidth) {
+		if (
+			elemWidth < carta.input.textarea.clientWidth &&
+			left + elemWidth >= carta.input.textarea.clientWidth
+		) {
 			right = carta.input.textarea.clientWidth - left;
 			left = undefined;
 		}
@@ -106,7 +109,10 @@
 		let top: number | undefined = caretPosition.top;
 		let bottom: number | undefined;
 
-		if (top + elemHeight >= carta.input.textarea.clientHeight) {
+		if (
+			elemHeight < carta.input.textarea.clientHeight &&
+			top + elemHeight >= carta.input.textarea.clientHeight
+		) {
 			bottom = carta.input.textarea.clientHeight - top;
 			top = undefined;
 		}
