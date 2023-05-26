@@ -60,10 +60,6 @@
 		padding: 2rem 0 2rem 0;
 	}
 
-	:global(.carta-theme__default .carta-wrapper) {
-		height: 200px !important;
-	}
-
 	/* Responsive main */
 
 	@media screen and (max-width: 640px) {

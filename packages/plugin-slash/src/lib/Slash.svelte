@@ -182,7 +182,7 @@
 	}
 </script>
 
-{#if visible}
+{#if visible && filteredSnippets.length > 0}
 	<div
 		{style}
 		class="carta-slash"

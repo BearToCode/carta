@@ -164,7 +164,7 @@
 	}
 </script>
 
-{#if visible && filter.length > 0}
+{#if visible && filter.length > 0 && emojis.length > 0}
 	<div
 		{style}
 		class="carta-emoji"
