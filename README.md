@@ -1,7 +1,9 @@
 # Carta
 
-[![npm](https://img.shields.io/npm/v/carta-md?color=red)](https://www.npmjs.com/package/carta-md)
-[![bundle](https://img.shields.io/bundlephobia/min/carta-md)](https://bundlephobia.com/package/carta-md)
+<a href="https://pnpm.io/"><img src="https://img.shields.io/badge/published%20with-pnpm-%23a255e6" alt="pnpm"></a>
+<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
+<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
+<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
 
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
@@ -94,7 +96,7 @@ If you are using a plugin, look at its _readme_ for its customization.
 
 Markdown highlighting is done using **PrismJS**, [here](https://github.com/PrismJS/prism-themes) you can find some themes, but you can find more by searching online.
 
-You can find Markdown stylesheet. For example [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)(used in the demo), or [tailwind-typography](https://tailwindcss.com/docs/typography-plugin).
+You can find complete Markdown stylesheet online. For example [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)(used in the demo), or [tailwind-typography](https://tailwindcss.com/docs/typography-plugin).
 
 ## Extensibility
 
