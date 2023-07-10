@@ -78,9 +78,14 @@ export interface CartaExtension {
 	components?: CartaExtensionComponentArray;
 }
 
-export type CartaListener<K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
+type CartaEventType = keyof HTMLElementEventMap | 'carta-render' | 'carta-render-ssr';
+
+export type CartaListener<K = CartaEventType> = [
 	type: K,
-	listener: (this: HTMLTextAreaElement, ev: HTMLElementEventMap[K]) => unknown,
+	listener: (
+		this: HTMLTextAreaElement,
+		ev: K extends keyof HTMLElementEventMap ? HTMLElementEventMap[K] : Event
+	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];
 
@@ -154,6 +159,7 @@ export class Carta {
 	 */
 	public async render(markdown: string): Promise<string> {
 		const dirty = await marked.parse(markdown, { async: true });
+		this.input?.textarea.dispatchEvent(new Event('carta-render'));
 		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
 	}
 
@@ -164,6 +170,7 @@ export class Carta {
 	 */
 	public renderSSR(markdown: string): string {
 		const dirty = marked.parse(markdown, { async: false });
+		this.input?.textarea.dispatchEvent(new Event('carta-render-ssr'));
 		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
 		return dirty;
 	}
