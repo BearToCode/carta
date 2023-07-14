@@ -3,7 +3,6 @@
 	import MarkdownInput from './internal/components/MarkdownInput.svelte';
 	import type { Carta } from './internal/carta';
 	import { onMount } from 'svelte';
-	import 'prismjs';
 
 	export let carta: Carta;
 	export let theme = 'default';
@@ -47,7 +46,7 @@
 				{#if !hideIcons}
 					{#each carta.icons as icon}
 						<button
-							on:click|preventDefault|stopPropagation={(e) => {
+							on:click|preventDefault|stopPropagation={() => {
 								carta.input && icon.action(carta.input);
 								carta.input?.update();
 								carta.input?.textarea.focus();

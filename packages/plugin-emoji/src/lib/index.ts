@@ -55,7 +55,13 @@ export const emoji = (options?: EmojiExtensionOptions): CartaExtension => {
 				extensions: [emojiTokenizerAndRenderer()]
 			}
 		],
-		components: [emojiComponent]
+		components: [emojiComponent],
+		highlightRules: [
+			{
+				type: 'oper',
+				match: /:[a-z0-9_]+:/g
+			}
+		]
 	};
 };
 

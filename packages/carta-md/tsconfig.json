@@ -1,7 +1,9 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
-		"checkJs": true,
+		"outDir": "dist",
+		"checkJs": false,
+		"allowJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"moduleResolution": "node",
@@ -11,8 +13,15 @@
 		"strict": true,
 		"composite": true,
 		"ignoreDeprecations": "5.0",
-		"plugins": []
-	}
+		"plugins": [],
+		"baseUrl": "./",
+		"typeRoots": ["./node_modules/@types", "./typings"],
+		"paths": {
+			"$lib": ["src/lib"],
+			"$lib/*": ["src/lib/*"]
+		}
+	},
+	"include": ["./src", "./typings"]
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes

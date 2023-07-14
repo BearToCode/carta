@@ -104,15 +104,15 @@ You can find complete Markdown stylesheet online. For example [github-markdown-c
 
 Carta options:
 
-| Name               | Type                           | Description                                     |
-| ------------------ | ------------------------------ | ----------------------------------------------- |
-| `extensions`       | `CartaExtension[]`             | Editor/viewer extensions                        |
-| `rendererDebounce` | `number`                       | Renderer debouncing timeout, in ms (def. 300ms) |
-| `disableShortcuts` | `DefaultShortcutId[]`          | Remove default shortcuts by ids                 |
-| `disableIcons`     | `DefaultIconId[]`              | Remove default icons by ids                     |
-| `disablePrefixes`  | `DefaultPrefixId[]`            | Remove default prefixes by ids                  |
-| `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                     |
-| `sanitizer`        | `(html: string) => string`     | HTML sanitizer                                  |
+| Name               | Type                                    | Description                                     |
+| ------------------ | --------------------------------------- | ----------------------------------------------- |
+| `extensions`       | `CartaExtension[]`                      | Editor/viewer extensions                        |
+| `rendererDebounce` | `number`                                | Renderer debouncing timeout, in ms (def. 300ms) |
+| `disableShortcuts` | `DefaultShortcutId[]           \| true` | Remove default shortcuts by ids                 |
+| `disableIcons`     | `DefaultIconId[]               \| true` | Remove default icons by ids                     |
+| `disablePrefixes`  | `DefaultPrefixId[]             \| true` | Remove default prefixes by ids                  |
+| `historyOptions`   | `Partial<CartaHistoryOptions>`          | History (Undo/Redo) options                     |
+| `sanitizer`        | `(html: string) => string`              | HTML sanitizer                                  |
 
 You can easily extend Carta by creating custom plugins. Here are all the `CartaExtension` properties:
 

@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from '../carta';
-	import Prism from 'prismjs';
-	import 'prismjs/components/prism-markdown.js';
+	import { Carta } from '../carta';
 
 	export let carta: Carta;
 	export let value = '';
 
 	let textarea: HTMLTextAreaElement;
-	let highlighted: string;
+	let highlighted = value;
 
 	const focus = () => {
 		// Allow text selection
@@ -22,21 +20,24 @@
 		textarea.style.height = textarea.scrollHeight + 'px';
 	};
 
-	const highlight = (val: string) => {
-		highlighted = Prism.highlight(val, Prism.languages.markdown, 'language-markdown');
+	const highlight = async (val: string) => {
+		highlighted = (await Carta.highlight(val, 'cartamd', true)) as string;
 	};
 
 	$: highlight(value);
 
 	onMount(() => {
-		carta.setInput(textarea, () => (value = textarea.value));
+		carta.setInput(textarea, () => {
+			value = textarea.value;
+			highlight(value);
+		});
 		resize();
 	});
 </script>
 
 <div on:click={focus} on:keydown={focus} class="carta-input">
 	<div class="carta-input-wrapper">
-		<pre class="hljs carta-font-code" aria-hidden="true">{@html highlighted}</pre>
+		<pre class="shj-lang-md carta-font-code" aria-hidden="true">{@html highlighted}</pre>
 
 		<textarea
 			name="md"

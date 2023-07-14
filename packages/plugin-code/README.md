@@ -12,13 +12,13 @@ This is done using [Speed-highlight JS](https://github.com/speed-highlight/core)
 
 ### Styles
 
-Import the default theme:
+Import the default styles:
 
 ```ts
 import '@cartamd/plugin-code/default.css';
 ```
 
-[Here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find other themes, but the default one is still required.
+[Here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find other themes. The theme matches the one used in the main carta package (`carta-md/light.css` or `carta-md/dark.css`), so you need to remove it before adding any other.
 
 ### Extension
 
