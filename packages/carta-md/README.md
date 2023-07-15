@@ -1,9 +1,9 @@
-# Carta
-
-<a href="https://pnpm.io/"><img src="https://img.shields.io/badge/published%20with-pnpm-%23a255e6" alt="pnpm"></a>
-<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
-<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
-<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
+<div align="center">
+	<h1>Carta</h1>
+	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
+	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
+	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
+</div>
 
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 

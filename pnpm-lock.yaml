@@ -98,6 +98,9 @@ importers:
       svelte:
         specifier: ^3.54.0
         version: 3.55.1
+      throttle-typescript:
+        specifier: ^1.1.0
+        version: 1.1.0
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^1.0.0-next.90
@@ -869,7 +872,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.15.9(svelte@3.58.0)(vite@4.3.3)
+      '@sveltejs/kit': 1.15.9(svelte@3.55.1)(vite@4.3.3)
       import-meta-resolve: 2.2.2
     dev: true
 
@@ -3506,6 +3509,10 @@ packages:
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
+
+  /throttle-typescript@1.1.0:
+    resolution: {integrity: sha512-pxQ+jaKIZZBkRJxbc+CoH3ubz59zgfd8qr0GqHb5NiAIhwHp5SWCHdVnujv/t87EcnFw7BbNrzyLWxNJ1+K6Mg==}
+    dev: false
 
   /through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}

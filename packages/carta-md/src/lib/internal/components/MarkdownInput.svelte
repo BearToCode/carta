@@ -4,6 +4,8 @@
 
 	export let carta: Carta;
 	export let value = '';
+	export let elem: HTMLDivElement;
+	export let handleScroll: (e: UIEvent) => void;
 
 	let textarea: HTMLTextAreaElement;
 	let highlighted = value;
@@ -35,7 +37,13 @@
 	});
 </script>
 
-<div on:click={focus} on:keydown={focus} class="carta-input">
+<div
+	on:click={focus}
+	on:keydown={focus}
+	on:scroll={handleScroll}
+	class="carta-input"
+	bind:this={elem}
+>
 	<div class="carta-input-wrapper">
 		<pre class="shj-lang-md carta-font-code" aria-hidden="true">{@html highlighted}</pre>
 

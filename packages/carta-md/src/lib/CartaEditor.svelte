@@ -1,13 +1,15 @@
 <script lang="ts">
-	import CartaRenderer from './internal/components/CartaRenderer.svelte';
-	import MarkdownInput from './internal/components/MarkdownInput.svelte';
 	import type { Carta } from './internal/carta';
 	import { onMount } from 'svelte';
+	import CartaRenderer from './internal/components/CartaRenderer.svelte';
+	import MarkdownInput from './internal/components/MarkdownInput.svelte';
+	import { debounce } from './internal/utils';
 
 	export let carta: Carta;
 	export let theme = 'default';
 	export let value = '';
 	export let mode: 'tabs' | 'split' | 'auto' = 'auto';
+	export let scroll: 'sync' | 'async' = 'sync';
 	export let disableToolbar = false;
 
 	let width: number;
@@ -21,6 +23,39 @@
 		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tabs') : mode;
 		hideIcons = width < 576;
 	}
+
+	let inputElem: HTMLDivElement;
+	let rendererElem: HTMLDivElement;
+	let currentlyScrolling: HTMLDivElement | null;
+
+	const clearCurrentlyScrolling = debounce(() => {
+		currentlyScrolling = null;
+	}, 500);
+
+	const handleScroll = (e: UIEvent) => {
+		if (windowMode != 'split') return;
+
+		if (scroll == 'async') {
+			// Scrolling one element does not affect the other
+			return;
+		} else if (scroll == 'sync') {
+			const [scrolled, target] =
+				e.target == inputElem ? [inputElem, rendererElem] : [rendererElem, inputElem];
+
+			if (currentlyScrolling && currentlyScrolling != scrolled) return;
+
+			currentlyScrolling = scrolled;
+
+			const scrolledAvbSpace = scrolled.scrollHeight - scrolled.clientHeight;
+			const targetAvbSpace = target.scrollHeight - target.clientHeight;
+
+			const scrolledAmount = scrolled.scrollTop * (1 + scrolled.clientHeight / scrolledAvbSpace);
+			const scrolledPercentage = scrolledAmount / scrolled.scrollHeight;
+
+			target.scrollTo({ top: targetAvbSpace * scrolledPercentage, behavior: 'smooth' });
+			clearCurrentlyScrolling();
+		}
+	};
 </script>
 
 <div bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
@@ -64,7 +99,7 @@
 	<div class="carta-wrapper">
 		<div class="carta-container mode-{windowMode}">
 			{#if windowMode == 'split' || selectedTab == 'write'}
-				<MarkdownInput {carta} bind:value>
+				<MarkdownInput {carta} {handleScroll} bind:value bind:elem={inputElem}>
 					<!-- Input extensions components -->
 					{#if mounted}
 						{#each carta.components.filter(({ parent }) => parent === 'input') as { component, props }}
@@ -74,7 +109,7 @@
 				</MarkdownInput>
 			{/if}
 			{#if windowMode == 'split' || selectedTab == 'preview'}
-				<CartaRenderer {carta} bind:value>
+				<CartaRenderer {carta} {handleScroll} bind:value bind:elem={rendererElem}>
 					<!-- Renderer extensions components -->
 					{#if mounted}
 						{#each carta.components.filter(({ parent }) => parent === 'renderer') as { component, props }}
@@ -118,7 +153,7 @@
 
 	.carta-container {
 		display: flex;
-		min-height: 100%;
+		position: relative;
 	}
 
 	.carta-toolbar-left {
