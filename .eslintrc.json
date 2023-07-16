@@ -16,7 +16,9 @@
 		"sourceType": "module"
 	},
 	"plugins": ["@typescript-eslint", "svelte3"],
-	"rules": {},
+	"rules": {
+		"no-mixed-spaces-and-tabs": 0
+	},
 	"settings": {
 		"svelte3/typescript": true
 	}

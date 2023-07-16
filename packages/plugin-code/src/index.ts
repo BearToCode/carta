@@ -1,6 +1,4 @@
-import type { CartaExtension } from 'carta-md';
-import { highlightText } from '@speed-highlight/core';
-import { detectLanguage } from '@speed-highlight/core/detect.js';
+import { Carta, type CartaExtension } from 'carta-md';
 import { markedHighlight } from 'marked-highlight';
 
 interface CodeExtensionOptions {
@@ -31,24 +29,21 @@ export const code = (options?: CodeExtensionOptions): CartaExtension => {
 				async: true,
 				async highlight(code, lang) {
 					lang ||= options?.defaultLanguage ?? '';
+					let highlighted: string | null = null;
 					if (lang) {
-						try {
-							return await highlightText(code, lang, true, {
-								hideLineNumbers: !(options?.lineNumbering ?? false)
-							});
-						} catch (_) {
-							/* empty */
-						}
+						highlighted = await Carta.highlight(code, lang, !(options?.lineNumbering ?? false));
 					}
+					if (highlighted) return highlighted;
+
 					if (options?.autoDetect ?? true) {
-						const detected = detectLanguage(code);
-						return await highlightText(code, detected, true, {
-							hideLineNumbers: !(options?.lineNumbering ?? false)
-						});
+						return await Carta.highlightAutodetect(code, !(options?.lineNumbering ?? false));
 					}
-					return await highlightText(code, 'plain', true, {
-						hideLineNumbers: !(options?.lineNumbering ?? false)
-					});
+
+					return (await Carta.highlight(
+						code,
+						'plain',
+						!(options?.lineNumbering ?? false)
+					)) as string;
 				}
 			})
 		]

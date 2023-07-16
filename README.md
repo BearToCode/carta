@@ -1,9 +1,9 @@
-# Carta
-
-<a href="https://pnpm.io/"><img src="https://img.shields.io/badge/published%20with-pnpm-%23a255e6" alt="pnpm"></a>
-<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
-<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
-<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
+<div align="center">
+	<h1>Carta</h1>
+	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
+	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
+	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
+</div>
 
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
@@ -45,7 +45,7 @@ npm i @cartamd/plugin-name
 	import { Carta, CartaEditor } from 'carta-md';
 	// Component default theme
 	import 'carta-md/default-theme.css';
-	// Markdown input theme (PrismJS)
+	// Markdown input theme (Speed Highlight)
 	import 'carta-md/light.css';
 
 	const carta = new Carta({
@@ -94,7 +94,7 @@ Check out the [default theme](https://github.com/BearToCode/carta-md/blob/master
 
 If you are using a plugin, look at its _readme_ for its customization.
 
-Markdown highlighting is done using **PrismJS**, [here](https://github.com/PrismJS/prism-themes) you can find some themes, but you can find more by searching online.
+Markdown highlighting is done using **Speed Highlight JS**, [here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find more themes.
 
 You can find complete Markdown stylesheet online. For example [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)(used in the demo), or [tailwind-typography](https://tailwindcss.com/docs/typography-plugin).
 
@@ -108,9 +108,9 @@ Carta options:
 | ------------------ | ------------------------------ | ----------------------------------------------- |
 | `extensions`       | `CartaExtension[]`             | Editor/viewer extensions                        |
 | `rendererDebounce` | `number`                       | Renderer debouncing timeout, in ms (def. 300ms) |
-| `disableShortcuts` | `DefaultShortcutId[]`          | Remove default shortcuts by ids                 |
-| `disableIcons`     | `DefaultIconId[]`              | Remove default icons by ids                     |
-| `disablePrefixes`  | `DefaultPrefixId[]`            | Remove default prefixes by ids                  |
+| `disableShortcuts` | `DefaultShortcutId[] \| true`  | Remove default shortcuts by ids                 |
+| `disableIcons`     | `DefaultIconId[] \| true`      | Remove default icons by ids                     |
+| `disablePrefixes`  | `DefaultPrefixId[] \| true`    | Remove default prefixes by ids                  |
 | `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                     |
 | `sanitizer`        | `(html: string) => string`     | HTML sanitizer                                  |
 
@@ -124,6 +124,7 @@ You can easily extend Carta by creating custom plugins. Here are all the `CartaE
 | `prefixes`         | `Prefix[]`                     | Additional prefixes                                                                                                                                                                     |
 | `listeners`        | `CartaListener[]`              | Textarea event listeners                                                                                                                                                                |
 | `components`       | `CartaExtensionComponentArray` | Additional components, that will be put after the editor. All components are given a `carta: Carta`. prop The editor has a `relative` position, so you can position elements absolutely |
+| `highlightRules`   | `HighlightRule[]`              | Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).                                              |
 
 If you created a plugin and want to share it, you can open an _issue_ and we will consider sponsoring it on this guide.
 

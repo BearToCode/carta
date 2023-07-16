@@ -9,4 +9,11 @@ export const execAsync = util.promisify(childProcess.exec);
 /**
  * List of all the packages.
  */
-export const packages = ['carta-md', 'plugin-math', 'plugin-slash', 'plugin-emoji', 'plugin-code'];
+export const packages = [
+	'carta-md',
+	'plugin-math',
+	'plugin-slash',
+	'plugin-emoji',
+	'plugin-code',
+	'plugin-tikz'
+];

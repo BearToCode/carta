@@ -1,0 +1,24 @@
+.carta-renderer code {
+	white-space: pre;
+	border-radius: 10px;
+	color: #112;
+	text-shadow: none;
+	/* line-height: 24px; */
+	box-sizing: border-box;
+}
+
+.carta-renderer code::selection,
+.carta-renderer code ::selection {
+	background: #bdf5;
+}
+
+.carta-renderer code > div {
+	display: inline-flex;
+	overflow: auto;
+	max-width: min(100%, 100vw);
+}
+
+.carta-renderer code > div :last-child {
+	flex: 1;
+	outline: none;
+}

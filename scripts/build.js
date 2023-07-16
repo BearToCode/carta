@@ -2,11 +2,15 @@ import { packages, execAsync } from './packages.js';
 import ora from 'ora';
 import process from 'process';
 
-const spinner = ora('Building packages').start();
+const spinner = ora('Building SpeedHighlight').start();
+spinner.color = 'green';
+
+await execAsync('node ./scripts/gen-speed-highlight.js');
+
 spinner.color = 'red';
 
-for (const pkg of packages) {
-	spinner.text = `Building ${pkg}`;
+for (const [index, pkg] of packages.entries()) {
+	spinner.text = `Building ${pkg} [${index + 1}/${packages.length}]`;
 	try {
 		await execAsync(`cd packages/${pkg} && npm run build`);
 	} catch (e) {
