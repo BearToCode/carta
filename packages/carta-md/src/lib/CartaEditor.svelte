@@ -30,7 +30,7 @@
 
 	const clearCurrentlyScrolling = debounce(() => {
 		currentlyScrolling = null;
-	}, 500);
+	}, 1000);
 
 	const handleScroll = (e: UIEvent) => {
 		if (windowMode != 'split') return;
