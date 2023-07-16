@@ -1,0 +1,50 @@
+{
+	"name": "@cartamd/plugin-tikz",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BearToCode/carta-md.git"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/index.js"
+		},
+		"./fonts.css": {
+			"import": "./dist/fonts.css"
+		}
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"devDependencies": {
+		"@types/marked": "^4.0.8",
+		"carta-md": "workspace:*",
+		"typescript": "^5.0.4",
+		"vite": "^4.3.2",
+		"vite-plugin-dts": "^2.3.0",
+		"vite-raw-plugin": "^1.0.2"
+	},
+	"peerDependencies": {
+		"carta-md": "^1.2.0",
+		"marked": "^4.3.0"
+	},
+	"files": [
+		"dist"
+	],
+	"version": "1.2.0",
+	"keywords": [
+		"carta",
+		"markdown",
+		"editor",
+		"marked",
+		"text editor",
+		"marked editor",
+		"slash",
+		"syntax highlighting",
+		"emoji",
+		"katex"
+	]
+}

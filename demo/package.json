@@ -31,6 +31,7 @@
 		"@cartamd/plugin-emoji": "workspace:^",
 		"@cartamd/plugin-math": "workspace:^",
 		"@cartamd/plugin-slash": "workspace:^",
+		"@cartamd/plugin-tikz": "workspace:^",
 		"@speed-highlight/core": "^1.1.11",
 		"carta-md": "workspace:^",
 		"katex": "^0.16.7"

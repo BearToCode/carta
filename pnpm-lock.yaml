@@ -52,6 +52,9 @@ importers:
       '@cartamd/plugin-slash':
         specifier: workspace:^
         version: link:../packages/plugin-slash
+      '@cartamd/plugin-tikz':
+        specifier: workspace:^
+        version: link:../packages/plugin-tikz
       '@speed-highlight/core':
         specifier: ^1.1.11
         version: 1.1.11
@@ -280,6 +283,31 @@ importers:
       vite:
         specifier: ^4.3.0
         version: 4.3.3(@types/node@18.16.3)
+
+  packages/plugin-tikz:
+    dependencies:
+      marked:
+        specifier: ^4.3.0
+        version: 4.3.0
+    devDependencies:
+      '@types/marked':
+        specifier: ^4.0.8
+        version: 4.0.8
+      carta-md:
+        specifier: workspace:*
+        version: link:../carta-md
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+      vite:
+        specifier: ^4.3.2
+        version: 4.3.3(@types/node@18.16.3)
+      vite-plugin-dts:
+        specifier: ^2.3.0
+        version: 2.3.0(@types/node@18.16.3)(vite@4.3.3)
+      vite-raw-plugin:
+        specifier: ^1.0.2
+        version: 1.0.2
 
 packages:
 
@@ -723,7 +751,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.15.9(svelte@3.58.0)(vite@4.3.3)
+      '@sveltejs/kit': 1.15.9(svelte@3.55.1)(vite@4.3.3)
       import-meta-resolve: 2.2.2
     dev: true
 
@@ -3357,6 +3385,10 @@ packages:
       acorn: 8.8.2
       es-module-lexer: 1.2.1
       fast-glob: 3.2.12
+    dev: true
+
+  /vite-raw-plugin@1.0.2:
+    resolution: {integrity: sha512-gdp/OFVXBiVq1UwPujVb7+4mmgYHTGrzslMbQvxmgzTN4/HC+3j4GNrumsIKSWfA/y3hktII7XqY38muRaGjhw==}
     dev: true
 
   /vite@4.3.3(@types/node@18.16.3):

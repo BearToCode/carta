@@ -4,6 +4,7 @@
 	import { slash } from '@cartamd/plugin-slash';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { code } from '@cartamd/plugin-code';
+	import { tikz } from '@cartamd/plugin-tikz';
 	import { placeholderText } from './placeholder';
 
 	import 'carta-md/default-theme.css';
@@ -14,9 +15,18 @@
 	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
+	import '@cartamd/plugin-tikz/fonts.css';
 
 	const carta = new Carta({
-		extensions: [math(), slash(), emoji(), code()]
+		extensions: [
+			tikz({
+				debug: true
+			}),
+			slash(),
+			emoji(),
+			code(),
+			math()
+		]
 	});
 </script>
 

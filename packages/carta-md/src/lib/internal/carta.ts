@@ -9,6 +9,46 @@ import {
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import type { SvelteComponentTyped } from 'svelte';
+import { CartaRenderer } from './renderer';
+
+/**
+ * Carta-specific event with extra payload.
+ */
+export type CartaEvent = CustomEvent<{ carta: Carta }>;
+type CartaEventType = 'carta-render' | 'carta-render-ssr';
+
+export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> = [
+	type: K,
+	listener: (
+		this: HTMLTextAreaElement,
+		ev: K extends CartaEventType
+			? CartaEvent
+			: K extends keyof HTMLElementEventMap
+			? HTMLElementEventMap[K]
+			: Event
+	) => unknown,
+	options?: boolean | AddEventListenerOptions
+];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CartaListeners = CartaListener<any>[];
+
+export interface CartaExtensionComponent<T extends object> {
+	/**
+	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
+	 */
+	component: typeof SvelteComponentTyped<T & { carta: Carta }>;
+	/**
+	 * Properties that will be handed to the component.
+	 */
+	props: T;
+	/**
+	 * Where this component will be placed.
+	 */
+	parent: 'editor' | 'input' | 'renderer';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CartaExtensionComponents = Array<CartaExtensionComponent<any>>;
 
 /**
  * Carta editor options.
@@ -68,52 +108,31 @@ export interface CartaExtension {
 	/**
 	 * Textarea event listeners.
 	 */
-	listeners?: CartaListener[];
+	listeners?: CartaListeners;
 	/**
 	 * Additional components, that will be put after the editor.
 	 * All components are given a `carta: Carta` prop.
 	 * The editor has a `relative` position, so you can position
 	 * elements absolutely.
 	 */
-	components?: CartaExtensionComponentArray;
+	components?: CartaExtensionComponents;
 }
-
-type CartaEventType = keyof HTMLElementEventMap | 'carta-render' | 'carta-render-ssr';
-
-export type CartaListener<K = CartaEventType> = [
-	type: K,
-	listener: (
-		this: HTMLTextAreaElement,
-		ev: K extends keyof HTMLElementEventMap ? HTMLElementEventMap[K] : Event
-	) => unknown,
-	options?: boolean | AddEventListenerOptions
-];
-
-export interface CartaExtensionComponent<T extends object> {
-	/**
-	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
-	 */
-	component: typeof SvelteComponentTyped<T & { carta: Carta }>;
-	/**
-	 * Properties that will be handed to the component.
-	 */
-	props: T;
-	/**
-	 * Where this component will be placed.
-	 */
-	parent: 'editor' | 'input' | 'renderer';
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CartaExtensionComponentArray = Array<CartaExtensionComponent<any>>;
 
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
-	public readonly listeners: CartaListener[];
-	public readonly components: CartaExtensionComponentArray;
-	public input: CartaInput | undefined;
+	public readonly listeners: CartaListeners;
+	public readonly components: CartaExtensionComponents;
+
+	private _input: CartaInput | undefined;
+	private _renderer: CartaRenderer | undefined;
+	public get input() {
+		return this._input;
+	}
+	public get renderer() {
+		return this._renderer;
+	}
 
 	public constructor(public readonly options?: CartaOptions) {
 		this.keyboardShortcuts = [];
@@ -159,7 +178,9 @@ export class Carta {
 	 */
 	public async render(markdown: string): Promise<string> {
 		const dirty = await marked.parse(markdown, { async: true });
-		this.input?.textarea.dispatchEvent(new Event('carta-render'));
+		this._input?.textarea.dispatchEvent(
+			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
+		);
 		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
 	}
 
@@ -170,24 +191,33 @@ export class Carta {
 	 */
 	public renderSSR(markdown: string): string {
 		const dirty = marked.parse(markdown, { async: false });
-		this.input?.textarea.dispatchEvent(new Event('carta-render-ssr'));
+		this._input?.textarea.dispatchEvent(
+			new CustomEvent<{ carta: Carta }>('carta-render-ssr', { detail: { carta: this } })
+		);
 		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
 		return dirty;
 	}
 
 	/**
-	 * Set the input element.
+	 * **Internal**: set the input element.
 	 * @param textarea The input textarea element.
-	 * @param onUpdate Update callback.
+	 * @param callback Update callback.
 	 */
-	public setInput(textarea: HTMLTextAreaElement, onUpdate: () => void) {
-		this.input = new CartaInput(
-			textarea,
-			this.keyboardShortcuts,
-			this.prefixes,
-			this.listeners,
-			onUpdate,
-			this.options?.historyOptions
-		);
+	public $setInput(textarea: HTMLTextAreaElement, callback: () => void) {
+		this._input = new CartaInput(textarea, {
+			shortcuts: this.keyboardShortcuts,
+			prefixes: this.prefixes,
+			listeners: this.listeners,
+			callback: callback,
+			historyOpts: this.options?.historyOptions
+		});
+	}
+
+	/**
+	 * **Internal**: set the renderer element.
+	 * @param container Div container of the rendered element.
+	 */
+	public $setRenderer(container: HTMLDivElement) {
+		this._renderer = new CartaRenderer(container);
 	}
 }

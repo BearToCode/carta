@@ -29,7 +29,7 @@
 	$: highlight(value);
 
 	onMount(() => {
-		carta.setInput(textarea, () => (value = textarea.value));
+		carta.$setInput(textarea, () => (value = textarea.value));
 		resize();
 	});
 </script>

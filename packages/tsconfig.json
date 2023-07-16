@@ -4,6 +4,7 @@
 		{ "path": "plugin-math" },
 		{ "path": "plugin-emoji" },
 		{ "path": "plugin-slash" },
-		{ "path": "plugin-code" }
+		{ "path": "plugin-code" },
+		{ "path": "plugin-tikz" }
 	]
 }
