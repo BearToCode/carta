@@ -27,35 +27,54 @@
 	let inputElem: HTMLDivElement;
 	let rendererElem: HTMLDivElement;
 	let currentlyScrolling: HTMLDivElement | null;
+	let currentScrollPercentage = 0;
+
+	function calculateScrollPercentage(elem: HTMLDivElement) {
+		const scrolledAvbSpace = elem.scrollHeight - elem.clientHeight;
+		const scrolledAmount = elem.scrollTop * (1 + elem.clientHeight / scrolledAvbSpace);
+		return scrolledAmount / elem.scrollHeight;
+	}
 
 	const clearCurrentlyScrolling = debounce(() => {
 		currentlyScrolling = null;
 	}, 1000);
 
-	const handleScroll = (e: UIEvent) => {
+	function handleScroll(e: UIEvent) {
+		const [scrolled, target] =
+			e.target == inputElem ? [inputElem, rendererElem] : [rendererElem, inputElem];
+		const percentage = calculateScrollPercentage(scrolled);
+		currentScrollPercentage = percentage;
+
 		if (windowMode != 'split') return;
 
 		if (scroll == 'async') {
 			// Scrolling one element does not affect the other
 			return;
 		} else if (scroll == 'sync') {
-			const [scrolled, target] =
-				e.target == inputElem ? [inputElem, rendererElem] : [rendererElem, inputElem];
-
+			// Return if the scrolled is caused by a previous scrollTo
 			if (currentlyScrolling && currentlyScrolling != scrolled) return;
 
 			currentlyScrolling = scrolled;
-
-			const scrolledAvbSpace = scrolled.scrollHeight - scrolled.clientHeight;
 			const targetAvbSpace = target.scrollHeight - target.clientHeight;
 
-			const scrolledAmount = scrolled.scrollTop * (1 + scrolled.clientHeight / scrolledAvbSpace);
-			const scrolledPercentage = scrolledAmount / scrolled.scrollHeight;
-
-			target.scrollTo({ top: targetAvbSpace * scrolledPercentage, behavior: 'smooth' });
+			target.scrollTo({ top: percentage * targetAvbSpace, behavior: 'smooth' });
 			clearCurrentlyScrolling();
 		}
-	};
+	}
+
+	function loadScrollPosition(tab: 'write' | 'preview') {
+		if (windowMode !== 'tabs') return;
+		const elem = tab === 'write' ? inputElem : rendererElem;
+		if (!elem) return;
+
+		const avbSpace = elem.scrollHeight - elem.clientHeight;
+		elem.scroll({ top: avbSpace * currentScrollPercentage, behavior: 'instant' });
+	}
+
+	$: {
+		inputElem, rendererElem;
+		loadScrollPosition(selectedTab);
+	}
 </script>
 
 <div bind:clientWidth={width} class="carta-editor carta-theme__{theme}">

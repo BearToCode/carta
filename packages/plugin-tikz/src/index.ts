@@ -1,4 +1,4 @@
-import type { CartaEvent, CartaExtension } from 'carta-md';
+import { Carta, type CartaEvent, type CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 
 export interface TikzExtensionOptions {
@@ -9,6 +9,8 @@ export interface TikzExtensionOptions {
 }
 
 export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
+	import('./tikz').then((module) => Carta.loadCustomLanguage('tikz', module));
+
 	return {
 		markedExtensions: [
 			{
@@ -75,7 +77,6 @@ async function loadTikz() {
 	// eslint-disable-next-line
 	// @ts-ignore
 	const tikzjax = (await import('./assets/tikzjax.js')).default;
-	console.log(tikzjax);
 
 	const script = `<script type="text/javascript" id="tikzjax">${tikzjax}</script>`;
 
