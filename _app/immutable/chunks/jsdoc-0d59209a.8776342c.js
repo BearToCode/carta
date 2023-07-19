@@ -1,0 +1,1 @@
+import t from"./todo-8f883e66.37e76d83.js";var e=[{type:"kwd",match:/@\w+/g},{type:"class",match:/{[\w\s|<>,.@\[\]]+}/g},{type:"var",match:/\[[\w\s="']+\]/g},...t];let c="cmnt";export{e as default,c as type};
