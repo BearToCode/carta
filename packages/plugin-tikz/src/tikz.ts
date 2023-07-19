@@ -14,7 +14,7 @@ export default [
 		type: 'oper'
 	},
 	{
-		match: /%.+$/g,
+		match: /%.+$/gm,
 		type: 'cmnt'
 	},
 	{

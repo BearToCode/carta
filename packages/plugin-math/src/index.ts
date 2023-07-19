@@ -25,6 +25,11 @@ interface MathExtensionOptions {
 		 */
 		tag?: string;
 		/**
+		 * Whether to center the generated expression.
+		 * @default true
+		 */
+		center?: boolean;
+		/**
 		 * Class for generated katex.
 		 */
 		class?: string;
@@ -121,10 +126,13 @@ const blockKatex = (
 		},
 		renderer: (token) => {
 			const tag = options?.tag ?? 'p';
-			return `<${tag} class="${options?.class ?? ''}">${safeRender(
-				token.text,
-				options?.katexOptions
-			)}</${tag}>`;
+			const center = options?.center ?? true;
+			return `
+				<${tag} 
+					class="${options?.class ?? ''}"
+					${center ? 'align="center"' : ''}
+				>${safeRender(token.text, options?.katexOptions)}
+				</${tag}>`;
 		}
 	};
 };

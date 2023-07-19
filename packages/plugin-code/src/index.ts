@@ -19,7 +19,7 @@ interface CodeExtensionOptions {
 }
 
 /**
- * Carta code highlighting plugin. Themes available at https://github.com/speed-highlight/core/tree/main/dist/themes.
+ * Carta code highlighting plugin. Themes available on [GitHub](https://github.com/speed-highlight/core/tree/main/dist/themes).
  */
 export const code = (options?: CodeExtensionOptions): CartaExtension => {
 	return {

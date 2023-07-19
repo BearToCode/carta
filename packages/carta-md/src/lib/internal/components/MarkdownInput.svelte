@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Carta } from '../carta';
-	import { component_subscribe } from 'svelte/internal';
 
 	export let carta: Carta;
 	export let value = '';
@@ -11,7 +10,6 @@
 	let textarea: HTMLTextAreaElement;
 	let highlighElem: HTMLPreElement;
 	let highlighted = value;
-	let height: number;
 	let mounted = false;
 
 	const focus = () => {
@@ -29,12 +27,11 @@
 	export const resize = () => {
 		if (!mounted) return;
 		textarea.style.height = highlighElem.scrollHeight + 'px';
+		textarea.scrollTop = 0;
 	};
 
-	$: highlight(value);
 	$: {
-		value, height;
-		mounted && resize();
+		highlight(value).then(resize);
 	}
 
 	onMount(() => {
@@ -64,7 +61,7 @@
 			id="md"
 			bind:value
 			bind:this={textarea}
-			on:input={resize}
+			on:scroll={() => (textarea.scrollTop = 0)}
 			spellcheck="false"
 			class="carta-font-code"
 		/>

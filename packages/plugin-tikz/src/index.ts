@@ -1,13 +1,26 @@
 import { Carta, type CartaEvent, type CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 
-export interface TikzExtensionOptions {
+interface TikzExtensionOptions {
 	/**
 	 * Enables Tikzjax console output.
 	 */
 	debug?: boolean;
+	/**
+	 * Class for generated svg div container.
+	 */
+	class?: string;
+	/**
+	 * Whether to center the generated expression.
+	 * @default true
+	 */
+	center?: boolean;
 }
 
+/**
+ * TikzJax extension for Carta.
+ * @param options Tikz options.
+ */
 export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 	import('./tikz').then((module) => Carta.loadCustomLanguage('tikz', module));
 
@@ -36,8 +49,13 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 				};
 			}
 		},
-		renderer: (token) => `
-			<div align="center" class="tikz-generated">
+		renderer: (token) => {
+			const center = options?.center ?? true;
+			return `
+			<div
+				${center ? 'align="center"' : ''}
+				class="tikz-generated ${options?.center ?? ''}"
+			>
 				<script 
 					data-show-console="${options?.debug ? 'true' : 'false'}" 
 					type="text/tikz"
@@ -45,7 +63,8 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 					${tidyTikzSource(token.raw.slice(8, token.raw.length - 4))}
 				</script>
 			</div>
-			`
+			`;
+		}
 	};
 };
 
@@ -91,6 +110,7 @@ async function loadTikz() {
 }
 
 function tidyTikzSource(tikzSource: string) {
+	// FROM: OBSIDIAN-TIKZ, CREDIT TO THEM
 	// Remove non-breaking space characters, otherwise we get errors
 	const remove = '&nbsp;';
 	tikzSource = tikzSource.replaceAll(remove, '');
