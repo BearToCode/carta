@@ -14,6 +14,18 @@ export interface TextSelection {
 	slice: string;
 }
 
+/**
+ * Carta input settings.
+ */
+export interface InputSettings {
+	readonly shortcuts: KeyboardShortcut[];
+	readonly prefixes: Prefix[];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	readonly listeners: CartaListener<any>[];
+	readonly callback: () => void;
+	readonly historyOpts?: Partial<CartaHistoryOptions>;
+}
+
 export class CartaInput {
 	private pressedKeys: Set<string>;
 	public readonly history: CartaHistory;
@@ -22,11 +34,8 @@ export class CartaInput {
 
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
-		private readonly shortcuts: KeyboardShortcut[],
-		private readonly prefixes: Prefix[],
-		private readonly listeners: CartaListener[],
-		private readonly onUpdate: () => void,
-		historyOptions?: Partial<CartaHistoryOptions>
+		public readonly container: HTMLDivElement,
+		private readonly settings: InputSettings
 	) {
 		this.pressedKeys = new Set();
 
@@ -42,12 +51,12 @@ export class CartaInput {
 
 		textarea.addEventListener('mousedown', this.handleMouseDown.bind(this));
 
-		this.history = new CartaHistory(historyOptions);
+		this.history = new CartaHistory(settings.historyOpts);
 		// Save initial value
 		this.history.saveState(this.textarea.value, this.textarea.selectionStart);
 
 		// Register listeners
-		for (const listener of listeners) textarea.addEventListener(...listener);
+		for (const listener of settings.listeners) textarea.addEventListener(...listener);
 	}
 
 	private isWordCharacter(char: string) {
@@ -87,7 +96,7 @@ export class CartaInput {
 		this.pressedKeys.add(key);
 
 		// Check for shortcuts
-		const shortcuts = this.shortcuts.filter((shortcut) =>
+		const shortcuts = this.settings.shortcuts.filter((shortcut) =>
 			areEqualSets(this.pressedKeys, shortcut.combination)
 		);
 		if (shortcuts.length > 0) {
@@ -104,7 +113,7 @@ export class CartaInput {
 				// Save state for shortcuts
 				if (!shortcut.preventSave)
 					this.history.saveState(this.textarea.value, this.textarea.selectionStart);
-				this.onUpdate();
+				this.settings.callback();
 			}
 
 			this.onKeyDownValue = undefined;
@@ -145,7 +154,7 @@ export class CartaInput {
 		);
 
 		const line = this.textarea.value.slice(lineStartingIndex, cursor);
-		for (const prefix of this.prefixes) {
+		for (const prefix of this.settings.prefixes) {
 			const match = prefix.match(line);
 			if (match) {
 				e.preventDefault();
@@ -157,14 +166,14 @@ export class CartaInput {
 					const line = this.getLine(lineStartingIndex);
 					this.removeAt(lineStartingIndex, line.value.length);
 					this.textarea.setSelectionRange(line.start, line.start);
-					this.onUpdate();
+					this.settings.callback();
 					return;
 				}
 
 				const newPrefix = prefix.maker(match, line);
 				this.insertAt(cursor, '\n' + newPrefix);
 
-				this.onUpdate();
+				this.settings.callback();
 				// Update cursor position
 				const newCursorPosition = cursor + newPrefix.length + 1;
 				this.textarea.setSelectionRange(newCursorPosition, newCursorPosition);
@@ -308,7 +317,7 @@ export class CartaInput {
 	/**
 	 * Update the textarea.
 	 */
-	public update = () => this.onUpdate();
+	public update = () => this.settings.callback();
 
 	/**
 	 * Returns x, y coordinates for absolute positioning of a span within a given text input

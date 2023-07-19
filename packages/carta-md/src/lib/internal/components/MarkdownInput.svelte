@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from '../carta';
-	import Prism from 'prismjs';
-	import 'prismjs/components/prism-markdown.js';
+	import { Carta } from '../carta';
 
 	export let carta: Carta;
 	export let value = '';
+	export let elem: HTMLDivElement;
+	export let handleScroll: (e: UIEvent) => void;
 
 	let textarea: HTMLTextAreaElement;
-	let highlighted: string;
+	let highlighElem: HTMLPreElement;
+	let highlighted = value;
+	let mounted = false;
 
 	const focus = () => {
 		// Allow text selection
@@ -17,33 +19,49 @@
 
 		textarea.focus();
 	};
-	const resize = () => {
-		textarea.style.height = '0';
-		textarea.style.height = textarea.scrollHeight + 'px';
+
+	const highlight = async (val: string) => {
+		highlighted = (await Carta.highlight(val, 'cartamd', true)) as string;
 	};
 
-	const highlight = (val: string) => {
-		highlighted = Prism.highlight(val, Prism.languages.markdown, 'language-markdown');
+	export const resize = () => {
+		if (!mounted) return;
+		textarea.style.height = highlighElem.scrollHeight + 'px';
+		textarea.scrollTop = 0;
 	};
 
-	$: highlight(value);
+	$: {
+		highlight(value).then(resize);
+	}
 
 	onMount(() => {
-		carta.setInput(textarea, () => (value = textarea.value));
-		resize();
+		carta.$setInput(textarea, elem, () => {
+			value = textarea.value;
+			highlight(value);
+		});
+		mounted = true;
 	});
 </script>
 
-<div on:click={focus} on:keydown={focus} class="carta-input">
+<div
+	on:click={focus}
+	on:keydown={focus}
+	on:scroll={handleScroll}
+	class="carta-input"
+	bind:this={elem}
+>
 	<div class="carta-input-wrapper">
-		<pre class="hljs carta-font-code" aria-hidden="true">{@html highlighted}</pre>
+		<pre
+			class="shj-lang-md carta-font-code"
+			bind:this={highlighElem}
+			aria-hidden="true">{@html highlighted}</pre>
 
 		<textarea
 			name="md"
 			id="md"
 			bind:value
 			bind:this={textarea}
-			on:input={resize}
+			on:scroll={() => (textarea.scrollTop = 0)}
 			spellcheck="false"
 			class="carta-font-code"
 		/>
@@ -92,6 +110,7 @@
 		bottom: 0;
 		margin: 0;
 		user-select: none;
+		height: fit-content;
 
 		padding: inherit;
 		margin: inherit;

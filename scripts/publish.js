@@ -5,26 +5,6 @@ import process from 'process';
 import fs from 'fs';
 import readline from 'readline';
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
-
-const spinner = ora('Building packages').start();
-await execAsync(`npm run build`);
-spinner.stop();
-
-const otp = await prompt('Otp: ');
-
-spinner.start();
-spinner.color = 'green';
-
-// Get current version from main package.json
-const mainPackage = JSON.parse(fs.readFileSync('package.json').toString());
-const currentVersion = mainPackage.version;
-if (!currentVersion) {
-	spinner.fail(`Failed to read current version from package.json`);
-	process.exit(1);
-}
-
 let versionDigits = currentVersion.split('.').map((digit) => Number(digit));
 
 switch (process.argv.at(-1)) {
@@ -46,6 +26,26 @@ switch (process.argv.at(-1)) {
 }
 
 const version = versionDigits.join('.');
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
+
+const spinner = ora('Building packages').start();
+await execAsync(`npm run build`);
+spinner.stop();
+
+const otp = await prompt('Otp: ');
+
+spinner.start();
+spinner.color = 'green';
+
+// Get current version from main package.json
+const mainPackage = JSON.parse(fs.readFileSync('package.json').toString());
+const currentVersion = mainPackage.version;
+if (!currentVersion) {
+	spinner.fail(`Failed to read current version from package.json`);
+	process.exit(1);
+}
 
 async function updatePackageVersion(path) {
 	const pkgJson = JSON.parse(fs.readFileSync(path).toString());

@@ -4,6 +4,7 @@
 	import { slash } from '@cartamd/plugin-slash';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { code } from '@cartamd/plugin-code';
+	import { tikz } from '@cartamd/plugin-tikz';
 	import { placeholderText } from './placeholder';
 
 	import 'carta-md/default-theme.css';
@@ -14,10 +15,14 @@
 	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
+	import '@cartamd/plugin-tikz/fonts.css';
 
 	const carta = new Carta({
-		extensions: [math(), slash(), emoji(), code()]
+		extensions: [tikz(), slash(), emoji(), code(), math()]
 	});
+
+	let syncScroll = true;
+	let mode: 'tabs' | 'split' | 'auto' = 'auto';
 </script>
 
 <svelte:head>
@@ -35,7 +40,35 @@
 </svelte:head>
 
 <main>
-	<CartaEditor value={placeholderText} {carta} />
+	<div class="options">
+		<fieldset>
+			<legend>Scroll</legend>
+
+			<input bind:checked={syncScroll} type="checkbox" id="scroll" name="scroll" />
+			<label for="scroll">Sync scroll</label>
+		</fieldset>
+
+		<fieldset>
+			<legend>Editor mode</legend>
+
+			<div>
+				<input type="radio" id="auto" name="drone" value="auto" bind:group={mode} />
+				<label for="auto">Auto</label>
+			</div>
+
+			<div>
+				<input type="radio" id="tabs" name="drone" value="tabs" bind:group={mode} />
+				<label for="tabs">Tabs</label>
+			</div>
+
+			<div>
+				<input type="radio" id="split" name="drone" value="split" bind:group={mode} />
+				<label for="split">Split</label>
+			</div>
+		</fieldset>
+	</div>
+
+	<CartaEditor value={placeholderText} scroll={syncScroll ? 'sync' : 'async'} {carta} {mode} />
 </main>
 
 <style>
@@ -58,6 +91,15 @@
 		max-width: 1536px;
 		margin: 0 auto 0 auto;
 		padding: 2rem 0 2rem 0;
+	}
+
+	fieldset {
+		display: flex;
+	}
+
+	.options {
+		margin-bottom: 1.5rem;
+		display: flex;
 	}
 
 	/* Responsive main */

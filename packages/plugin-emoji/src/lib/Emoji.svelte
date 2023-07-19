@@ -100,15 +100,31 @@
 
 	function getComponentStyle() {
 		if (!carta.input) return ``;
+
+		const container = carta.input.container;
+		const containerStyle = getComputedStyle(container);
+		const containerHeight =
+			container.clientHeight -
+			parseFloat(containerStyle.paddingTop) -
+			parseFloat(containerStyle.paddingBottom) -
+			parseFloat(containerStyle.marginTop) -
+			parseFloat(containerStyle.marginBottom);
+		const containerWidth =
+			container.clientWidth -
+			parseFloat(containerStyle.paddingLeft) -
+			parseFloat(containerStyle.paddingRight) -
+			parseFloat(containerStyle.marginLeft) -
+			parseFloat(containerStyle.marginRight);
+
 		// Left/Right
 		let left: number | undefined = caretPosition.left;
 		let right: number | undefined;
 
 		if (
-			elemWidth < carta.input.textarea.clientWidth &&
-			left + elemWidth >= carta.input.textarea.clientWidth
+			elemWidth < containerWidth &&
+			left + elemWidth - carta.input.container.scrollLeft >= containerWidth
 		) {
-			right = carta.input.textarea.clientWidth - left;
+			right = containerWidth - left;
 			left = undefined;
 		}
 		// Top/Bottom
@@ -116,10 +132,10 @@
 		let bottom: number | undefined;
 
 		if (
-			elemHeight < carta.input.textarea.clientHeight &&
-			top + elemHeight >= carta.input.textarea.clientHeight
+			elemHeight < containerHeight &&
+			top + elemHeight - carta.input.container.scrollTop >= containerHeight
 		) {
-			bottom = carta.input.textarea.clientHeight - top;
+			bottom = containerHeight - top;
 			top = undefined;
 		}
 

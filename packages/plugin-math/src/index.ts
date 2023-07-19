@@ -1,4 +1,4 @@
-import type { CartaExtension } from 'carta-md';
+import { Carta, type CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 import katex, { KatexOptions } from 'katex';
 
@@ -25,6 +25,11 @@ interface MathExtensionOptions {
 		 */
 		tag?: string;
 		/**
+		 * Whether to center the generated expression.
+		 * @default true
+		 */
+		center?: boolean;
+		/**
 		 * Class for generated katex.
 		 */
 		class?: string;
@@ -48,6 +53,8 @@ function safeRender(tex: string, options?: KatexOptions | undefined) {
  * Carta math plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
 export const math = (options?: MathExtensionOptions): CartaExtension => {
+	import('./latex').then((module) => Carta.loadCustomLanguage('latex', module));
+
 	return {
 		markedExtensions: [
 			{
@@ -64,6 +71,16 @@ export const math = (options?: MathExtensionOptions): CartaExtension => {
 				id: 'blockKatex',
 				combination: options?.block?.shortcut ?? new Set(['control', 'shift', 'm']),
 				action: (input) => input.toggleSelectionSurrounding(['$$\n', '\n$$'])
+			}
+		],
+		highlightRules: [
+			{
+				match: /\$[{}[\]a-zA-Z0-9.+-_=*/\\ ]+\$/g,
+				sub: 'latex'
+			},
+			{
+				match: /^\$\$+\n([^$]+?)\n\$\$+\n/gm,
+				sub: 'latex'
 			}
 		]
 	};
@@ -109,10 +126,13 @@ const blockKatex = (
 		},
 		renderer: (token) => {
 			const tag = options?.tag ?? 'p';
-			return `<${tag} class="${options?.class ?? ''}">${safeRender(
-				token.text,
-				options?.katexOptions
-			)}</${tag}>`;
+			const center = options?.center ?? true;
+			return `
+				<${tag} 
+					class="${options?.class ?? ''}"
+					${center ? 'align="center"' : ''}
+				>${safeRender(token.text, options?.katexOptions)}
+				</${tag}>`;
 		}
 	};
 };

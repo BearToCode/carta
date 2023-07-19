@@ -1,4 +1,4 @@
 {
-	"cSpell.words": ["Carta", "cartamd", "Katex"],
+	"cSpell.words": ["Carta", "cartamd", "Katex", "tikzjax", "tikz"],
 	"typescript.tsdk": "node_modules\\typescript\\lib"
 }

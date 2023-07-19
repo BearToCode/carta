@@ -1,9 +1,12 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { Carta } from '../carta';
 	import { debounce } from '../utils';
 
 	export let carta: Carta;
 	export let value: string;
+	export let elem: HTMLDivElement;
+	export let handleScroll: (e: UIEvent) => void;
 
 	let renderedHtml = carta.renderSSR(value);
 
@@ -16,9 +19,13 @@
 		value = value;
 		debouncedRenderer();
 	}
+
+	onMount(() => {
+		carta.$setRenderer(elem);
+	});
 </script>
 
-<div class="carta-renderer markdown-body">
+<div bind:this={elem} on:scroll={handleScroll} class="carta-renderer markdown-body">
 	{@html renderedHtml}
 	<slot />
 </div>
