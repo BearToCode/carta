@@ -5,6 +5,8 @@
 	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
 </div>
 
+![Demo](https://github.com/BearToCode/carta-md/blob/master/images/demo.png?raw=true)
+
 A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
@@ -14,10 +16,12 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - Keyboard **shortcuts** (extensible);
 - Toolbar (extensible);
 - Markdown syntax highlighting;
+- Scroll sync;
 - **SSR** compatible;
 - **Katex** support (plugin);
 - **Slash** commands (plugin);
 - **Emojis**, with included search (plugin);
+- **Tikz** support(plugin).
 - Code blocks **syntax highlighting** (plugin).
 
 ## Getting started
@@ -85,6 +89,7 @@ Each plugin's _readme_ includes a guide on its use.
 | [plugin-slash](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-slash) | Slash commands support                  |
 | [plugin-emoji](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-emoji) | Emojis support, including inline search |
 | [plugin-code](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-code)   | Code blocks syntax highlighting         |
+| [plugin-tikz](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-tikz)   | TikZ support using TikZJax              |
 
 ## Themes customization
 

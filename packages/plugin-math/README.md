@@ -93,6 +93,11 @@ interface MathExtensionOptions {
 		 */
 		tag?: string;
 		/**
+		 * Whether to center the generated expression.
+		 * @default true
+		 */
+		center?: boolean;
+		/**
 		 * Class for generated katex.
 		 */
 		class?: string;
