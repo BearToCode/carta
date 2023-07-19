@@ -17,11 +17,17 @@
 	let windowMode: 'tabs' | 'split';
 	let mounted = false;
 	let hideIcons = false;
+	let resizeInput: () => void;
 	onMount(() => (mounted = true));
 
 	$: {
 		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tabs') : mode;
 		hideIcons = width < 576;
+	}
+
+	$: {
+		windowMode; // Resize when changing from tabs to split
+		resizeInput && resizeInput();
 	}
 
 	let inputElem: HTMLDivElement;
@@ -118,7 +124,13 @@
 	<div class="carta-wrapper">
 		<div class="carta-container mode-{windowMode}">
 			{#if windowMode == 'split' || selectedTab == 'write'}
-				<MarkdownInput {carta} {handleScroll} bind:value bind:elem={inputElem}>
+				<MarkdownInput
+					bind:resize={resizeInput}
+					{carta}
+					{handleScroll}
+					bind:value
+					bind:elem={inputElem}
+				>
 					<!-- Input extensions components -->
 					{#if mounted}
 						{#each carta.components.filter(({ parent }) => parent === 'input') as { component, props }}

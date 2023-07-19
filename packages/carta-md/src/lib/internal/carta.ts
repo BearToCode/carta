@@ -242,8 +242,8 @@ export class Carta {
 	 * @param textarea The input textarea element.
 	 * @param callback Update callback.
 	 */
-	public $setInput(textarea: HTMLTextAreaElement, callback: () => void) {
-		this._input = new CartaInput(textarea, {
+	public $setInput(textarea: HTMLTextAreaElement, container: HTMLDivElement, callback: () => void) {
+		this._input = new CartaInput(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
 			listeners: this.listeners,

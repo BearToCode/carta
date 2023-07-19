@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Carta } from '../carta';
+	import { component_subscribe } from 'svelte/internal';
 
 	export let carta: Carta;
 	export let value = '';
@@ -8,7 +9,10 @@
 	export let handleScroll: (e: UIEvent) => void;
 
 	let textarea: HTMLTextAreaElement;
+	let highlighElem: HTMLPreElement;
 	let highlighted = value;
+	let height: number;
+	let mounted = false;
 
 	const focus = () => {
 		// Allow text selection
@@ -17,23 +21,28 @@
 
 		textarea.focus();
 	};
-	const resize = () => {
-		textarea.style.height = '0';
-		textarea.style.height = textarea.scrollHeight + 'px';
-	};
 
 	const highlight = async (val: string) => {
 		highlighted = (await Carta.highlight(val, 'cartamd', true)) as string;
 	};
 
+	export const resize = () => {
+		if (!mounted) return;
+		textarea.style.height = highlighElem.scrollHeight + 'px';
+	};
+
 	$: highlight(value);
+	$: {
+		value, height;
+		mounted && resize();
+	}
 
 	onMount(() => {
-		carta.$setInput(textarea, () => {
+		carta.$setInput(textarea, elem, () => {
 			value = textarea.value;
 			highlight(value);
 		});
-		resize();
+		mounted = true;
 	});
 </script>
 
@@ -45,7 +54,10 @@
 	bind:this={elem}
 >
 	<div class="carta-input-wrapper">
-		<pre class="shj-lang-md carta-font-code" aria-hidden="true">{@html highlighted}</pre>
+		<pre
+			class="shj-lang-md carta-font-code"
+			bind:this={highlighElem}
+			aria-hidden="true">{@html highlighted}</pre>
 
 		<textarea
 			name="md"
@@ -101,6 +113,7 @@
 		bottom: 0;
 		margin: 0;
 		user-select: none;
+		height: fit-content;
 
 		padding: inherit;
 		margin: inherit;

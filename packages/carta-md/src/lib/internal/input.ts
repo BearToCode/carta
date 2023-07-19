@@ -34,6 +34,7 @@ export class CartaInput {
 
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
+		public readonly container: HTMLDivElement,
 		private readonly settings: InputSettings
 	) {
 		this.pressedKeys = new Set();
