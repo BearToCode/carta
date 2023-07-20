@@ -5,6 +5,14 @@ import process from 'process';
 import fs from 'fs';
 import readline from 'readline';
 
+// Get current version from main package.json
+const mainPackage = JSON.parse(fs.readFileSync('package.json').toString());
+const currentVersion = mainPackage.version;
+if (!currentVersion) {
+	spinner.fail(`Failed to read current version from package.json`);
+	process.exit(1);
+}
+
 let versionDigits = currentVersion.split('.').map((digit) => Number(digit));
 
 switch (process.argv.at(-1)) {
@@ -38,14 +46,6 @@ const otp = await prompt('Otp: ');
 
 spinner.start();
 spinner.color = 'green';
-
-// Get current version from main package.json
-const mainPackage = JSON.parse(fs.readFileSync('package.json').toString());
-const currentVersion = mainPackage.version;
-if (!currentVersion) {
-	spinner.fail(`Failed to read current version from package.json`);
-	process.exit(1);
-}
 
 async function updatePackageVersion(path) {
 	const pkgJson = JSON.parse(fs.readFileSync(path).toString());
