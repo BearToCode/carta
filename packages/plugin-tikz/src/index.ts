@@ -57,7 +57,7 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 				class="tikz-generated ${options?.center ?? ''}"
 			>
 				<script 
-					data-show-console="${options?.debug ? 'true' : 'false'}" 
+					"${options?.debug ? 'data-show-console' : ''}" 
 					type="text/tikz"
 				>
 					${tidyTikzSource(token.raw.slice(8, token.raw.length - 4))}

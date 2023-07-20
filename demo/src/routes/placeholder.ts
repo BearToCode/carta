@@ -2,6 +2,7 @@ export const placeholderText = `# Carta Demo
 
 Far out in the uncharted backwaters of the unfashionable end of the western spiral arm of the **Galaxy** lies a small unregarded yellow sun.
 Orbiting this at a distance of roughly _ninety-two million miles_ is an utterly insignificant little blue green planet :earth_africa: whose ape-descended life forms are so amazingly primitive that they still think digital watches are a pretty neat idea.
+
 \`\`\`tikz
 \\usepackage{pgfplots}
 \\pgfplotsset{compat=1.16}
