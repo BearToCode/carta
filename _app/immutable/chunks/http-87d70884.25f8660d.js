@@ -1,0 +1,1 @@
+import{d as t}from"./2.70ba53ed.js";var e=[{type:"kwd",match:/^(GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH|PRI|SEARCH)\b/gm},{expand:"str"},{type:"section",match:/\bHTTP\/[\d.]+\b/g},{expand:"num"},{type:"oper",match:/[,;:=]/g},{type:"var",match:/[a-zA-Z][\w-]*(?=:)/g},{match:/\n\n[^]*/g,sub:t}];export{e as default};
