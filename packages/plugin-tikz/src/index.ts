@@ -1,5 +1,6 @@
 import { Carta, type CartaEvent, type CartaExtension } from 'carta-md';
 import { marked } from 'marked';
+import md5 from 'md5';
 
 interface TikzExtensionOptions {
 	/**
@@ -34,6 +35,9 @@ export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 	};
 };
 
+// Keeps track of tikz generation to remove previous items
+let currentGeneration = 0;
+
 const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRendererExtension => {
 	return {
 		name: 'tikz',
@@ -50,18 +54,28 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 			}
 		},
 		renderer: (token) => {
+			const script = document.createElement('script');
+
 			const center = options?.center ?? true;
+			script.setAttribute('type', 'text/tikz');
+			if (options?.debug) script.setAttribute('data-show-console', 'true');
+			script.innerHTML = tidyTikzSource(token.raw.slice(8, token.raw.length - 4));
+
+			// Try accessing cached HTML
+			const hash = md5(JSON.stringify(script.dataset) + script.childNodes[0].nodeValue);
+			const savedSvg = window.localStorage.getItem(hash);
+
+			let html: string;
+			if (savedSvg) html = savedSvg;
+			else html = script.outerHTML;
+
 			return `
 			<div
 				${center ? 'align="center"' : ''}
-				class="tikz-generated ${options?.center ?? ''}"
+				class="tikz-generated ${options?.class ?? ''}"
+				tikz-generation="${currentGeneration}"
 			>
-				<script 
-					"${options?.debug ? 'data-show-console' : ''}" 
-					type="text/tikz"
-				>
-					${tidyTikzSource(token.raw.slice(8, token.raw.length - 4))}
-				</script>
+				${html}
 			</div>
 			`;
 		}
@@ -82,12 +96,15 @@ function generateTikzImages(e: CartaEvent) {
 		return;
 	}
 
+	currentGeneration++;
 	removePreviousImages(container);
 	loadTikz();
 }
 
 function removePreviousImages(container: HTMLDivElement) {
-	container.querySelectorAll('.tikz-generated').forEach((elem) => elem.remove());
+	Array.from(container.querySelectorAll('.tikz-generated[tikz-generation]'))
+		.filter((elem) => Number(elem.getAttribute('tikz-generation') ?? -1) < currentGeneration)
+		.forEach((elem) => elem.remove());
 }
 
 async function loadTikz() {

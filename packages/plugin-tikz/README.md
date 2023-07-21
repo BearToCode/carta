@@ -19,6 +19,8 @@ npm i @cartamd/plugin-tikz
 	import { Carta, CartaEditor } from 'carta-md';
 	import { tikz } from '@cartamd/plugin-tikz';
 
+	import '@cartamd/plugin-tikz/fonts.css';
+
 	const carta = new Carta({
 		extensions: [tikz()]
 	});
