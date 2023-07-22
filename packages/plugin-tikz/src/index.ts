@@ -1,4 +1,4 @@
-import { Carta, type CartaEvent, type CartaExtension } from 'carta-md';
+import { loadCustomLanguage, type CartaEvent, type CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 import md5 from 'md5';
 
@@ -23,7 +23,7 @@ interface TikzExtensionOptions {
  * @param options Tikz options.
  */
 export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
-	import('./tikz').then((module) => Carta.loadCustomLanguage('tikz', module));
+	import('./tikz').then((module) => loadCustomLanguage('tikz', module));
 
 	return {
 		markedExtensions: [
@@ -123,7 +123,7 @@ async function loadTikz() {
 	const documentFragment = range.createContextualFragment(script);
 	document.body.appendChild(documentFragment);
 
-	document.addEventListener('tikzjax-load-finished', postProcessSvg);
+	// document.addEventListener('tikzjax-load-finished', postProcessSvg);
 }
 
 function tidyTikzSource(tikzSource: string) {
@@ -143,8 +143,8 @@ function tidyTikzSource(tikzSource: string) {
 	return lines.join('\n');
 }
 
-function postProcessSvg(e: Event) {
-	// Todo
-	// const svgElem = e.target as HTMLElement;
-	// console.log(svgElem);
-}
+// function postProcessSvg(e: Event) {
+// Todo
+// const svgElem = e.target as HTMLElement;
+// console.log(svgElem);
+// }
