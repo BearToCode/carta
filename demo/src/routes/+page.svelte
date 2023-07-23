@@ -18,7 +18,15 @@
 	import '@cartamd/plugin-tikz/fonts.css';
 
 	const carta = new Carta({
-		extensions: [tikz(), slash(), emoji(), code(), math()]
+		extensions: [
+			tikz({
+				debug: true
+			}),
+			slash(),
+			emoji(),
+			code(),
+			math()
+		]
 	});
 
 	let syncScroll = true;

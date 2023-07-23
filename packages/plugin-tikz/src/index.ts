@@ -55,20 +55,24 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 			}
 		},
 		renderer: (token) => {
-			const script = document.createElement('script');
+			const template = document.createElement('div');
 
 			const center = options?.center ?? true;
-			script.setAttribute('type', 'text/tikz');
-			if (options?.debug) script.setAttribute('data-show-console', 'true');
-			script.innerHTML = tidyTikzSource(token.raw.slice(8, token.raw.length - 4));
+			template.setAttribute('type', 'tikzjax');
+			if (options?.debug) template.setAttribute('data-show-console', 'true');
+
+			const text = document.createTextNode(
+				tidyTikzSource(token.raw.slice(8, token.raw.length - 4))
+			);
+			template.appendChild(text);
 
 			// Try accessing cached HTML
-			const hash = md5(JSON.stringify(script.dataset) + script.childNodes[0].nodeValue);
+			const hash = md5(JSON.stringify(template.dataset) + template.childNodes[0].nodeValue);
 			const savedSvg = window.localStorage.getItem(hash);
 
 			let html: string;
 			if (savedSvg) html = savedSvg;
-			else html = script.outerHTML;
+			else html = template.outerHTML;
 
 			return `
 			<div
