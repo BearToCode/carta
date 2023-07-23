@@ -16,6 +16,10 @@ interface TikzExtensionOptions {
 	 * @default true
 	 */
 	center?: boolean;
+	/**
+	 * Post processing function for rendered SVGs.
+	 */
+	postProcess?: (elem: SVGElement) => void;
 }
 
 /**
@@ -32,7 +36,7 @@ export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 				extensions: [tikzTokenizer(options)]
 			}
 		],
-		listeners: [['carta-render', generateTikzImages]]
+		listeners: [['carta-render', (e) => generateTikzImages(e, options)]]
 	};
 };
 
@@ -93,7 +97,7 @@ declare global {
 	}
 }
 
-function generateTikzImages(e: CartaEvent) {
+function generateTikzImages(e: CartaEvent, options?: TikzExtensionOptions) {
 	const carta = e.detail.carta;
 	const container = carta.renderer?.container;
 	if (!container) {
@@ -103,7 +107,7 @@ function generateTikzImages(e: CartaEvent) {
 
 	currentGeneration++;
 	removePreviousImages(container);
-	loadTikz();
+	loadTikz(options);
 }
 
 function removePreviousImages(container: HTMLDivElement) {
@@ -112,7 +116,7 @@ function removePreviousImages(container: HTMLDivElement) {
 		.forEach((elem) => elem.remove());
 }
 
-async function loadTikz() {
+async function loadTikz(options?: TikzExtensionOptions) {
 	if (window.tikzjax != null) return;
 
 	// eslint-disable-next-line
@@ -128,7 +132,9 @@ async function loadTikz() {
 	const documentFragment = range.createContextualFragment(script);
 	document.body.appendChild(documentFragment);
 
-	// document.addEventListener('tikzjax-load-finished', postProcessSvg);
+	document.addEventListener('tikzjax-load-finished', (e) => {
+		options?.postProcess && options.postProcess(e.target as SVGElement);
+	});
 }
 
 function tidyTikzSource(tikzSource: string) {
@@ -147,9 +153,3 @@ function tidyTikzSource(tikzSource: string) {
 
 	return lines.join('\n');
 }
-
-// function postProcessSvg(e: Event) {
-// Todo
-// const svgElem = e.target as HTMLElement;
-// console.log(svgElem);
-// }
