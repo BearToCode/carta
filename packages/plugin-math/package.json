@@ -23,7 +23,7 @@
 		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.0.2",
+		"carta-md": "^2.0.3",
 		"katex": "^0.16.7",
 		"marked": "^4.3.0"
 	},
@@ -33,7 +33,7 @@
 	"dependencies": {
 		"katex": "^0.16.7"
 	},
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"keywords": [
 		"carta",
 		"markdown",

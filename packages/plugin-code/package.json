@@ -22,13 +22,13 @@
 		"typescript-cp": "^0.1.8"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.0.2",
+		"carta-md": "^2.0.3",
 		"marked": "^4.3.0"
 	},
 	"files": [
 		"dist"
 	],
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"dependencies": {
 		"marked-highlight": "^2.0.0"
 	},
