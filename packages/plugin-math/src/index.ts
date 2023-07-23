@@ -55,7 +55,7 @@ function safeRender(tex: string, options?: KatexOptions | undefined) {
 export const math = (options?: MathExtensionOptions): CartaExtension => {
 	return {
 		shjRef: (shj) => {
-			import('./latex').then((module) => shj.loadCustomLanguage('latex', module));
+			import('./latex.js').then((module) => shj.loadCustomLanguage('latex', module));
 		},
 		markedExtensions: [
 			{
