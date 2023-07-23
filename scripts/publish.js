@@ -5,6 +5,8 @@ import process from 'process';
 import fs from 'fs';
 import readline from 'readline';
 
+const spinner = ora('Building packages').start();
+
 // Get current version from main package.json
 const mainPackage = JSON.parse(fs.readFileSync('package.json').toString());
 const currentVersion = mainPackage.version;
@@ -38,7 +40,6 @@ const version = versionDigits.join('.');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
 
-const spinner = ora('Building packages').start();
 await execAsync(`npm run build`);
 spinner.stop();
 
