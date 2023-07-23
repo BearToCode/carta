@@ -22,12 +22,15 @@ interface TikzExtensionOptions {
 	postProcess?: (elem: SVGElement) => void;
 }
 
+let sanitizer: ((html: string) => string) | undefined;
+
 /**
  * TikzJax extension for Carta.
  * @param options Tikz options.
  */
 export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 	return {
+		cartaRef: (carta) => (sanitizer = carta.options?.sanitizer),
 		shjRef: (shj) => {
 			import('./tikz').then((module) => shj.loadCustomLanguage('tikz', module));
 		},
@@ -84,7 +87,7 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 				class="tikz-generated ${options?.class ?? ''}"
 				tikz-generation="${currentGeneration}"
 			>
-				${html}
+				${sanitizer ? sanitizer(html) : html}
 			</div>
 			`;
 		}
