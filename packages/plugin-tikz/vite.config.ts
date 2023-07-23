@@ -7,7 +7,12 @@ import rawLoader from 'vite-raw-plugin';
 export default defineConfig({
 	build: {
 		rollupOptions: {
-			external: ['carta-md']
+			external: ['md5'],
+			output: {
+				globals: {
+					md5: 'md5'
+				}
+			}
 		},
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
