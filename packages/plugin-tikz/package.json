@@ -26,7 +26,8 @@
 		"typescript": "^5.0.4",
 		"vite": "^4.3.2",
 		"vite-plugin-dts": "^2.3.0",
-		"vite-raw-plugin": "^1.0.2"
+		"vite-raw-plugin": "^1.0.2",
+		"md5": "^2.3.0"
 	},
 	"peerDependencies": {
 		"carta-md": "^2.0.2",
@@ -47,8 +48,5 @@
 		"syntax highlighting",
 		"emoji",
 		"katex"
-	],
-	"dependencies": {
-		"md5": "^2.3.0"
-	}
+	]
 }
