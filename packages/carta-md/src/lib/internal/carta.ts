@@ -9,9 +9,14 @@ import {
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import type { SvelteComponentTyped } from 'svelte';
-import { highlightText, loadLanguage } from '@speed-highlight/core';
-import { detectLanguage } from '@speed-highlight/core/detect';
 import { CartaRenderer } from './renderer';
+import {
+	loadCustomLanguage,
+	type HighlightLanguage,
+	type HighlightFunctions,
+	highlight,
+	highlightAutodetect
+} from './highlight.js';
 
 /**
  * Carta-specific event with extra payload.
@@ -87,18 +92,6 @@ export interface CartaOptions {
 	sanitizer?: (html: string) => string;
 }
 
-type HighlightRule =
-	| { type: string; match: RegExp }
-	| { extand: string }
-	| {
-			match: RegExp;
-			sub:
-				| string
-				| ((code: string) => { type: string; sub: Array<{ match: RegExp; sub: string }> });
-	  };
-
-export type HighlightLanguage = Array<HighlightRule>;
-
 /**
  * Carta editor extensions.
  */
@@ -133,14 +126,22 @@ export interface CartaExtension {
 	/**
 	 * Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).
 	 */
-	highlightRules?: Array<HighlightRule>;
+	highlightRules?: HighlightLanguage;
+	/**
+	 * This function can be used to access a reference to the `Carta` class immediately after initialization.
+	 */
+	cartaRef?: (carta: Carta) => void;
+	/**
+	 * This function can be used to access a reference to all highlight functions immediately after initialization.
+	 */
+	shjRef?: (functions: HighlightFunctions) => void;
 }
 
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
-	public readonly highlightRules: HighlightRule[];
+	public readonly highlightRules: HighlightLanguage;
 	public readonly listeners: CartaListeners;
 	public readonly components: CartaExtensionComponents;
 
@@ -200,14 +201,24 @@ export class Carta {
 		if (markedExtensions) marked.use(...markedExtensions);
 
 		// Load highlight custom language
-		import('./highlight.js')
+		import('./shj.js')
 			.then((module) => {
 				// inject custom rules
 				module.default.unshift(...this.highlightRules);
-				return loadLanguage('cartamd', module);
+				return loadCustomLanguage('cartamd', module);
 			})
 			// trigger re-render
 			.then(() => this.input?.update());
+
+		for (const ext of this.options?.extensions ?? []) {
+			ext.cartaRef && ext.cartaRef(this);
+			ext.shjRef &&
+				ext.shjRef({
+					highlight,
+					highlightAutodetect,
+					loadCustomLanguage
+				});
+		}
 	}
 
 	/**
@@ -258,62 +269,5 @@ export class Carta {
 	 */
 	public $setRenderer(container: HTMLDivElement) {
 		this._renderer = new CartaRenderer(container);
-	}
-
-	/**
-	 * Highlight text using Speed-Highlight. May return null on error(usually if requested
-	 * language is not supported).
-	 * @param text Text to highlight.
-	 * @param lang Language to use, for example "js" or "c"
-	 * @param hideLineNumbers Whether to hide line numbering.
-	 * @returns Highlighted html text.
-	 */
-	public static async highlight(
-		text: string,
-		lang: string,
-		hideLineNumbers?: boolean
-	): Promise<string | null> {
-		try {
-			return await highlightText(text, lang, true, { hideLineNumbers });
-		} catch (_) {
-			return null;
-		}
-	}
-
-	/**
-	 * Highlight text using Speed-Highlight with detected language.
-	 * @param text Text to highlight.
-	 * @param hideLineNumbers Whether to hide line numbering.
-	 * @returns Highlighted html text.
-	 */
-	public static async highlightAutodetect(text: string, hideLineNumbers?: boolean) {
-		const lang = detectLanguage(text);
-		return await highlightText(text, lang, true, { hideLineNumbers });
-	}
-
-	/**
-	 * Load a custom language for reference in highlight rules.
-	 * @param id Id of the language.
-	 * @param langModule A module that has the default export set to an array of HighlightRule.
-	 * @example
-	 * ```
-	 * // language.ts
-	 * import type { HighlightLanguage } from 'carta-md';
-	 *
-	 * export default [
-	 *   {
-	 * 		match: /helloworld/g,
-	 *      type: 'kwd'
-	 * 	 }
-	 * ] satisfies HighlightLanguage;
-	 * ```
-	 * And in another file:
-	 * ```
-	 * import("./path/to/language.ts")
-	 *   .then(module => Carta.loadCustomLanguage("lang-name", module));
-	 * ```
-	 */
-	public static loadCustomLanguage(id: string, langModule: { default: HighlightLanguage }) {
-		return loadLanguage(id, langModule);
 	}
 }
