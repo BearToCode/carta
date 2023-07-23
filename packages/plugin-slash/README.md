@@ -40,7 +40,11 @@ export interface SlashExtensionOptions {
 	/**
 	 * List of default snippets to disable.
 	 */
-	disableDefaultSnippets?: DefaultSnippetId[];
+	disableDefaultSnippets?: DefaultSnippetId[] | true;
+	/**
+	 * Additional snippets.
+	 */
+	snippets?: SlashSnippet[];
 	/**
 	 * Custom in transition. See https://svelte.dev/docs#run-time-svelte-transition.
 	 */

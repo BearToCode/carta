@@ -9,7 +9,11 @@ export interface SlashExtensionOptions {
 	/**
 	 * List of default snippets to disable.
 	 */
-	disableDefaultSnippets?: DefaultSnippetId[];
+	disableDefaultSnippets?: DefaultSnippetId[] | true;
+	/**
+	 * Additional snippets.
+	 */
+	snippets?: SlashSnippet[];
 	/**
 	 * Custom in transition. See https://svelte.dev/docs#run-time-svelte-transition.
 	 */
@@ -32,9 +36,13 @@ interface ComponentProps {
  * @returns The slash extension.
  */
 export const slash = (options?: SlashExtensionOptions): CartaExtension => {
-	const snippets = defaultSnippets.filter(
-		(snippet) => !options?.disableDefaultSnippets?.includes(snippet.id)
+	const snippets: SlashSnippet[] = defaultSnippets.filter((snippet) =>
+		options?.disableDefaultSnippets === true
+			? false
+			: !options?.disableDefaultSnippets?.includes(snippet.id)
 	);
+	snippets.push(...(options?.snippets ?? []));
+
 	const inTransition =
 		options?.inTransition ??
 		((node: Element) =>

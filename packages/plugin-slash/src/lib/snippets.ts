@@ -2,14 +2,14 @@ import type { CartaInput } from 'carta-md';
 
 export interface SlashSnippet {
 	/**
-	 * Unique snipped identifier.
+	 * Unique snippet identifier.
 	 */
 	id: string;
 	group: string;
 	title: string;
 	description: string;
 	/**
-	 * Snipped callback.
+	 * Snippet callback.
 	 * @param input Carta input.
 	 */
 	action: (input: CartaInput) => void;
