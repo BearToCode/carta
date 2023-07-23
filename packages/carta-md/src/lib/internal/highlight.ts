@@ -62,10 +62,16 @@ export async function highlightAutodetect(text: string, hideLineNumbers?: boolea
  * ```
  * And in another file:
  * ```
- * import("./path/to/language.ts")
+ * import("./path/to/language")
  *   .then(module => Carta.loadCustomLanguage("lang-name", module));
  * ```
  */
 export function loadCustomLanguage(id: string, langModule: { default: HighlightLanguage }) {
 	return loadLanguage(id, langModule);
+}
+
+export interface HighlightFunctions {
+	highlight: typeof highlight;
+	highlightAutodetect: typeof highlightAutodetect;
+	loadCustomLanguage: typeof loadCustomLanguage;
 }

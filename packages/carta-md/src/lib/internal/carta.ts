@@ -10,7 +10,13 @@ import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import type { SvelteComponentTyped } from 'svelte';
 import { CartaRenderer } from './renderer';
-import { loadCustomLanguage, type HighlightLanguage } from './highlight.js';
+import {
+	loadCustomLanguage,
+	type HighlightLanguage,
+	type HighlightFunctions,
+	highlight,
+	highlightAutodetect
+} from './highlight.js';
 
 /**
  * Carta-specific event with extra payload.
@@ -121,6 +127,14 @@ export interface CartaExtension {
 	 * Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).
 	 */
 	highlightRules?: HighlightLanguage;
+	/**
+	 * This function can be used to access a reference to the `Carta` class immediately after initialization.
+	 */
+	cartaRef?: (carta: Carta) => void;
+	/**
+	 * This function can be used to access a reference to all highlight functions immediately after initialization.
+	 */
+	shjRef?: (functions: HighlightFunctions) => void;
 }
 
 export class Carta {
@@ -195,6 +209,16 @@ export class Carta {
 			})
 			// trigger re-render
 			.then(() => this.input?.update());
+
+		for (const ext of this.options?.extensions ?? []) {
+			ext.cartaRef && ext.cartaRef(this);
+			ext.shjRef &&
+				ext.shjRef({
+					highlight,
+					highlightAutodetect,
+					loadCustomLanguage
+				});
+		}
 	}
 
 	/**

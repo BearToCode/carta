@@ -1,4 +1,4 @@
-import { loadCustomLanguage, type CartaEvent, type CartaExtension } from 'carta-md';
+import type { CartaEvent, CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 import md5 from 'md5';
 
@@ -23,9 +23,10 @@ interface TikzExtensionOptions {
  * @param options Tikz options.
  */
 export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
-	import('./tikz').then((module) => loadCustomLanguage('tikz', module));
-
 	return {
+		shjRef: (shj) => {
+			import('./tikz').then((module) => shj.loadCustomLanguage('tikz', module));
+		},
 		markedExtensions: [
 			{
 				extensions: [tikzTokenizer(options)]
@@ -42,7 +43,7 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 	return {
 		name: 'tikz',
 		level: 'block',
-		start: (src) => src.indexOf('\n%%'),
+		start: (src) => src.indexOf('\n```tikz'),
 		tokenizer: (src) => {
 			const match = src.match(/^```tikz+\n([^`]+?)\n```+\n/);
 			if (match) {
