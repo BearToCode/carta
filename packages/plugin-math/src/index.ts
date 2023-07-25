@@ -1,4 +1,4 @@
-import type { CartaExtension } from 'carta-md';
+import type { Carta, CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 import katex, { KatexOptions } from 'katex';
 
@@ -49,13 +49,18 @@ function safeRender(tex: string, options?: KatexOptions | undefined) {
 	}
 }
 
+let carta: Carta;
+
 /**
  * Carta math plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
 export const math = (options?: MathExtensionOptions): CartaExtension => {
 	return {
+		cartaRef: (c) => (carta = c),
 		shjRef: (shj) => {
-			import('./latex.js').then((module) => shj.loadCustomLanguage('latex', module));
+			import('./latex.js')
+				.then((module) => shj.loadCustomLanguage('latex', module))
+				.then(() => carta.input?.update());
 		},
 		markedExtensions: [
 			{

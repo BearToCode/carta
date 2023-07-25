@@ -1,4 +1,4 @@
-import type { CartaEvent, CartaExtension } from 'carta-md';
+import type { Carta, CartaEvent, CartaExtension } from 'carta-md';
 import { marked } from 'marked';
 import md5 from 'md5';
 
@@ -22,7 +22,7 @@ interface TikzExtensionOptions {
 	postProcess?: (elem: SVGElement) => void;
 }
 
-let sanitizer: ((html: string) => string) | undefined;
+let carta: Carta;
 
 /**
  * TikzJax extension for Carta.
@@ -30,9 +30,11 @@ let sanitizer: ((html: string) => string) | undefined;
  */
 export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 	return {
-		cartaRef: (carta) => (sanitizer = carta.options?.sanitizer),
+		cartaRef: (c) => (carta = c),
 		shjRef: (shj) => {
-			import('./tikz').then((module) => shj.loadCustomLanguage('tikz', module));
+			import('./tikz')
+				.then((module) => shj.loadCustomLanguage('tikz', module))
+				.then(() => carta.input?.update());
 		},
 		markedExtensions: [
 			{
@@ -80,6 +82,8 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 			let html: string;
 			if (savedSvg) html = savedSvg;
 			else html = template.outerHTML;
+
+			const sanitizer = carta.options?.sanitizer;
 
 			return `
 			<div
