@@ -30,13 +30,13 @@
 		"md5": "^2.3.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.0.4",
+		"carta-md": "^2.0.5",
 		"marked": "^4.3.0"
 	},
 	"files": [
 		"dist"
 	],
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"keywords": [
 		"carta",
 		"markdown",
