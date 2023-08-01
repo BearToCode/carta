@@ -64,6 +64,11 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 			}
 		},
 		renderer: (token) => {
+			if (typeof document === 'undefined') {
+				// Cannot run outside the browser
+				return ``;
+			}
+
 			const template = document.createElement('div');
 
 			const center = options?.center ?? true;
