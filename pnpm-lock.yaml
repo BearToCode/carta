@@ -95,6 +95,9 @@ importers:
 
   packages/carta-md:
     dependencies:
+      '@speed-highlight/core':
+        specifier: ^1.2.2
+        version: 1.2.2
       marked:
         specifier: ^4.3.0
         version: 4.3.0
@@ -268,9 +271,6 @@ importers:
       marked:
         specifier: ^4.3.0
         version: 4.3.0
-      md5:
-        specifier: ^2.3.0
-        version: 2.3.0
     devDependencies:
       '@types/marked':
         specifier: ^4.0.8
@@ -281,6 +281,9 @@ importers:
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
@@ -734,6 +737,20 @@ packages:
       rollup: 3.26.2
     dev: true
 
+  /@rollup/pluginutils@5.0.2:
+    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.1
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+    dev: true
+
   /@rollup/pluginutils@5.0.2(rollup@3.26.2):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
@@ -785,6 +802,10 @@ packages:
 
   /@speed-highlight/core@1.1.11:
     resolution: {integrity: sha512-KtUCQahL7WjK8zKEhWwzBa/7t6wimmOF9BFS/gIbVE48BwNEK7NafOkwzfYRF7D6RjENsP2aJDZRANwHDncqnw==}
+    dev: false
+
+  /@speed-highlight/core@1.2.2:
+    resolution: {integrity: sha512-Yb3ewAUq7QwLbU+vF28dxkOmBJG5bHUVWZWQBnUt2GIhVWdiShKcE6kBMsCRXvD8AuK7gy0rR4qNckqZnCzEFw==}
     dev: false
 
   /@sveltejs/adapter-auto@1.0.3(@sveltejs/kit@1.15.9):
@@ -1371,7 +1392,7 @@ packages:
 
   /charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
-    dev: false
+    dev: true
 
   /chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -1525,7 +1546,7 @@ packages:
 
   /crypt@0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
-    dev: false
+    dev: true
 
   /cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -2158,7 +2179,7 @@ packages:
 
   /is-buffer@1.1.6:
     resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
-    dev: false
+    dev: true
 
   /is-core-module@2.12.0:
     resolution: {integrity: sha512-RECHCBCd/viahWmwj6enj19sKbHfJrddi/6cBDsNTKbNq0f7VeaUkBo60BqzvPqo/W54ChS62Z5qyun7cfOMqQ==}
@@ -2489,7 +2510,7 @@ packages:
       charenc: 0.0.2
       crypt: 0.0.2
       is-buffer: 1.1.6
-    dev: false
+    dev: true
 
   /merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -3687,7 +3708,7 @@ packages:
     dependencies:
       '@babel/parser': 7.21.5
       '@microsoft/api-extractor': 7.34.7(@types/node@18.16.3)
-      '@rollup/pluginutils': 5.0.2(rollup@3.26.2)
+      '@rollup/pluginutils': 5.0.2
       '@rushstack/node-core-library': 3.58.0(@types/node@18.16.3)
       debug: 4.3.4
       fast-glob: 3.2.12

@@ -2,10 +2,7 @@ import { packages, execAsync } from './packages.js';
 import ora from 'ora';
 import process from 'process';
 
-const spinner = ora('Building SpeedHighlight').start();
-spinner.color = 'green';
-
-await execAsync('node ./scripts/gen-speed-highlight.js');
+const spinner = ora().start();
 
 spinner.color = 'red';
 

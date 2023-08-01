@@ -1,10 +1,10 @@
-import type { ShjLanguage } from '@speed-highlight/core';
-import { detectLanguage } from '@speed-highlight/core/detect';
+import { detectLanguage } from '@speed-highlight/core/detect.js';
+import type { ShjLanguageDefinition } from '@speed-highlight/core';
 
 /**
  * Markdown syntax highlighting rules.
  */
-const cartaMarkdown: ShjLanguage = [
+const cartaMarkdown: ShjLanguageDefinition = [
 	{
 		type: 'cmnt',
 		match: /^>.*|(=|-)\1+/gm

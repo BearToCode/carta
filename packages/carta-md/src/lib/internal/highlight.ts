@@ -1,17 +1,5 @@
-import { detectLanguage } from '@speed-highlight/core/detect';
-import { highlightText, loadLanguage } from '@speed-highlight/core';
-
-export type HighlightRule =
-	| { type: string; match: RegExp }
-	| { extand: string }
-	| {
-			match: RegExp;
-			sub:
-				| string
-				| ((code: string) => { type: string; sub: Array<{ match: RegExp; sub: string }> });
-	  };
-
-export type HighlightLanguage = Array<HighlightRule>;
+import { detectLanguage } from '@speed-highlight/core/detect.js';
+import { highlightText, loadLanguage, type ShjLanguageDefinition } from '@speed-highlight/core';
 
 /**
  * Highlight text using Speed-Highlight. May return null on error(usually if requested
@@ -27,7 +15,7 @@ export async function highlight(
 	hideLineNumbers?: boolean
 ): Promise<string | null> {
 	try {
-		return await highlightText(text, lang, true, { hideLineNumbers });
+		return await highlightText(text, lang, true, { hideLineNumbers: hideLineNumbers ?? true });
 	} catch (_) {
 		return null;
 	}
@@ -40,8 +28,8 @@ export async function highlight(
  * @returns Highlighted html text.
  */
 export async function highlightAutodetect(text: string, hideLineNumbers?: boolean) {
-	const lang = detectLanguage(text);
-	return await highlightText(text, lang, true, { hideLineNumbers });
+	const lang = await detectLanguage(text);
+	return await highlightText(text, lang, true, { hideLineNumbers: hideLineNumbers ?? true });
 }
 
 /**
@@ -66,7 +54,7 @@ export async function highlightAutodetect(text: string, hideLineNumbers?: boolea
  *   .then(module => Carta.loadCustomLanguage("lang-name", module));
  * ```
  */
-export function loadCustomLanguage(id: string, langModule: { default: HighlightLanguage }) {
+export function loadCustomLanguage(id: string, langModule: { default: ShjLanguageDefinition }) {
 	return loadLanguage(id, langModule);
 }
 

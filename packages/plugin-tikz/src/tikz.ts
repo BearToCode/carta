@@ -1,5 +1,3 @@
-import type { HighlightLanguage } from 'carta-md';
-
 export default [
 	{
 		match: /\\(usepackage|input|usemodule)(?![a-zA-Z0-9])/g,
@@ -25,4 +23,4 @@ export default [
 		match: /[0-9]+[a-z]{0,3}/g,
 		type: 'num'
 	}
-] satisfies HighlightLanguage;
+];

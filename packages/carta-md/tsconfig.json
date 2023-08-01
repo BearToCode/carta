@@ -15,13 +15,12 @@
 		"ignoreDeprecations": "5.0",
 		"plugins": [],
 		"baseUrl": "./",
-		"typeRoots": ["./node_modules/@types", "./typings"],
 		"paths": {
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"]
 		}
 	},
-	"include": ["./src", "./typings"]
+	"include": ["./src"]
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes
