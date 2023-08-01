@@ -1,1 +1,0 @@
-import e from"./js-f39907e0.427cbb87.js";var a=[{type:"type",match:/:\s*(any|void|number|boolean|string|object|never|enum)\b/g},{type:"kwd",match:/\b(type|namespace|typedef|interface|public|private|protected|implements|declare|abstract|readonly)\b/g},...e];export{a as default};
