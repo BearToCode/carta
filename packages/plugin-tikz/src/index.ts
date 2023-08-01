@@ -17,7 +17,15 @@ interface TikzExtensionOptions {
 	 */
 	center?: boolean;
 	/**
-	 * Post processing function for rendered SVGs.
+	 * Post processing function for html.
+	 * This also runs on stored html, differently
+	 * from `postProcess`, which only runs when
+	 * the element is first created.
+	 */
+	postProcessing?: (html: string) => string;
+	/**
+	 * Post processing function for rendered SVGs Elem.
+	 * @deprecated Use `postProcessing` instead.
 	 */
 	postProcess?: (elem: SVGElement) => void;
 }
@@ -85,10 +93,15 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 			const savedSvg = window.localStorage.getItem(hash);
 
 			let html: string;
-			if (savedSvg) html = savedSvg;
-			else html = template.outerHTML;
+			if (savedSvg) {
+				html = savedSvg;
+				if (options?.postProcessing) html = options.postProcessing(html);
+			} else {
+				html = template.outerHTML;
+			}
 
 			const sanitizer = carta.options?.sanitizer;
+			if (sanitizer) html = sanitizer(html);
 
 			return `
 			<div
@@ -96,7 +109,7 @@ const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRende
 				class="tikz-generated ${options?.class ?? ''}"
 				tikz-generation="${currentGeneration}"
 			>
-				${sanitizer ? sanitizer(html) : html}
+				${html}
 			</div>
 			`;
 		}
@@ -145,7 +158,11 @@ async function loadTikz(options?: TikzExtensionOptions) {
 	document.body.appendChild(documentFragment);
 
 	document.addEventListener('tikzjax-load-finished', (e) => {
-		options?.postProcess && options.postProcess(e.target as SVGElement);
+		const elem = e.target as SVGElement;
+		// Support old version
+		options?.postProcess && options.postProcess(elem);
+
+		if (options?.postProcessing) elem.outerHTML = options.postProcessing(elem.outerHTML);
 	});
 }
 

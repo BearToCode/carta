@@ -49,7 +49,15 @@ interface TikzExtensionOptions {
 	 */
 	center?: boolean;
 	/**
-	 * Post processing function for rendered SVGs.
+	 * Post processing function for html.
+	 * This also runs on stored html, differently
+	 * from `postProcess`, which only runs when
+	 * the element is first created.
+	 */
+	postProcessing?: (html: string) => string;
+	/**
+	 * Post processing function for rendered SVGs Elem.
+	 * @deprecated Use `postProcessing` instead.
 	 */
 	postProcess?: (elem: SVGElement) => void;
 }
