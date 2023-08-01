@@ -35,5 +35,12 @@
 	"lint-staged": {
 		"*.{js,ts,svelte}": "eslint --cache --fix",
 		"*.{js,ts,css,md,svelte,html,yml,json,cjs}": "prettier --write"
+	},
+	"pnpm": {
+		"overrides": {
+			"semver@<5.7.2": ">=5.7.2",
+			"semver@>=7.0.0 <7.5.2": ">=7.5.2",
+			"word-wrap@<1.2.4": ">=1.2.4"
+		}
 	}
 }
