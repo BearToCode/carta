@@ -8,10 +8,7 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter(),
-		alias: {
-			'@speed-highlight/core': './src/lib/speed-highlight'
-		}
+		adapter: adapter()
 	}
 };
 

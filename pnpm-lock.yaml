@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -99,6 +95,9 @@ importers:
 
   packages/carta-md:
     dependencies:
+      '@speed-highlight/core':
+        specifier: ^1.2.2
+        version: 1.2.2
       marked:
         specifier: ^4.3.0
         version: 4.3.0
@@ -191,7 +190,7 @@ importers:
         version: 3.58.0
       svelte-check:
         specifier: ^3.0.1
-        version: 3.2.0(svelte@3.58.0)
+        version: 3.2.0(postcss@8.4.23)(svelte@3.55.1)
       tslib:
         specifier: ^2.4.1
         version: 2.5.0
@@ -297,19 +296,6 @@ importers:
       vite-raw-plugin:
         specifier: ^1.0.2
         version: 1.0.2
-
-  speed-highlight:
-    dependencies:
-      '@speed-highlight/core':
-        specifier: ^1.1.11
-        version: 1.1.11
-    devDependencies:
-      '@rollup/plugin-dynamic-import-vars':
-        specifier: ^2.0.4
-        version: 2.0.4(rollup@3.26.2)
-      rollup:
-        specifier: ^3.26.2
-        version: 3.26.2
 
 packages:
 
@@ -722,23 +708,7 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@rollup/plugin-dynamic-import-vars@2.0.4(rollup@3.26.2):
-    resolution: {integrity: sha512-aAD4eJ657PfQFgsIP0tvpPF6d4viSAf64BgAJQEBsxL75KrOVVr/QBlfdCnB0w7fJrVDfo9guZwz0k+xEj2FJA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.0.2(rollup@3.26.2)
-      estree-walker: 2.0.2
-      fast-glob: 3.2.12
-      magic-string: 0.27.0
-      rollup: 3.26.2
-    dev: true
-
-  /@rollup/pluginutils@5.0.2(rollup@3.26.2):
+  /@rollup/pluginutils@5.0.2:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -750,7 +720,6 @@ packages:
       '@types/estree': 1.0.1
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.26.2
     dev: true
 
   /@rushstack/node-core-library@3.58.0(@types/node@18.16.3):
@@ -789,6 +758,10 @@ packages:
 
   /@speed-highlight/core@1.1.11:
     resolution: {integrity: sha512-KtUCQahL7WjK8zKEhWwzBa/7t6wimmOF9BFS/gIbVE48BwNEK7NafOkwzfYRF7D6RjENsP2aJDZRANwHDncqnw==}
+    dev: false
+
+  /@speed-highlight/core@1.2.2:
+    resolution: {integrity: sha512-Yb3ewAUq7QwLbU+vF28dxkOmBJG5bHUVWZWQBnUt2GIhVWdiShKcE6kBMsCRXvD8AuK7gy0rR4qNckqZnCzEFw==}
     dev: false
 
   /@sveltejs/adapter-auto@1.0.3(@sveltejs/kit@1.15.9):
@@ -2739,7 +2712,7 @@ packages:
       levn: 0.4.1
       prelude-ls: 1.2.1
       type-check: 0.4.0
-      word-wrap: 1.2.5
+      word-wrap: 1.2.3
     dev: true
 
   /ora@6.3.0:
@@ -3383,33 +3356,6 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-check@3.2.0(svelte@3.58.0):
-    resolution: {integrity: sha512-6ZnscN8dHEN5Eq5LgIzjj07W9nc9myyBH+diXsUAuiY/3rt0l65/LCIQYlIuoFEjp2F1NhXqZiJwV9omPj9tMw==}
-    hasBin: true
-    peerDependencies:
-      svelte: ^3.55.0
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.18
-      chokidar: 3.5.3
-      fast-glob: 3.2.12
-      import-fresh: 3.3.0
-      picocolors: 1.0.0
-      sade: 1.8.1
-      svelte: 3.58.0
-      svelte-preprocess: 5.0.3(svelte@3.58.0)(typescript@5.1.6)
-      typescript: 5.1.6
-    transitivePeerDependencies:
-      - '@babel/core'
-      - coffeescript
-      - less
-      - postcss
-      - postcss-load-config
-      - pug
-      - sass
-      - stylus
-      - sugarss
-    dev: true
-
   /svelte-hmr@0.15.2(svelte@3.55.1):
     resolution: {integrity: sha512-q/bAruCvFLwvNbeE1x3n37TYFb3mTBJ6TrCq6p2CoFbSTNhDE9oAtEfpy+wmc9So8AG0Tja+X0/mJzX9tSfvIg==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
@@ -3473,53 +3419,6 @@ packages:
       sorcery: 0.11.0
       strip-indent: 3.0.0
       svelte: 3.55.1
-      typescript: 5.1.6
-    dev: true
-
-  /svelte-preprocess@5.0.3(svelte@3.58.0)(typescript@5.1.6):
-    resolution: {integrity: sha512-GrHF1rusdJVbOZOwgPWtpqmaexkydznKzy5qIC2FabgpFyKN57bjMUUUqPRfbBXK5igiEWn1uO/DXsa2vJ5VHA==}
-    engines: {node: '>= 14.10.0'}
-    requiresBuild: true
-    peerDependencies:
-      '@babel/core': ^7.10.2
-      coffeescript: ^2.5.1
-      less: ^3.11.3 || ^4.0.0
-      postcss: ^7 || ^8
-      postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0
-      pug: ^3.0.0
-      sass: ^1.26.8
-      stylus: ^0.55.0
-      sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
-      svelte: ^3.23.0
-      typescript: '>=3.9.5 || ^4.0.0 || ^5.0.0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      coffeescript:
-        optional: true
-      less:
-        optional: true
-      postcss:
-        optional: true
-      postcss-load-config:
-        optional: true
-      pug:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      typescript:
-        optional: true
-    dependencies:
-      '@types/pug': 2.0.6
-      detect-indent: 6.1.0
-      magic-string: 0.27.0
-      sorcery: 0.11.0
-      strip-indent: 3.0.0
-      svelte: 3.58.0
       typescript: 5.1.6
     dev: true
 
@@ -3765,7 +3664,7 @@ packages:
     dependencies:
       '@babel/parser': 7.21.5
       '@microsoft/api-extractor': 7.34.7(@types/node@18.16.3)
-      '@rollup/pluginutils': 5.0.2(rollup@3.26.2)
+      '@rollup/pluginutils': 5.0.2
       '@rushstack/node-core-library': 3.58.0(@types/node@18.16.3)
       debug: 4.3.4
       fast-glob: 3.2.12
@@ -3842,8 +3741,8 @@ packages:
       isexe: 2.0.0
     dev: true
 
-  /word-wrap@1.2.5:
-    resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
+  /word-wrap@1.2.3:
+    resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
     dev: true
 
