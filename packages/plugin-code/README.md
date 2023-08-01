@@ -1,4 +1,4 @@
-# Carta Emoji Plugin
+# Carta Code Plugin
 
 This plugin adds support for code blocks **syntax highlighting**. Install it using:
 

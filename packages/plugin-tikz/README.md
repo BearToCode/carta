@@ -48,5 +48,9 @@ interface TikzExtensionOptions {
 	 * @default true
 	 */
 	center?: boolean;
+	/**
+	 * Post processing function for rendered SVGs.
+	 */
+	postProcess?: (elem: SVGElement) => void;
 }
 ```
