@@ -18,7 +18,7 @@
 	},
 	"devDependencies": {
 		"@types/katex": "^0.16.0",
-		"@types/marked": "^4.0.8",
+		"@types/marked": "^5.0.1",
 		"carta-md": "workspace:*",
 		"typescript": "^5.0.4"
 	},

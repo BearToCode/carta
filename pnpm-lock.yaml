@@ -120,8 +120,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2(svelte@3.55.1)(typescript@5.1.6)
       '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^5.0.1
+        version: 5.0.1
       svelte-check:
         specifier: ^3.2.0
         version: 3.2.0(postcss@8.4.23)(svelte@3.55.1)
@@ -144,6 +144,9 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(marked@4.3.0)
     devDependencies:
+      '@types/marked':
+        specifier: ^5.0.1
+        version: 5.0.1
       '@types/node':
         specifier: ^18.16.3
         version: 18.16.3
@@ -179,8 +182,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.2(svelte@3.58.0)(typescript@5.0.4)
       '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^5.0.1
+        version: 5.0.1
       '@types/node-emoji':
         specifier: ^1.8.2
         version: 1.8.2
@@ -219,8 +222,8 @@ importers:
         specifier: ^0.16.0
         version: 0.16.0
       '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^5.0.1
+        version: 5.0.1
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
@@ -244,8 +247,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.2(svelte@3.55.1)(typescript@5.0.4)
       '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^5.0.1
+        version: 5.0.1
       '@types/node-emoji':
         specifier: ^1.8.2
         version: 1.8.2
@@ -278,8 +281,8 @@ importers:
         version: 4.3.0
     devDependencies:
       '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^5.0.1
+        version: 5.0.1
       '@types/md5':
         specifier: ^2.3.2
         version: 2.3.2
@@ -783,7 +786,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.15.9(svelte@3.58.0)(vite@4.3.9)
+      '@sveltejs/kit': 1.15.9(svelte@3.55.1)(vite@4.3.9)
       import-meta-resolve: 2.2.2
     dev: true
 
@@ -1000,8 +1003,8 @@ packages:
     resolution: {integrity: sha512-hz+S3nV6Mym5xPbT9fnO8dDhBFQguMYpY0Ipxv06JMi1ORgnEM4M1ymWDUhUNer3ElLmT583opRo4RzxKmh9jw==}
     dev: true
 
-  /@types/marked@4.0.8:
-    resolution: {integrity: sha512-HVNzMT5QlWCOdeuBsgXP8EZzKUf0+AXzN+sLmjvaB3ZlLqO+e4u0uXrdw9ub69wBKFs+c6/pA4r9sy6cCDvImw==}
+  /@types/marked@5.0.1:
+    resolution: {integrity: sha512-Y3pAUzHKh605fN6fvASsz5FDSWbZcs/65Q6xYRmnIP9ZIYz27T4IOmXfH9gWJV1dpi7f1e7z7nBGUTx/a0ptpA==}
     dev: true
 
   /@types/md5@2.3.2:
