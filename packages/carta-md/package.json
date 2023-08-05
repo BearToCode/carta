@@ -18,7 +18,7 @@
 		"./light.css": "./dist/light.css",
 		"./dark.css": "./dist/dark.css"
 	},
-	"version": "2.0.8",
+	"version": "2.1.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "svelte-kit sync && svelte-package",
