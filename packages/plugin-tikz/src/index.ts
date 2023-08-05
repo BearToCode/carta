@@ -1,5 +1,5 @@
 import type { Carta, CartaEvent, CartaExtension } from 'carta-md';
-import { marked } from 'marked';
+import { TokenizerAndRendererExtension } from 'marked';
 import md5 from 'md5';
 
 interface TikzExtensionOptions {
@@ -56,7 +56,7 @@ export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 // Keeps track of tikz generation to remove previous items
 let currentGeneration = 0;
 
-const tikzTokenizer = (options?: TikzExtensionOptions): marked.TokenizerAndRendererExtension => {
+const tikzTokenizer = (options?: TikzExtensionOptions): TokenizerAndRendererExtension => {
 	return {
 		name: 'tikz',
 		level: 'block',

@@ -1,5 +1,5 @@
 import type { Carta, CartaExtension } from 'carta-md';
-import { marked } from 'marked';
+import { TokenizerAndRendererExtension } from 'marked';
 import katex, { KatexOptions } from 'katex';
 
 interface MathExtensionOptions {
@@ -92,9 +92,7 @@ export const math = (options?: MathExtensionOptions): CartaExtension => {
 	};
 };
 
-const inlineKatex = (
-	options?: MathExtensionOptions['inline']
-): marked.TokenizerAndRendererExtension => {
+const inlineKatex = (options?: MathExtensionOptions['inline']): TokenizerAndRendererExtension => {
 	return {
 		name: 'inlineKatex',
 		level: 'inline',
@@ -113,9 +111,7 @@ const inlineKatex = (
 	};
 };
 
-const blockKatex = (
-	options?: MathExtensionOptions['block']
-): marked.TokenizerAndRendererExtension => {
+const blockKatex = (options?: MathExtensionOptions['block']): TokenizerAndRendererExtension => {
 	return {
 		name: 'blockKatex',
 		level: 'block',
