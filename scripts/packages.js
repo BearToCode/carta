@@ -1,10 +1,30 @@
-import util from 'util';
 import * as childProcess from 'child_process';
 
-/**
- * Asynchronous version of `child_process.exec`.
- */
-export const execAsync = util.promisify(childProcess.exec);
+export const execAsync = (command, cwd = undefined) =>
+	new Promise((resolve, reject) => {
+		const child = childProcess.spawn(command, { cwd, shell: true });
+		let out = '';
+
+		child.stdout.setEncoding('utf8');
+		child.stdout.on('data', function (data) {
+			out += 'stdout: ' + data.toString();
+		});
+
+		child.stderr.setEncoding('utf8');
+		child.stderr.on('data', function (data) {
+			out += 'stderr: ' + data.toString();
+		});
+
+		child.on('error', (e) => {
+			console.log(out);
+			console.log(e);
+		});
+
+		child.on('close', function (code) {
+			if (code != 0) reject(out);
+			resolve();
+		});
+	});
 
 /**
  * List of all the packages.
