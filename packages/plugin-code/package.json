@@ -16,7 +16,6 @@
 		"build": "tsc && tscp"
 	},
 	"devDependencies": {
-		"@types/marked": "^5.0.1",
 		"@types/node": "^18.16.3",
 		"carta-md": "workspace:*",
 		"typescript": "^5.0.4",

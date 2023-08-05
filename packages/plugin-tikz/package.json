@@ -20,7 +20,6 @@
 		"build": "vite build"
 	},
 	"devDependencies": {
-		"@types/marked": "^5.0.1",
 		"@types/md5": "^2.3.2",
 		"carta-md": "workspace:*",
 		"md5": "^2.3.0",

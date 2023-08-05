@@ -1,4 +1,4 @@
-import { marked } from 'marked';
+import { marked, type MarkedExtension } from 'marked';
 import type { CartaHistoryOptions } from './history';
 import { CartaInput } from './input';
 import {
@@ -110,7 +110,7 @@ export interface CartaExtension {
 	/**
 	 * Marked extensions, more on that [here](https://marked.js.org/using_advanced).
 	 */
-	markedExtensions?: marked.MarkedExtension[];
+	markedExtensions?: MarkedExtension[];
 	/**
 	 * Additional keyboard shortcuts.
 	 */
@@ -223,7 +223,7 @@ export class Carta {
 		// Load marked extensions
 		const markedExtensions = this.options?.extensions
 			?.flatMap((ext) => ext.markedExtensions)
-			.filter((ext) => ext != null) as marked.MarkedExtension[] | undefined;
+			.filter((ext) => ext != null) as MarkedExtension[] | undefined;
 		if (markedExtensions) marked.use(...markedExtensions);
 
 		// Load highlight custom language
