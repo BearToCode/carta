@@ -19,7 +19,8 @@
 		"@types/node": "^18.16.3",
 		"carta-md": "workspace:*",
 		"typescript": "^5.0.4",
-		"typescript-cp": "^0.1.8"
+		"typescript-cp": "^0.1.8",
+		"marked": "^6.0.0"
 	},
 	"peerDependencies": {
 		"carta-md": "^2.0.8",
@@ -30,7 +31,7 @@
 	],
 	"version": "2.0.8",
 	"dependencies": {
-		"marked-highlight": "^2.0.0"
+		"marked-highlight": "^2.0.2"
 	},
 	"keywords": [
 		"carta",

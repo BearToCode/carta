@@ -26,7 +26,8 @@
 		"typescript": "^5.0.4",
 		"vite": "^4.3.9",
 		"vite-plugin-dts": "^2.3.0",
-		"vite-raw-plugin": "^1.0.2"
+		"vite-raw-plugin": "^1.0.2",
+		"marked": "^6.0.0"
 	},
 	"peerDependencies": {
 		"carta-md": "^2.0.8",
