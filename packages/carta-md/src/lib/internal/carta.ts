@@ -18,6 +18,16 @@ import {
 } from './highlight.js';
 import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
 
+// Node does not implement CustomEvent until v19, so we
+// "declare" it ourself for backward compatibility.
+class CustomEvent<T> extends Event {
+	detail: T;
+	constructor(message: string, data: EventInit & { detail: T }) {
+		super(message, data);
+		this.detail = data.detail;
+	}
+}
+
 /**
  * Carta-specific event with extra payload.
  */
