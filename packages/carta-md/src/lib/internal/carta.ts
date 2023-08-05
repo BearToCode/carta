@@ -22,7 +22,8 @@ import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
  * Carta-specific event with extra payload.
  */
 export type CartaEvent = CustomEvent<{ carta: Carta }>;
-type CartaEventType = 'carta-render' | 'carta-render-ssr';
+const cartaEvents = ['carta-render', 'carta-render-ssr'] as const;
+type CartaEventType = (typeof cartaEvents)[number];
 
 export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 	type: K,
@@ -142,8 +143,10 @@ export class Carta {
 	public readonly icons: CartaIcon[];
 	public readonly prefixes: Prefix[];
 	public readonly highlightRules: ShjLanguageDefinition;
-	public readonly listeners: CartaListeners;
+	public readonly textareaListeners: CartaListeners;
+	public readonly cartaListeners: CartaListeners;
 	public readonly components: CartaExtensionComponents;
+	public readonly dispatcher = new EventTarget();
 
 	private _input: CartaInput | undefined;
 	private _renderer: CartaRenderer | undefined;
@@ -158,18 +161,31 @@ export class Carta {
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
-		this.listeners = [];
+		this.textareaListeners = [];
+		this.cartaListeners = [];
 		this.components = [];
 		this.highlightRules = [];
+
+		const listeners = [];
 
 		for (const ext of options?.extensions ?? []) {
 			this.keyboardShortcuts.push(...(ext.shortcuts ?? []));
 			this.icons.push(...(ext.icons ?? []));
 			this.prefixes.push(...(ext.prefixes ?? []));
-			this.listeners.push(...(ext.listeners ?? []));
 			this.components.push(...(ext.components ?? []));
 			this.highlightRules.push(...(ext.highlightRules ?? []));
+
+			listeners.push(...(ext.listeners ?? []));
 		}
+
+		// Split different listeners
+		this.textareaListeners = listeners.filter((it) => !cartaEvents.includes(it[0]));
+		this.cartaListeners = listeners.filter((it) => cartaEvents.includes(it[0]));
+
+		// Setup carta listeners
+		this.cartaListeners.forEach((it) => {
+			this.dispatcher.addEventListener(...it);
+		});
 
 		// Load default keyboard shortcuts
 		this.keyboardShortcuts.push(
@@ -228,7 +244,7 @@ export class Carta {
 	 */
 	public async render(markdown: string): Promise<string> {
 		const dirty = await marked.parse(markdown, { async: true });
-		this._input?.textarea.dispatchEvent(
+		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
 		);
 		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
@@ -241,7 +257,7 @@ export class Carta {
 	 */
 	public renderSSR(markdown: string): string {
 		const dirty = marked.parse(markdown, { async: false });
-		this._input?.textarea.dispatchEvent(
+		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render-ssr', { detail: { carta: this } })
 		);
 		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
@@ -257,7 +273,7 @@ export class Carta {
 		this._input = new CartaInput(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
-			listeners: this.listeners,
+			listeners: this.textareaListeners,
 			callback: callback,
 			historyOpts: this.options?.historyOptions
 		});
