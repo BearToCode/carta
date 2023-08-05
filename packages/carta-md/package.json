@@ -38,7 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"@speed-highlight/core": "^1.2.2",
-		"marked": "^4.3.0"
+		"marked": "5.1.2"
 	},
 	"peerDependencies": {
 		"svelte": "^3.54.0"

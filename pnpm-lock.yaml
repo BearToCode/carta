@@ -104,8 +104,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2
       marked:
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: 5.1.2
+        version: 5.1.2
       svelte:
         specifier: ^3.54.0
         version: 3.55.1
@@ -786,7 +786,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.15.9(svelte@3.55.1)(vite@4.3.9)
+      '@sveltejs/kit': 1.15.9(svelte@3.58.0)(vite@4.3.9)
       import-meta-resolve: 2.2.2
     dev: true
 
@@ -2465,6 +2465,12 @@ packages:
   /marked@4.3.0:
     resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
     engines: {node: '>= 12'}
+    hasBin: true
+    dev: false
+
+  /marked@5.1.2:
+    resolution: {integrity: sha512-ahRPGXJpjMjwSOlBoTMZAK7ATXkli5qCPxZ21TG44rx1KEo44bii4ekgTDQPNRQ4Kh7JMb9Ub1PVk1NxRSsorg==}
+    engines: {node: '>= 16'}
     hasBin: true
     dev: false
 
