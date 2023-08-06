@@ -106,6 +106,12 @@ importers:
       marked:
         specifier: ^6.0.0
         version: 6.0.0
+      marked-gfm-heading-id:
+        specifier: ^3.0.5
+        version: 3.0.5(marked@6.0.0)
+      marked-mangle:
+        specifier: ^1.1.1
+        version: 1.1.1(marked@6.0.0)
       svelte:
         specifier: ^3.54.0
         version: 3.55.1
@@ -770,7 +776,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.15.9(svelte@3.58.0)(vite@4.3.9)
+      '@sveltejs/kit': 1.15.9(svelte@3.55.1)(vite@4.3.9)
       import-meta-resolve: 2.2.2
     dev: true
 
@@ -1916,6 +1922,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /github-slugger@2.0.0:
+    resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
+    dev: false
+
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -2434,8 +2444,25 @@ packages:
     dev: true
     optional: true
 
+  /marked-gfm-heading-id@3.0.5(marked@6.0.0):
+    resolution: {integrity: sha512-zpJVh1URZEen4T/+yXiply286lTxRPN+qbqabZkrPa3PnuLKr7z6RzsT3rahv7a6gsw7+u3vtFti3wo6iPfELQ==}
+    peerDependencies:
+      marked: ^4 || ^5 || ^6
+    dependencies:
+      github-slugger: 2.0.0
+      marked: 6.0.0
+    dev: false
+
   /marked-highlight@2.0.2(marked@6.0.0):
     resolution: {integrity: sha512-mQvRlFOUxlmwXSQzYCjrCv9JP6x2qIpLlcARxUy9VTbVIk5JUS4QhivagMfqiiKB164lcqMXco0YtQKq2pxwgA==}
+    peerDependencies:
+      marked: ^4 || ^5 || ^6
+    dependencies:
+      marked: 6.0.0
+    dev: false
+
+  /marked-mangle@1.1.1(marked@6.0.0):
+    resolution: {integrity: sha512-H7ggfMvj+Fdex1TgFVwN5iPFJDsKgAr2RM5rWcuqTWaM//xLaWnH7LduotA5d6RuYZTGOZjyjMenCEJbaNQfng==}
     peerDependencies:
       marked: ^4 || ^5 || ^6
     dependencies:

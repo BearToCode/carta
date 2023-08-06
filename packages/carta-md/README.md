@@ -71,13 +71,13 @@ npm i @cartamd/plugin-name
 
 Editor component exported properties:
 
-| Name             | Type                      | Description                               |
-| ---------------- | ------------------------- | ----------------------------------------- |
-| `carta`          | `Carta`                   | Carta Editor                              |
-| `theme`          | `string`                  | For custom css themes, see below for more |
-| `value`          | `string`                  | Markdown input                            |
-| `mode`           | `'tabs', 'split', 'auto'` | Tabs settings                             |
-| `disableToolbar` | `boolean`                 | Option to disable the toolbar             |
+| Name             | Type                          | Description                               |
+| ---------------- | ----------------------------- | ----------------------------------------- |
+| `carta`          | `Carta`                       | Carta Editor                              |
+| `theme`          | `string`                      | For custom css themes, see below for more |
+| `value`          | `string`                      | Markdown input                            |
+| `mode`           | `'tabs' \| 'split' \| 'auto'` | Tabs settings                             |
+| `disableToolbar` | `boolean`                     | Option to disable the toolbar             |
 
 ### Plugins
 
@@ -118,6 +118,8 @@ Carta options:
 | `disablePrefixes`  | `DefaultPrefixId[] \| true`    | Remove default prefixes by ids                  |
 | `historyOptions`   | `Partial<CartaHistoryOptions>` | History (Undo/Redo) options                     |
 | `sanitizer`        | `(html: string) => string`     | HTML sanitizer                                  |
+| `mangle`           | `false`                        | Allows disabling of marked-mangle               |
+| `gfmHeadingId`     | `GfmHeadingIdOptions \| false` | marked-gfm-heading-id options, or disabling     |
 
 You can easily extend Carta by creating custom plugins. Here are all the `CartaExtension` properties:
 

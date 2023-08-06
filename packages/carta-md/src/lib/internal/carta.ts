@@ -17,6 +17,8 @@ import {
 	type HighlightFunctions
 } from './highlight.js';
 import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
+import { mangle } from 'marked-mangle';
+import { gfmHeadingId, type GfmHeadingIdOptions } from 'marked-gfm-heading-id';
 
 // Node does not implement CustomEvent until v19, so we
 // "declare" it ourself for backward compatibility.
@@ -101,6 +103,16 @@ export interface CartaOptions {
 	 * HTML sanitizer.
 	 */
 	sanitizer?: (html: string) => string;
+	/**
+	 * marked-mangle.
+	 * @default true
+	 */
+	mangle?: false;
+	/**
+	 * marked-gfm-heading-ids options.
+	 * Use `false` to disable it.
+	 */
+	gfmHeadingId?: GfmHeadingIdOptions | false;
 }
 
 /**
@@ -219,6 +231,19 @@ export class Carta {
 				options?.disablePrefixes === true ? false : !options?.disablePrefixes?.includes(prefix.id)
 			)
 		);
+
+		// Load default marked extensions
+		if (options?.mangle !== false) {
+			marked.use(mangle());
+		} else {
+			marked.use({ mangle: false });
+		}
+
+		if (options?.gfmHeadingId !== false) {
+			marked.use(gfmHeadingId(options?.gfmHeadingId));
+		} else {
+			marked.use({ headerIds: false });
+		}
 
 		// Load marked extensions
 		const markedExtensions = this.options?.extensions
