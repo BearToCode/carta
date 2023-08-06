@@ -60,9 +60,6 @@ importers:
       '@cartamd/plugin-tikz':
         specifier: workspace:^
         version: link:../packages/plugin-tikz
-      '@speed-highlight/core':
-        specifier: ^1.1.11
-        version: 1.1.11
       carta-md:
         specifier: workspace:^
         version: link:../packages/carta-md
@@ -101,7 +98,7 @@ importers:
   packages/carta-md:
     dependencies:
       '@speed-highlight/core':
-        specifier: ^1.2.2
+        specifier: 1.2.2
         version: 1.2.2
       marked:
         specifier: ^6.0.0
@@ -754,10 +751,6 @@ packages:
       string-argv: 0.3.1
     dev: true
 
-  /@speed-highlight/core@1.1.11:
-    resolution: {integrity: sha512-KtUCQahL7WjK8zKEhWwzBa/7t6wimmOF9BFS/gIbVE48BwNEK7NafOkwzfYRF7D6RjENsP2aJDZRANwHDncqnw==}
-    dev: false
-
   /@speed-highlight/core@1.2.2:
     resolution: {integrity: sha512-Yb3ewAUq7QwLbU+vF28dxkOmBJG5bHUVWZWQBnUt2GIhVWdiShKcE6kBMsCRXvD8AuK7gy0rR4qNckqZnCzEFw==}
     dev: false
@@ -776,7 +769,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.15.9(svelte@3.55.1)(vite@4.3.9)
+      '@sveltejs/kit': 1.15.9(svelte@3.58.0)(vite@4.3.9)
       import-meta-resolve: 2.2.2
     dev: true
 

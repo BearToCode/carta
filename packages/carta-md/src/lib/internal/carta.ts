@@ -1,4 +1,4 @@
-import { marked, type MarkedExtension } from 'marked';
+import { Marked, type MarkedExtension } from 'marked';
 import type { CartaHistoryOptions } from './history';
 import { CartaInput } from './input';
 import {
@@ -169,6 +169,8 @@ export class Carta {
 	public readonly cartaListeners: CartaListeners;
 	public readonly components: CartaExtensionComponents;
 	public readonly dispatcher = new EventTarget();
+	public readonly markedAsync = new Marked();
+	public readonly markedSync = new Marked();
 
 	private _input: CartaInput | undefined;
 	private _renderer: CartaRenderer | undefined;
@@ -234,22 +236,25 @@ export class Carta {
 
 		// Load default marked extensions
 		if (options?.mangle !== false) {
-			marked.use(mangle());
+			this.useMarkedExtension(mangle());
 		} else {
-			marked.use({ mangle: false });
+			this.useMarkedExtension({ mangle: false });
 		}
 
 		if (options?.gfmHeadingId !== false) {
-			marked.use(gfmHeadingId(options?.gfmHeadingId));
+			this.useMarkedExtension(gfmHeadingId(options?.gfmHeadingId));
 		} else {
-			marked.use({ headerIds: false });
+			this.useMarkedExtension({ headerIds: false });
 		}
 
 		// Load marked extensions
 		const markedExtensions = this.options?.extensions
 			?.flatMap((ext) => ext.markedExtensions)
 			.filter((ext) => ext != null) as MarkedExtension[] | undefined;
-		if (markedExtensions) marked.use(...markedExtensions);
+		if (markedExtensions)
+			markedExtensions.forEach((ext) => {
+				this.useMarkedExtension(ext);
+			});
 
 		// Load highlight custom language
 		import('./shj.js')
@@ -272,13 +277,19 @@ export class Carta {
 		}
 	}
 
+	private useMarkedExtension(exts: MarkedExtension) {
+		this.markedAsync.use(exts);
+		if (!exts.async) this.markedSync.use(exts);
+	}
+
 	/**
 	 * Render markdown to html asynchronously.
 	 * @param markdown Markdown input.
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		const dirty = await marked.parse(markdown, { async: true });
+		const dirty = await this.markedAsync.parse(markdown, { async: true });
+		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
 		);
@@ -291,7 +302,8 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		const dirty = marked.parse(markdown, { async: false });
+		const dirty = this.markedSync.parse(markdown, { async: false });
+		if (typeof dirty != 'string') return '';
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render-ssr', { detail: { carta: this } })
 		);
