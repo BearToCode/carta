@@ -46,6 +46,7 @@ export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
 		},
 		markedExtensions: [
 			{
+				async: true,
 				extensions: [tikzTokenizer(options)]
 			}
 		],
@@ -167,7 +168,7 @@ async function loadTikz(options?: TikzExtensionOptions) {
 }
 
 function tidyTikzSource(tikzSource: string) {
-	// FROM: OBSIDIAN-TIKZ, CREDIT TO THEM
+	// From: Obsidian-TikZ plugin, credit to them
 	// Remove non-breaking space characters, otherwise we get errors
 	const remove = '&nbsp;';
 	tikzSource = tikzSource.replaceAll(remove, '');
