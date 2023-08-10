@@ -1,14 +1,15 @@
 <div align="center">
-	<h1>Carta</h1>
+	<img src="https://see.fontimg.com/api/renderfont4/lemD/eyJyIjoiZnMiLCJoIjoxMjMsInciOjEyNTAsImZzIjo5OCwiZmdjIjoiIzQ2RUJFNyIsImJnYyI6IiNGRkZGRkYiLCJ0IjoxfQ/Q2FydGE/bukhari-script.png" width="240" alt="logo">
+</div>
+
+<div align="center" style="margin-top: 1rem; margin-bottom: 1rem;">
 	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
 	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
 	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
+	<a href="http://beartocode.me/carta-md/"><img src="https://img.shields.io/badge/demo-available-16b57c" alt="demo"></a>
 </div>
 
-![Demo](https://github.com/BearToCode/carta-md/blob/master/images/demo.png?raw=true)
-
-A **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
-
+Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [demo](http://beartocode.me/carta-md/) to see it in action.
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
 
 ## Features
