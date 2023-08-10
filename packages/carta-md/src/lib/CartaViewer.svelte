@@ -20,10 +20,12 @@
 </script>
 
 <div bind:this={elem} class="carta-viewer__{theme} markdown-body">
-	{#each carta.components.filter(({ parent }) => [parent]
-			.flat()
-			.includes('preview')) as { component, props }}
-		<svelte:component this={component} {carta} {...props} />
-	{/each}
+	{#if mounted}
+		{#each carta.components.filter(({ parent }) => [parent]
+				.flat()
+				.includes('preview')) as { component, props }}
+			<svelte:component this={component} {carta} {...props} />
+		{/each}
+	{/if}
 	{@html rendered}
 </div>
