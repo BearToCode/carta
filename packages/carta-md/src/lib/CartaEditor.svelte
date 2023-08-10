@@ -133,7 +133,9 @@
 				>
 					<!-- Input extensions components -->
 					{#if mounted}
-						{#each carta.components.filter(({ parent }) => parent === 'input') as { component, props }}
+						{#each carta.components.filter(({ parent }) => [parent]
+								.flat()
+								.includes('input')) as { component, props }}
 							<svelte:component this={component} {carta} {...props} />
 						{/each}
 					{/if}
@@ -143,7 +145,9 @@
 				<CartaRenderer {carta} {handleScroll} bind:value bind:elem={rendererElem}>
 					<!-- Renderer extensions components -->
 					{#if mounted}
-						{#each carta.components.filter(({ parent }) => parent === 'renderer') as { component, props }}
+						{#each carta.components.filter(({ parent }) => [parent]
+								.flat()
+								.includes('renderer')) as { component, props }}
 							<svelte:component this={component} {carta} {...props} />
 						{/each}
 					{/if}
@@ -155,7 +159,9 @@
 	<!-- Editor extensions components -->
 	<!-- prevent loading components on ssr renderings -->
 	{#if mounted}
-		{#each carta.components.filter(({ parent }) => parent === 'editor') as { component, props }}
+		{#each carta.components.filter(({ parent }) => [parent]
+				.flat()
+				.includes('editor')) as { component, props }}
 			<svelte:component this={component} {carta} {...props} />
 		{/each}
 	{/if}

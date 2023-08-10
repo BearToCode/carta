@@ -52,6 +52,8 @@ export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CartaListeners = CartaListener<any>[];
 
+type MaybeArray<T> = T | Array<T>;
+
 export interface CartaExtensionComponent<T extends object> {
 	/**
 	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
@@ -64,7 +66,7 @@ export interface CartaExtensionComponent<T extends object> {
 	/**
 	 * Where this component will be placed.
 	 */
-	parent: 'editor' | 'input' | 'renderer';
+	parent: MaybeArray<'editor' | 'input' | 'renderer' | 'preview'>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
