@@ -1,2 +1,2 @@
-import{t as a}from"./2.32eb6ba5.js";const m=[{type:"cmnt",match:/^>.*|(=|-)\1+/gm},{type:"class",match:/\*\*((?!\*\*).)*\*\*/g},{match:/```((?!```)[^])*\n```/g,sub:t=>({type:"kwd",sub:[{match:/\n[^]*(?=```)/g,sub:t.split(`
+import{t as a}from"./2.7b4fc8e5.js";const m=[{type:"cmnt",match:/^>.*|(=|-)\1+/gm},{type:"class",match:/\*\*((?!\*\*).)*\*\*/g},{match:/```((?!```)[^])*\n```/g,sub:t=>({type:"kwd",sub:[{match:/\n[^]*(?=```)/g,sub:t.split(`
 `)[0].slice(3)||a(t)}]})},{type:"str",match:/`[^`]*`/g},{type:"var",match:/~~((?!~~).)*~~/g},{type:"kwd",match:/_[^_]*_|\*[^*]*\*/g},{type:"kwd",match:/^\s*(\*|\d+\.)\s/gm},{type:"oper",match:/\[[^\]]*]/g},{type:"func",match:/\([^)]*\)/g}];export{m as default};
