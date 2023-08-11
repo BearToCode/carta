@@ -5,6 +5,7 @@
 
 	export let carta: Carta;
 	export let value = '';
+	export let placeholder = '';
 	export let elem: HTMLDivElement;
 	export let handleScroll: (e: UIEvent) => void;
 
@@ -60,11 +61,12 @@
 		<textarea
 			name="md"
 			id="md"
+			spellcheck="false"
+			class="carta-font-code"
+			{placeholder}
 			bind:value
 			bind:this={textarea}
 			on:scroll={() => (textarea.scrollTop = 0)}
-			spellcheck="false"
-			class="carta-font-code"
 		/>
 	</div>
 

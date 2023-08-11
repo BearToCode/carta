@@ -81,6 +81,7 @@ Editor component exported properties:
 | `carta`          | `Carta`                       | Carta Editor                              |
 | `theme`          | `string`                      | For custom css themes, see below for more |
 | `value`          | `string`                      | Markdown input                            |
+| `placeholder`    | `string`                      | Placeholder text for textarea             |
 | `mode`           | `'tabs' \| 'split' \| 'auto'` | Tabs settings                             |
 | `disableToolbar` | `boolean`                     | Option to disable the toolbar             |
 

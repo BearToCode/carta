@@ -11,6 +11,7 @@
 	export let mode: 'tabs' | 'split' | 'auto' = 'auto';
 	export let scroll: 'sync' | 'async' = 'sync';
 	export let disableToolbar = false;
+	export let placeholder = '';
 
 	let width: number;
 	let selectedTab: 'write' | 'preview' = 'write';
@@ -125,10 +126,11 @@
 		<div class="carta-container mode-{windowMode}">
 			{#if windowMode == 'split' || selectedTab == 'write'}
 				<MarkdownInput
-					bind:resize={resizeInput}
 					{carta}
+					{placeholder}
 					{handleScroll}
 					bind:value
+					bind:resize={resizeInput}
 					bind:elem={inputElem}
 				>
 					<!-- Input extensions components -->
