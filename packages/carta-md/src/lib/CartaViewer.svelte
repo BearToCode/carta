@@ -20,6 +20,7 @@
 </script>
 
 <div bind:this={elem} class="carta-viewer__{theme} markdown-body">
+	{@html rendered}
 	{#if mounted}
 		{#each carta.components.filter(({ parent }) => [parent]
 				.flat()
@@ -27,5 +28,4 @@
 			<svelte:component this={component} {carta} {...props} />
 		{/each}
 	{/if}
-	{@html rendered}
 </div>
