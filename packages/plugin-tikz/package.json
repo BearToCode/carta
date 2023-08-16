@@ -30,13 +30,13 @@
 		"marked": "^6.0.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.3.0",
+		"carta-md": "^2.3.1",
 		"marked": "^4.3.0"
 	},
 	"files": [
 		"dist"
 	],
-	"version": "2.3.0",
+	"version": "2.3.1",
 	"keywords": [
 		"carta",
 		"markdown",
