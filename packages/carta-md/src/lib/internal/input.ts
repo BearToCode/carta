@@ -351,32 +351,103 @@ export class CartaInput {
 		document.body.appendChild(div);
 		const { offsetLeft: spanX, offsetTop: spanY } = span;
 		document.body.removeChild(div);
+		return {
+			x: inputX + spanX,
+			y: inputY + spanY,
 
-		// Add carta-input padding
-		const cartaInput = document.querySelector('.carta-input');
-		let padding = {
-			top: 0,
-			bottom: 0,
-			left: 0,
-			right: 0
+			left: inputX + spanX,
+			top: inputY + spanY,
+			right: this.textarea.clientWidth - inputX,
+			bottom: this.textarea.clientHeight - inputY
 		};
-		if (cartaInput) {
-			padding = {
-				top: parseInt(getComputedStyle(cartaInput).paddingTop, 10),
-				bottom: parseInt(getComputedStyle(cartaInput).paddingBottom, 10),
-				left: parseInt(getComputedStyle(cartaInput).paddingLeft, 10),
-				right: parseInt(getComputedStyle(cartaInput).paddingRight, 10)
-			};
+	}
+
+	/**
+	 * Moves an element next to the caret. Shall be called every time the element
+	 * changes width, height or the caret position changes.
+	 *
+	 * @example
+	 * ```svelte
+	 * <script>
+	 *   // ...
+	 *
+	 *   export let carta;
+	 *
+	 *   let caretPosition;
+	 *   let elem;
+	 *
+	 *   onMount(() => {
+	 *     carta.input.addEventListener('input', handleInput);
+	 *   });
+	 *
+	 *   onDestroy(() => {
+	 *     carta.input.removeEventListener('input', handleInput);
+	 *   });
+	 *
+	 *   function handleInput() {
+	 *   	 caretPosition = carta.input.getCursorXY();
+	 *   }
+	 *
+	 *   $: {
+	 *     caretPosition, elem.clientWidth, elem.clientHeight;
+	 *     carta.input.moveElemToCaret(elem);
+	 *   }
+	 * </script>
+	 *
+	 * <div bind:this={elem}>
+	 *   <!-- My stuff -->
+	 * </div>
+	 * ```
+	 *
+	 * @param elem The element to move.
+	 */
+	public moveElemToCaret(elem: HTMLElement) {
+		const elemWidth = elem.clientWidth;
+		const elemHeight = elem.clientHeight;
+
+		const caretPosition = this.getCursorXY();
+		const fontSize = this.getRowHeight();
+
+		// Left/Right
+		let left: number | undefined = caretPosition.left;
+		let right: number | undefined;
+
+		if (
+			elemWidth < this.container.clientWidth &&
+			left + elemWidth - this.container.scrollLeft >= this.container.clientWidth
+		) {
+			right = this.container.clientWidth - left;
+			left = undefined;
+		}
+		// Top/Bottom
+		let top: number | undefined = caretPosition.top;
+		let bottom: number | undefined;
+
+		if (
+			elemHeight < this.container.clientHeight &&
+			top + elemHeight - this.container.scrollTop >= this.container.clientHeight
+		) {
+			bottom = this.container.clientHeight - top;
+			top = undefined;
 		}
 
-		return {
-			x: inputX + spanX + padding.left,
-			y: inputY + spanY + padding.right,
+		elem.style.left = left !== undefined ? left + 'px' : 'unset';
+		elem.style.right = right !== undefined ? right + 'px' : 'unset';
+		elem.style.top = top !== undefined ? top + fontSize + 'px' : 'unset';
+		elem.style.bottom = bottom !== undefined ? bottom + 'px' : 'unset';
+	}
 
-			left: inputX + spanX + padding.left,
-			top: inputY + spanY + padding.top,
-			right: this.textarea.clientWidth - inputX + padding.right,
-			bottom: this.textarea.clientHeight - inputY + padding.right
-		};
+	/**
+	 * Get rough value for a row of the textarea.
+	 */
+	public getRowHeight() {
+		// Turns out calculating line height is quite tricky
+		const lineHeight = parseFloat(getComputedStyle(this.container).lineHeight);
+		const fontSize = parseFloat(getComputedStyle(this.container).fontSize);
+		if (isNaN(lineHeight)) {
+			// "normal" => use default 1.2 value for all modern browser
+			return Math.ceil(fontSize * 1.2);
+		}
+		return Math.ceil(fontSize * lineHeight);
 	}
 }

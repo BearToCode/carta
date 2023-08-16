@@ -16,9 +16,8 @@
 	let slashPosition = 0;
 	let filteredSnippets = snippets;
 	let groupedSnippets: [string, SlashSnippet[]][];
-	let elemWidth: number, elemHeight: number;
 	let snippetsElements: HTMLButtonElement[] = Array(snippets.length);
-	let style = '';
+	let elem: HTMLDivElement;
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -92,56 +91,6 @@
 		);
 	};
 
-	function getComponentStyle() {
-		if (!carta.input) return ``;
-
-		const container = carta.input.container;
-		const containerStyle = getComputedStyle(container);
-		const containerHeight =
-			container.clientHeight -
-			parseFloat(containerStyle.paddingTop) -
-			parseFloat(containerStyle.paddingBottom) -
-			parseFloat(containerStyle.marginTop) -
-			parseFloat(containerStyle.marginBottom);
-		const containerWidth =
-			container.clientWidth -
-			parseFloat(containerStyle.paddingLeft) -
-			parseFloat(containerStyle.paddingRight) -
-			parseFloat(containerStyle.marginLeft) -
-			parseFloat(containerStyle.marginRight);
-
-		// Left/Right
-		let left: number | undefined = caretPosition.left;
-		let right: number | undefined;
-
-		if (
-			elemWidth < containerWidth &&
-			left + elemWidth - carta.input.container.scrollLeft >= containerWidth
-		) {
-			right = containerWidth - left;
-			left = undefined;
-		}
-		// Top/Bottom
-		let top: number | undefined = caretPosition.top;
-		let bottom: number | undefined;
-
-		if (
-			elemHeight < containerHeight &&
-			top + elemHeight - carta.input.container.scrollTop >= containerHeight
-		) {
-			bottom = containerHeight - top;
-			top = undefined;
-		}
-
-		return `
-			--left: ${left !== undefined ? left + 'px' : 'unset'};
-			--right: ${right !== undefined ? right + 'px' : 'unset'};
-			--top: ${top !== undefined ? top + 'px' : 'unset'};
-			--bottom: ${bottom !== undefined ? bottom + 'px' : 'unset'};
-			--font-size: ${window.getComputedStyle(carta.input.textarea).fontSize};
-		`;
-	}
-
 	// Groups items by common key
 	type ObjectKey = string | number | symbol;
 	export const groupBy = <K extends ObjectKey, TItem extends Record<K, ObjectKey>>(
@@ -174,11 +123,11 @@
 	}
 
 	$: {
-		// Make statement reactive
-		elemWidth;
-		elemHeight;
-		caretPosition;
-		style = getComponentStyle();
+		if (elem) {
+			// Make statement reactive
+			caretPosition, elem.clientWidth, elem.clientHeight;
+			carta.input?.moveElemToCaret(elem);
+		}
 	}
 
 	$: {
@@ -199,14 +148,7 @@
 </script>
 
 {#if visible && filteredSnippets.length > 0}
-	<div
-		{style}
-		class="carta-slash"
-		bind:clientWidth={elemWidth}
-		bind:clientHeight={elemHeight}
-		in:inTransition
-		out:outTransition
-	>
+	<div class="carta-slash" bind:this={elem} in:inTransition out:outTransition>
 		{#each groupedSnippets as [group, snippets], groupIndex}
 			<span class="carta-slash-group">
 				{group}
@@ -232,10 +174,6 @@
 <style>
 	.carta-slash {
 		position: absolute;
-		left: var(--left);
-		right: var(--right);
-		top: calc(var(--top) + var(--font-size) + 4px);
-		bottom: calc(var(--bottom) + var(--font-size) * 2 + 4px);
 	}
 
 	.carta-slash span {

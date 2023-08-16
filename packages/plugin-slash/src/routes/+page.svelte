@@ -2,6 +2,7 @@
 	import { Carta, CartaEditor } from 'carta-md';
 	import { slash } from '$lib';
 	import 'carta-md/default-theme.css';
+	import '$lib/default-theme.css';
 	const carta = new Carta({
 		extensions: [slash()]
 	});
