@@ -18,7 +18,24 @@ Import the default styles:
 import '@cartamd/plugin-code/default.css';
 ```
 
-[Here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find other themes. The theme matches the one used in the main carta package (`carta-md/light.css` or `carta-md/dark.css`), so you need to remove it before adding any other.
+### Using the default highlighter
+
+Carta comes with a default highlighter that matches the one used to highlight markdown in the editor and is used by default.
+The theme is the same as the one used in the main carta package (`carta-md/light.css` or `carta-md/dark.css`).
+[Here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find other themes.
+
+### Using a custom highlighter
+
+You can also provide a custom highlighter, that can be either sync or async.
+
+```ts
+code({
+	customHighlight: {
+		highlighter: (code, lang) => myCustomHighlighter(code, lang),
+		langPrefix: 'my-highlighter-'
+	}
+});
+```
 
 ### Extension
 
@@ -55,5 +72,21 @@ interface CodeExtensionOptions {
 	 * @defaults false.
 	 */
 	lineNumbering?: boolean;
+
+	/**
+	 * Options for custom syntax highlighting.
+	 */
+	customHighlight?: {
+		/**
+		 * Custom highlight function. Beware that you'll have to provide your own styles.
+		 * This function needs to convert a string of code into html.
+		 */
+		highlighter: (code: string, lang: string) => string | Promise<string>;
+		/**
+		 * The language tag found immediately after the code block opening marker is
+		 * appended to this to form the class attribute added to the `<code>` element.
+		 */
+		langPrefix: string;
+	};
 }
 ```
