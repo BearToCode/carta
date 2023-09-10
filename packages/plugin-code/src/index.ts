@@ -25,7 +25,7 @@ let shj: HighlightFunctions;
  */
 export const code = (options?: CodeExtensionOptions): CartaExtension => {
 	return {
-		shjRef: (s) => (shj = s),
+		onLoad: ({ highlight }) => (shj = highlight),
 		markedExtensions: [
 			markedHighlight({
 				langPrefix: 'shj-lang-',

@@ -1,5 +1,5 @@
 import type { CartaExtension, CartaExtensionComponent } from 'carta-md';
-import type { marked } from 'marked';
+import type { TokenizerAndRendererExtension } from 'marked';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import nodeEmoji from 'node-emoji';
 import Emoji from './Emoji.svelte';
@@ -65,7 +65,7 @@ export const emoji = (options?: EmojiExtensionOptions): CartaExtension => {
 	};
 };
 
-function emojiTokenizerAndRenderer(): marked.TokenizerAndRendererExtension {
+function emojiTokenizerAndRenderer(): TokenizerAndRendererExtension {
 	return {
 		name: 'emoji',
 		level: 'inline',

@@ -56,8 +56,8 @@ let carta: Carta;
  */
 export const math = (options?: MathExtensionOptions): CartaExtension => {
 	return {
-		cartaRef: (c) => (carta = c),
-		shjRef: (shj) => {
+		onLoad: ({ carta: c, highlight: shj }) => {
+			carta = c;
 			import('./latex.js')
 				.then((module) => shj.loadCustomLanguage('latex', module))
 				.then(() => carta.input?.update());

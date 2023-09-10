@@ -129,17 +129,16 @@ Carta options:
 
 You can easily extend Carta by creating custom plugins. Here are all the `CartaExtension` properties:
 
-| Name               | Type                                      | Description                                                                                                                                                                             |
-| ------------------ | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `markedExtensions` | `marked.MarkedExtension[]`                | Marked extensions, more on that [here](https://marked.js.org/using_advanced)                                                                                                            |
-| `shortcuts`        | `KeyboardShortcut[]`                      | Additional keyboard shortcuts                                                                                                                                                           |
-| `icons`            | `CartaIcon[]`                             | Additional icons                                                                                                                                                                        |
-| `prefixes`         | `Prefix[]`                                | Additional prefixes                                                                                                                                                                     |
-| `listeners`        | `CartaListener[]`                         | Textarea event listeners                                                                                                                                                                |
-| `components`       | `CartaExtensionComponents`                | Additional components, that will be put after the editor. All components are given a `carta: Carta`. prop The editor has a `relative` position, so you can position elements absolutely |
-| `highlightRules`   | `HighlightRule[]`                         | Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).                                              |
-| `cartaRef`         | `(carta: Carta) => void`                  | This function can be used to access a reference to the `Carta` class immediately after initialization.                                                                                  |
-| `shjRef`           | `(functions: HighlightFunctions) => void` | This function can be used to access a reference to all highlight functions immediately after initialization.                                                                            |
+| Name               | Type                                   | Description                                                                                                                                                                             |
+| ------------------ | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `markedExtensions` | `marked.MarkedExtension[]`             | Marked extensions, more on that [here](https://marked.js.org/using_advanced)                                                                                                            |
+| `shortcuts`        | `KeyboardShortcut[]`                   | Additional keyboard shortcuts                                                                                                                                                           |
+| `icons`            | `CartaIcon[]`                          | Additional icons                                                                                                                                                                        |
+| `prefixes`         | `Prefix[]`                             | Additional prefixes                                                                                                                                                                     |
+| `listeners`        | `CartaListener[]`                      | Textarea event listeners                                                                                                                                                                |
+| `components`       | `CartaExtensionComponents`             | Additional components, that will be put after the editor. All components are given a `carta: Carta`. prop The editor has a `relative` position, so you can position elements absolutely |
+| `highlightRules`   | `HighlightRule[]`                      | Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).                                              |
+| `onLoad`           | `(data: { carta:Carta, ... }) => void` | Use this callback to execute code when one Carta instance loads the extension.                                                                                                          |
 
 If you created a plugin and want to share it, you can open an _issue_ and we will consider sponsoring it on this guide.
 

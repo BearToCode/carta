@@ -153,11 +153,18 @@ export interface CartaExtension {
 	 */
 	highlightRules?: ShjLanguageDefinition;
 	/**
+	 * Use this callback to execute code when one Carta instance loads the extension.
+	 * @param data General Carta related data.
+	 */
+	onLoad?: (data: { carta: Carta; highlight: HighlightFunctions }) => void;
+	/**
 	 * This function can be used to access a reference to the `Carta` class immediately after initialization.
+	 * @deprecated Use `onLoad` instead.
 	 */
 	cartaRef?: (carta: Carta) => void;
 	/**
 	 * This function can be used to access a reference to all highlight functions immediately after initialization.
+	 * @deprecated Use `onLoad` instead.
 	 */
 	shjRef?: (functions: HighlightFunctions) => void;
 }
@@ -275,6 +282,15 @@ export class Carta {
 					highlight,
 					highlightAutodetect,
 					loadCustomLanguage
+				});
+			ext.onLoad &&
+				ext.onLoad({
+					carta: this,
+					highlight: {
+						highlight,
+						highlightAutodetect,
+						loadCustomLanguage
+					}
 				});
 		}
 	}
