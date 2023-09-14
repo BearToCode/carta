@@ -23,7 +23,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor mode="split" {carta} />
+	<CartaEditor placeholder="Some text..." mode="split" {carta} />
 </main>
 
 <style>

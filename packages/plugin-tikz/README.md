@@ -1,6 +1,6 @@
 # Carta TikZ Plugin
 
-This plugin adds support for **PGF/TikZ** illustrations thanks to [TikzJax](https://tikzjax.com/). This plugins uses the code generated for the [Obsidian-TikZ plugin](https://github.com/artisticat1/obsidian-tikzjax). Install it using:
+This plugin adds support for **PGF/TikZ** illustrations thanks to [TikzJax](https://tikzjax.com/). It uses the code generated for the [Obsidian-TikZ plugin](https://github.com/artisticat1/obsidian-tikzjax). Install it using:
 
 ```
 npm i @cartamd/plugin-tikz

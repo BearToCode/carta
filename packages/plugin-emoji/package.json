@@ -1,6 +1,6 @@
 {
 	"name": "@cartamd/plugin-emoji",
-	"version": "2.2.1",
+	"version": "2.5.0",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -38,9 +38,9 @@
 		"node-emoji": "^1.11.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.2.1",
+		"carta-md": "^2.5.0",
 		"marked": "^4.3.0",
-		"svelte": "^3.54.0"
+		"svelte": "^3.54.0 || ^4.0.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
@@ -49,7 +49,7 @@
 		"@types/node-emoji": "^1.8.2",
 		"carta-md": "workspace:*",
 		"publint": "^0.1.9",
-		"svelte": "^3.54.0",
+		"svelte": "^3.54.0 || ^4.0.0",
 		"svelte-check": "^3.0.1",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",

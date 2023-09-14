@@ -16,6 +16,22 @@ interface CodeExtensionOptions {
 	 * @defaults false.
 	 */
 	lineNumbering?: boolean;
+
+	/**
+	 * Options for custom syntax highlighting.
+	 */
+	customHighlight?: {
+		/**
+		 * Custom highlight function. Beware that you'll have to provide your own styles.
+		 * This function needs to convert a string of code into html.
+		 */
+		highlighter: (code: string, lang: string) => string | Promise<string>;
+		/**
+		 * The language tag found immediately after the code block opening marker is
+		 * appended to this to form the class attribute added to the `<code>` element.
+		 */
+		langPrefix: string;
+	};
 }
 
 let shj: HighlightFunctions;
@@ -25,12 +41,16 @@ let shj: HighlightFunctions;
  */
 export const code = (options?: CodeExtensionOptions): CartaExtension => {
 	return {
-		shjRef: (s) => (shj = s),
+		onLoad: ({ highlight }) => (shj = highlight),
 		markedExtensions: [
 			markedHighlight({
-				langPrefix: 'shj-lang-',
+				langPrefix: options?.customHighlight?.langPrefix ?? 'shj-lang-',
 				async: true,
 				async highlight(code, lang) {
+					if (options?.customHighlight) {
+						return await options.customHighlight.highlighter(code, lang);
+					}
+
 					const { highlight, highlightAutodetect } = shj;
 
 					lang ||= options?.defaultLanguage ?? '';
