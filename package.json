@@ -39,16 +39,17 @@
 		"*.{js,ts,svelte}": "eslint --cache --fix",
 		"*.{js,ts,css,md,svelte,html,yml,json,cjs}": "prettier --write"
 	},
-	"pnpm": {
-		"overrides": {
-			"semver@<5.7.2": ">=5.7.2",
-			"semver@>=7.0.0 <7.5.2": ">=7.5.2",
-			"word-wrap@<1.2.4": ">=1.2.4"
-		}
-	},
 	"config": {
 		"commitizen": {
 			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"pnpm": {
+		"overrides": {
+			"@adobe/css-tools@<4.3.1": ">=4.3.1",
+			"semver@>=7.0.0 <7.5.2": ">=7.5.2",
+			"postcss@<8.4.31": ">=8.4.31",
+			"undici@<5.26.2": ">=5.26.2"
 		}
 	}
 }
