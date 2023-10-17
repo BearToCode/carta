@@ -147,3 +147,13 @@ If you created a plugin and want to share it, you can open an _issue_ and we wil
 Every contribution is well accepted. If you have a feature request you can open a new issue.
 
 This package uses a [pnpm workspace](https://pnpm.io/workspaces), so pnpm is required to download and put everything together properly.
+
+### Committing
+
+This repository is [commitizen](https://github.com/commitizen/cz-cli) friendly. To commit use:
+
+```
+npm run commit
+# or, if you have commitizen installed globally
+git cz
+```
