@@ -1,5 +1,19 @@
 import { detectLanguage } from '@speed-highlight/core/detect.js';
-import { highlightText, loadLanguage, type ShjLanguageDefinition } from '@speed-highlight/core';
+import {
+	highlightText,
+	loadLanguage,
+	type ShjLanguage,
+	type ShjLanguageDefinition
+} from '@speed-highlight/core';
+import type { CartaExtension } from './carta';
+import cartaMarkdown from './shj';
+
+// Workaround to add intellisense
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Nothing {}
+type Union<T, U> = T | (U & Nothing);
+
+type Lang = Union<ShjLanguage, string>;
 
 /**
  * Highlight text using Speed-Highlight. May return null on error(usually if requested
@@ -11,7 +25,7 @@ import { highlightText, loadLanguage, type ShjLanguageDefinition } from '@speed-
  */
 export async function highlight(
 	text: string,
-	lang: string,
+	lang: Lang,
 	hideLineNumbers?: boolean
 ): Promise<string | null> {
 	try {
@@ -62,4 +76,15 @@ export interface HighlightFunctions {
 	highlight: typeof highlight;
 	highlightAutodetect: typeof highlightAutodetect;
 	loadCustomLanguage: typeof loadCustomLanguage;
+}
+
+/**
+ * Load custom markdown syntax highlighting rules.
+ * Automatically called when a Carta instance is created.
+ * @param extensions Additional extensions used in Carta.
+ */
+export async function loadCustomMarkdown(extensions: CartaExtension[] = []) {
+	const highlightRules = extensions.map((ext) => ext.highlightRules ?? []).flat();
+	const lang = Array.prototype.concat(cartaMarkdown, highlightRules);
+	loadCustomLanguage('cartamd', { default: lang });
 }
