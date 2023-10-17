@@ -5,10 +5,10 @@
 <br>
 
 <div align="center">
-	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
-	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
-	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
-	<a href="http://beartocode.github.io/carta-md/"><img src="https://img.shields.io/badge/demo-available-16b57c" alt="demo"></a>
+	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=16b57c&labelColor=171d27&logo=npm&logoColor=white" alt="npm"></a>
+	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=16b57c&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle"></a>
+	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=16b57c&labelColor=171d27&logo=git&logoColor=white" alt="license"></a>
+	<a href="http://beartocode.github.io/carta-md/"><img src="https://img.shields.io/badge/available-red?label=demo&color=16b57c&labelColor=171d27&logo=svelte&logoColor=white" alt="demo"></a>
 </div>
 
 <br>
