@@ -14,7 +14,8 @@ import {
 	loadCustomLanguage,
 	highlight,
 	highlightAutodetect,
-	type HighlightFunctions
+	type HighlightFunctions,
+	loadCustomMarkdown
 } from './highlight.js';
 import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
 import { mangle } from 'marked-mangle';
@@ -266,12 +267,7 @@ export class Carta {
 			});
 
 		// Load highlight custom language
-		import('./shj.js')
-			.then((module) => {
-				// inject custom rules
-				module.default.unshift(...this.highlightRules);
-				return loadCustomLanguage('cartamd', module);
-			})
+		loadCustomMarkdown(this.options?.extensions ?? [])
 			// trigger re-render
 			.then(() => this.input?.update());
 
