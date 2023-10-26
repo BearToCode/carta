@@ -1,12 +1,68 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-declare global {
-namespace App {
-// interface Error {}
-// interface Locals {}
-// interface PageData {}
-// interface Platform {}
-}
-}
+# Carta Attachment Plugin
 
-export {};
+This plugin adds support for attachments. Install it using:
+
+```
+npm i @cartamd/plugin-attachment
+```
+
+## Setup
+
+### Styles
+
+Import the default theme, or create you own:
+
+```ts
+import '@cartamd/plugin-attachment/default.css';
+```
+
+### Extension
+
+```svelte
+<script lang="ts">
+	import { Carta, CartaEditor } from 'carta-md';
+	import { attachment } from '@cartamd/plugin-attachment';
+
+	const carta = new Carta({
+		extensions: [attachment()]
+	});
+</script>
+
+<CartaEditor {carta} />
+```
+
+## Options
+
+Here are the options you can pass to `attachment()`:
+
+```ts
+export interface AttachmentExtensionOptions {
+	/**
+	 * Upload a file to the server. Return the url of the uploaded file.
+	 * If an error occurs, return null. This function does **not** handle errors.
+	 * @param file The file to upload
+	 * @returns The uploaded file url, or null if it failed
+	 */
+	upload: (file: File) => Promise<string | null>;
+	/**
+	 * Supported mime types.
+	 *
+	 * @default ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'].
+	 */
+	supportedMimeTypes?: string[];
+	/**
+	 * Whether to disable the attach icon.
+	 *
+	 * @default false
+	 */
+	disableIcon?: boolean;
+	/**
+	 * Custom drop overlay component. Use `false` to disable the overlay.
+	 */
+	dropOverlay?: false | typeof SvelteComponent;
+	/**
+	 * Custom loading overlay component. Use `false` to disable the overlay.
+	 */
+	loadingOverlay?: false | typeof SvelteComponent<{ uploadingFiles: Writable<File[]> }>;
+}
+```
