@@ -23,12 +23,12 @@
 		"marked": "^6.0.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.6.0"
+		"carta-md": "^2.7.0"
 	},
 	"files": [
 		"dist"
 	],
-	"version": "2.6.0",
+	"version": "2.7.0",
 	"dependencies": {
 		"marked-highlight": "^2.0.2"
 	},

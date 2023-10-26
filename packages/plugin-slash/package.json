@@ -1,6 +1,6 @@
 {
 	"name": "@cartamd/plugin-slash",
-	"version": "2.6.0",
+	"version": "2.7.0",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -37,7 +37,7 @@
 		"bezier-easing": "^2.1.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.6.0",
+		"carta-md": "^2.7.0",
 		"svelte": "^3.54.0 || ^4.0.0"
 	},
 	"devDependencies": {
