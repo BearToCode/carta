@@ -235,7 +235,7 @@ export class Carta {
 		);
 
 		// Load default icons
-		this.icons.push(
+		this.icons.unshift(
 			...defaultIcons.filter((icon) =>
 				options?.disableIcons === true ? false : !options?.disableIcons?.includes(icon.id)
 			)
