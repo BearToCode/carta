@@ -21,6 +21,9 @@
 		on:dragenter={() => draggingOverOverlay.set(true)}
 		on:dragleave={() => draggingOverOverlay.set(false)}
 		on:drop={handleDrop}
+		role="button"
+		tabindex="0"
+		aria-label="Drop files to upload"
 	>
 		{#if dropOverlay}
 			<svelte:component this={dropOverlay} />
