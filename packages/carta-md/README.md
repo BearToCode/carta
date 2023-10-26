@@ -5,10 +5,10 @@
 <br>
 
 <div align="center">
-	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=%234f7ce3" alt="npm"></a>
-	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=%235db8fc" alt="bundle"></a>
-	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=%232cd1de" alt="license"></a>
-	<a href="http://beartocode.github.io/carta-md/"><img src="https://img.shields.io/badge/demo-available-16b57c" alt="demo"></a>
+	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=16b57c&labelColor=171d27&logo=npm&logoColor=white" alt="npm"></a>
+	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=16b57c&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle"></a>
+	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=16b57c&labelColor=171d27&logo=git&logoColor=white" alt="license"></a>
+	<a href="http://beartocode.github.io/carta-md/"><img src="https://img.shields.io/badge/available-red?label=demo&color=16b57c&labelColor=171d27&logo=svelte&logoColor=white" alt="demo"></a>
 </div>
 
 <br>
@@ -26,7 +26,8 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - **Katex** support (plugin);
 - **Slash** commands (plugin);
 - **Emojis**, with included search (plugin);
-- **Tikz** support(plugin).
+- **Tikz** support(plugin);
+- **Attachment** support(plugin);
 - Code blocks **syntax highlighting** (plugin).
 
 ## Getting started
@@ -91,13 +92,14 @@ Editor component exported properties:
 
 Each plugin's _readme_ includes a guide on its use.
 
-| Name                                                                                     | Description                             |
-| ---------------------------------------------------------------------------------------- | --------------------------------------- |
-| [plugin-math](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-math)   | Katex support                           |
-| [plugin-slash](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-slash) | Slash commands support                  |
-| [plugin-emoji](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-emoji) | Emojis support, including inline search |
-| [plugin-code](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-code)   | Code blocks syntax highlighting         |
-| [plugin-tikz](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-tikz)   | TikZ support using TikZJax              |
+| Name                                                                                               | Description                             |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [plugin-math](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-math)             | Katex support                           |
+| [plugin-slash](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-slash)           | Slash commands support                  |
+| [plugin-emoji](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-emoji)           | Emojis support, including inline search |
+| [plugin-code](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-code)             | Code blocks syntax highlighting         |
+| [plugin-tikz](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-tikz)             | TikZ support using TikZJax              |
+| [plugin-attachment](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-attachment) | Attachments support                     |
 
 ## Themes customization
 
@@ -149,3 +151,13 @@ If you created a plugin and want to share it, you can open an _issue_ and we wil
 Every contribution is well accepted. If you have a feature request you can open a new issue.
 
 This package uses a [pnpm workspace](https://pnpm.io/workspaces), so pnpm is required to download and put everything together properly.
+
+### Committing
+
+This repository is [commitizen](https://github.com/commitizen/cz-cli) friendly. To commit use:
+
+```
+npm run commit
+# or, if you have commitizen installed globally
+git cz
+```
