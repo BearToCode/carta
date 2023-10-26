@@ -23,9 +23,9 @@
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
 		},
-		"./default-theme.css": {
-			"import": "./dist/default-theme.css",
-			"require": "./dist/default-theme.css"
+		"./default.css": {
+			"import": "./dist/default.css",
+			"require": "./dist/default.css"
 		}
 	},
 	"files": [

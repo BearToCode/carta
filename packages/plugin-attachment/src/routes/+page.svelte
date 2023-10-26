@@ -3,7 +3,7 @@
 	import { Carta, CartaEditor } from 'carta-md';
 
 	import 'carta-md/default-theme.css';
-	import '$lib/default-theme.css';
+	import '$lib/default.css';
 
 	const carta = new Carta({
 		extensions: [
