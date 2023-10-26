@@ -35,5 +35,6 @@ export const packages = [
 	'plugin-slash',
 	'plugin-emoji',
 	'plugin-code',
-	'plugin-tikz'
+	'plugin-tikz',
+	'plugin-attachment'
 ];

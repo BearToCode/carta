@@ -1,4 +1,7 @@
 {
 	"cSpell.words": ["Carta", "cartamd", "Katex", "tikzjax", "tikz"],
-	"typescript.tsdk": "node_modules\\typescript\\lib"
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"[svelte]": {
+		"editor.defaultFormatter": "svelte.svelte-vscode"
+	}
 }

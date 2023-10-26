@@ -26,7 +26,8 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - **Katex** support (plugin);
 - **Slash** commands (plugin);
 - **Emojis**, with included search (plugin);
-- **Tikz** support(plugin).
+- **Tikz** support(plugin);
+- **Attachment** support(plugin);
 - Code blocks **syntax highlighting** (plugin).
 
 ## Getting started
@@ -91,13 +92,14 @@ Editor component exported properties:
 
 Each plugin's _readme_ includes a guide on its use.
 
-| Name                                                                                     | Description                             |
-| ---------------------------------------------------------------------------------------- | --------------------------------------- |
-| [plugin-math](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-math)   | Katex support                           |
-| [plugin-slash](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-slash) | Slash commands support                  |
-| [plugin-emoji](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-emoji) | Emojis support, including inline search |
-| [plugin-code](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-code)   | Code blocks syntax highlighting         |
-| [plugin-tikz](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-tikz)   | TikZ support using TikZJax              |
+| Name                                                                                               | Description                             |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [plugin-math](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-math)             | Katex support                           |
+| [plugin-slash](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-slash)           | Slash commands support                  |
+| [plugin-emoji](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-emoji)           | Emojis support, including inline search |
+| [plugin-code](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-code)             | Code blocks syntax highlighting         |
+| [plugin-tikz](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-tikz)             | TikZ support using TikZJax              |
+| [plugin-attachment](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-attachment) | Attachments support                     |
 
 ## Themes customization
 

@@ -5,6 +5,7 @@
 		{ "path": "plugin-emoji" },
 		{ "path": "plugin-slash" },
 		{ "path": "plugin-code" },
-		{ "path": "plugin-tikz" }
+		{ "path": "plugin-tikz" },
+		{ "path": "plugin-attachment" }
 	]
 }

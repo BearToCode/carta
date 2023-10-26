@@ -1,0 +1,72 @@
+.carta-drop-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	--icon-color: #e9ebef;
+	--bg-color: #4c6de8;
+	--border-color: #ffffff88;
+}
+
+.carta-drop-overlay-container {
+	width: 16rem;
+	height: 10rem;
+	max-width: 90%;
+	max-height: 90%;
+	padding: 0.75rem;
+
+	background: var(--bg-color);
+	border-radius: 20px;
+}
+
+.carta-drop-overlay-content {
+	width: calc(100% - 4px);
+	height: calc(100% - 4px);
+
+	border: 2px solid var(--border-color);
+	border-style: dashed;
+	border-radius: 12px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.carta-drop-overlay-content > .upload-icon {
+	width: 75%;
+	height: 75%;
+	color: var(--icon-color);
+}
+
+.carta-loading-overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	display: flex;
+	align-items: center;
+}
+
+.carta-loading-overlay > span {
+	margin-left: 0.5rem;
+}
+
+.carta-loading-overlay > .spinner-icon {
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
+	}
+}

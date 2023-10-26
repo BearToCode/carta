@@ -31,6 +31,7 @@
 		resizeInput && resizeInput();
 	}
 
+	let editorElem: HTMLDivElement;
 	let inputElem: HTMLDivElement;
 	let rendererElem: HTMLDivElement;
 	let currentlyScrolling: HTMLDivElement | null;
@@ -82,9 +83,11 @@
 		inputElem, rendererElem;
 		loadScrollPosition(selectedTab);
 	}
+
+	onMount(() => carta.$setElement(editorElem));
 </script>
 
-<div bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
+<div bind:this={editorElem} bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
 	{#if !disableToolbar}
 		<div class="carta-toolbar">
 			<div class="carta-toolbar-left">
