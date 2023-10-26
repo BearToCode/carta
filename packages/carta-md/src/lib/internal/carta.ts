@@ -182,8 +182,12 @@ export class Carta {
 	public readonly markedAsync = new Marked();
 	public readonly markedSync = new Marked();
 
+	private _element: HTMLDivElement | undefined;
 	private _input: CartaInput | undefined;
 	private _renderer: CartaRenderer | undefined;
+	public get element() {
+		return this._element;
+	}
 	public get input() {
 		return this._input;
 	}
@@ -323,6 +327,14 @@ export class Carta {
 		);
 		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
 		return dirty;
+	}
+
+	/**
+	 * **Internal**: set the editor element.
+	 * @param element The editor element.
+	 */
+	public $setElement(element: HTMLDivElement) {
+		this._element = element;
 	}
 
 	/**
