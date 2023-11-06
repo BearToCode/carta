@@ -37,7 +37,7 @@
 	"type": "module",
 	"dependencies": {
 		"@speed-highlight/core": "1.2.2",
-		"marked": "^6.0.0",
+		"marked": "^9.1.5",
 		"marked-gfm-heading-id": "^3.0.5",
 		"marked-mangle": "^1.1.1"
 	},
