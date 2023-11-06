@@ -27,11 +27,11 @@
 		"vite": "^4.3.9",
 		"vite-plugin-dts": "^2.3.0",
 		"vite-raw-plugin": "^1.0.2",
-		"marked": "^6.0.0"
+		"marked": "^9.1.5"
 	},
 	"peerDependencies": {
 		"carta-md": "^2.7.2",
-		"marked": "^4.3.0"
+		"marked": "^9.1.5"
 	},
 	"files": [
 		"dist"

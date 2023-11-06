@@ -20,12 +20,12 @@
 		"@types/katex": "^0.16.0",
 		"carta-md": "workspace:*",
 		"typescript": "^5.0.4",
-		"marked": "^6.0.0"
+		"marked": "^9.1.5"
 	},
 	"peerDependencies": {
 		"carta-md": "^2.7.2",
 		"katex": "^0.16.7",
-		"marked": "^4.3.0"
+		"marked": "^9.1.5"
 	},
 	"files": [
 		"dist"
