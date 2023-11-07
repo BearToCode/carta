@@ -30,7 +30,7 @@
 	],
 	"version": "2.8.0",
 	"dependencies": {
-		"marked-highlight": "^2.0.2"
+		"marked-highlight": "^2.0.6"
 	},
 	"keywords": [
 		"carta",
