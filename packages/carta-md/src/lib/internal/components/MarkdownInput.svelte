@@ -49,6 +49,7 @@
 	on:click={focus}
 	on:keydown={focus}
 	on:scroll={handleScroll}
+	aria-label="region"
 	class="carta-input"
 	bind:this={elem}
 >
