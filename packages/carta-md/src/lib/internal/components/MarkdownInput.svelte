@@ -56,7 +56,7 @@
 		<pre
 			class="shj-lang-md carta-font-code"
 			bind:this={highlighElem}
-			aria-hidden="true">{@html highlighted}</pre>
+			aria-hidden="true"><!-- eslint-disable-line svelte/no-at-html-tags -->{@html highlighted}</pre>
 
 		<textarea
 			name="md"

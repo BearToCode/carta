@@ -26,6 +26,7 @@
 </script>
 
 <div bind:this={elem} on:scroll={handleScroll} class="carta-renderer markdown-body">
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html renderedHtml}
 	<slot />
 </div>

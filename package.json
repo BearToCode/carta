@@ -13,13 +13,12 @@
 		"core": "cd packages/carta-md && npm run dev",
 		"dev": "cd demo && npm run dev",
 		"check": "cd packages/carta-md && npm run check",
-		"publish": "node scripts/publish.js",
 		"build": "node scripts/build.js",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install",
 		"commit": "cz",
-		"semantic-release": "npx --no-install semantic-release -e semantic-release-monorepo"
+		"publish": "npx --no-install semantic-release -e semantic-release-monorepo"
 	},
 	"devDependencies": {
 		"@types/node": "^18.16.3",
@@ -29,7 +28,7 @@
 		"cz-conventional-changelog": "^3.3.0",
 		"eslint": "^8.39.0",
 		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-svelte3": "^4.0.0",
+		"eslint-plugin-svelte": "^2.35.0",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.2",
 		"ora": "^6.3.0",

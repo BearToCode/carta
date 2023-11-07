@@ -20,6 +20,7 @@
 </script>
 
 <div bind:this={elem} class="carta-viewer__{theme} markdown-body">
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html rendered}
 	{#if mounted}
 		{#each carta.components.filter(({ parent }) => [parent]
