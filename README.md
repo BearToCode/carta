@@ -8,12 +8,12 @@
 	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=16b57c&labelColor=171d27&logo=npm&logoColor=white" alt="npm"></a>
 	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=16b57c&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle"></a>
 	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=16b57c&labelColor=171d27&logo=git&logoColor=white" alt="license"></a>
-	<a href="http://beartocode.github.io/carta-md/"><img src="https://img.shields.io/badge/available-red?label=demo&color=16b57c&labelColor=171d27&logo=svelte&logoColor=white" alt="demo"></a>
+	<a href="http://beartocode.github.io/carta/"><img src="https://img.shields.io/badge/available-red?label=demo&color=16b57c&labelColor=171d27&logo=svelte&logoColor=white" alt="demo"></a>
 </div>
 
 <br>
 
-Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [demo](http://beartocode.github.io/carta-md/) to see it in action.
+Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [demo](http://beartocode.github.io/carta/) to see it in action.
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
 
 ## Features
