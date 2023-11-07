@@ -8,13 +8,13 @@ export const execAsync = (command, cwd = undefined, options = { showLog: false }
 
 		child.stdout.setEncoding('utf8');
 		child.stdout.on('data', function (data) {
-			if (options?.showLog) stdout(data);
+			if (options?.showLog) stdout.write(data);
 			else out += 'stdout: ' + data.toString();
 		});
 
 		child.stderr.setEncoding('utf8');
 		child.stderr.on('data', function (data) {
-			if (options?.showLog) stderr(data);
+			if (options?.showLog) stderr.write(data);
 			else out += 'stderr: ' + data.toString();
 		});
 
