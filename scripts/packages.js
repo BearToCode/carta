@@ -1,21 +1,25 @@
 import * as childProcess from 'child_process';
+import { stderr, stdout } from 'process';
 
-export const execAsync = (command, cwd = undefined) =>
+export const execAsync = (command, cwd = undefined, options = { showLog: false }) =>
 	new Promise((resolve, reject) => {
 		const child = childProcess.spawn(command, { cwd, shell: true });
 		let out = '';
 
 		child.stdout.setEncoding('utf8');
 		child.stdout.on('data', function (data) {
-			out += 'stdout: ' + data.toString();
+			if (options?.showLog) stdout(data);
+			else out += 'stdout: ' + data.toString();
 		});
 
 		child.stderr.setEncoding('utf8');
 		child.stderr.on('data', function (data) {
-			out += 'stderr: ' + data.toString();
+			if (options?.showLog) stderr(data);
+			else out += 'stderr: ' + data.toString();
 		});
 
 		child.on('error', (e) => {
+			if (options?.showLog) return;
 			console.log(out);
 			console.log(e);
 		});
