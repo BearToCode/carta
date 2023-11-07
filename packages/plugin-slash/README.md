@@ -13,7 +13,7 @@ npm i @cartamd/plugin-slash
 Import the default theme, or create you own:
 
 ```ts
-import '@cartamd/plugin-code/default.css';
+import '@cartamd/plugin-slash/default-theme.css';
 ```
 
 ### Extension
@@ -21,7 +21,7 @@ import '@cartamd/plugin-code/default.css';
 ```svelte
 <script lang="ts">
 	import { Carta, CartaEditor } from 'carta-md';
-	import { math } from '@cartamd/plugin-math';
+	import { slash } from '@cartamd/plugin-slash';
 
 	const carta = new Carta({
 		extensions: [slash()]
