@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6
+
+      - name: Install dependendencies
+        run: pnpm i
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Run lint
+        run: pnpm run lint
+
+      - name: Run check
+        run: pnpm run check
+
+  release:
+    needs: verify
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      issues: write
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6
+
+      - name: Install dependendencies
+        run: pnpm i
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+
+      - name: Release
+        run: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
