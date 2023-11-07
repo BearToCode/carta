@@ -13,7 +13,7 @@ const config = {
 			assets: 'build'
 		}),
 		paths: {
-			base: process.env.NODE_ENV === 'production' ? '/carta-md' : ''
+			base: process.env.NODE_ENV === 'production' ? '/carta' : ''
 		}
 	}
 };

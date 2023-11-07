@@ -30,7 +30,7 @@ Orbiting this at a distance of roughly _ninety-two million miles_ is an utterly 
 
 # Basic Markdown
 
-You can have different types of text: **bold**, _italic_, \`code\` and ~~strikethrough~~. This is a [link](http://beartocode.github.io/carta-md/) to the page you are currently viewing.
+You can have different types of text: **bold**, _italic_, \`code\` and ~~strikethrough~~. This is a [link](http://beartocode.github.io/carta/) to the page you are currently viewing.
 
 Here is a quote:
 

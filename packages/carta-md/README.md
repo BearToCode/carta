@@ -7,7 +7,7 @@
 <div align="center">
 	<a href="https://www.npmjs.com/package/carta-md"><img src="https://img.shields.io/npm/v/carta-md?color=16b57c&labelColor=171d27&logo=npm&logoColor=white" alt="npm"></a>
 	<a href="https://bundlephobia.com/package/carta-md"><img src="https://img.shields.io/bundlephobia/min/carta-md?color=16b57c&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle"></a>
-	<a href="https://github.com/BearToCode/carta-md/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=16b57c&labelColor=171d27&logo=git&logoColor=white" alt="license"></a>
+	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/carta-md?color=16b57c&labelColor=171d27&logo=git&logoColor=white" alt="license"></a>
 	<a href="http://beartocode.github.io/carta-md/"><img src="https://img.shields.io/badge/available-red?label=demo&color=16b57c&labelColor=171d27&logo=svelte&logoColor=white" alt="demo"></a>
 </div>
 
@@ -92,20 +92,20 @@ Editor component exported properties:
 
 Each plugin's _readme_ includes a guide on its use.
 
-| Name                                                                                               | Description                             |
-| -------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| [plugin-math](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-math)             | Katex support                           |
-| [plugin-slash](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-slash)           | Slash commands support                  |
-| [plugin-emoji](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-emoji)           | Emojis support, including inline search |
-| [plugin-code](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-code)             | Code blocks syntax highlighting         |
-| [plugin-tikz](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-tikz)             | TikZ support using TikZJax              |
-| [plugin-attachment](https://github.com/BearToCode/carta-md/tree/master/packages/plugin-attachment) | Attachments support                     |
+| Name                                                                                            | Description                             |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [plugin-math](https://github.com/BearToCode/carta/tree/master/packages/plugin-math)             | Katex support                           |
+| [plugin-slash](https://github.com/BearToCode/carta/tree/master/packages/plugin-slash)           | Slash commands support                  |
+| [plugin-emoji](https://github.com/BearToCode/carta/tree/master/packages/plugin-emoji)           | Emojis support, including inline search |
+| [plugin-code](https://github.com/BearToCode/carta/tree/master/packages/plugin-code)             | Code blocks syntax highlighting         |
+| [plugin-tikz](https://github.com/BearToCode/carta/tree/master/packages/plugin-tikz)             | TikZ support using TikZJax              |
+| [plugin-attachment](https://github.com/BearToCode/carta/tree/master/packages/plugin-attachment) | Attachments support                     |
 
 ## Themes customization
 
 By using the `theme` property in `CartaEditor` and `CartaPreview` you can change their classes to `carta-editor__{theme}` and `carta-viewer__{theme}`.
 
-Check out the [default theme](https://github.com/BearToCode/carta-md/blob/master/packages/carta-md/src/lib/default-theme.css) to customize it.
+Check out the [default theme](https://github.com/BearToCode/carta/blob/master/packages/carta-md/src/lib/default-theme.css) to customize it.
 
 If you are using a plugin, look at its _readme_ for its customization.
 
