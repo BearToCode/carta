@@ -18,7 +18,7 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install",
 		"commit": "cz",
-		"publish": "cd packages/carta-md && npx --no-install semantic-release -e semantic-release-monorepo"
+		"publish": "pnpm -r --workspace-concurrency=1 exec -- npx --no-install semantic-release -e semantic-release-monorepo"
 	},
 	"devDependencies": {
 		"@types/node": "^18.16.3",
