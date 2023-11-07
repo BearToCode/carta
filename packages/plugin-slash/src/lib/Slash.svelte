@@ -109,7 +109,7 @@
 		// Count of previous elements
 		const prevCount = groupedSnippets
 			.filter((_, i) => i < groupIndex)
-			.reduce<number>((acc, [_, curr]) => acc + curr.length, 0);
+			.reduce<number>((acc, [, curr]) => acc + curr.length, 0);
 		return prevCount + elemIndex;
 	};
 

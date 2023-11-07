@@ -24,9 +24,13 @@ import '@cartamd/plugin-attachment/default.css';
 	import { attachment } from '@cartamd/plugin-attachment';
 
 	const carta = new Carta({
-		extensions: [attachment({
-			upload(file) { ... }
-		})]
+		extensions: [
+			attachment({
+				upload(file) {
+					/* ... */
+				}
+			})
+		]
 	});
 </script>
 

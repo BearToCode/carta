@@ -13,7 +13,6 @@
 
 	let visible = false;
 	let caretPosition = { left: 0, right: 0, top: 0, bottom: 0 };
-	let style = '';
 	let filter = '';
 	let colonPosition = 0;
 	let hoveringIndex = 0;

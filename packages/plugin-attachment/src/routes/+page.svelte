@@ -8,7 +8,7 @@
 	const carta = new Carta({
 		extensions: [
 			attachment({
-				async upload(file) {
+				async upload() {
 					await new Promise((resolve) => setTimeout(resolve, 1_000));
 					return 'some-path';
 				}
