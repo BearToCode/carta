@@ -23,7 +23,7 @@
 		"marked": "^9.1.5"
 	},
 	"peerDependencies": {
-		"carta-md": "^2.8.0"
+		"carta-md": "^3.0.0"
 	},
 	"files": [
 		"dist"
