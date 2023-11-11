@@ -12,9 +12,7 @@
 		".": {
 			"import": "./dist/index.js"
 		},
-		"./fonts.css": {
-			"import": "./dist/fonts.css"
-		}
+		"./fonts.css": "./dist/fonts.css"
 	},
 	"scripts": {
 		"build": "vite build"
@@ -36,7 +34,7 @@
 	"files": [
 		"dist"
 	],
-	"version": "2.8.0",
+	"version": "3.0.0",
 	"keywords": [
 		"carta",
 		"markdown",
