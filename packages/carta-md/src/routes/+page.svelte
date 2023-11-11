@@ -2,7 +2,7 @@
 	import { CartaEditor } from '$lib';
 	import { Carta } from '$lib/internal/carta';
 
-	import '$lib/default-theme.css';
+	import '$lib/default.css';
 	import '$lib/light.css';
 
 	const carta = new Carta();

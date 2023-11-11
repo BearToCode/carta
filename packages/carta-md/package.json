@@ -14,7 +14,8 @@
 			"svelte": "./dist/index.js",
 			"import": "./dist/index.js"
 		},
-		"./default-theme.css": "./dist/default-theme.css",
+		"./default.css": "./dist/default.css",
+		"./default-theme.css": "./dist/default.css",
 		"./light.css": "./dist/light.css",
 		"./dark.css": "./dist/dark.css"
 	},

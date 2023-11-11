@@ -56,7 +56,7 @@ npm i @cartamd/plugin-name
 <script lang="ts">
 	import { Carta, CartaEditor } from 'carta-md';
 	// Component default theme
-	import 'carta-md/default-theme.css';
+	import 'carta-md/default.css';
 	// Markdown input theme (Speed Highlight)
 	import 'carta-md/light.css';
 
@@ -105,7 +105,7 @@ Each plugin's _readme_ includes a guide on its use.
 
 By using the `theme` property in `CartaEditor` and `CartaPreview` you can change their classes to `carta-editor__{theme}` and `carta-viewer__{theme}`.
 
-Check out the [default theme](https://github.com/BearToCode/carta/blob/master/packages/carta-md/src/lib/default-theme.css) to customize it.
+Check out the [default theme](https://github.com/BearToCode/carta/blob/master/packages/carta-md/src/lib/default.css) to customize it.
 
 If you are using a plugin, look at its _readme_ for its customization.
 

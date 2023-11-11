@@ -13,7 +13,7 @@ npm i @cartamd/plugin-emoji
 Import the default theme, or create you own:
 
 ```ts
-import '@cartamd/plugin-emoji/default-theme.css';
+import '@cartamd/plugin-emoji/default.css';
 ```
 
 ### Extension

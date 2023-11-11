@@ -4,7 +4,7 @@ import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import nodeEmoji from 'node-emoji';
 import Emoji from './Emoji.svelte';
 import BezierEasing from 'bezier-easing';
-export * from './default-theme.css?inline';
+export * from './default.css?inline';
 
 export interface EmojiExtensionOptions {
 	/**

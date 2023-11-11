@@ -2,7 +2,7 @@
 	import { attachment } from '$lib';
 	import { Carta, CartaEditor } from 'carta-md';
 
-	import 'carta-md/default-theme.css';
+	import 'carta-md/default.css';
 	import '$lib/default.css';
 
 	const carta = new Carta({

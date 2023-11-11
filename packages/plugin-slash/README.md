@@ -13,7 +13,7 @@ npm i @cartamd/plugin-slash
 Import the default theme, or create you own:
 
 ```ts
-import '@cartamd/plugin-slash/default-theme.css';
+import '@cartamd/plugin-slash/default.css';
 ```
 
 ### Extension

@@ -7,14 +7,14 @@
 	import { tikz } from '@cartamd/plugin-tikz';
 	import { placeholderText } from './placeholder';
 
-	import 'carta-md/default-theme.css';
+	import 'carta-md/default.css';
 	import 'carta-md/light.css';
 
 	import 'katex/dist/katex.css';
 
 	import '@cartamd/plugin-code/default.css';
-	import '@cartamd/plugin-slash/default-theme.css';
-	import '@cartamd/plugin-emoji/default-theme.css';
+	import '@cartamd/plugin-slash/default.css';
+	import '@cartamd/plugin-emoji/default.css';
 	import '@cartamd/plugin-tikz/fonts.css';
 
 	const carta = new Carta({

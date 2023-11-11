@@ -23,10 +23,8 @@
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
 		},
-		"./default-theme.css": {
-			"import": "./dist/default-theme.css",
-			"require": "./dist/default-theme.css"
-		}
+		"./default.css": "./dist/default.css",
+		"./default-theme.css": "./dist/default.css"
 	},
 	"files": [
 		"dist",

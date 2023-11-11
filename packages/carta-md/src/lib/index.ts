@@ -6,5 +6,5 @@ export type { KeyboardShortcut } from '$lib/internal/shortcuts';
 export type { Prefix } from '$lib/internal/prefixes';
 export * from '$lib/internal/carta';
 export * from '$lib/internal/highlight';
-export * from './default-theme.css?inline';
+export * from './default.css?inline';
 export * from './light.css?inline';
