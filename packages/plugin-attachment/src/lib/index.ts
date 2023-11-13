@@ -127,7 +127,7 @@ export const attachment = (options: AttachmentExtensionOptions): CartaExtension 
 				component: LoadingOverlay,
 				props: {
 					uploadingFiles,
-					LoadingOverlay: options.loadingOverlay
+					loadingOverlay: options.loadingOverlay
 				},
 				parent: 'input'
 			}
