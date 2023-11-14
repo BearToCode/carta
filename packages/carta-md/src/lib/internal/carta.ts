@@ -330,7 +330,6 @@ export class Carta {
 		this.elementsToBind.forEach((it) => {
 			it.callback = this.input?.$bindToCaret(it.elem, it.portal).destroy;
 		});
-		this.elementsToBind = [];
 	}
 
 	/**
@@ -360,21 +359,18 @@ export class Carta {
 	 * ```
 	 */
 	public bindToCaret(element: HTMLElement, portal = document.querySelector('body') as HTMLElement) {
-		if (this.input) {
-			return this.input.$bindToCaret(element, portal);
-		} else {
-			let callback: (() => void) | undefined;
+		let callback: (() => void) | undefined;
 
-			// Bind the element later, when the input is ready
-			this.elementsToBind.push({ elem: element, portal, callback });
+		if (this.input) callback = this.input.$bindToCaret(element, portal).destroy;
 
-			return {
-				destroy() {
-					if (callback) {
-						callback();
-					}
-				}
-			};
-		}
+		// Bind the element later, when the input is ready
+		this.elementsToBind.push({ elem: element, portal, callback });
+
+		return {
+			destroy: () => {
+				callback && callback();
+				this.elementsToBind = this.elementsToBind.filter((it) => it.elem != element);
+			}
+		};
 	}
 }

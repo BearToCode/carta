@@ -14,35 +14,35 @@
 	let highlighted = value;
 	let mounted = false;
 
+	export const resize = () => {
+		if (!mounted || !textarea) return;
+		textarea.style.height = highlighElem.scrollHeight + 'px';
+		textarea.scrollTop = 0;
+	};
+
 	const focus = () => {
 		// Allow text selection
 		const selectedText = window.getSelection()?.toString();
 		if (selectedText) return;
 
-		textarea.focus();
+		textarea?.focus();
 	};
 
 	const highlightText = async (val: string) => {
 		highlighted = (await highlight(val, 'cartamd', true)) as string;
 	};
 
-	export const resize = () => {
-		if (!mounted) return;
-		textarea.style.height = highlighElem.scrollHeight + 'px';
-		textarea.scrollTop = 0;
-	};
-
-	$: {
-		highlightText(value).then(resize);
-	}
-
-	onMount(() => {
+	const setInput = () => {
 		carta.$setInput(textarea, elem, () => {
 			value = textarea.value;
 			highlightText(value);
 		});
-		mounted = true;
-	});
+	};
+
+	$: highlightText(value).then(resize);
+
+	onMount(() => (mounted = true));
+	onMount(setInput);
 </script>
 
 <div
@@ -72,7 +72,9 @@
 		/>
 	</div>
 
-	<slot />
+	{#if mounted}
+		<slot />
+	{/if}
 </div>
 
 <style>

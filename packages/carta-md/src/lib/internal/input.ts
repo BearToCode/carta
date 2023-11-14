@@ -452,7 +452,6 @@ export class CartaInput {
 			c.startsWith('carta-theme__')
 		);
 		elem.classList.add(themeClass ?? 'carta-theme__default');
-
 		elem.style.position = 'fixed';
 
 		const callback = () => {
@@ -492,6 +491,7 @@ export class CartaInput {
 
 		this.textarea.addEventListener('input', callback);
 		window.addEventListener('resize', callback);
+		window.addEventListener('scroll', callback);
 
 		// Initial positioning
 		callback();
@@ -505,6 +505,7 @@ export class CartaInput {
 				}
 				this.textarea.removeEventListener('input', callback);
 				window.removeEventListener('resize', callback);
+				window.removeEventListener('scroll', callback);
 			}
 		};
 	}

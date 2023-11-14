@@ -8,6 +8,7 @@
 	export let elem: HTMLDivElement;
 	export let handleScroll: (e: UIEvent) => void;
 
+	let mounted = false;
 	let renderedHtml = carta.renderSSR(value);
 
 	const debouncedRenderer = debounce(() => {
@@ -20,15 +21,16 @@
 		debouncedRenderer();
 	}
 
-	onMount(() => {
-		carta.$setRenderer(elem);
-	});
+	onMount(() => carta.$setRenderer(elem));
+	onMount(() => (mounted = true));
 </script>
 
 <div bind:this={elem} on:scroll={handleScroll} class="carta-renderer markdown-body">
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html renderedHtml}
-	<slot />
+	{#if mounted}
+		<slot />
+	{/if}
 </div>
 
 <style>
