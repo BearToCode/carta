@@ -447,7 +447,13 @@ export class CartaInput {
 	public $bindToCaret(elem: HTMLElement, portal: HTMLElement) {
 		// Move the element to body
 		portal.appendChild(elem);
-		elem.style.position = 'absolute';
+		// Add theme class as the the teleported element is not a child of the container
+		const themeClass = Array.from(this.container.classList).find((c) =>
+			c.startsWith('carta-theme__')
+		);
+		elem.classList.add(themeClass ?? 'carta-theme__default');
+
+		elem.style.position = 'fixed';
 
 		const callback = () => {
 			const relativePosition = this.getCursorXY();
