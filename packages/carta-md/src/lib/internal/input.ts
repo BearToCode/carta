@@ -514,12 +514,26 @@ export class CartaInput {
 	 */
 	public getRowHeight() {
 		// Turns out calculating line height is quite tricky
-		const lineHeight = parseFloat(getComputedStyle(this.container).lineHeight);
+		const rawLineHeight = getComputedStyle(this.container).lineHeight;
+
+		const lineHeight = parseFloat(rawLineHeight);
 		const fontSize = parseFloat(getComputedStyle(this.container).fontSize);
+
 		if (isNaN(lineHeight)) {
 			// "normal" => use default 1.2 value for all modern browser
 			return Math.ceil(fontSize * 1.2);
 		}
+		if (rawLineHeight.endsWith('em')) {
+			return Math.ceil(lineHeight * fontSize);
+		}
+		if (rawLineHeight.endsWith('%')) {
+			return Math.ceil((lineHeight / 100) * fontSize);
+		}
+		if (rawLineHeight.endsWith('px')) {
+			return Math.ceil(lineHeight);
+		}
+
+		// Line height can also be a multiplier of the font size
 		return Math.ceil(fontSize * lineHeight);
 	}
 }
