@@ -17,7 +17,6 @@
 	let hoveringIndex = 0;
 	let emojis: nodeEmoji.Emoji[] = [];
 	let emojisElements: HTMLButtonElement[] = Array(cols * maxRows);
-	let elem: HTMLDivElement;
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -122,7 +121,6 @@
 	<div
 		style="--cols: {cols};"
 		class="carta-emoji"
-		bind:this={elem}
 		in:inTransition
 		out:outTransition
 		use:carta.bindToCaret

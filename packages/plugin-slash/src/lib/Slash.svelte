@@ -16,7 +16,6 @@
 	let filteredSnippets = snippets;
 	let groupedSnippets: [string, SlashSnippet[]][];
 	let snippetsElements: HTMLButtonElement[] = Array(snippets.length);
-	let elem: HTMLDivElement;
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -136,7 +135,7 @@
 </script>
 
 {#if visible && filteredSnippets.length > 0}
-	<div class="carta-slash" bind:this={elem} in:inTransition out:outTransition use:carta.bindToCaret>
+	<div class="carta-slash" in:inTransition out:outTransition use:carta.bindToCaret>
 		{#each groupedSnippets as [group, snippets], groupIndex}
 			<span class="carta-slash-group">
 				{group}
