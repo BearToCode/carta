@@ -12,7 +12,6 @@
 	export let outTransition: (node: Element) => TransitionConfig;
 
 	let visible = false;
-	let caretPosition = { left: 0, right: 0, top: 0, bottom: 0 };
 	let filter = '';
 	let colonPosition = 0;
 	let hoveringIndex = 0;
@@ -75,7 +74,6 @@
 		} else if (e.key === ':') {
 			// Open
 			visible = true;
-			caretPosition = carta.input.getCursorXY();
 			colonPosition = carta.input.textarea.selectionStart;
 			filter = '';
 		}
@@ -108,14 +106,6 @@
 	}
 
 	$: {
-		if (elem) {
-			// Make statement reactive
-			caretPosition, elem.clientWidth, elem.clientHeight;
-			carta.input?.moveElemToCaret(elem);
-		}
-	}
-
-	$: {
 		// Scroll to make hovering emoji always visible
 		const hovering = emojisElements.at(hoveringIndex);
 		if (hovering) {
@@ -135,6 +125,7 @@
 		bind:this={elem}
 		in:inTransition
 		out:outTransition
+		use:carta.bindToCaret
 	>
 		{#each emojis as emoji, i}
 			<button

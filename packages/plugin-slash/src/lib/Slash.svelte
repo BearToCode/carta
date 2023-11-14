@@ -10,7 +10,6 @@
 	export let outTransition: (node: Element) => TransitionConfig;
 
 	let visible = false;
-	let caretPosition = { left: 0, right: 0, top: 0, bottom: 0 };
 	let hoveringIndex = 0;
 	let filter = '';
 	let slashPosition = 0;
@@ -63,7 +62,6 @@
 		} else if (e.key === '/') {
 			// Open
 			visible = true;
-			caretPosition = carta.input.getCursorXY();
 			slashPosition = carta.input.textarea.selectionStart + 1;
 			filter = '';
 		}
@@ -122,17 +120,7 @@
 		carta.input.update();
 	}
 
-	$: {
-		if (elem) {
-			// Make statement reactive
-			caretPosition, elem.clientWidth, elem.clientHeight;
-			carta.input?.moveElemToCaret(elem);
-		}
-	}
-
-	$: {
-		groupedSnippets = Object.entries(groupBy(filteredSnippets, 'group'));
-	}
+	$: groupedSnippets = Object.entries(groupBy(filteredSnippets, 'group'));
 
 	$: {
 		// Scroll to make hovering snippet always visible
@@ -148,7 +136,7 @@
 </script>
 
 {#if visible && filteredSnippets.length > 0}
-	<div class="carta-slash" bind:this={elem} in:inTransition out:outTransition>
+	<div class="carta-slash" bind:this={elem} in:inTransition out:outTransition use:carta.bindToCaret>
 		{#each groupedSnippets as [group, snippets], groupIndex}
 			<span class="carta-slash-group">
 				{group}
