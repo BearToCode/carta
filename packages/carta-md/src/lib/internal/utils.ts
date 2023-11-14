@@ -53,3 +53,13 @@ export function mergeDefaultInterface<T extends object>(
 	});
 	return final;
 }
+
+// Node does not implement CustomEvent until v19, so we
+// "declare" it ourself for backward compatibility.
+export class CustomEvent<T> extends Event {
+	detail: T;
+	constructor(message: string, data: EventInit & { detail: T }) {
+		super(message, data);
+		this.detail = data.detail;
+	}
+}

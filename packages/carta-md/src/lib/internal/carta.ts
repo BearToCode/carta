@@ -1,34 +1,24 @@
-import { Marked, type MarkedExtension } from 'marked';
 import type { CartaHistoryOptions } from './history';
+import type { SvelteComponentTyped } from 'svelte';
+import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
+import { Marked, type MarkedExtension } from 'marked';
 import { CartaInput } from './input';
 import {
-	defaultKeyboardShortcuts,
 	type DefaultShortcutId,
-	type KeyboardShortcut
+	type KeyboardShortcut,
+	defaultKeyboardShortcuts
 } from './shortcuts';
 import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
-import type { SvelteComponentTyped } from 'svelte';
 import { CartaRenderer } from './renderer';
 import {
+	type HighlightFunctions,
 	loadCustomLanguage,
 	highlight,
 	highlightAutodetect,
-	type HighlightFunctions,
 	loadCustomMarkdown
 } from './highlight.js';
-import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
-
-// Node does not implement CustomEvent until v19, so we
-// "declare" it ourself for backward compatibility.
-class CustomEvent<T> extends Event {
-	detail: T;
-	constructor(message: string, data: EventInit & { detail: T }) {
-		super(message, data);
-		this.detail = data.detail;
-	}
-}
-
+import { CustomEvent } from './utils';
 /**
  * Carta-specific event with extra payload.
  */
@@ -183,6 +173,12 @@ export class Carta {
 		return this._renderer;
 	}
 
+	private elementsToBind: {
+		elem: HTMLElement;
+		portal: HTMLElement;
+		callback: (() => void) | undefined;
+	}[] = [];
+
 	public constructor(public readonly options?: CartaOptions) {
 		this.keyboardShortcuts = [];
 		this.icons = [];
@@ -318,13 +314,23 @@ export class Carta {
 	 * @param callback Update callback.
 	 */
 	public $setInput(textarea: HTMLTextAreaElement, container: HTMLDivElement, callback: () => void) {
+		// Remove old listeners if any
+		this.input?.events.removeEventListener('update', callback);
+
 		this._input = new CartaInput(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
 			listeners: this.textareaListeners,
-			callback: callback,
 			historyOpts: this.options?.historyOptions
 		});
+
+		this._input.events.addEventListener('update', callback);
+
+		// Bind elements
+		this.elementsToBind.forEach((it) => {
+			it.callback = this.input?.$bindToCaret(it.elem, it.portal).destroy;
+		});
+		this.elementsToBind = [];
 	}
 
 	/**
@@ -333,5 +339,45 @@ export class Carta {
 	 */
 	public $setRenderer(container: HTMLDivElement) {
 		this._renderer = new CartaRenderer(container);
+	}
+
+	/**
+	 * Bind an element to the caret position.
+	 * @param element The element to bind.
+	 * @param portal The portal element.
+	 * @returns The unbind function.
+	 *
+	 * @example
+	 * ```svelte
+	 * <script>
+	 * 	export let carta;
+	 * </script>
+	 *
+	 * <div use:carta.bindToCaret>
+	 *   <!-- Stuff here -->
+	 * </div>
+	 *
+	 * ```
+	 */
+	public bindToCaret(
+		element: HTMLElement,
+		portal = document.querySelector('body') as HTMLBodyElement
+	) {
+		if (this.input) {
+			return this.input.$bindToCaret(element, portal);
+		} else {
+			let callback: (() => void) | undefined;
+
+			// Bind the element later, when the input is ready
+			this.elementsToBind.push({ elem: element, portal, callback });
+
+			return {
+				destroy() {
+					if (callback) {
+						callback();
+					}
+				}
+			};
+		}
 	}
 }

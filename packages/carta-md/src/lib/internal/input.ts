@@ -1,7 +1,7 @@
 import type { CartaListener } from './carta';
-import { CartaHistory, type CartaHistoryOptions } from './history';
 import type { Prefix } from './prefixes';
 import type { KeyboardShortcut } from './shortcuts';
+import { CartaHistory, type CartaHistoryOptions } from './history';
 import { areEqualSets } from './utils';
 
 /**
@@ -22,15 +22,16 @@ export interface InputSettings {
 	readonly prefixes: Prefix[];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly listeners: CartaListener<any>[];
-	readonly callback: () => void;
 	readonly historyOpts?: Partial<CartaHistoryOptions>;
 }
 
 export class CartaInput {
 	private pressedKeys: Set<string>;
-	public readonly history: CartaHistory;
 	// Used to detect keys that actually changed the textarea value
 	private onKeyDownValue: string | undefined;
+
+	public readonly history: CartaHistory;
+	public readonly events = new EventTarget();
 
 	constructor(
 		public readonly textarea: HTMLTextAreaElement,
@@ -113,7 +114,7 @@ export class CartaInput {
 				// Save state for shortcuts
 				if (!shortcut.preventSave)
 					this.history.saveState(this.textarea.value, this.textarea.selectionStart);
-				this.settings.callback();
+				this.update();
 			}
 
 			this.onKeyDownValue = undefined;
@@ -166,14 +167,14 @@ export class CartaInput {
 					const line = this.getLine(lineStartingIndex);
 					this.removeAt(lineStartingIndex, line.value.length);
 					this.textarea.setSelectionRange(line.start, line.start);
-					this.settings.callback();
+					this.update();
 					return;
 				}
 
 				const newPrefix = prefix.maker(match, line);
 				this.insertAt(cursor, '\n' + newPrefix);
 
-				this.settings.callback();
+				this.update();
 				// Update cursor position
 				const newCursorPosition = cursor + newPrefix.length + 1;
 				this.textarea.setSelectionRange(newCursorPosition, newCursorPosition);
@@ -317,7 +318,7 @@ export class CartaInput {
 	/**
 	 * Update the textarea.
 	 */
-	public update = () => this.settings.callback();
+	public update = () => this.events.dispatchEvent(new Event('update'));
 
 	/**
 	 * Returns x, y coordinates for absolute positioning of a span within a given text input
@@ -364,7 +365,7 @@ export class CartaInput {
 
 	/**
 	 * Moves an element next to the caret. Shall be called every time the element
-	 * changes width, height or the caret position changes.
+	 * changes width, height or the caret position changes. Consider using `bindToCaret` instead.
 	 *
 	 * @example
 	 * ```svelte
@@ -435,6 +436,71 @@ export class CartaInput {
 		elem.style.right = right !== undefined ? right + 'px' : 'unset';
 		elem.style.top = top !== undefined ? top + fontSize + 'px' : 'unset';
 		elem.style.bottom = bottom !== undefined ? bottom + 'px' : 'unset';
+	}
+
+	/**
+	 * **Internal**: Svelte action to bind an element to the caret position.
+	 * Use `bindToCaret` from the `carta` instance instead.
+	 * @param elem The element to position.
+	 * @param portal The portal to append the element to. Defaults to `document.body`.
+	 */
+	public $bindToCaret(elem: HTMLElement, portal: HTMLElement) {
+		// Move the element to body
+		portal.appendChild(elem);
+		elem.style.position = 'absolute';
+
+		const callback = () => {
+			const relativePosition = this.getCursorXY();
+			const absolutePosition = {
+				x: relativePosition.x + this.textarea.getBoundingClientRect().left,
+				y: relativePosition.y + this.textarea.getBoundingClientRect().top
+			};
+
+			const fontSize = this.getRowHeight();
+			const width = elem.clientWidth;
+			const height = elem.clientHeight;
+
+			// Left/Right
+			let left: number | undefined = absolutePosition.x;
+			let right: number | undefined;
+
+			if (left + width >= window.innerWidth) {
+				right = window.innerWidth - left;
+				left = undefined;
+			}
+
+			// Top/Bottom
+			let top: number | undefined = absolutePosition.y;
+			let bottom: number | undefined;
+
+			if (top + height >= window.innerHeight) {
+				bottom = window.innerHeight - top;
+				top = undefined;
+			}
+
+			elem.style.left = left !== undefined ? left + 'px' : 'unset';
+			elem.style.right = right !== undefined ? right + 'px' : 'unset';
+			elem.style.top = top !== undefined ? top + fontSize + 'px' : 'unset';
+			elem.style.bottom = bottom !== undefined ? bottom + 'px' : 'unset';
+		};
+
+		this.textarea.addEventListener('input', callback);
+		window.addEventListener('resize', callback);
+
+		// Initial positioning
+		callback();
+
+		return {
+			destroy: () => {
+				try {
+					portal.removeChild(elem);
+				} catch (e: unknown) {
+					// Ignore
+				}
+				this.textarea.removeEventListener('input', callback);
+				window.removeEventListener('resize', callback);
+			}
+		};
 	}
 
 	/**
