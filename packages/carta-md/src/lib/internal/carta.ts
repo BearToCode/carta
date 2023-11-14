@@ -359,10 +359,7 @@ export class Carta {
 	 *
 	 * ```
 	 */
-	public bindToCaret(
-		element: HTMLElement,
-		portal = document.querySelector('body') as HTMLBodyElement
-	) {
+	public bindToCaret(element: HTMLElement, portal = document.querySelector('body') as HTMLElement) {
 		if (this.input) {
 			return this.input.$bindToCaret(element, portal);
 		} else {
