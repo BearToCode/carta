@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Carta } from '../carta';
 	import { onMount } from 'svelte';
-	import { highlight } from '../highlight';
 
 	export let carta: Carta;
 	export let value = '';
@@ -28,18 +27,15 @@
 		textarea?.focus();
 	};
 
-	const highlightText = async (val: string) => {
-		highlighted = (await highlight(val, 'cartamd', true)) as string;
-	};
-
 	const setInput = () => {
 		carta.$setInput(textarea, elem, () => {
 			value = textarea.value;
-			highlightText(value);
+			highlight(value);
 		});
 	};
 
-	$: highlightText(value).then(resize);
+	const highlight = async (text: string) => (highlighted = (await carta.highlight(text)) as string);
+	$: highlight(value).then(resize);
 
 	onMount(() => (mounted = true));
 	onMount(setInput);

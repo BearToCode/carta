@@ -371,4 +371,14 @@ export class Carta {
 			}
 		};
 	}
+
+	/**
+	 * Highlight Markdown using Speed-Highlight and this Carta instance highlighting rules.
+	 * @param text Text to highlight.
+	 * @returns Highlighted html text.
+	 */
+	public async highlight(text: string) {
+		loadCustomMarkdown(this.options?.extensions);
+		return highlight(text, 'cartamd', true);
+	}
 }
