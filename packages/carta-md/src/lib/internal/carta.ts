@@ -331,7 +331,10 @@ export class Carta {
 
 		// Bind elements
 		this.elementsToBind.forEach((it) => {
-			it.callback = this.input?.$bindToCaret(it.elem, it.portal).destroy;
+			it.callback = this.input?.$bindToCaret(it.elem, {
+				portal: it.portal,
+				editorElement: this.element
+			}).destroy;
 		});
 	}
 
@@ -364,7 +367,8 @@ export class Carta {
 	public bindToCaret(element: HTMLElement, portal = document.querySelector('body') as HTMLElement) {
 		let callback: (() => void) | undefined;
 
-		if (this.input) callback = this.input.$bindToCaret(element, portal).destroy;
+		if (this.input)
+			callback = this.input.$bindToCaret(element, { portal, editorElement: this.element }).destroy;
 
 		// Bind the element later, when the input is ready
 		this.elementsToBind.push({ elem: element, portal, callback });

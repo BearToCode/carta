@@ -444,11 +444,14 @@ export class CartaInput {
 	 * @param elem The element to position.
 	 * @param portal The portal to append the element to. Defaults to `document.body`.
 	 */
-	public $bindToCaret(elem: HTMLElement, portal: HTMLElement) {
+	public $bindToCaret(
+		elem: HTMLElement,
+		data: { portal: HTMLElement; editorElement?: HTMLElement }
+	) {
 		// Move the element to body
-		portal.appendChild(elem);
+		data.portal.appendChild(elem);
 		// Add theme class as the the teleported element is not a child of the container
-		const themeClass = Array.from(this.container.classList).find((c) =>
+		const themeClass = Array.from(data.editorElement?.classList ?? []).find((c) =>
 			c.startsWith('carta-theme__')
 		);
 		elem.classList.add(themeClass ?? 'carta-theme__default');
@@ -499,7 +502,7 @@ export class CartaInput {
 		return {
 			destroy: () => {
 				try {
-					portal.removeChild(elem);
+					data.portal.removeChild(elem);
 				} catch (e: unknown) {
 					// Ignore
 				}
