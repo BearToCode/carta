@@ -242,9 +242,7 @@ export class Carta {
 			});
 
 		// Load highlight custom language
-		loadCustomMarkdown(this.options?.extensions ?? [])
-			// trigger re-render
-			.then(() => this.input?.update());
+		loadCustomMarkdown(this.options?.extensions);
 
 		for (const ext of this.options?.extensions ?? []) {
 			ext.cartaRef && ext.cartaRef(this);

@@ -83,8 +83,9 @@ export interface HighlightFunctions {
  * Automatically called when a Carta instance is created.
  * @param extensions Additional extensions used in Carta.
  */
-export async function loadCustomMarkdown(extensions: CartaExtension[] = []) {
+export function loadCustomMarkdown(extensions: CartaExtension[] = []) {
 	const highlightRules = extensions.map((ext) => ext.highlightRules ?? []).flat();
-	const lang = Array.prototype.concat(cartaMarkdown, highlightRules);
+	const lang = [];
+	lang.push(...cartaMarkdown, ...highlightRules);
 	loadCustomLanguage('cartamd', { default: lang });
 }
