@@ -313,7 +313,7 @@ export class Carta {
 	 */
 	public $setInput(textarea: HTMLTextAreaElement, container: HTMLDivElement, callback: () => void) {
 		// Remove old listeners if any
-		this.input?.events.removeEventListener('update', callback);
+		const previousInput = this.input;
 
 		this._input = new CartaInput(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
@@ -321,6 +321,11 @@ export class Carta {
 			listeners: this.textareaListeners,
 			historyOpts: this.options?.historyOptions
 		});
+
+		if (previousInput) {
+			previousInput.events.removeEventListener('update', callback);
+			this._input.history = previousInput.history;
+		}
 
 		this._input.events.addEventListener('update', callback);
 

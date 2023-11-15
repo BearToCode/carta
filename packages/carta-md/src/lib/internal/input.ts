@@ -30,7 +30,7 @@ export class CartaInput {
 	// Used to detect keys that actually changed the textarea value
 	private onKeyDownValue: string | undefined;
 
-	public readonly history: CartaHistory;
+	public history: CartaHistory;
 	public readonly events = new EventTarget();
 
 	constructor(
