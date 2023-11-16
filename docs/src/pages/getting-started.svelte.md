@@ -43,6 +43,7 @@ Setup a basic editor:
 
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks!
+		// More on that below
 		// sanitizer: ...
 	});
 
@@ -57,6 +58,22 @@ Setup a basic editor:
 		font-family: '...', monospace;
 	}
 </style>
+```
+
+Or, if you just want to render content:
+
+```svelte
+<script>
+	import { Carta, CartaViewer } from 'carta-md';
+
+	const carta = new Carta({
+		/* ... */
+	});
+
+	let value = '...';
+</script>
+
+<CartaViewer {carta} {value} />
 ```
 
 </Code>

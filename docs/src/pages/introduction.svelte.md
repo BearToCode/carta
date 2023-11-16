@@ -102,4 +102,12 @@ A list of examples inspired by popular platforms.
 </Card.Header>
 </Card.Root>
 
+<Card.Root href="/examples#math-stack-exchange">
+<Card.Header>
+<Icon.Cube class="w-8 h-8 text-sky-300" />
+<Card.Title>Math Stack Exchange</Card.Title>
+<Card.Description>Inspired by Math Stack Exchange.</Card.Description>
+</Card.Header>
+</Card.Root>
+
 </div>

@@ -20,7 +20,7 @@
 		]
 	});
 
-	export let value = '';
+	export let value = 'This is an example inspired by [GitHub](https://github.com)';
 </script>
 
 <CartaEditor bind:value mode="tabs" theme="github" {carta} />
