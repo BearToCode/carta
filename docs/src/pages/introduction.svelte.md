@@ -17,7 +17,7 @@ Carta is a lightweight, fast and extensible Svelte Markdown editor and viewer, d
 - **Lightweight**: no code editor is included, just a textarea with syntax highlighting, with Markdown related utilities.
 - **SSR compatible**: works great with SvelteKit.
 - **Keyboard shortcuts**: extensible and configurable.
-- **Toolbar**: add or remove according to your needs.
+- **Toolbar**: add or remove buttons according to your needs.
 - **Plugins friendly**: easily create your own extension.
 
 ## Official Plugins

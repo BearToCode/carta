@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import '$lib/styles/markdown.scss';
 	import { onMount, type SvelteComponent } from 'svelte';
 	import { page } from '$app/stores';
+
+	import '$lib/styles/markdown.scss';
+	import '$lib/styles/coldark.scss';
 
 	export let data: PageData;
 
