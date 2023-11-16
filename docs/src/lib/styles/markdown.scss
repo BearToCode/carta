@@ -36,4 +36,8 @@
 	a:not(h1 > a, h2 > a, h3 > a, .bg-card) {
 		@apply text-sky-300 underline;
 	}
+
+	code {
+		@apply text-neutral-50;
+	}
 }
