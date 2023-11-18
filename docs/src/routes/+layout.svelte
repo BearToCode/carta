@@ -11,11 +11,11 @@
 <div class="filter-blur-xl min-h-screen w-full py-24">
 	<div
 		class="fixed bottom-0 left-0 right-0 top-0 z-[-1] backdrop-blur-2xl backdrop-filter"
-		style="background: url(background.png) no-repeat center center; background-size: cover;"
+		style="background: url(/background.png) no-repeat center center; background-size: cover;"
 	></div>
 	<div class="container relative mx-auto flex">
 		<Sidebar class="sticky top-24 flex-grow" />
-		<main class="container w-screen max-w-7xl">
+		<main class="container w-screen max-w-4xl flex-shrink-0">
 			<slot />
 			<Footer />
 		</main>

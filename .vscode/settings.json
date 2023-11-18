@@ -10,7 +10,8 @@
 		"oldschool",
 		"rehype",
 		"tikz",
-		"tikzjax"
+		"tikzjax",
+		"typeof"
 	],
 	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"[svelte]": {

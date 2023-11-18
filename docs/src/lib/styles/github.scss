@@ -113,4 +113,50 @@
 	&.carta-emoji button.carta-active {
 		background: $border;
 	}
+
+	// Plugin slash
+	&.carta-slash {
+		width: 18rem;
+		max-height: 14rem;
+		overflow-y: scroll;
+		border-radius: 4px;
+		font-family: inherit;
+		background-color: $background;
+		padding: 6px;
+		scroll-padding: 6px;
+	}
+
+	&.carta-slash span {
+		width: fit-content;
+	}
+
+	&.carta-slash button {
+		background: none;
+		width: 100%;
+		padding: 10px;
+		border: 0;
+		border-radius: 4px;
+	}
+
+	&.carta-slash .carta-slash-group {
+		padding: 0 4px 0 4px;
+		margin-bottom: 4px;
+		font-size: 0.8rem;
+	}
+
+	&.carta-slash button.carta-active,
+	&.carta-slash button:hover {
+		background: $background-light;
+		cursor: pointer;
+	}
+
+	&.carta-slash .carta-snippet-title {
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+
+	&.carta-slash .carta-snippet-description {
+		font-size: 0.8rem;
+		text-overflow: ellipsis;
+	}
 }
