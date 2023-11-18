@@ -8,7 +8,7 @@
 >
 	<div class="container mx-auto grid grid-cols-3 items-center py-1">
 		<a href="/">
-			<img src="logo.png" class="h-8" alt="carta logo" />
+			<img src="/logo.png" class="h-8" alt="carta logo" />
 		</a>
 
 		<Search class="mx-auto" />

@@ -38,10 +38,12 @@
 
 <div class="h-full space-y-3 {className}">
 	{#each headers as header, i}
+		{@const margin = Number(header.tagName.split('')[1]) - 1}
 		{@const nextHeader = headers[i + 1]}
 		{#if header.children[0] instanceof HTMLAnchorElement && header.children[0].href}
 			{#key scrollY}
 				<a
+					style="margin-left: {margin * 0.75}rem;"
 					class="block text-sm {highlightHeader(header, nextHeader, i)
 						? 'font-medium text-sky-300'
 						: 'text-neutral-400'}"

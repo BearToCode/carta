@@ -72,7 +72,7 @@
 	</SidebarLink>
 
 	<!-- TikZ -->
-	<SidebarLink href=".plugins/tikz">
+	<SidebarLink href="/plugins/tikz">
 		<Cube class="h-5 w-5" />
 		<span class="text-[0.95rem]">TikZ</span>
 	</SidebarLink>
@@ -85,14 +85,9 @@
 
 	<h3 class="mb-3 ml-4 mt-6 text-sm font-medium first:mt-0 last:mb-0">API</h3>
 
-	<!-- Render -->
-	<SidebarLink href="/api/render">
-		<span class="text-[0.95rem]">Render</span>
-	</SidebarLink>
-
-	<!-- Render SSR -->
-	<SidebarLink href="/api/render-ssr">
-		<span class="text-[0.95rem]">Render SSR</span>
+	<!-- Utilities -->
+	<SidebarLink href="/api/utilities">
+		<span class="text-[0.95rem]">Utilities</span>
 	</SidebarLink>
 
 	<!-- Core -->
@@ -100,8 +95,8 @@
 		<span class="text-[0.95rem]">Core</span>
 	</SidebarLink>
 
-	<!-- Extensions -->
-	<SidebarLink href="/api/extensions">
-		<span class="text-[0.95rem]">Extensions</span>
+	<!-- Extension -->
+	<SidebarLink href="/api/extension">
+		<span class="text-[0.95rem]">Extension</span>
 	</SidebarLink>
 </div>

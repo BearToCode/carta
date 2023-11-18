@@ -24,6 +24,7 @@
 
 	$: if (mounted) {
 		$page.url;
+		clientSideComponent = null;
 		renderClientSideComponent();
 	}
 </script>

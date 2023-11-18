@@ -4,20 +4,25 @@
 	}
 
 	h1 {
-		@apply mb-4 mt-6 text-4xl font-bold text-white first:mt-0;
+		@apply mb-4 mt-8 text-4xl font-bold text-white first:mt-0;
 	}
 
 	h2 {
-		@apply mb-4 mt-6 text-3xl font-semibold text-white first:mt-0;
+		@apply mb-4 mt-8 text-3xl font-semibold text-white first:mt-0;
 	}
 
 	h3 {
-		@apply mb-3 mt-4 text-2xl font-medium text-white first:mt-0;
+		@apply mb-3 mt-7 text-2xl font-medium text-white first:mt-0;
+	}
+
+	h4 {
+		@apply mb-3 mt-3 text-lg font-medium text-white first:mt-0;
 	}
 
 	h1,
 	h2,
-	h3 {
+	h3,
+	h4 {
 		@apply scroll-mt-16;
 	}
 
@@ -33,11 +38,14 @@
 		@apply text-neutral-300;
 	}
 
-	a:not(h1 > a, h2 > a, h3 > a, .bg-card) {
+	a:not(h1 > a, h2 > a, h3 > a, h4 > a, .bg-card) {
 		@apply text-sky-300 underline;
 	}
 
 	code {
-		@apply text-neutral-50;
+		@apply rounded;
+		&:not([class*='language-']) {
+			@apply bg-neutral-800 px-1 text-neutral-100;
+		}
 	}
 }

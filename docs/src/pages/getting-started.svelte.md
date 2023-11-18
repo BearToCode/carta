@@ -60,7 +60,11 @@ Setup a basic editor:
 </style>
 ```
 
+</Code>
+
 Or, if you just want to render content:
+
+<Code>
 
 ```svelte
 <script>
