@@ -18,8 +18,12 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
+<button class="mr-2 block md:hidden">
+	<MagnifyingGlass class="h-7 w-7 text-neutral-200" />
+</button>
+
 <button
-	class="flex w-[360px] items-center justify-between rounded-lg border border-neutral-700 bg-neutral-900 px-2 py-1.5 text-sm {className}"
+	class="hidden w-[360px] items-center justify-between rounded-lg border border-neutral-700 bg-neutral-900 px-2 py-1.5 text-sm md:flex {className}"
 	on:click={() => (open = !open)}
 >
 	<div class="inline-flex items-center space-x-2">
