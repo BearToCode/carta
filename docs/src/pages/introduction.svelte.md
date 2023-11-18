@@ -26,7 +26,7 @@ Carta comes with a set of official plugins for the most common use cases.
 
 <br />
 
-<div class="w-full grid grid-cols-2 gap-4">
+<div class="w-full grid sm:grid-cols-2 gap-4">
 
 <Card.Root href="/plugins/math">
 <Card.Header>
@@ -84,7 +84,7 @@ A list of examples inspired by popular platforms.
 
 <br>
 
-<div class="w-full grid grid-cols-2 gap-4">
+<div class="w-full grid sm:grid-cols-2 gap-4">
 
 <Card.Root href="/examples#github">
 <Card.Header>

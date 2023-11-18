@@ -20,7 +20,7 @@
 	class="flex h-12 items-center space-x-2 p-2 {className}"
 >
 	<GithubLogo class="h-5 w-5" />
-	<div class="flex h-min flex-col justify-center space-y-1">
+	<div class="hidden h-min flex-col justify-center space-y-1 md:flex">
 		<p class="text-[0.9rem] font-semibold leading-3">BearToCode/carta</p>
 		{#if loading}
 			<div class="pulse my-1.5 h-3 w-[80px] rounded-full bg-neutral-800" />

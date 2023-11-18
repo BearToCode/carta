@@ -6,12 +6,16 @@
 <nav
 	class="fixed left-0 right-0 top-0 z-10 bg-neutral-900 bg-opacity-50 backdrop-blur-2xl backdrop-filter"
 >
-	<div class="container mx-auto grid grid-cols-3 items-center py-1">
+	<div class="container mx-auto flex items-center justify-between px-4 py-1 sm:px-6">
 		<a href="/">
 			<img src="/logo.png" class="h-8" alt="carta logo" />
 		</a>
 
+		<div class="flex-grow" />
+
 		<Search class="mx-auto" />
+
+		<div class="hidden flex-grow md:block" />
 
 		<GitHub class="ml-auto" />
 	</div>
