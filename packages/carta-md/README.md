@@ -1,4 +1,4 @@
-<div align="end">
+<div align="right">
 	<a href="https://www.npmjs.com/package/carta-md">
 		<img src="https://img.shields.io/npm/v/carta-md?color=0328fc&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
 	</a>
