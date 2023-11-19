@@ -29,36 +29,6 @@ npm i @cartamd/plugin-tikz
 <CartaEditor {carta} />
 ```
 
-## Options
+## Documentation
 
-Here are the options you can pass to `tikz()`:
-
-```ts
-interface TikzExtensionOptions {
-	/**
-	 * Enables Tikzjax console output.
-	 */
-	debug?: boolean;
-	/**
-	 * Class for generated svg div container.
-	 */
-	class?: string;
-	/**
-	 * Whether to center the generated expression.
-	 * @default true
-	 */
-	center?: boolean;
-	/**
-	 * Post processing function for html.
-	 * This also runs on stored html, differently
-	 * from `postProcess`, which only runs when
-	 * the element is first created.
-	 */
-	postProcessing?: (html: string) => string;
-	/**
-	 * Post processing function for rendered SVGs Elem.
-	 * @deprecated Use `postProcessing` instead.
-	 */
-	postProcess?: (elem: SVGElement) => void;
-}
-```
+Checkout the [docs](https://beartocode.github.io/carta/plugins/tikz) for examples, options and more.

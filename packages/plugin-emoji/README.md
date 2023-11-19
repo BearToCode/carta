@@ -31,19 +31,6 @@ import '@cartamd/plugin-emoji/default.css';
 <CartaEditor {carta} />
 ```
 
-## Options
+## Documentation
 
-Here are the options you can pass to `emoji()`:
-
-```ts
-export interface EmojiExtensionOptions {
-	/**
-	 * Custom in transition. See https://svelte.dev/docs#run-time-svelte-transition.
-	 */
-	inTransition?: (node: Element) => TransitionConfig;
-	/**
-	 * Custom out transition. See https://svelte.dev/docs#run-time-svelte-transition.
-	 */
-	outTransition?: (node: Element) => TransitionConfig;
-}
-```
+Checkout the [docs](https://beartocode.github.io/carta/plugins/emoji) for examples, options and more.

@@ -31,27 +31,6 @@ import '@cartamd/plugin-slash/default.css';
 <CartaEditor {carta} />
 ```
 
-## Options
+## Documentation
 
-Here are the options you can pass to `slash()`:
-
-```ts
-export interface SlashExtensionOptions {
-	/**
-	 * List of default snippets to disable.
-	 */
-	disableDefaultSnippets?: DefaultSnippetId[] | true;
-	/**
-	 * Additional snippets.
-	 */
-	snippets?: SlashSnippet[];
-	/**
-	 * Custom in transition. See https://svelte.dev/docs#run-time-svelte-transition.
-	 */
-	inTransition?: (node: Element) => TransitionConfig;
-	/**
-	 * Custom out transition. See https://svelte.dev/docs#run-time-svelte-transition.
-	 */
-	outTransition?: (node: Element) => TransitionConfig;
-}
-```
+Checkout the [docs](https://beartocode.github.io/carta/plugins/slash) for examples, options and more.
