@@ -8,6 +8,7 @@ title: Code
 </script>
 
 This plugin adds support for code blocks **syntax highlighting**.
+This is done using [Speed-highlight JS](https://github.com/speed-highlight/core), which supports dynamic imports. This way, languages definitions are only imported at the moment of need.
 
 ## Installation
 
@@ -18,8 +19,6 @@ npm i @cartamd/plugin-code
 ```
 
 </Code>
-
-This is done using [Speed-highlight JS](https://github.com/speed-highlight/core), which supports dynamic imports. This way, languages definitions are only imported at the moment of need.
 
 ## Setup
 
