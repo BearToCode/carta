@@ -1,6 +1,6 @@
 <div align="end">
 	<a href="https://www.npmjs.com/package/carta-md">
-		<img src="https://img.shields.io/npm/v/carta-md?color=0328fc&labelColor=171d27&	logo=npm&logoColor=white" alt="npm">
+		<img src="https://img.shields.io/npm/v/carta-md?color=0328fc&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
 	</a>
 	<a href="https://bundlephobia.com/package/carta-md">
 		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=035efc&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
