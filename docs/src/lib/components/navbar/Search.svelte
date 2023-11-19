@@ -10,6 +10,7 @@
 	} from '$lib/search';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	export { className as class };
 
@@ -82,7 +83,7 @@
 					<Command.Item
 						onSelect={() => {
 							if (result.match?.heading) goto(`/${result.path}#${result.match.heading.id}`);
-							else goto(`/${result.path}`);
+							else goto(`${base}/${result.path}`);
 							open = false;
 						}}
 						class="group"
