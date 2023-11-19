@@ -1,5 +1,19 @@
 {
-	"cSpell.words": ["Carta", "cartamd", "Katex", "tikzjax", "tikz"],
+	"cSpell.words": [
+		"Carta",
+		"cartamd",
+		"coldark",
+		"dompurify",
+		"flexsearch",
+		"gruvbox",
+		"Katex",
+		"mdsvex",
+		"oldschool",
+		"rehype",
+		"tikz",
+		"tikzjax",
+		"typeof"
+	],
 	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"[svelte]": {
 		"editor.defaultFormatter": "svelte.svelte-vscode"

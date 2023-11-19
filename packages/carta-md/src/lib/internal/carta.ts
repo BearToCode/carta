@@ -33,8 +33,8 @@ export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> 
 		ev: K extends CartaEventType
 			? CartaEvent
 			: K extends keyof HTMLElementEventMap
-			? HTMLElementEventMap[K]
-			: Event
+			  ? HTMLElementEventMap[K]
+			  : Event
 	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];

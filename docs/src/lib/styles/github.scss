@@ -1,0 +1,162 @@
+.carta-theme__github {
+	// Core styles
+	$background: #0d1117;
+	$background-light: #161b22;
+	$border: #2b3138;
+	$accent: #1f6feb;
+
+	&.carta-editor {
+		background-color: $background;
+		border: 1px solid $border;
+		border-radius: 0.5rem;
+
+		&:focus-within {
+			outline: 2px solid $accent;
+		}
+
+		.carta-wrapper {
+			padding: 1rem;
+			flex-grow: 1;
+			overflow-y: auto;
+
+			.carta-container {
+				min-height: 120px;
+				max-height: 160px;
+			}
+		}
+
+		.carta-font-code {
+			font-family: 'Fira Code', monospace;
+			caret-color: white;
+		}
+
+		.carta-toolbar {
+			height: 2.5rem;
+
+			background-color: $background-light;
+			border-bottom: 1px solid $border;
+
+			padding-right: 12px;
+			border-top-left-radius: 0.5rem;
+			border-top-right-radius: 0.5rem;
+
+			.carta-icon {
+				width: 2rem;
+				height: 2rem;
+
+				&:hover {
+					color: white;
+					background-color: $border;
+				}
+			}
+		}
+
+		.carta-toolbar-left {
+			& > *:first-child {
+				border-top-left-radius: 0.5rem;
+			}
+
+			& > * {
+				padding-left: 1rem;
+				padding-right: 1rem;
+				font-size: 0.95rem;
+			}
+
+			.carta-active {
+				height: 100%;
+				background-color: $background;
+				transform: translateY(1px);
+				color: white;
+
+				border-right: 1px solid $border;
+				border-bottom: 1px solid $background;
+
+				&:not(:first-child) {
+					border-left: 1px solid $border;
+				}
+			}
+		}
+
+		[class*='shj-lang-'] {
+			background: transparent;
+		}
+	}
+
+	// Plugin emoji
+	&.carta-emoji {
+		width: 18rem;
+		max-height: 14rem;
+		overflow-y: scroll;
+		border-radius: 4px;
+		font-family: inherit;
+		background-color: $background;
+		padding: 6px;
+		scroll-padding: 6px;
+		gap: 6px;
+	}
+
+	&.carta-emoji button {
+		background: $background-light;
+
+		aspect-ratio: 1;
+		border-radius: 4px;
+		border: 0;
+		padding: 0;
+
+		cursor: pointer;
+
+		font-size: 1.2rem;
+		line-height: 100%;
+	}
+
+	&.carta-emoji button:hover,
+	&.carta-emoji button.carta-active {
+		background: $border;
+	}
+
+	// Plugin slash
+	&.carta-slash {
+		width: 18rem;
+		max-height: 14rem;
+		overflow-y: scroll;
+		border-radius: 4px;
+		font-family: inherit;
+		background-color: $background;
+		padding: 6px;
+		scroll-padding: 6px;
+	}
+
+	&.carta-slash span {
+		width: fit-content;
+	}
+
+	&.carta-slash button {
+		background: none;
+		width: 100%;
+		padding: 10px;
+		border: 0;
+		border-radius: 4px;
+	}
+
+	&.carta-slash .carta-slash-group {
+		padding: 0 4px 0 4px;
+		margin-bottom: 4px;
+		font-size: 0.8rem;
+	}
+
+	&.carta-slash button.carta-active,
+	&.carta-slash button:hover {
+		background: $background-light;
+		cursor: pointer;
+	}
+
+	&.carta-slash .carta-snippet-title {
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+
+	&.carta-slash .carta-snippet-description {
+		font-size: 0.8rem;
+		text-overflow: ellipsis;
+	}
+}

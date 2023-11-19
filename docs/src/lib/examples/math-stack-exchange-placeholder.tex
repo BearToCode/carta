@@ -1,0 +1,23 @@
+> Here is a formula:
+
+$$
+\dfrac{\partial}{\partial t}(
+	\dfrac{\partial \mathcal{L}}{\partial \dot{q}_k}
+) - \dfrac{\partial \mathcal{L}}{\partial q_k} = 0
+$$
+
+> And here is a circuit:
+
+```tikz
+\usepackage{circuitikz}
+
+\begin{document}
+	\begin{circuitikz} \draw
+		(0,0) to[battery] (0,4)
+  		to[ammeter] (4,4) -- (4,0)
+  		to[lamp] (0,0)
+		;
+	\end{circuitikz}
+\end{document}
+```
+

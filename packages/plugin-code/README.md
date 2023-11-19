@@ -52,41 +52,6 @@ code({
 <CartaEditor {carta} />
 ```
 
-## Options
+## Documentation
 
-Here are the options you can pass to `code()`:
-
-```ts
-interface CodeExtensionOptions {
-	/**
-	 * Default language when none is provided.
-	 */
-	defaultLanguage?: string;
-	/**
-	 * Whether to autodetect a language when none is provided.
-	 * Overwritten by `defaultLanguage`.
-	 */
-	autoDetect?: string;
-	/**
-	 * Line numbering.
-	 * @defaults false.
-	 */
-	lineNumbering?: boolean;
-
-	/**
-	 * Options for custom syntax highlighting.
-	 */
-	customHighlight?: {
-		/**
-		 * Custom highlight function. Beware that you'll have to provide your own styles.
-		 * This function needs to convert a string of code into html.
-		 */
-		highlighter: (code: string, lang: string) => string | Promise<string>;
-		/**
-		 * The language tag found immediately after the code block opening marker is
-		 * appended to this to form the class attribute added to the `<code>` element.
-		 */
-		langPrefix: string;
-	};
-}
-```
+Checkout the [docs](https://beartocode.github.io/carta/plugins/code) for examples, options and more.
