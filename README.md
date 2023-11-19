@@ -1,12 +1,12 @@
 <div align="right">
 	<a href="https://www.npmjs.com/package/carta-md">
-		<img src="https://img.shields.io/npm/v/carta-md?color=0328fc&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
+		<img src="https://img.shields.io/npm/v/carta-md?color=0384fc&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
 	</a>
 	<a href="https://bundlephobia.com/package/carta-md">
-		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=035efc&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
+		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=0384fc&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
 	</a>
 	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE">
-		<img src="https://img.shields.io/npm/l/carta-md?color=0373fc&labelColor=171d27&logo=git&logoColor=white" alt="license">
+		<img src="https://img.shields.io/npm/l/carta-md?color=0384fc&labelColor=171d27&logo=git&logoColor=white" alt="license">
 	</a>
 	<a href="http://beartocode.github.io/carta/">
 		<img src="https://img.shields.io/readthedocs/carta?logo=svelte&color=0384fc&logoColor=ffffff&labelColor=171d27" alt="docs">
