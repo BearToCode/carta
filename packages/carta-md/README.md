@@ -14,7 +14,9 @@
 </div>
 
 <div align="center">
-	<img alt="banner" src="https://i.postimg.cc/1XPm8FSD/Frame-8.png">
+	<a href="https://beartocode.github.io/carta/">
+		<img alt="banner" src="https://i.postimg.cc/1XPm8FSD/Frame-8.png">
+	</a>
 </div>
 
 <br>
