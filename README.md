@@ -51,15 +51,15 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 
 ## Packages
 
-| Package                                                                       | Status                                                                        |
-| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [carta-md](https://www.npmjs.com/package/carta-md)                            | ![carta-md](https://img.shields.io/npm/v/carta-md)                            |
-| [plugin-math](https://www.npmjs.com/package/@cartamd/plugin-math)             | ![plugin-math](https://img.shields.io/npm/v/@cartamd/plugin-code)             |
-| [plugin-code](https://www.npmjs.com/package/@cartamd/plugin-code)             | ![plugin-code](https://img.shields.io/npm/v/@cartamd/plugin-emoji)            |
-| [plugin-emoji](https://www.npmjs.com/package/@cartamd/plugin-emoji)           | ![plugin-emoji](https://img.shields.io/npm/v/@cartamd/plugin-math)            |
-| [plugin-slash](https://www.npmjs.com/package/@cartamd/plugin-slash)           | ![plugin-slash](https://img.shields.io/npm/v/@cartamd/plugin-slash)           |
-| [plugin-tikz](https://www.npmjs.com/package/@cartamd/plugin-tikz)             | ![plugin-tikz](https://img.shields.io/npm/v/@cartamd/plugin-tikz)             |
-| [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) |
+| Package                                                                       | Status                                                                        | Docs                                                                         |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [carta-md](https://www.npmjs.com/package/carta-md)                            | ![carta-md](https://img.shields.io/npm/v/carta-md)                            | [/](https://beartocode.github.io/carta/introduction)                         |
+| [plugin-math](https://www.npmjs.com/package/@cartamd/plugin-math)             | ![plugin-math](https://img.shields.io/npm/v/@cartamd/plugin-math)             | [/plugins/math](https://beartocode.github.io/carta/plugins/math)             |
+| [plugin-code](https://www.npmjs.com/package/@cartamd/plugin-code)             | ![plugin-code](https://img.shields.io/npm/v/@cartamd/plugin-code)             | [/plugins/code](https://beartocode.github.io/carta/plugins/code)             |
+| [plugin-emoji](https://www.npmjs.com/package/@cartamd/plugin-emoji)           | ![plugin-emoji](https://img.shields.io/npm/v/@cartamd/plugin-emoji)           | [/plugins/emoji](https://beartocode.github.io/carta/plugins/emoji)           |
+| [plugin-slash](https://www.npmjs.com/package/@cartamd/plugin-slash)           | ![plugin-slash](https://img.shields.io/npm/v/@cartamd/plugin-slash)           | [/plugins/slash](https://beartocode.github.io/carta/plugins/slash)           |
+| [plugin-tikz](https://www.npmjs.com/package/@cartamd/plugin-tikz)             | ![plugin-tikz](https://img.shields.io/npm/v/@cartamd/plugin-tikz)             | [/plugins/tikz](https://beartocode.github.io/carta/plugins/tikz)             |
+| [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) | [/plugins/attachment](https://beartocode.github.io/carta/plugins/attachment) |
 
 # Getting started
 
