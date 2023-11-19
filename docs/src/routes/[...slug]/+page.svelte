@@ -5,6 +5,7 @@
 
 	import '$lib/styles/markdown.scss';
 	import '$lib/styles/coldark.scss';
+	import { base } from '$app/paths';
 
 	export let data: PageData;
 
@@ -13,7 +14,8 @@
 	async function renderClientSideComponent() {
 		// Load a reactive version of the page to keep reactivity
 		const pages = import.meta.glob('../../pages/**/*.svelte.md');
-		const match = pages[`../../pages/${$page.url.pathname.slice(1)}.svelte.md`];
+		const path = $page.url.pathname.slice(base.length).slice(1);
+		const match = pages[`../../pages/${path}.svelte.md`];
 		clientSideComponent = ((await match()) as { default: typeof SvelteComponent }).default;
 	}
 

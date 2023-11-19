@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Link from '$lib/components/link/Link.svelte';
 	import { cn } from '$lib/utils';
 
 	let className = '';
@@ -6,7 +7,7 @@
 	export let href: string;
 </script>
 
-<a
+<Link
 	{href}
 	class={cn(
 		'bg-card text-card-foreground block rounded-xl border bg-opacity-30 shadow hover:border-sky-300',
@@ -20,4 +21,4 @@
 	on:mouseleave
 >
 	<slot />
-</a>
+</Link>

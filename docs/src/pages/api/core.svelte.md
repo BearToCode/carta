@@ -3,6 +3,10 @@ section: API
 title: Core
 ---
 
+<script>
+	import { base } from '$app/paths';
+</script>
+
 # `Carta` options
 
 List of options that can be used when creating `Carta`:
@@ -60,7 +64,7 @@ Defaults to 1MB.
 
 Type: `(html: string) => void`
 
-HTML sanitizer. See [here](/getting-started#sanitization) for more details.
+HTML sanitizer. See [here]({base}/getting-started#sanitization) for more details.
 
 # `CartaEditor` options
 
