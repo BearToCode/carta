@@ -5,6 +5,7 @@
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import '../app.postcss';
+	import { base } from '$app/paths';
 </script>
 
 <Navbar />
@@ -12,7 +13,7 @@
 <div class="filter-blur-xl min-h-screen w-full py-16 xl:py-24">
 	<div
 		class="fixed bottom-0 left-0 right-0 top-0 z-[-1] backdrop-blur-2xl backdrop-filter"
-		style="background: url(/background.png) no-repeat center center; background-size: cover;"
+		style="background: url({base}/background.png) no-repeat center center; background-size: cover;"
 	></div>
 	<MobileSidebar class="xl:hidden" />
 	<div class="container relative mx-auto flex px-4 sm:px-6">
