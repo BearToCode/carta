@@ -147,6 +147,9 @@ importers:
       cmdk-sv:
         specifier: ^0.0.6
         version: 0.0.6(svelte@4.2.2)
+      flexsearch:
+        specifier: 0.7.21
+        version: 0.7.21
       katex:
         specifier: ^0.16.7
         version: 0.16.7
@@ -166,6 +169,9 @@ importers:
       '@sveltejs/kit':
         specifier: ^1.5.0
         version: 1.27.1(svelte@4.2.2)(vite@4.3.9)
+      '@types/flexsearch':
+        specifier: ^0.7.6
+        version: 0.7.6
       '@types/katex':
         specifier: ^0.16.0
         version: 0.16.0
@@ -192,7 +198,7 @@ importers:
         version: 3.5.2(postcss@8.4.31)(sass@1.69.5)(svelte@4.2.2)
       tailwindcss:
         specifier: ^3.3.5
-        version: 3.3.5(ts-node@10.9.1)
+        version: 3.3.5
       tslib:
         specifier: ^2.4.1
         version: 2.5.0
@@ -201,7 +207,7 @@ importers:
         version: 5.1.6
       vite:
         specifier: ^4.3.9
-        version: 4.3.9(@types/node@18.16.3)(sass@1.69.5)
+        version: 4.3.9(sass@1.69.5)
 
   packages/carta-md:
     dependencies:
@@ -1378,7 +1384,7 @@ packages:
       svelte: 4.2.2
       tiny-glob: 0.2.9
       undici: 5.26.3
-      vite: 4.3.9(@types/node@18.16.3)(sass@1.69.5)
+      vite: 4.3.9(sass@1.69.5)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1459,7 +1465,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 2.4.2(svelte@4.2.2)(vite@4.3.9)
       debug: 4.3.4
       svelte: 4.2.2
-      vite: 4.3.9(@types/node@18.16.3)(sass@1.69.5)
+      vite: 4.3.9(sass@1.69.5)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1498,7 +1504,7 @@ packages:
       magic-string: 0.30.5
       svelte: 4.2.2
       svelte-hmr: 0.15.2(svelte@4.2.2)
-      vite: 4.3.9(@types/node@18.16.3)(sass@1.69.5)
+      vite: 4.3.9(sass@1.69.5)
       vitefu: 0.2.4(vite@4.3.9)
     transitivePeerDependencies:
       - supports-color
@@ -1549,6 +1555,10 @@ packages:
 
   /@types/estree@1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
+
+  /@types/flexsearch@0.7.6:
+    resolution: {integrity: sha512-H5IXcRn96/gaDmo+rDl2aJuIJsob8dgOXDqf8K0t8rWZd1AFNaaspmRsElESiU+EWE33qfbFPgI0OC/B1g9FCA==}
+    dev: true
 
   /@types/hast@3.0.3:
     resolution: {integrity: sha512-2fYGlaDy/qyLlhidX42wAH0KBi2TCjKMH8CHmBXgRlJ3Y+OXTiqsPQ6IWarZKwF1JoUcAJdPogv1d4b0COTpmQ==}
@@ -3151,6 +3161,10 @@ packages:
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
+
+  /flexsearch@0.7.21:
+    resolution: {integrity: sha512-W7cHV7Hrwjid6lWmy0IhsWDFQboWSng25U3VVywpHOTJnnAZNPScog67G+cVpeX9f7yDD21ih0WDrMMT+JoaYg==}
+    dev: false
 
   /focus-trap@7.5.4:
     resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
@@ -5081,7 +5095,7 @@ packages:
       yaml: 1.10.2
     dev: true
 
-  /postcss-load-config@4.0.1(postcss@8.4.31)(ts-node@10.9.1):
+  /postcss-load-config@4.0.1(postcss@8.4.31):
     resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
     engines: {node: '>= 14'}
     peerDependencies:
@@ -5095,7 +5109,6 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.31
-      ts-node: 10.9.1(@types/node@18.16.3)(typescript@5.1.6)
       yaml: 2.2.2
     dev: true
 
@@ -6298,7 +6311,7 @@ packages:
       '@babel/runtime': 7.23.2
     dev: false
 
-  /tailwindcss@3.3.5(ts-node@10.9.1):
+  /tailwindcss@3.3.5:
     resolution: {integrity: sha512-5SEZU4J7pxZgSkv7FP1zY8i2TIAOooNZ1e/OGtxIEv6GltpoiXUqWvLy89+a10qYTB1N5Ifkuw9lqQkN9sscvA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -6320,7 +6333,7 @@ packages:
       postcss: 8.4.31
       postcss-import: 15.1.0(postcss@8.4.31)
       postcss-js: 4.0.1(postcss@8.4.31)
-      postcss-load-config: 4.0.1(postcss@8.4.31)(ts-node@10.9.1)
+      postcss-load-config: 4.0.1(postcss@8.4.31)
       postcss-nested: 6.0.1(postcss@8.4.31)
       postcss-selector-parser: 6.0.12
       resolve: 1.22.2
@@ -6856,6 +6869,39 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /vite@4.3.9(sass@1.69.5):
+    resolution: {integrity: sha512-qsTNZjO9NoJNW7KnOrgYwczm0WctJ8m/yqYAMAK9Lxt4SoySUfS5S8ia9K7JHpa3KEeMfyF8LoJ3c5NeBJy6pg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.17.18
+      postcss: 8.4.31
+      rollup: 3.26.2
+      sass: 1.69.5
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /vitefu@0.2.4(vite@4.3.9):
     resolution: {integrity: sha512-fanAXjSaf9xXtOOeno8wZXIhgia+CZury481LsDaV++lSvcU2R9Ch2bPh3PYFyoHW+w9LqAeYRISVQjUIew14g==}
     peerDependencies:
@@ -6864,7 +6910,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.3.9(@types/node@18.16.3)(sass@1.69.5)
+      vite: 4.3.9(sass@1.69.5)
     dev: true
 
   /wcwidth@1.0.1:

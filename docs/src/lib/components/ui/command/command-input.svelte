@@ -6,12 +6,14 @@
 	// type $$Props = CommandPrimitive.InputProps;
 
 	let className: string | undefined | null = undefined;
+	export let value = '';
 	export { className as class };
 </script>
 
 <div class="flex items-center border-b px-3" data-cmdk-input-wrapper="">
 	<MagnifyingGlass class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 	<CommandPrimitive.Input
+		bind:value
 		class={cn(
 			'placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50',
 			className

@@ -18,6 +18,7 @@
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-static": "1.0.0-next.50",
 		"@sveltejs/kit": "^1.5.0",
+		"@types/flexsearch": "^0.7.6",
 		"@types/katex": "^0.16.0",
 		"autoprefixer": "^10.4.16",
 		"mdsvex": "^0.11.0",
@@ -43,6 +44,7 @@
 		"carta-md": "workspace:^",
 		"clsx": "^2.0.0",
 		"cmdk-sv": "^0.0.6",
+		"flexsearch": "0.7.21",
 		"katex": "^0.16.7",
 		"radix-icons-svelte": "^1.2.1",
 		"tailwind-merge": "^2.0.0"
