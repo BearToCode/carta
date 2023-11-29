@@ -34,7 +34,7 @@
 
 # Introduction
 
-Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [demo](http://beartocode.github.io/carta/) to see it in action.
+Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
 Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
 
 ## Features
