@@ -65,7 +65,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 
 # Getting started
 
-> **Warning**
+> [!WARNING]
 > Sanitization is not dealt with by Carta. You need to provide a `sanitizer` in the options.
 > Common sanitizers are [isomorphic-dompurify](https://www.npmjs.com/package/isomorphic-dompurify) (suggested) and [sanitize-html](https://www.npmjs.com/package/sanitize-html).
 
