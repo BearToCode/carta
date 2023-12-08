@@ -93,12 +93,14 @@
 			<div class="carta-toolbar-left">
 				{#if windowMode == 'tabs'}
 					<button
+						type="button"
 						on:click={() => (selectedTab = 'write')}
 						class={selectedTab === 'write' ? 'carta-active' : ''}
 					>
 						Write
 					</button>
 					<button
+						type="button"
 						on:click={() => (selectedTab = 'preview')}
 						class={selectedTab === 'preview' ? 'carta-active' : ''}
 					>
