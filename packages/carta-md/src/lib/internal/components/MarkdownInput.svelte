@@ -1,12 +1,14 @@
 <script lang="ts">
-	import type { Carta } from '../carta';
 	import { onMount } from 'svelte';
+	import type { Carta } from '../carta';
+	import type { TextAreaProps } from '../textarea-props';
 
 	export let carta: Carta;
 	export let value = '';
 	export let placeholder = '';
 	export let elem: HTMLDivElement;
 	export let handleScroll: (e: UIEvent) => void;
+	export let props: TextAreaProps = {};
 
 	let textarea: HTMLTextAreaElement;
 	let highlighElem: HTMLPreElement;
@@ -62,6 +64,7 @@
 			spellcheck="false"
 			class="carta-font-code"
 			{placeholder}
+			{...props}
 			bind:value
 			bind:this={textarea}
 			on:scroll={() => (textarea.scrollTop = 0)}
@@ -84,7 +87,7 @@
 		font-family: monospace;
 	}
 
-	textarea#md {
+	textarea {
 		position: relative;
 		width: 100%;
 		max-width: 100%;

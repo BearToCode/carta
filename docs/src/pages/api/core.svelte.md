@@ -112,6 +112,14 @@ Type: `string`
 
 Set the textarea placeholder.
 
+### `textarea`
+
+Type: `TextAreaProps` (extends `Record<string, unknown>`)
+
+Additional properties that will be used in the textarea used under the hood in the editor.
+`class`, `placeholder` and `value` are not allowed. Use the corresponding editor properties
+instead.
+
 # `CartaViewer` options
 
 List of options that can be used in the `<CartaViewer>` component.
