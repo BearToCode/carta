@@ -4,6 +4,7 @@
 	import CartaRenderer from './internal/components/CartaRenderer.svelte';
 	import MarkdownInput from './internal/components/MarkdownInput.svelte';
 	import { debounce } from './internal/utils';
+	import type { TextAreaProps } from './internal/textarea-props';
 
 	export let carta: Carta;
 	export let theme = 'default';
@@ -12,6 +13,7 @@
 	export let scroll: 'sync' | 'async' = 'sync';
 	export let disableToolbar = false;
 	export let placeholder = '';
+	export let textarea: TextAreaProps = {};
 
 	let width: number;
 	let selectedTab: 'write' | 'preview' = 'write';
@@ -134,6 +136,7 @@
 					{carta}
 					{placeholder}
 					{handleScroll}
+					props={textarea}
 					bind:value
 					bind:resize={resizeInput}
 					bind:elem={inputElem}
