@@ -128,6 +128,7 @@
 								carta.input?.textarea.focus();
 							}}
 							class="carta-icon"
+							aria-label={icon.label}
 						>
 							<svelte:component this={icon.component} />
 						</button>
