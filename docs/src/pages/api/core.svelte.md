@@ -66,6 +66,12 @@ Type: `(html: string) => void`
 
 HTML sanitizer. See [here]({base}/getting-started#sanitization) for more details.
 
+### `labels`
+
+Type: `Partial<CartaLabels>`
+
+Can be used to provide custom text for labels in the editor.
+
 # `CartaEditor` options
 
 List of options that can be used in the `<CartaEditor>` component.

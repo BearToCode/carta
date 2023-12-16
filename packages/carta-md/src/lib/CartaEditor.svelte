@@ -5,6 +5,7 @@
 	import MarkdownInput from './internal/components/MarkdownInput.svelte';
 	import { debounce } from './internal/utils';
 	import type { TextAreaProps } from './internal/textarea-props';
+	import { DefaultCartaLabels, type CartaLabels } from './internal/labels';
 
 	export let carta: Carta;
 	export let theme = 'default';
@@ -14,6 +15,13 @@
 	export let disableToolbar = false;
 	export let placeholder = '';
 	export let textarea: TextAreaProps = {};
+
+	let userLabels: Partial<CartaLabels> = {};
+	export { userLabels as labels };
+	const labels: CartaLabels = {
+		...DefaultCartaLabels,
+		...userLabels
+	};
 
 	let width: number;
 	let selectedTab: 'write' | 'preview' = 'write';
@@ -99,14 +107,14 @@
 						on:click={() => (selectedTab = 'write')}
 						class={selectedTab === 'write' ? 'carta-active' : ''}
 					>
-						Write
+						{labels.writeTab}
 					</button>
 					<button
 						type="button"
 						on:click={() => (selectedTab = 'preview')}
 						class={selectedTab === 'preview' ? 'carta-active' : ''}
 					>
-						Preview
+						{labels.previewTab}
 					</button>
 				{/if}
 			</div>

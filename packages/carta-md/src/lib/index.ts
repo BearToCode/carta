@@ -7,5 +7,6 @@ export type { Prefix } from '$lib/internal/prefixes';
 export * from '$lib/internal/carta';
 export * from '$lib/internal/highlight';
 export * from '$lib/internal/textarea-props';
+export * from '$lib/internal/labels';
 export * from './default.css?inline';
 export * from './light.css?inline';
