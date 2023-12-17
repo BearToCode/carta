@@ -1,1 +1,0 @@
-import{s as n,o as s}from"../chunks/scheduler.288fe67e.js";import{S as e,i as r}from"../chunks/index.fe3a70e8.js";import{g as a}from"../chunks/navigation.46270273.js";import{e as i}from"../chunks/singletons.792aa489.js";function m(o){return s(()=>{a(`${i}/introduction`)}),[]}class l extends e{constructor(t){super(),r(this,t,m,null,n,{})}}export{l as component};
