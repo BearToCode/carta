@@ -27,6 +27,7 @@ export interface InputSettings {
 
 export class CartaInput {
 	private pressedKeys: Set<string>;
+	private escapePressed = false;
 	// Used to detect keys that actually changed the textarea value
 	private onKeyDownValue: string | undefined;
 
@@ -45,6 +46,7 @@ export class CartaInput {
 
 		textarea.addEventListener('focus', () => {
 			this.pressedKeys.clear();
+			this.escapePressed = false;
 		});
 		textarea.addEventListener('blur', () => {
 			this.pressedKeys.clear();
@@ -123,13 +125,33 @@ export class CartaInput {
 			if (key === 'enter') {
 				// Check prefixes
 				this.handleNewLine(e);
-			} else if (key == 'tab') {
+			} else if (key == 'tab' && !this.escapePressed) {
 				e.preventDefault(); // Don't select other stuff
-				const position = this.textarea.selectionStart;
-				this.insertAt(this.textarea.selectionStart, '\t');
-				this.textarea.selectionStart = position + 1;
-				this.textarea.selectionEnd = position + 1;
+
+				if (e.shiftKey) {
+					// Unindent
+					const line = this.getLine();
+					const lineStart = line.start;
+					const lineContent = line.value;
+					const position = this.textarea.selectionStart;
+
+					// Check if the line starts with a tab
+					if (lineContent.startsWith('\t')) {
+						// Remove the tab
+						this.removeAt(lineStart, 1);
+						this.textarea.selectionStart = position - 1;
+						this.textarea.selectionEnd = position - 1;
+					}
+				} else {
+					const position = this.textarea.selectionStart;
+					this.insertAt(this.textarea.selectionStart, '\t');
+					this.textarea.selectionStart = position + 1;
+					this.textarea.selectionEnd = position + 1;
+				}
+
 				this.update();
+			} else if (key === 'escape') {
+				this.escapePressed = true;
 			}
 			this.onKeyDownValue = this.textarea.value;
 		}
@@ -219,9 +241,6 @@ export class CartaInput {
 			start: lineStartingIndex,
 			end: lineEndingIndex,
 			value: this.textarea.value.slice(lineStartingIndex, lineEndingIndex)
-			/**
-			 * Position of the cursor relative to the line.
-			 */
 		};
 	}
 

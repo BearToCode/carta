@@ -15,41 +15,61 @@ import StrikethroughIcon from './components/icons/StrikethroughIcon.svelte';
  * Editor toolbar icon information.
  */
 export interface CartaIcon {
+	/**
+	 * The icon's unique identifier.
+	 */
 	id: string;
+	/**
+	 * Callback function to execute when the icon is clicked.
+	 * @param input CartaInput instance
+	 */
 	action: (input: CartaInput) => void;
+	/**
+	 * The icon's component.
+	 */
 	component: ComponentType;
+	/**
+	 * The icon's label (used as aria-label).
+	 */
+	label?: string;
 }
 
 export const defaultIcons = [
 	{
 		id: 'heading',
 		action: (input) => input.toggleLinePrefix('###'),
-		component: HeadingIcon
+		component: HeadingIcon,
+		label: 'Heading'
 	},
 	{
 		id: 'bold',
 		action: (input) => input.toggleSelectionSurrounding('**'),
-		component: BoldIcon
+		component: BoldIcon,
+		label: 'Bold'
 	},
 	{
 		id: 'italic',
 		action: (input) => input.toggleSelectionSurrounding('_'),
-		component: ItalicIcon
+		component: ItalicIcon,
+		label: 'Italic'
 	},
 	{
 		id: 'strikethrough',
 		action: (input) => input.toggleSelectionSurrounding('~~'),
-		component: StrikethroughIcon
+		component: StrikethroughIcon,
+		label: 'Strikethrough'
 	},
 	{
 		id: 'quote',
 		action: (input) => input.toggleLinePrefix('>'),
-		component: QuoteIcon
+		component: QuoteIcon,
+		label: 'Quote'
 	},
 	{
 		id: 'code',
 		action: (input) => input.toggleSelectionSurrounding('`'),
-		component: CodeIcon
+		component: CodeIcon,
+		label: 'Code'
 	},
 	{
 		id: 'link',
@@ -59,22 +79,26 @@ export const defaultIcons = [
 			input.insertAt(position, '(url)');
 			input.textarea.setSelectionRange(position + 1, position + 4);
 		},
-		component: LinkIcon
+		component: LinkIcon,
+		label: 'Link'
 	},
 	{
 		id: 'bulletedList',
 		action: (input) => input.toggleLinePrefix('- ', 'detach'),
-		component: ListBulletedIcon
+		component: ListBulletedIcon,
+		label: 'Bulleted list'
 	},
 	{
 		id: 'numberedList',
 		action: (input) => input.toggleLinePrefix('1. ', 'detach'),
-		component: ListNumberedIcon
+		component: ListNumberedIcon,
+		label: 'Numbered list'
 	},
 	{
 		id: 'taskList',
 		action: (input) => input.toggleLinePrefix('- [ ] ', 'detach'),
-		component: ListTaskIcon
+		component: ListTaskIcon,
+		label: 'Task list'
 	}
 ] as const satisfies readonly CartaIcon[];
 

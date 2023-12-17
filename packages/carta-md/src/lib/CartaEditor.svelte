@@ -6,6 +6,7 @@
 	import { debounce } from './internal/utils';
 	import type { TextAreaProps } from './internal/textarea-props';
 	import { DefaultCartaLabels, type CartaLabels } from './internal/labels';
+	import { handleArrowKeysNavigation } from './internal/accessibility';
 
 	export let carta: Carta;
 	export let theme = 'default';
@@ -99,20 +100,24 @@
 
 <div bind:this={editorElem} bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
 	{#if !disableToolbar}
-		<div class="carta-toolbar">
+		<div class="carta-toolbar" role="toolbar">
 			<div class="carta-toolbar-left">
 				{#if windowMode == 'tabs'}
 					<button
 						type="button"
-						on:click={() => (selectedTab = 'write')}
+						tabindex={0}
 						class={selectedTab === 'write' ? 'carta-active' : ''}
+						on:click={() => (selectedTab = 'write')}
+						on:keydown={handleArrowKeysNavigation}
 					>
 						{labels.writeTab}
 					</button>
 					<button
 						type="button"
-						on:click={() => (selectedTab = 'preview')}
+						tabindex={-1}
 						class={selectedTab === 'preview' ? 'carta-active' : ''}
+						on:click={() => (selectedTab = 'preview')}
+						on:keydown={handleArrowKeysNavigation}
 					>
 						{labels.previewTab}
 					</button>
@@ -120,14 +125,17 @@
 			</div>
 			<div class="carta-toolbar-right">
 				{#if !hideIcons}
-					{#each carta.icons as icon}
+					{#each carta.icons as icon, index}
 						<button
+							class="carta-icon"
+							tabindex={index == 0 ? 0 : -1}
+							aria-label={icon.label}
 							on:click|preventDefault|stopPropagation={() => {
 								carta.input && icon.action(carta.input);
 								carta.input?.update();
 								carta.input?.textarea.focus();
 							}}
-							class="carta-icon"
+							on:keydown={handleArrowKeysNavigation}
 						>
 							<svelte:component this={icon.component} />
 						</button>

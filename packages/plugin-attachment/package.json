@@ -34,7 +34,7 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"carta-md": "^3.0.0",
+		"carta-md": "^3.4.0",
 		"marked": "^9.1.5",
 		"svelte": "^3.54.0 || ^4.0.0"
 	},
