@@ -48,6 +48,7 @@
 	on:keydown={focus}
 	on:scroll={handleScroll}
 	role="textbox"
+	aria-multiline="true"
 	tabindex="0"
 	class="carta-input"
 	bind:this={elem}
