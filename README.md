@@ -43,12 +43,13 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - Toolbar (extensible);
 - Markdown syntax highlighting;
 - Scroll sync;
+- Accessibility friendly;
 - **SSR** compatible;
 - **Katex** support (plugin);
 - **Slash** commands (plugin);
 - **Emojis**, with included search (plugin);
-- **Tikz** support(plugin);
-- **Attachment** support(plugin);
+- **Tikz** support (plugin);
+- **Attachment** support (plugin);
 - Code blocks **syntax highlighting** (plugin).
 
 ## Packages
