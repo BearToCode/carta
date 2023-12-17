@@ -151,7 +151,8 @@ export const attachment = (options: AttachmentExtensionOptions): CartaExtension 
 
 							input.click();
 						},
-						id: 'attach'
+						id: 'attach',
+						label: 'Attach file'
 					}
 			  ]
 	};
