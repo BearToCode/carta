@@ -43,13 +43,15 @@
 	onMount(setInput);
 </script>
 
+<div role="tooltip" id="editor-unfocus-suggestion">
+	Press ESC then TAB to move the focus off the field
+</div>
 <div
 	on:click={focus}
 	on:keydown={focus}
 	on:scroll={handleScroll}
 	role="textbox"
-	aria-multiline="true"
-	tabindex="0"
+	tabindex="-1"
 	class="carta-input"
 	bind:this={elem}
 >
@@ -57,6 +59,7 @@
 		<pre
 			class="shj-lang-md carta-font-code"
 			bind:this={highlighElem}
+			tabindex="-1"
 			aria-hidden="true"><!-- eslint-disable-line svelte/no-at-html-tags -->{@html highlighted}</pre>
 
 		<textarea
@@ -64,6 +67,9 @@
 			id="md"
 			spellcheck="false"
 			class="carta-font-code"
+			aria-multiline="true"
+			aria-describedby="editor-unfocus-suggestion"
+			tabindex="0"
 			{placeholder}
 			{...props}
 			bind:value
@@ -125,5 +131,16 @@
 		word-wrap: break-word;
 		white-space: pre-wrap;
 		word-break: break-word;
+	}
+
+	#editor-unfocus-suggestion {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
 	}
 </style>

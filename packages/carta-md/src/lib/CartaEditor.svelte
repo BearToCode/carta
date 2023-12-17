@@ -100,7 +100,7 @@
 
 <div bind:this={editorElem} bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
 	{#if !disableToolbar}
-		<div class="carta-toolbar">
+		<div class="carta-toolbar" role="toolbar">
 			<div class="carta-toolbar-left">
 				{#if windowMode == 'tabs'}
 					<button
