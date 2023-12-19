@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v3
       - uses: pnpm/action-setup@v2
         with:
-          version: 6
+          version: 8
 
       - name: Install dependendencies
         run: pnpm i
