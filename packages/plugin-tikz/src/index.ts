@@ -144,6 +144,7 @@ function removePreviousImages(container: HTMLDivElement) {
 
 async function loadTikz(options?: TikzExtensionOptions) {
 	if (window.tikzjax != null) return;
+	window.tikzjax = true;
 
 	// eslint-disable-next-line
 	// @ts-ignore
