@@ -129,11 +129,13 @@ const blockKatex = (options?: MathExtensionOptions['block']): TokenizerAndRender
 		renderer: (token) => {
 			const tag = options?.tag ?? 'p';
 			const center = options?.center ?? true;
+			const katexOptions = options?.katexOptions ?? {};
+			if (katexOptions?.displayMode === undefined) katexOptions.displayMode = true;
 			return `
 				<${tag} 
 					class="${options?.class ?? ''}"
 					${center ? 'align="center"' : ''}
-				>${safeRender(token.text, options?.katexOptions)}
+				>${safeRender(token.text, katexOptions)}
 				</${tag}>`;
 		}
 	};
