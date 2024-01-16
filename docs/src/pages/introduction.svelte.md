@@ -77,6 +77,14 @@ Carta comes with a set of official plugins for the most common use cases.
 </Card.Header>
 </Card.Root>
 
+<Card.Root href="/plugins/anchor">
+<Card.Header>
+<Icon.Link2 class="w-8 h-8 text-sky-300" />
+<Card.Title>Anchor</Card.Title>
+<Card.Description>Add anchor links to headings.</Card.Description>
+</Card.Header>
+</Card.Root>
+
 </div>
 
 ## Examples

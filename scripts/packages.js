@@ -40,5 +40,6 @@ export const packages = [
 	'plugin-emoji',
 	'plugin-code',
 	'plugin-tikz',
-	'plugin-attachment'
+	'plugin-attachment',
+	'plugin-anchor'
 ];
