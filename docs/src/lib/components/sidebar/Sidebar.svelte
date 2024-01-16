@@ -7,6 +7,7 @@
 		Download,
 		Face,
 		FontFamily,
+		Link2,
 		Slash,
 		File,
 		FontStyle
@@ -81,6 +82,12 @@
 	<SidebarLink href="/plugins/attachment">
 		<File class="h-5 w-5" />
 		<span class="text-[0.95rem]">Attachment</span>
+	</SidebarLink>
+
+	<!-- Anchor -->
+	<SidebarLink href="/plugins/anchor">
+		<Link2 class="h-5 w-5" />
+		<span class="text-[0.95rem]">Anchor</span>
 	</SidebarLink>
 
 	<h3 class="mb-3 ml-4 mt-6 text-sm font-medium first:mt-0 last:mb-0">API</h3>

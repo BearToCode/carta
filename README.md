@@ -50,6 +50,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - **Emojis**, with included search (plugin);
 - **Tikz** support (plugin);
 - **Attachment** support (plugin);
+- **Anchor** links in headings;
 - Code blocks **syntax highlighting** (plugin).
 
 ## Packages
@@ -63,6 +64,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 | [plugin-slash](https://www.npmjs.com/package/@cartamd/plugin-slash)           | ![plugin-slash](https://img.shields.io/npm/v/@cartamd/plugin-slash)           | [/plugins/slash](https://beartocode.github.io/carta/plugins/slash)           |
 | [plugin-tikz](https://www.npmjs.com/package/@cartamd/plugin-tikz)             | ![plugin-tikz](https://img.shields.io/npm/v/@cartamd/plugin-tikz)             | [/plugins/tikz](https://beartocode.github.io/carta/plugins/tikz)             |
 | [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) | [/plugins/attachment](https://beartocode.github.io/carta/plugins/attachment) |
+| [plugin-anchor](https://www.npmjs.com/package/@cartamd/plugin-anchor)         | ![plugin-anchor](https://img.shields.io/npm/v/@cartamd/plugin-anchor)         | [/plugins/anchor](https://beartocode.github.io/carta/plugins/anchor)         |
 
 # Getting started
 
