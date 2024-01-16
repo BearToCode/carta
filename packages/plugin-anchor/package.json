@@ -1,0 +1,68 @@
+{
+	"name": "@cartamd/plugin-anchor",
+	"version": "3.0.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build && npm run package",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "npm run package",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BearToCode/carta.git"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		},
+		"./default.css": "./dist/default.css",
+		"./default-theme.css": "./dist/default.css"
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"dependencies": {
+		"slugify": "^1.6.6"
+	},
+	"peerDependencies": {
+		"carta-md": "^3.1.0",
+		"marked": "^9.1.5",
+		"svelte": "^3.54.0 || ^4.0.0"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/kit": "^1.5.0",
+		"@sveltejs/package": "^2.0.0",
+		"carta-md": "workspace:*",
+		"publint": "^0.1.9",
+		"svelte": "^3.54.0 || ^4.0.0",
+		"svelte-check": "^3.0.1",
+		"tslib": "^2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "^4.3.9",
+		"marked": "^9.1.5"
+	},
+	"svelte": "./dist/index.js",
+	"keywords": [
+		"carta",
+		"markdown",
+		"editor",
+		"marked",
+		"text editor",
+		"marked editor",
+		"slash",
+		"syntax highlighting",
+		"emoji",
+		"katex"
+	]
+}
