@@ -51,7 +51,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - **Tikz** support (plugin);
 - **Attachment** support (plugin);
 - **Anchor** links in headings (plugin);
-- **Video** support for Youtube and Vimdeo (plugin);
+- **Video** support (plugin);
 - Code blocks **syntax highlighting** (plugin).
 
 ## Packages

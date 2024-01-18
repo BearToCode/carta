@@ -85,6 +85,14 @@ Carta comes with a set of official plugins for the most common use cases.
 </Card.Header>
 </Card.Root>
 
+<Card.Root href="/plugins/video">
+<Card.Header>
+<Icon.Video class="w-8 h-8 text-sky-300" />
+<Card.Title>Video</Card.Title>
+<Card.Description>Embed online videos in Markdown</Card.Description>
+</Card.Header>
+</Card.Root>
+
 </div>
 
 ## Examples
