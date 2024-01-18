@@ -129,6 +129,7 @@
 						<button
 							class="carta-icon"
 							tabindex={index == 0 ? 0 : -1}
+							title={icon.label}
 							aria-label={icon.label}
 							on:click|preventDefault|stopPropagation={() => {
 								carta.input && icon.action(carta.input);
