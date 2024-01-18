@@ -50,7 +50,8 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 - **Emojis**, with included search (plugin);
 - **Tikz** support (plugin);
 - **Attachment** support (plugin);
-- **Anchor** links in headings;
+- **Anchor** links in headings (plugin);
+- **Video** support for Youtube and Vimdeo (plugin);
 - Code blocks **syntax highlighting** (plugin).
 
 ## Packages
@@ -65,6 +66,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 | [plugin-tikz](https://www.npmjs.com/package/@cartamd/plugin-tikz)             | ![plugin-tikz](https://img.shields.io/npm/v/@cartamd/plugin-tikz)             | [/plugins/tikz](https://beartocode.github.io/carta/plugins/tikz)             |
 | [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) | [/plugins/attachment](https://beartocode.github.io/carta/plugins/attachment) |
 | [plugin-anchor](https://www.npmjs.com/package/@cartamd/plugin-anchor)         | ![plugin-anchor](https://img.shields.io/npm/v/@cartamd/plugin-anchor)         | [/plugins/anchor](https://beartocode.github.io/carta/plugins/anchor)         |
+| [plugin-video](https://www.npmjs.com/package/@cartamd/plugin-video)           | ![plugin-video](https://img.shields.io/npm/v/@cartamd/plugin-video)           | [/plugins/video](https://beartocode.github.io/carta/plugins/video)           |
 
 # Getting started
 
@@ -128,6 +130,8 @@ For the full documentation, examples, guides and more checkout the [website](htt
   - [Slash](https://beartocode.github.io/carta/plugins/slash)
   - [TikZ](https://beartocode.github.io/carta/plugins/tikz)
   - [Attachment](https://beartocode.github.io/carta/plugins/attachment)
+  - [Anchor](https://beartocode.github.io/carta/plugins/anchor)
+  - [Video](https://beartocode.github.io/carta/plugins/video)
 - API:
   - [Utilities](https://beartocode.github.io/carta/api/utilities)
   - [Core](https://beartocode.github.io/carta/api/core)

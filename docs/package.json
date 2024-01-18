@@ -40,6 +40,8 @@
 		"@cartamd/plugin-math": "workspace:^",
 		"@cartamd/plugin-slash": "workspace:^",
 		"@cartamd/plugin-tikz": "workspace:^",
+		"@cartamd/plugin-anchor": "workspace:^",
+		"@cartamd/plugin-video": "workspace:^",
 		"bits-ui": "^0.9.1",
 		"carta-md": "workspace:^",
 		"clsx": "^2.0.0",
