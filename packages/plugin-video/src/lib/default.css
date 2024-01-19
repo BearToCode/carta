@@ -1,0 +1,17 @@
+.markdown-body .video-container {
+	display: flex;
+	width: 100%;
+	margin: 10px 0;
+}
+
+.markdown-body .video-container.left {
+	justify-content: start;
+}
+
+.markdown-body .video-container.right {
+	justify-content: end;
+}
+
+.markdown-body .video-container.center {
+	justify-content: center;
+}

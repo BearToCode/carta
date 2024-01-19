@@ -65,6 +65,9 @@ importers:
 
   docs:
     dependencies:
+      '@cartamd/plugin-anchor':
+        specifier: workspace:^
+        version: link:../packages/plugin-anchor
       '@cartamd/plugin-attachment':
         specifier: workspace:^
         version: link:../packages/plugin-attachment
@@ -83,6 +86,9 @@ importers:
       '@cartamd/plugin-tikz':
         specifier: workspace:^
         version: link:../packages/plugin-tikz
+      '@cartamd/plugin-video':
+        specifier: workspace:^
+        version: link:../packages/plugin-video
       bits-ui:
         specifier: ^0.9.1
         version: 0.9.4(svelte@4.2.2)
@@ -220,7 +226,7 @@ importers:
         version: 4.2.2
       svelte-check:
         specifier: ^3.0.1
-        version: 3.5.2(postcss@8.4.31)(sass@1.69.5)(svelte@4.2.2)
+        version: 3.5.2(postcss@8.4.31)(svelte@4.2.2)
       tslib:
         specifier: ^2.4.1
         version: 2.5.0
@@ -259,7 +265,7 @@ importers:
         version: 4.2.2
       svelte-check:
         specifier: ^3.5.2
-        version: 3.5.2(postcss@8.4.31)(sass@1.69.5)(svelte@4.2.2)
+        version: 3.5.2(postcss@8.4.31)(svelte@4.2.2)
       tslib:
         specifier: ^2.4.1
         version: 2.5.0
@@ -426,6 +432,49 @@ importers:
       vite-raw-plugin:
         specifier: ^1.0.2
         version: 1.0.2
+
+  packages/plugin-video:
+    dependencies:
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      '@sveltejs/adapter-auto':
+        specifier: ^2.0.0
+        version: 2.0.0(@sveltejs/kit@1.27.1)
+      '@sveltejs/kit':
+        specifier: ^1.5.0
+        version: 1.27.1(svelte@4.2.2)(vite@4.3.9)
+      '@sveltejs/package':
+        specifier: ^2.0.0
+        version: 2.2.2(svelte@4.2.2)(typescript@5.1.6)
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.14.202
+      carta-md:
+        specifier: workspace:*
+        version: link:../carta-md
+      marked:
+        specifier: ^9.1.5
+        version: 9.1.5
+      publint:
+        specifier: ^0.1.9
+        version: 0.1.12
+      svelte:
+        specifier: ^3.54.0 || ^4.0.0
+        version: 4.2.2
+      svelte-check:
+        specifier: ^3.0.1
+        version: 3.5.2(postcss@8.4.31)(svelte@4.2.2)
+      tslib:
+        specifier: ^2.4.1
+        version: 2.5.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.1.6
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(@types/node@18.16.3)(sass@1.69.5)
 
 packages:
 
@@ -1552,6 +1601,10 @@ packages:
 
   /@types/katex@0.16.0:
     resolution: {integrity: sha512-hz+S3nV6Mym5xPbT9fnO8dDhBFQguMYpY0Ipxv06JMi1ORgnEM4M1ymWDUhUNer3ElLmT583opRo4RzxKmh9jw==}
+    dev: true
+
+  /@types/lodash@4.14.202:
+    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
     dev: true
 
   /@types/md5@2.3.2:
@@ -6079,6 +6132,33 @@ packages:
       '@jridgewell/trace-mapping': 0.3.18
       chokidar: 3.5.3
       fast-glob: 3.2.12
+      import-fresh: 3.3.0
+      picocolors: 1.0.0
+      sade: 1.8.1
+      svelte: 4.2.2
+      svelte-preprocess: 5.0.4(postcss@8.4.31)(sass@1.69.5)(svelte@4.2.2)(typescript@5.1.6)
+      typescript: 5.1.6
+    transitivePeerDependencies:
+      - '@babel/core'
+      - coffeescript
+      - less
+      - postcss
+      - postcss-load-config
+      - pug
+      - sass
+      - stylus
+      - sugarss
+    dev: true
+
+  /svelte-check@3.5.2(postcss@8.4.31)(svelte@4.2.2):
+    resolution: {integrity: sha512-5a/YWbiH4c+AqAUP+0VneiV5bP8YOk9JL3jwvN+k2PEPLgpu85bjQc5eE67+eIZBBwUEJzmO3I92OqKcqbp3fw==}
+    hasBin: true
+    peerDependencies:
+      svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.18
+      chokidar: 3.5.3
+      fast-glob: 3.3.2
       import-fresh: 3.3.0
       picocolors: 1.0.0
       sade: 1.8.1
