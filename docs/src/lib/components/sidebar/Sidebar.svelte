@@ -10,7 +10,8 @@
 		Link2,
 		Slash,
 		File,
-		FontStyle
+		FontStyle,
+		Stack
 	} from 'radix-icons-svelte';
 	import SidebarLink from './SidebarLink.svelte';
 
@@ -44,6 +45,12 @@
 	<SidebarLink href="/editing-styles">
 		<FontStyle class="h-5 w-5" />
 		<span class="text-[0.95rem]">Editing Styles</span>
+	</SidebarLink>
+
+	<!-- Community Plugins -->
+	<SidebarLink href="/community-plugins">
+		<Stack class="h-5 w-5" />
+		<span class="text-[0.95rem]">Community Plugins</span>
 	</SidebarLink>
 
 	<h3 class="mb-3 ml-4 mt-6 text-sm font-medium first:mt-0 last:mb-0">Plugins</h3>

@@ -85,6 +85,14 @@ Carta comes with a set of official plugins for the most common use cases.
 </Card.Header>
 </Card.Root>
 
+<Card.Root href="/community-plugins">
+<Card.Header>
+<Icon.Stack class="w-8 h-8 text-sky-300" />
+<Card.Title>Community Plugins</Card.Title>
+<Card.Description>Explore plugins from the community.</Card.Description>
+</Card.Header>
+</Card.Root>
+
 </div>
 
 ## Examples

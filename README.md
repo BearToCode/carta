@@ -66,6 +66,15 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 | [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) | [/plugins/attachment](https://beartocode.github.io/carta/plugins/attachment) |
 | [plugin-anchor](https://www.npmjs.com/package/@cartamd/plugin-anchor)         | ![plugin-anchor](https://img.shields.io/npm/v/@cartamd/plugin-anchor)         | [/plugins/anchor](https://beartocode.github.io/carta/plugins/anchor)         |
 
+## Community plugins
+
+| Plugin                                                                        | Description                        |
+| ----------------------------------------------------------------------------- | ---------------------------------- |
+| [carta-plugin-video](https://github.com/maisonsmd/carta-plugin-video)         | Render online videos               |
+| [carta-plugin-imsize](https://github.com/maisonsmd/carta-plugin-imsize)       | Render images in specific sizes    |
+| [carta-plugin-subscript](https://github.com/maisonsmd/carta-plugin-subscript) | Render subscripts and superscripts |
+| [carta-plugin-ins-del](https://github.com/maisonsmd/carta-plugin-ins-del)     | `<ins>` and `<del>` tags support   |
+
 # Getting started
 
 > [!WARNING]
@@ -128,6 +137,7 @@ For the full documentation, examples, guides and more checkout the [website](htt
   - [Slash](https://beartocode.github.io/carta/plugins/slash)
   - [TikZ](https://beartocode.github.io/carta/plugins/tikz)
   - [Attachment](https://beartocode.github.io/carta/plugins/attachment)
+  - [Anchor](https://beartocode.github.io/carta/plugins/anchor)
 - API:
   - [Utilities](https://beartocode.github.io/carta/api/utilities)
   - [Core](https://beartocode.github.io/carta/api/core)
@@ -147,4 +157,13 @@ This repository is [commitizen](https://github.com/commitizen/cz-cli) friendly. 
 npm run commit
 # or, if you have commitizen installed globally
 git cz
+```
+
+### Running docs
+
+If you want to preview the docs:
+
+```
+cd docs
+npm run dev
 ```
