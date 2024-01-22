@@ -18,6 +18,7 @@
 
 <style>
 	:global(.plugin-link h1, .plugin-link h2, .plugin-link h3) {
-		margin: 0;
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 </style>
