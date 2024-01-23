@@ -17,7 +17,7 @@
 </div>
 
 <style>
-	:global(.plugin-link > h1, .plugin-link > h2, .plugin-link > h3) {
+	:global(.markdown .plugin-link > h1, .markdown .plugin-link > h2, .markdown .plugin-link > h3) {
 		margin-top: 0;
 		margin-bottom: 0;
 	}
