@@ -11,10 +11,10 @@ section: Overview
 Here are is a list of several plugins developed by the community:
 
 <PluginLink
-npmLink="https://github.com/maisonsmd/carta-plugin-subscript"
-githubLink="https://github.com/maisonsmd/carta-plugin-subscript">
+npmLink="https://www.npmjs.com/package/carta-plugin-video"
+githubLink="https://github.com/maisonsmd/carta-plugin-video">
 
-### `carta-plugin-subscript`
+### `carta-plugin-video`
 
 </PluginLink>
 
@@ -23,14 +23,14 @@ githubLink="https://github.com/maisonsmd/carta-plugin-subscript">
 <Code>
 
 ```
-npm i carta-plugin-subscript
+npm i carta-plugin-video
 ```
 
 </Code>
 
 <PluginLink
-npmLink="https://github.com/maisonsmd/carta-plugin-imsize"
-githubLink="https://www.npmjs.com/package/carta-plugin-imsize">
+npmLink="https://www.npmjs.com/package/carta-plugin-imsize"
+githubLink="https://github.com/maisonsmd/carta-plugin-imsize">
 
 ### `carta-plugin-imsize`
 
@@ -47,7 +47,7 @@ npm i carta-plugin-imsize
 </Code>
 
 <PluginLink
-npmLink="https://github.com/maisonsmd/carta-plugin-ins-del"
+npmLink="https://www.npmjs.com/package/carta-plugin-ins-del"
 githubLink="https://github.com/maisonsmd/carta-plugin-ins-del">
 
 ### `carta-plugin-ins-del`
@@ -65,7 +65,7 @@ npm i carta-plugin-ins-del
 </Code>
 
 <PluginLink
-npmLink="https://github.com/maisonsmd/carta-plugin-subscript"
+npmLink="https://www.npmjs.com/package/carta-plugin-subscript"
 githubLink="https://github.com/maisonsmd/carta-plugin-subscript">
 
 ### `carta-plugin-subscript`
