@@ -34,13 +34,19 @@ Defaults to 300ms.
 
 Type: `DefaultShortcutId[] | true`
 
-Remove shortcuts by id. You can use `true` to disable all of them.
+Remove default shortcuts by id. You can use `true` to disable all of them.
+
+### `disableIcons`
+
+Type: `DefaultIconId[] | true`
+
+Remove default icons by id. You can use `true` to disable all of them.
 
 ### `disablePrefixes`
 
 Type: `DefaultPrefixId[] | true`
 
-Remove prefixes by id. You can use `true` to disable all of them.
+Remove default prefixes by id. You can use `true` to disable all of them.
 
 ### `historyOptions`
 
