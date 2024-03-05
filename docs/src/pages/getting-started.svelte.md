@@ -93,10 +93,10 @@ Since Carta operates both on the server and the client, you'd need a sanitizer a
 ```svelte
 <script>
 	// Your other stuff...
-	import { sanitize } from 'isomorphic-dompurify';
+	import DOMPurify from 'isomorphic-dompurify';
 
 	const carta = new Carta({
-		sanitizer: sanitize
+		sanitizer: DOMPurify.sanitize
 	});
 
 	let value = '';
