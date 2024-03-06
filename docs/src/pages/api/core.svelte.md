@@ -72,12 +72,6 @@ Type: `(html: string) => void`
 
 HTML sanitizer. See [here]({base}/getting-started#sanitization) for more details.
 
-### `labels`
-
-Type: `Partial<CartaLabels>`
-
-Can be used to provide custom text for labels in the editor.
-
 # `CartaEditor` options
 
 List of options that can be used in the `<CartaEditor>` component.
@@ -131,6 +125,12 @@ Type: `TextAreaProps` (extends `Record<string, unknown>`)
 Additional properties that will be used in the textarea used under the hood in the editor.
 `class`, `placeholder` and `value` are not allowed. Use the corresponding editor properties
 instead.
+
+### `labels`
+
+Type: `Partial<CartaLabels>`
+
+Can be used to provide custom text for labels in the editor.
 
 # `CartaViewer` options
 
