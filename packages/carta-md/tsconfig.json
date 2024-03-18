@@ -13,12 +13,7 @@
 		"strict": true,
 		"composite": true,
 		"ignoreDeprecations": "5.0",
-		"plugins": [],
-		"baseUrl": "./",
-		"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"]
-		}
+		"plugins": []
 	},
 	"include": ["./src"]
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias

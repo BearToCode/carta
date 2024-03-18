@@ -1,4 +1,4 @@
-import { Document } from 'flexsearch';
+import flexsearch from 'flexsearch';
 import type { SvelteComponent } from 'svelte';
 
 export interface SearchResult {
@@ -19,7 +19,7 @@ export type EnrichedSearchResult = SearchResult & {
 };
 
 export async function initializeSearch() {
-	const indexedPages = new Document<SearchResult, true>({
+	const indexedPages = new flexsearch.Document<SearchResult, true>({
 		tokenize: 'full',
 		cache: true,
 		context: true,

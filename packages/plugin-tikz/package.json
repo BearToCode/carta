@@ -20,12 +20,12 @@
 	"devDependencies": {
 		"@types/md5": "^2.3.2",
 		"carta-md": "workspace:*",
+		"marked": "^9.1.5",
 		"md5": "^2.3.0",
 		"typescript": "^5.0.4",
-		"vite": "^4.3.9",
-		"vite-plugin-dts": "^2.3.0",
-		"vite-raw-plugin": "^1.0.2",
-		"marked": "^9.1.5"
+		"vite": "^5.1.6",
+		"vite-plugin-dts": "^3.7.3",
+		"vite-raw-plugin": "^1.0.2"
 	},
 	"peerDependencies": {
 		"carta-md": "^3.0.0",
