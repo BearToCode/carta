@@ -63,3 +63,9 @@ export class CustomEvent<T> extends Event {
 		this.detail = data.detail;
 	}
 }
+
+// Workaround to add intellisense
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Nothing {}
+type Union<T, U> = T | (U & Nothing);
+export type Intellisense<T> = Union<T, string>;

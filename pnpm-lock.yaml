@@ -160,8 +160,8 @@ importers:
   packages/carta-md:
     dependencies:
       '@speed-highlight/core':
-        specifier: 1.2.2
-        version: 1.2.2
+        specifier: ^1.2.6
+        version: 1.2.6
       marked:
         specifier: ^9.1.5
         version: 9.1.5
@@ -1274,8 +1274,8 @@ packages:
       - supports-color
     dev: true
 
-  /@speed-highlight/core@1.2.2:
-    resolution: {integrity: sha512-Yb3ewAUq7QwLbU+vF28dxkOmBJG5bHUVWZWQBnUt2GIhVWdiShKcE6kBMsCRXvD8AuK7gy0rR4qNckqZnCzEFw==}
+  /@speed-highlight/core@1.2.6:
+    resolution: {integrity: sha512-kzS2W5fLGz2wcmA+4JoMlw3eglj2NqYTdzU/Db1P9phIJ20glYFW4tGpPRfpqP08qEn2H0NV9/7E8kh5/iaTgQ==}
     dev: false
 
   /@sveltejs/adapter-auto@1.0.3(@sveltejs/kit@1.15.9):

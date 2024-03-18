@@ -17,8 +17,9 @@ import {
 	highlight,
 	highlightAutodetect,
 	loadCustomMarkdown
-} from './highlight.js';
+} from './highlight';
 import { CustomEvent } from './utils';
+
 /**
  * Carta-specific event with extra payload.
  */

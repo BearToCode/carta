@@ -1,19 +1,30 @@
-import { detectLanguage } from '@speed-highlight/core/detect.js';
+import { detectLanguage } from '@speed-highlight/core/detect';
 import {
 	highlightText,
 	loadLanguage,
 	type ShjLanguage,
-	type ShjLanguageDefinition
+	type ShjToken
 } from '@speed-highlight/core';
 import type { CartaExtension } from './carta';
 import cartaMarkdown from './shj';
+import type { Intellisense } from './utils';
 
-// Workaround to add intellisense
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Nothing {}
-type Union<T, U> = T | (U & Nothing);
+export type HighlightLanguage = Intellisense<ShjLanguage>;
 
-type Lang = Union<ShjLanguage, string>;
+export type ShjLanguageComponent =
+	| { type: ShjToken; match: RegExp }
+	| { extend: string }
+	| {
+			match: RegExp;
+			sub:
+				| string
+				| ((code: string) => {
+						type: ShjToken;
+						sub: Array<{ match: RegExp; sub: string | Promise<string> }>;
+				  });
+	  };
+
+export type ShjLanguageDefinition = Array<ShjLanguageComponent>;
 
 /**
  * Highlight text using Speed-Highlight. May return null on error(usually if requested
@@ -25,11 +36,13 @@ type Lang = Union<ShjLanguage, string>;
  */
 export async function highlight(
 	text: string,
-	lang: Lang,
+	lang: HighlightLanguage,
 	hideLineNumbers?: boolean
 ): Promise<string | null> {
 	try {
-		return await highlightText(text, lang, true, { hideLineNumbers: hideLineNumbers ?? true });
+		return await highlightText(text, lang as ShjLanguage, true, {
+			hideLineNumbers: hideLineNumbers ?? true
+		});
 	} catch (_) {
 		return null;
 	}
@@ -69,6 +82,7 @@ export async function highlightAutodetect(text: string, hideLineNumbers?: boolea
  * ```
  */
 export function loadCustomLanguage(id: string, langModule: { default: ShjLanguageDefinition }) {
+	// FIXME: this is wrong! There are wrong typings in the latest version of speed-highlight :(
 	return loadLanguage(id, langModule);
 }
 

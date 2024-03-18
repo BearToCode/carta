@@ -1,4 +1,4 @@
-import { detectLanguage } from '@speed-highlight/core/detect.js';
+import { detectLanguage } from '@speed-highlight/core/detect';
 import type { ShjLanguageDefinition } from '@speed-highlight/core';
 
 /**
