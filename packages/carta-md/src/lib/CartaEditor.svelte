@@ -6,7 +6,7 @@
 	import { debounce } from './internal/utils';
 	import type { TextAreaProps } from './internal/textarea-props';
 	import { DefaultCartaLabels, type CartaLabels } from './internal/labels';
-	import { handleArrowKeysNavigation } from './internal/accessibility';
+	import Toolbar from './internal/components/Toolbar.svelte';
 
 	export let carta: Carta;
 	export let theme = 'default';
@@ -28,13 +28,11 @@
 	let selectedTab: 'write' | 'preview' = 'write';
 	let windowMode: 'tabs' | 'split';
 	let mounted = false;
-	let hideIcons = false;
 	let resizeInput: () => void;
 	onMount(() => (mounted = true));
 
 	$: {
 		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tabs') : mode;
-		hideIcons = width < 576;
 	}
 
 	$: {
@@ -100,50 +98,7 @@
 
 <div bind:this={editorElem} bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
 	{#if !disableToolbar}
-		<div class="carta-toolbar" role="toolbar">
-			<div class="carta-toolbar-left">
-				{#if windowMode == 'tabs'}
-					<button
-						type="button"
-						tabindex={0}
-						class={selectedTab === 'write' ? 'carta-active' : ''}
-						on:click={() => (selectedTab = 'write')}
-						on:keydown={handleArrowKeysNavigation}
-					>
-						{labels.writeTab}
-					</button>
-					<button
-						type="button"
-						tabindex={-1}
-						class={selectedTab === 'preview' ? 'carta-active' : ''}
-						on:click={() => (selectedTab = 'preview')}
-						on:keydown={handleArrowKeysNavigation}
-					>
-						{labels.previewTab}
-					</button>
-				{/if}
-			</div>
-			<div class="carta-toolbar-right">
-				{#if !hideIcons}
-					{#each carta.icons as icon, index}
-						<button
-							class="carta-icon"
-							tabindex={index == 0 ? 0 : -1}
-							title={icon.label}
-							aria-label={icon.label}
-							on:click|preventDefault|stopPropagation={() => {
-								carta.input && icon.action(carta.input);
-								carta.input?.update();
-								carta.input?.textarea.focus();
-							}}
-							on:keydown={handleArrowKeysNavigation}
-						>
-							<svelte:component this={icon.component} />
-						</button>
-					{/each}
-				{/if}
-			</div>
-		</div>
+		<Toolbar {carta} {labels} mode={windowMode} bind:tab={selectedTab} />
 	{/if}
 
 	<div class="carta-wrapper">
@@ -201,45 +156,16 @@
 		flex-direction: column;
 	}
 
-	.carta-toolbar {
-		height: 2rem;
-		display: flex;
-		flex-shrink: 0;
-	}
-
-	:global(.mode-split > *) {
+	:global(.carta-container.mode-split > *) {
 		width: 50%;
 	}
 
-	:global(.mode-tabs > *) {
+	:global(.carta-container.mode-tabs > *) {
 		width: 100%;
 	}
 
 	.carta-container {
 		display: flex;
 		position: relative;
-	}
-
-	.carta-toolbar-left {
-		height: 100%;
-	}
-
-	.carta-toolbar-right {
-		height: 100%;
-		flex-grow: 1;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-	}
-
-	.carta-icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.5rem;
-		height: 1.5rem;
-		border-radius: 3px;
-		cursor: pointer;
-		margin-left: 4px;
 	}
 </style>

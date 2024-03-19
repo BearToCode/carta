@@ -102,4 +102,4 @@ export const defaultIcons = [
 	}
 ] as const satisfies readonly CartaIcon[];
 
-export type DefaultIconId = (typeof defaultIcons)[number]['id'];
+export type DefaultIconId = (typeof defaultIcons)[number]['id'] | 'menu';

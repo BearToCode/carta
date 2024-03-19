@@ -70,17 +70,42 @@
 }
 
 /* Icons */
-.carta-theme__default .carta-icon {
+.carta-theme__default .carta-icon,
+.carta-theme__default .carta-icon-full {
 	border: 0;
 	background: transparent;
 }
 
-.carta-theme__default .carta-icon:hover {
+.carta-theme__default .carta-icon-full {
+	padding: 6px 4px;
+}
+
+.carta-theme__default .carta-icon-full span {
+	margin-left: 6px;
+}
+
+.carta-theme__default .carta-icon:hover,
+.carta-theme__default .carta-icon-full:hover {
 	background: var(--hover-color);
 }
 
 .carta-input > pre {
 	background: inherit;
+}
+
+.carta-theme__default .carta-icons-menu {
+	padding: 6px;
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	min-width: 180px;
+}
+
+.carta-theme__default .carta-icons-menu .carta-icon-full {
+	margin-top: 2px;
+}
+
+.carta-theme__default .carta-icons-menu .carta-icon-full:first-child {
+	margin-top: 0;
 }
 
 /* Buttons */

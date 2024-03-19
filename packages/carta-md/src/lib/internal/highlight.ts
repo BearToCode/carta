@@ -7,13 +7,9 @@ import {
 } from '@speed-highlight/core';
 import type { CartaExtension } from './carta';
 import cartaMarkdown from './shj';
+import type { Intellisense } from './utils';
 
-// Workaround to add intellisense
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Nothing {}
-type Union<T, U> = T | (U & Nothing);
-
-type Lang = Union<ShjLanguage, string>;
+type Lang = Intellisense<ShjLanguage>;
 
 /**
  * Highlight text using Speed-Highlight. May return null on error(usually if requested

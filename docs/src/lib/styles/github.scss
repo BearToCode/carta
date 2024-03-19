@@ -77,6 +77,35 @@
 			}
 		}
 
+		.carta-icons-menu {
+			padding: 8px;
+			border: 1px solid $border;
+			border-radius: 6px;
+			min-width: 180px;
+			background: $background;
+
+			.carta-icon-full {
+				padding-left: 6px;
+				padding-right: 6px;
+
+				margin-top: 2px;
+				&:first-child {
+					margin-top: 0;
+				}
+
+				&:hover {
+					color: white;
+					background-color: $border;
+				}
+
+				span {
+					margin-left: 6px;
+					color: white;
+					font-size: 0.85rem;
+				}
+			}
+		}
+
 		[class*='shj-lang-'] {
 			background: transparent;
 		}

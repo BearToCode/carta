@@ -1,3 +1,10 @@
+// Workaround to add intellisense
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Nothing {}
+type Union<T, U> = T | (U & Nothing);
+
+export type Intellisense<T> = Union<T, string>;
+
 /**
  * Debounce the provided function.
  * @param cb Callback function.
