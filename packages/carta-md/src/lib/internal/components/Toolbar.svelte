@@ -145,6 +145,8 @@
 		height: 2rem;
 		display: flex;
 		flex-shrink: 0;
+		overflow-x: auto;
+		overflow-y: hidden;
 	}
 
 	.carta-toolbar-left {

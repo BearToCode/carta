@@ -34,9 +34,7 @@
 			height: 2.5rem;
 
 			background-color: $background-light;
-			border-bottom: 1px solid $border;
 
-			padding-right: 12px;
 			border-top-left-radius: 0.5rem;
 			border-top-right-radius: 0.5rem;
 
@@ -51,6 +49,12 @@
 			}
 		}
 
+		.carta-toolbar-left button,
+		.carta-toolbar-right,
+		.carta-filler {
+			border-bottom: 1px solid $border;
+		}
+
 		.carta-toolbar-left {
 			& > *:first-child {
 				border-top-left-radius: 0.5rem;
@@ -62,10 +66,12 @@
 				font-size: 0.95rem;
 			}
 
-			.carta-active {
+			button {
 				height: 100%;
+			}
+
+			.carta-active {
 				background-color: $background;
-				transform: translateY(1px);
 				color: white;
 
 				border-right: 1px solid $border;
@@ -75,6 +81,10 @@
 					border-left: 1px solid $border;
 				}
 			}
+		}
+
+		.carta-toolbar-right {
+			padding-right: 12px;
 		}
 
 		.carta-icons-menu {
