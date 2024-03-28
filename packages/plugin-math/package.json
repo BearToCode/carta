@@ -19,19 +19,19 @@
 	"devDependencies": {
 		"@types/katex": "^0.16.0",
 		"carta-md": "workspace:*",
-		"typescript": "^5.0.4",
-		"marked": "^9.1.5"
+		"marked": "^9.1.5",
+		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
 		"carta-md": "^3.0.0",
-		"katex": "^0.16.7",
+		"katex": "^0.16.10",
 		"marked": "^9.1.5"
 	},
 	"files": [
 		"dist"
 	],
 	"dependencies": {
-		"katex": "^0.16.7"
+		"katex": "^0.16.10"
 	},
 	"version": "3.0.0",
 	"keywords": [

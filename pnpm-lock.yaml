@@ -93,8 +93,8 @@ importers:
         specifier: 0.7.21
         version: 0.7.21
       katex:
-        specifier: ^0.16.7
-        version: 0.16.7
+        specifier: ^0.16.10
+        version: 0.16.10
       radix-icons-svelte:
         specifier: ^1.2.1
         version: 1.2.1
@@ -353,8 +353,8 @@ importers:
   packages/plugin-math:
     dependencies:
       katex:
-        specifier: ^0.16.7
-        version: 0.16.7
+        specifier: ^0.16.10
+        version: 0.16.10
     devDependencies:
       '@types/katex':
         specifier: ^0.16.0
@@ -4005,8 +4005,8 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: true
 
-  /katex@0.16.7:
-    resolution: {integrity: sha512-Xk9C6oGKRwJTfqfIbtr0Kes9OSv6IFsuhFGc7tW4urlpMJtuh+7YhzU6YEG9n8gmWKcMAFzkp7nr+r69kV0zrA==}
+  /katex@0.16.10:
+    resolution: {integrity: sha512-ZiqaC04tp2O5utMsl2TEZTXxa6WSC4yo0fv5ML++D3QZv/vx2Mct0mTlRx3O+uUkjfuAgOkzsCmq5MiUEsDDdA==}
     hasBin: true
     dependencies:
       commander: 8.3.0

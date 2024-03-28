@@ -47,7 +47,7 @@
 		"clsx": "^2.0.0",
 		"cmdk-sv": "^0.0.6",
 		"flexsearch": "0.7.21",
-		"katex": "^0.16.7",
+		"katex": "^0.16.10",
 		"radix-icons-svelte": "^1.2.1",
 		"tailwind-merge": "^2.0.0"
 	}
