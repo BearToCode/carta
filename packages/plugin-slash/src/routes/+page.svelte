@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { slash } from '$lib';
 	import 'carta-md/default.css';
 	import '$lib/default.css';
@@ -21,7 +21,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} />
+	<MarkdownEditor {carta} />
 </main>
 
 <style>

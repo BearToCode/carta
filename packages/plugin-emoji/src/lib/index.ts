@@ -1,4 +1,4 @@
-import type { CartaExtension, CartaExtensionComponent } from 'carta-md';
+import type { Plugin, ExtensionComponent } from 'carta-md';
 import type { TokenizerAndRendererExtension } from 'marked';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import nodeEmoji from 'node-emoji';
@@ -25,7 +25,7 @@ interface ComponentProps {
 /**
  * Carta emoji plugin. Adds support to render emojis as well as an emojis snippet.
  */
-export const emoji = (options?: EmojiExtensionOptions): CartaExtension => {
+export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 	const inTransition =
 		options?.inTransition ??
 		((node: Element) =>
@@ -40,7 +40,7 @@ export const emoji = (options?: EmojiExtensionOptions): CartaExtension => {
 				duration: 100
 			}));
 
-	const emojiComponent: CartaExtensionComponent<ComponentProps> = {
+	const emojiComponent: ExtensionComponent<ComponentProps> = {
 		component: Emoji,
 		parent: 'input',
 		props: {

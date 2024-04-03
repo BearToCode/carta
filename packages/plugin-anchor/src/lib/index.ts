@@ -1,4 +1,4 @@
-import type { CartaExtension } from 'carta-md';
+import type { Plugin } from 'carta-md';
 import { generateUniqueSlug } from './slug';
 export * from './default.css?inline';
 
@@ -12,7 +12,7 @@ export interface AnchorExtensionOptions {
 /**
  * Carta anchor plugin. Adds support to render anchor links in header tags.
  */
-export const anchor = (options?: AnchorExtensionOptions): CartaExtension => {
+export const anchor = (options?: AnchorExtensionOptions): Plugin => {
 	let slugs: string[] = [];
 
 	const maxDepth = options?.maxDepth ?? 6;

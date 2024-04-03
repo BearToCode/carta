@@ -1,4 +1,4 @@
-import type { CartaExtension, HighlightFunctions } from 'carta-md';
+import type { Plugin, HighlightFunctions } from 'carta-md';
 import { markedHighlight } from 'marked-highlight';
 
 interface CodeExtensionOptions {
@@ -39,7 +39,7 @@ let shj: HighlightFunctions;
 /**
  * Carta code highlighting plugin. Themes available on [GitHub](https://github.com/speed-highlight/core/tree/main/dist/themes).
  */
-export const code = (options?: CodeExtensionOptions): CartaExtension => {
+export const code = (options?: CodeExtensionOptions): Plugin => {
 	return {
 		onLoad: ({ highlight }) => (shj = highlight),
 		markedExtensions: [

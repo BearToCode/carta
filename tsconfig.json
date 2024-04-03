@@ -15,6 +15,5 @@
 		"outDir": "./dist",
 		"module": "ESNext",
 		"target": "ESNext"
-	},
-	"files": []
+	}
 }

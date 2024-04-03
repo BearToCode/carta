@@ -19,7 +19,7 @@ new Carta({
 
 ### `extensions`
 
-Type: `CartaExtension[]`
+Type: `Extension[]`
 
 List of extensions(plugins) to use.
 
@@ -72,9 +72,9 @@ Type: `(html: string) => void`
 
 HTML sanitizer. See [here]({base}/getting-started#sanitization) for more details.
 
-# `CartaEditor` options
+# `MarkdownEditor` options
 
-List of options that can be used in the `<CartaEditor>` component.
+List of options that can be used in the `<MarkdownEditor>` component.
 
 ### `carta`
 
@@ -128,13 +128,13 @@ instead.
 
 ### `labels`
 
-Type: `Partial<CartaLabels>`
+Type: `Partial<Labels>`
 
 Can be used to provide custom text for labels in the editor.
 
-# `CartaViewer` options
+# `Markdown` options
 
-List of options that can be used in the `<CartaViewer>` component.
+List of options that can be used in the `<Markdown>` component.
 
 ### `carta`
 

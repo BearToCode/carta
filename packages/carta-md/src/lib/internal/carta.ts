@@ -1,16 +1,16 @@
-import type { CartaHistoryOptions } from './history';
-import type { SvelteComponentTyped } from 'svelte';
+import type { TextAreaHistoryOptions } from './history';
+import type { SvelteComponent } from 'svelte';
 import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
 import { Marked, type MarkedExtension } from 'marked';
-import { CartaInput } from './input';
+import { InputEnhancer } from './input';
 import {
 	type DefaultShortcutId,
 	type KeyboardShortcut,
 	defaultKeyboardShortcuts
 } from './shortcuts';
-import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
+import { defaultIcons, type Icon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
-import { CartaRenderer } from './renderer';
+import { Renderer } from './renderer';
 import {
 	type HighlightFunctions,
 	loadCustomLanguage,
@@ -18,20 +18,21 @@ import {
 	highlightAutodetect,
 	loadCustomMarkdown
 } from './highlight.js';
-import { CustomEvent } from './utils';
+import { CustomEvent, type MaybeArray } from './utils';
+
 /**
  * Carta-specific event with extra payload.
  */
-export type CartaEvent = CustomEvent<{ carta: Carta }>;
+export type Event = CustomEvent<{ carta: Carta }>;
 const cartaEvents = ['carta-render', 'carta-render-ssr'] as const;
-type CartaEventType = (typeof cartaEvents)[number];
+type EventType = (typeof cartaEvents)[number];
 
-export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> = [
+export type Listener<K extends EventType | keyof HTMLElementEventMap> = [
 	type: K,
 	listener: (
 		this: HTMLTextAreaElement,
-		ev: K extends CartaEventType
-			? CartaEvent
+		ev: K extends EventType
+			? Event
 			: K extends keyof HTMLElementEventMap
 			  ? HTMLElementEventMap[K]
 			  : Event
@@ -39,15 +40,13 @@ export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> 
 	options?: boolean | AddEventListenerOptions
 ];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CartaListeners = CartaListener<any>[];
+type Listeners = Listener<any>[];
 
-type MaybeArray<T> = T | Array<T>;
-
-export interface CartaExtensionComponent<T extends object> {
+export interface ExtensionComponent<T extends object> {
 	/**
 	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
 	 */
-	component: typeof SvelteComponentTyped<T & { carta: Carta }>;
+	component: typeof SvelteComponent<T & { carta: Carta }>;
 	/**
 	 * Properties that will be handed to the component.
 	 */
@@ -59,16 +58,16 @@ export interface CartaExtensionComponent<T extends object> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CartaExtensionComponents = Array<CartaExtensionComponent<any>>;
+type ExtensionComponents = Array<ExtensionComponent<any>>;
 
 /**
  * Carta editor options.
  */
-export interface CartaOptions {
+export interface Options {
 	/**
 	 * Editor/viewer extensions.
 	 */
-	extensions?: CartaExtension[];
+	extensions?: Plugin[];
 	/**
 	 * Renderer debouncing timeout, in ms.
 	 * @defaults 300ms
@@ -89,7 +88,7 @@ export interface CartaOptions {
 	/**
 	 * History (Undo/Redo) options.
 	 */
-	historyOptions?: Partial<CartaHistoryOptions>;
+	historyOptions?: Partial<TextAreaHistoryOptions>;
 	/**
 	 * HTML sanitizer.
 	 */
@@ -99,7 +98,7 @@ export interface CartaOptions {
 /**
  * Carta editor extensions.
  */
-export interface CartaExtension {
+export interface Plugin {
 	/**
 	 * Marked extensions, more on that [here](https://marked.js.org/using_advanced).
 	 */
@@ -111,7 +110,7 @@ export interface CartaExtension {
 	/**
 	 * Additional icons.
 	 */
-	icons?: CartaIcon[];
+	icons?: Icon[];
 	/**
 	 * Additional prefixes.
 	 */
@@ -119,14 +118,14 @@ export interface CartaExtension {
 	/**
 	 * Textarea event listeners.
 	 */
-	listeners?: CartaListeners;
+	listeners?: Listeners;
 	/**
 	 * Additional components, that will be put after the editor.
 	 * All components are given a `carta: Carta` prop.
 	 * The editor has a `relative` position, so you can position
 	 * elements absolutely.
 	 */
-	components?: CartaExtensionComponents;
+	components?: ExtensionComponents;
 	/**
 	 * Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).
 	 */
@@ -150,19 +149,19 @@ export interface CartaExtension {
 
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
-	public readonly icons: CartaIcon[];
+	public readonly icons: Icon[];
 	public readonly prefixes: Prefix[];
 	public readonly highlightRules: ShjLanguageDefinition;
-	public readonly textareaListeners: CartaListeners;
-	public readonly cartaListeners: CartaListeners;
-	public readonly components: CartaExtensionComponents;
+	public readonly textareaListeners: Listeners;
+	public readonly cartaListeners: Listeners;
+	public readonly components: ExtensionComponents;
 	public readonly dispatcher = new EventTarget();
 	public readonly markedAsync = new Marked();
 	public readonly markedSync = new Marked();
 
 	private _element: HTMLDivElement | undefined;
-	private _input: CartaInput | undefined;
-	private _renderer: CartaRenderer | undefined;
+	private _input: InputEnhancer | undefined;
+	private _renderer: Renderer | undefined;
 	public get element() {
 		return this._element;
 	}
@@ -179,7 +178,7 @@ export class Carta {
 		callback: (() => void) | undefined;
 	}[] = [];
 
-	public constructor(public readonly options?: CartaOptions) {
+	public constructor(public readonly options?: Options) {
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
@@ -315,7 +314,7 @@ export class Carta {
 		// Remove old listeners if any
 		const previousInput = this.input;
 
-		this._input = new CartaInput(textarea, container, {
+		this._input = new InputEnhancer(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
 			listeners: this.textareaListeners,
@@ -343,7 +342,7 @@ export class Carta {
 	 * @param container Div container of the rendered element.
 	 */
 	public $setRenderer(container: HTMLDivElement) {
-		this._renderer = new CartaRenderer(container);
+		this._renderer = new Renderer(container);
 	}
 
 	/**

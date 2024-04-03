@@ -39,7 +39,7 @@ import '@cartamd/plugin-anchor/default.css';
 
 ```svelte
 <script>
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { anchor } from '@cartamd/plugin-anchor';
 
 	const carta = new Carta({
@@ -47,7 +47,7 @@ import '@cartamd/plugin-anchor/default.css';
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 </Code>

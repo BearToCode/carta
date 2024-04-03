@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Carta } from './internal/carta';
 	import { onMount } from 'svelte';
-	import CartaRenderer from './internal/components/CartaRenderer.svelte';
-	import MarkdownInput from './internal/components/MarkdownInput.svelte';
+	import Renderer from './internal/components/Renderer.svelte';
+	import Input from './internal/components/Input.svelte';
 	import { debounce } from './internal/utils';
 	import type { TextAreaProps } from './internal/textarea-props';
-	import { DefaultCartaLabels, type CartaLabels } from './internal/labels';
+	import { defaultLabels, type Labels } from './internal/labels';
 	import Toolbar from './internal/components/Toolbar.svelte';
 
 	export let carta: Carta;
@@ -17,10 +17,10 @@
 	export let placeholder = '';
 	export let textarea: TextAreaProps = {};
 
-	let userLabels: Partial<CartaLabels> = {};
+	let userLabels: Partial<Labels> = {};
 	export { userLabels as labels };
-	const labels: CartaLabels = {
-		...DefaultCartaLabels,
+	const labels: Labels = {
+		...defaultLabels,
 		...userLabels
 	};
 
@@ -104,7 +104,7 @@
 	<div class="carta-wrapper">
 		<div class="carta-container mode-{windowMode}">
 			{#if windowMode == 'split' || selectedTab == 'write'}
-				<MarkdownInput
+				<Input
 					{carta}
 					{placeholder}
 					{handleScroll}
@@ -121,10 +121,10 @@
 							<svelte:component this={component} {carta} {...props} />
 						{/each}
 					{/if}
-				</MarkdownInput>
+				</Input>
 			{/if}
 			{#if windowMode == 'split' || selectedTab == 'preview'}
-				<CartaRenderer {carta} {handleScroll} bind:value bind:elem={rendererElem}>
+				<Renderer {carta} {handleScroll} bind:value bind:elem={rendererElem}>
 					<!-- Renderer extensions components -->
 					{#if mounted}
 						{#each carta.components.filter(({ parent }) => [parent]
@@ -133,7 +133,7 @@
 							<svelte:component this={component} {carta} {...props} />
 						{/each}
 					{/if}
-				</CartaRenderer>
+				</Renderer>
 			{/if}
 		</div>
 	</div>

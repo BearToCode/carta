@@ -20,7 +20,7 @@ import '@cartamd/plugin-slash/default.css';
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { slash } from '@cartamd/plugin-slash';
 
 	const carta = new Carta({
@@ -28,7 +28,7 @@ import '@cartamd/plugin-slash/default.css';
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 ## Documentation

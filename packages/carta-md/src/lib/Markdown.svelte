@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from './';
+	import type { Carta } from '.';
 
 	export let carta: Carta;
 	export let value: string;

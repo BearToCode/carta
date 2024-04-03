@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CartaLabels } from '../labels';
+	import type { Labels } from '../labels';
 	import { handleArrowKeysNavigation } from '../accessibility';
 	import type { Carta } from '../carta';
 	import MenuIcon from './icons/MenuIcon.svelte';
@@ -9,7 +9,7 @@
 	export let carta: Carta;
 	export let mode: 'tabs' | 'split';
 	export let tab: 'write' | 'preview';
-	export let labels: CartaLabels;
+	export let labels: Labels;
 
 	let toolbar: HTMLDivElement;
 	let menu: HTMLDivElement;

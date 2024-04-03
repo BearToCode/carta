@@ -1,4 +1,4 @@
-import type { CartaInput } from 'carta-md';
+import type { InputEnhancer } from 'carta-md';
 
 export interface SlashSnippet {
 	/**
@@ -12,10 +12,10 @@ export interface SlashSnippet {
 	 * Snippet callback.
 	 * @param input Carta input.
 	 */
-	action: (input: CartaInput) => void;
+	action: (input: InputEnhancer) => void;
 }
 
-function insertLine(input: CartaInput, string: string) {
+function insertLine(input: InputEnhancer, string: string) {
 	const line = input.getLine();
 	if (line.value !== '') {
 		input.insertAt(line.end, `\n${string}`);

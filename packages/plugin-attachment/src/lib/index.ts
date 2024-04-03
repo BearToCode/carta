@@ -1,4 +1,4 @@
-import type { Carta, CartaExtension, CartaListener } from 'carta-md';
+import type { Carta, Plugin, Listener } from 'carta-md';
 import { get, writable, type Writable } from 'svelte/store';
 import type { SvelteComponent } from 'svelte';
 import DropOverlay from './DropOverlay.svelte';
@@ -40,7 +40,7 @@ const ImageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml']
 /**
  * Carta attachment plugin.
  */
-export const attachment = (options: AttachmentExtensionOptions): CartaExtension => {
+export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 	let carta: Carta | undefined;
 	const allowedMimeTypes = options.supportedMimeTypes || ImageMimeTypes;
 

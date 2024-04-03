@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import 'carta-md/dark.css';
 	import '$lib/styles/discord.scss';
 	import { emoji } from '@cartamd/plugin-emoji';
@@ -24,5 +24,4 @@
 	});
 </script>
 
-<CartaEditor placeholder="Send a message to @someone" mode="tabs" theme="discord" {carta}
-></CartaEditor>
+<MarkdownEditor placeholder="Send a message to @someone" mode="tabs" theme="discord" {carta} />

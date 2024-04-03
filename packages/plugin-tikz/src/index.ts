@@ -1,4 +1,4 @@
-import type { Carta, CartaEvent, CartaExtension } from 'carta-md';
+import type { Carta, Event, Plugin } from 'carta-md';
 import { TokenizerAndRendererExtension } from 'marked';
 import md5 from 'md5';
 
@@ -36,7 +36,7 @@ let carta: Carta;
  * TikzJax extension for Carta.
  * @param options Tikz options.
  */
-export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
+export const tikz = (options?: TikzExtensionOptions): Plugin => {
 	return {
 		cartaRef: (c) => (carta = c),
 		shjRef: (shj) => {
@@ -123,7 +123,7 @@ declare global {
 	}
 }
 
-function generateTikzImages(e: CartaEvent, options?: TikzExtensionOptions) {
+function generateTikzImages(e: Event, options?: TikzExtensionOptions) {
 	const carta = e.detail.carta;
 	const container = carta.renderer?.container;
 	if (!container) {

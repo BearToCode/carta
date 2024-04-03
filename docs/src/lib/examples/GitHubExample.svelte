@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { attachment } from '@cartamd/plugin-attachment';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { slash } from '@cartamd/plugin-slash';
@@ -23,4 +23,4 @@
 	export let value = 'This is an example inspired by [GitHub](https://github.com)';
 </script>
 
-<CartaEditor bind:value mode="tabs" theme="github" {carta} />
+<MarkdownEditor bind:value mode="tabs" theme="github" {carta} />

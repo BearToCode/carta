@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { emoji } from '$lib';
 	import 'carta-md/default.css';
 	import '$lib/default.css';
@@ -22,7 +22,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} />
+	<MarkdownEditor {carta} />
 </main>
 
 <style>

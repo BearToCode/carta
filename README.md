@@ -99,7 +99,7 @@ npm i @cartamd/plugin-name
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	// Component default theme
 	import 'carta-md/default.css';
 	// Markdown input theme (Speed Highlight)
@@ -111,7 +111,7 @@ npm i @cartamd/plugin-name
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 
 <style>
 	/* Or in global stylesheet */

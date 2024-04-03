@@ -20,7 +20,7 @@ import '@cartamd/plugin-emoji/default.css';
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
 
 	const carta = new Carta({
@@ -28,7 +28,7 @@ import '@cartamd/plugin-emoji/default.css';
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 ## Documentation

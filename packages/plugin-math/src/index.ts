@@ -1,4 +1,4 @@
-import type { Carta, CartaExtension } from 'carta-md';
+import type { Carta, Plugin } from 'carta-md';
 import { TokenizerAndRendererExtension } from 'marked';
 import katex, { KatexOptions } from 'katex';
 
@@ -54,7 +54,7 @@ let carta: Carta;
 /**
  * Carta math plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
-export const math = (options?: MathExtensionOptions): CartaExtension => {
+export const math = (options?: MathExtensionOptions): Plugin => {
 	return {
 		onLoad: ({ carta: c, highlight: shj }) => {
 			carta = c;

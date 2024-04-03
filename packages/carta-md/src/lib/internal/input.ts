@@ -1,7 +1,7 @@
-import type { CartaListener } from './carta';
+import type { Listener } from './carta';
 import type { Prefix } from './prefixes';
 import type { KeyboardShortcut } from './shortcuts';
-import { CartaHistory, type CartaHistoryOptions } from './history';
+import { TextAreaHistory as TextAreaHistory, type TextAreaHistoryOptions } from './history';
 import { areEqualSets } from './utils';
 
 /**
@@ -21,17 +21,17 @@ export interface InputSettings {
 	readonly shortcuts: KeyboardShortcut[];
 	readonly prefixes: Prefix[];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	readonly listeners: CartaListener<any>[];
-	readonly historyOpts?: Partial<CartaHistoryOptions>;
+	readonly listeners: Listener<any>[];
+	readonly historyOpts?: Partial<TextAreaHistoryOptions>;
 }
 
-export class CartaInput {
+export class InputEnhancer {
 	private pressedKeys: Set<string>;
 	private escapePressed = false;
 	// Used to detect keys that actually changed the textarea value
 	private onKeyDownValue: string | undefined;
 
-	public history: CartaHistory;
+	public history: TextAreaHistory;
 	public readonly events = new EventTarget();
 
 	constructor(
@@ -54,7 +54,7 @@ export class CartaInput {
 
 		textarea.addEventListener('mousedown', this.handleMouseDown.bind(this));
 
-		this.history = new CartaHistory(settings.historyOpts);
+		this.history = new TextAreaHistory(settings.historyOpts);
 		// Save initial value
 		this.history.saveState(this.textarea.value, this.textarea.selectionStart);
 

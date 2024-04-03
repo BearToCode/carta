@@ -6,13 +6,13 @@ type IconId = Intellisense<DefaultIconId>;
 /**
  * Labels that may appear in the editor.
  */
-export interface CartaLabels {
+export interface Labels {
 	writeTab: string;
 	previewTab: string;
 	iconsLabels: Partial<Record<IconId, string>>;
 }
 
-export const DefaultCartaLabels: CartaLabels = {
+export const defaultLabels: Labels = {
 	writeTab: 'Write',
 	previewTab: 'Preview',
 	iconsLabels: {}

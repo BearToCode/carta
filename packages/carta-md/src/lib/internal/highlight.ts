@@ -5,7 +5,7 @@ import {
 	type ShjLanguage,
 	type ShjLanguageDefinition
 } from '@speed-highlight/core';
-import type { CartaExtension } from './carta';
+import type { Plugin } from './carta';
 import cartaMarkdown from './shj';
 import type { Intellisense } from './utils';
 
@@ -79,7 +79,7 @@ export interface HighlightFunctions {
  * Automatically called when a Carta instance is created.
  * @param extensions Additional extensions used in Carta.
  */
-export function loadCustomMarkdown(extensions: CartaExtension[] = []) {
+export function loadCustomMarkdown(extensions: Plugin[] = []) {
 	const highlightRules = extensions.map((ext) => ext.highlightRules ?? []).flat();
 	const lang = [];
 	lang.push(...cartaMarkdown, ...highlightRules);

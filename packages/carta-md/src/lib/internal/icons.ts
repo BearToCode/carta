@@ -1,5 +1,5 @@
 import type { ComponentType } from 'svelte';
-import type { CartaInput } from './input';
+import type { InputEnhancer } from './input';
 import HeadingIcon from './components/icons/HeadingIcon.svelte';
 import ItalicIcon from './components/icons/ItalicIcon.svelte';
 import BoldIcon from './components/icons/BoldIcon.svelte';
@@ -14,16 +14,16 @@ import StrikethroughIcon from './components/icons/StrikethroughIcon.svelte';
 /**
  * Editor toolbar icon information.
  */
-export interface CartaIcon {
+export interface Icon {
 	/**
 	 * The icon's unique identifier.
 	 */
 	id: string;
 	/**
 	 * Callback function to execute when the icon is clicked.
-	 * @param input CartaInput instance
+	 * @param input InputEnhancer instance
 	 */
-	action: (input: CartaInput) => void;
+	action: (input: InputEnhancer) => void;
 	/**
 	 * The icon's component.
 	 */
@@ -100,6 +100,6 @@ export const defaultIcons = [
 		component: ListTaskIcon,
 		label: 'Task list'
 	}
-] as const satisfies readonly CartaIcon[];
+] as const satisfies readonly Icon[];
 
 export type DefaultIconId = (typeof defaultIcons)[number]['id'] | 'menu';

@@ -6,7 +6,7 @@ interface HistoryState {
 	cursor: number;
 }
 
-export interface CartaHistoryOptions {
+export interface TextAreaHistoryOptions {
 	/**
 	 * Minimum interval between save states in ms.
 	 * @default 300ms
@@ -19,7 +19,7 @@ export interface CartaHistoryOptions {
 	maxSize: number;
 }
 
-const defaultHistoryOptions: CartaHistoryOptions = {
+const defaultHistoryOptions: TextAreaHistoryOptions = {
 	minInterval: 300,
 	maxSize: 1_000_000
 };
@@ -27,11 +27,11 @@ const defaultHistoryOptions: CartaHistoryOptions = {
 /**
  * Input undo/redo functionality.
  */
-export class CartaHistory {
+export class TextAreaHistory {
 	private states: HistoryState[] = [];
 	private currentIndex = -1; // Only <= 0 numbers
-	private readonly options: CartaHistoryOptions;
-	constructor(options?: Partial<CartaHistoryOptions>) {
+	private readonly options: TextAreaHistoryOptions;
+	constructor(options?: Partial<TextAreaHistoryOptions>) {
 		this.options = mergeDefaultInterface(options, defaultHistoryOptions);
 	}
 
