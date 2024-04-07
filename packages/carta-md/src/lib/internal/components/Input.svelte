@@ -64,7 +64,6 @@
 
 	const findNestedLanguages = (text: string) => {
 		const languages = new Set<string>();
-		text = text.replaceAll('\r\n', '\n');
 
 		const regex = /```([a-z]+)\n([\s\S]+?)\n```/g;
 		let match: RegExpExecArray | null;
@@ -91,8 +90,12 @@
 		}
 	}, 500);
 
-	$: highlight(value).then(resize);
-	$: loadNestedLanguages(value);
+	const normalize = (text: string) => {
+		return text.replaceAll('\r\n', '\n');
+	};
+
+	$: highlight(normalize(value)).then(resize);
+	$: loadNestedLanguages(normalize(value));
 
 	onMount(() => {
 		mounted = true;

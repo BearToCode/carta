@@ -42,6 +42,7 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 
 			const highlighter = await carta.highlighter();
 			await highlighter.loadLanguage('latex');
+			carta.input?.update();
 		},
 		markedExtensions: [
 			{

@@ -57,6 +57,7 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 		onLoad: async ({ carta }) => {
 			const highlighter = await carta.highlighter();
 			await highlighter.loadLanguage('latex');
+			carta.input?.update();
 		},
 		markedExtensions: [
 			{

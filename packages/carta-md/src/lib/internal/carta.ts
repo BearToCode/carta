@@ -193,8 +193,8 @@ export class Carta {
 					shiki: this.options?.shikiOptions
 				});
 			};
-			this.mHighlighter = promise(); // Cache the promise, so that it doesn't get called multiple times
-			this.mHighlighter = await this.mHighlighter; // Await the promise // FIXME: This is a hack to make TypeScript happy
+			this.mHighlighter = promise();
+			this.mHighlighter = await this.mHighlighter;
 		}
 		return this.mHighlighter;
 	}
