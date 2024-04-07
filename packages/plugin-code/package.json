@@ -18,9 +18,10 @@
 	"devDependencies": {
 		"@types/node": "^18.16.3",
 		"carta-md": "workspace:*",
+		"marked": "^9.1.5",
+		"shiki": "^1.2.4",
 		"typescript": "^5.0.4",
-		"typescript-cp": "^0.1.8",
-		"marked": "^9.1.5"
+		"typescript-cp": "^0.1.8"
 	},
 	"peerDependencies": {
 		"carta-md": "^3.0.0"

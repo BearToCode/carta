@@ -3,7 +3,7 @@
 	import placeholder from './math-stack-exchange-placeholder.tex?raw';
 	import { math } from '@cartamd/plugin-math';
 	import { tikz } from '@cartamd/plugin-tikz';
-	import 'carta-md/dark.css';
+
 	import '$lib/styles/math-stack-exchange.scss';
 	import 'katex/dist/katex.min.css';
 

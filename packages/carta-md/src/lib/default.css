@@ -3,6 +3,15 @@
 	--selection-color: #b5f0ff3d;
 	--focus-outline: #76bbf3;
 	--hover-color: #e9e9e9;
+	--caret-color: #4d4d4c;
+	--text-color: #1a1a1a;
+
+	--border-color-dark: #4d4d4c;
+	--selection-color-dark: #b5f0ff3d;
+	--focus-outline-dark: #76bbf3;
+	--hover-color-dark: #4d4d4c;
+	--caret-color-dark: #ffffff;
+	--text-color-dark: #f1f1f1;
 }
 
 .carta-theme__default.carta-editor {
@@ -60,6 +69,10 @@
 .carta-theme__default .carta-toolbar-left {
 	display: flex;
 	align-items: flex-end;
+}
+
+.carta-theme__default button {
+	color: var(--text-color);
 }
 
 /* Markdown input and renderer */

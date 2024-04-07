@@ -27,6 +27,7 @@
 		.carta-font-code {
 			font-family: 'Fira Code', monospace;
 			caret-color: white;
+			font-size: 1.1rem;
 		}
 
 		.carta-toolbar {
@@ -40,10 +41,6 @@
 			width: 1.75rem;
 			height: 1.75rem;
 			transform: translateX(-50%) translateY(-50%);
-		}
-
-		[class*='shj-lang-'] {
-			background: transparent;
 		}
 	}
 
@@ -78,4 +75,9 @@
 	&.carta-emoji button.carta-active {
 		background: $background-contrast;
 	}
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+	color: var(--shiki-dark) !important;
 }

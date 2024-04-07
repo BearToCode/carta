@@ -30,34 +30,61 @@ interface TikzExtensionOptions {
 	postProcess?: (elem: SVGElement) => void;
 }
 
-let carta: Carta;
-
 /**
  * TikzJax extension for Carta.
  * @param options Tikz options.
  */
 export const tikz = (options?: TikzExtensionOptions): Plugin => {
+	let carta: Carta;
 	return {
-		cartaRef: (c) => (carta = c),
-		shjRef: (shj) => {
-			import('./tikz')
-				.then((module) => shj.loadCustomLanguage('tikz', module))
-				.then(() => carta.input?.update());
+		onLoad: async ({ carta: c }) => {
+			carta = c;
+
+			const highlighter = await carta.highlighter();
+			await highlighter.loadLanguage('latex');
 		},
 		markedExtensions: [
 			{
 				async: true,
-				extensions: [tikzTokenizer(options)]
+				extensions: [tikzTokenizer(() => carta, options)]
 			}
 		],
-		listeners: [['carta-render', (e) => generateTikzImages(e, options)]]
+		listeners: [['carta-render', (e) => generateTikzImages(e, options)]],
+		grammarRules: [
+			{
+				name: 'tikz',
+				type: 'block',
+				definition: {
+					begin: '(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(tikz)((\\s+|:|,|\\{|\\?)[^`]*)?$)',
+					beginCaptures: {
+						'3': { name: 'punctuation.definition.markdown' },
+						'4': { name: 'fenced_code.block.language.markdown' },
+						'5': { name: 'fenced_code.block.language.attributes.markdown' }
+					},
+					end: '(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$',
+					endCaptures: { '3': { name: 'punctuation.definition.markdown' } },
+					name: 'markup.fenced_code.block.markdown',
+					patterns: [
+						{
+							begin: '(^|\\G)(\\s*)(.*)',
+							contentName: 'meta.embedded.block.latex',
+							patterns: [{ include: 'text.tex.latex' }],
+							while: '(^|\\G)(?!\\s*([`~]{3,})\\s*$)'
+						}
+					]
+				}
+			}
+		]
 	};
 };
 
 // Keeps track of tikz generation to remove previous items
 let currentGeneration = 0;
 
-const tikzTokenizer = (options?: TikzExtensionOptions): TokenizerAndRendererExtension => {
+const tikzTokenizer = (
+	cartaRef: () => Carta,
+	options?: TikzExtensionOptions
+): TokenizerAndRendererExtension => {
 	return {
 		name: 'tikz',
 		level: 'block',
@@ -101,7 +128,7 @@ const tikzTokenizer = (options?: TikzExtensionOptions): TokenizerAndRendererExte
 				html = template.outerHTML;
 			}
 
-			const sanitizer = carta.options?.sanitizer;
+			const sanitizer = cartaRef().options?.sanitizer;
 			if (sanitizer) html = sanitizer(html);
 
 			return `

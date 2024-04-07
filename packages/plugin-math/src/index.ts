@@ -1,4 +1,4 @@
-import type { Carta, Plugin } from 'carta-md';
+import type { Plugin } from 'carta-md';
 import { TokenizerAndRendererExtension } from 'marked';
 import katex, { KatexOptions } from 'katex';
 
@@ -49,18 +49,14 @@ function safeRender(tex: string, options?: KatexOptions | undefined) {
 	}
 }
 
-let carta: Carta;
-
 /**
  * Carta math plugin. Code adapted from [marked-katex-extension](https://github.com/UziTech/marked-katex-extension).
  */
 export const math = (options?: MathExtensionOptions): Plugin => {
 	return {
-		onLoad: ({ carta: c, highlight: shj }) => {
-			carta = c;
-			import('./latex.js')
-				.then((module) => shj.loadCustomLanguage('latex', module))
-				.then(() => carta.input?.update());
+		onLoad: async ({ carta }) => {
+			const highlighter = await carta.highlighter();
+			await highlighter.loadLanguage('latex');
 		},
 		markedExtensions: [
 			{
@@ -79,14 +75,56 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 				action: (input) => input.toggleSelectionSurrounding(['$$\n', '\n$$'])
 			}
 		],
-		highlightRules: [
+		grammarRules: [
 			{
-				match: /\$[{}[\]a-zA-Z0-9.+-_=*/\\ ]+\$/g,
-				sub: 'latex'
+				name: 'inline_math',
+				type: 'inline',
+				definition: {
+					match: '(\\$+)((?:[^\\$]|(?!(?<!\\$)\\1(?!\\$))\\$)*+)(\\1)',
+					name: 'markup.inline.math.markdown',
+					captures: {
+						'1': { name: 'punctuation.definition.latex.inline' },
+						'2': { name: 'meta.embedded.block.latex', patterns: [{ include: 'text.tex.latex' }] },
+						'3': { name: 'punctuation.definition.latex.inline' }
+					}
+				}
 			},
 			{
-				match: /^\$\$+\n([^$]+?)\n\$\$+\n/gm,
-				sub: 'latex'
+				name: 'block_math',
+				type: 'block',
+				definition: {
+					begin: '(^|\\G)(\\s*)(\\${2,})\\s*(?=([^$]*)?$)',
+					beginCaptures: {
+						'3': { name: 'punctuation.definition.latex.block' }
+					},
+					endCaptures: { '3': { name: 'punctuation.definition.latex.block' } },
+					end: '(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$',
+					name: 'markup.block.math.markdown',
+					patterns: [
+						{
+							begin: '(^|\\G)(\\s*)(.*)',
+							contentName: 'meta.embedded.block.latex',
+							patterns: [{ include: 'text.tex.latex' }],
+							while: '(^|\\G)(?!\\s*([$]{2,})\\s*$)'
+						}
+					]
+				}
+			}
+		],
+		highlightingRules: [
+			{
+				light: {
+					scope: 'punctuation.definition.latex',
+					settings: {
+						foreground: '#5AF'
+					}
+				},
+				dark: {
+					scope: 'punctuation.definition.latex',
+					settings: {
+						foreground: '#4DACFA'
+					}
+				}
 			}
 		]
 	};

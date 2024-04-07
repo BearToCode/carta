@@ -14,10 +14,7 @@
 			"svelte": "./dist/index.js",
 			"import": "./dist/index.js"
 		},
-		"./default.css": "./dist/default.css",
-		"./default-theme.css": "./dist/default.css",
-		"./light.css": "./dist/light.css",
-		"./dark.css": "./dist/dark.css"
+		"./default.css": "./dist/default.css"
 	},
 	"version": "3.0.0",
 	"scripts": {
@@ -38,8 +35,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@speed-highlight/core": "1.2.2",
-		"marked": "^9.1.5"
+		"marked": "^9.1.5",
+		"shiki": "^1.2.4"
 	},
 	"peerDependencies": {
 		"svelte": "^3.54.0 || ^4.0.0"

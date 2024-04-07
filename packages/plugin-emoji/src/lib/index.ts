@@ -1,4 +1,4 @@
-import type { Plugin, ExtensionComponent } from 'carta-md';
+import type { Plugin, ExtensionComponent, GrammarRule, HighlightingRule } from 'carta-md';
 import type { TokenizerAndRendererExtension } from 'marked';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import nodeEmoji from 'node-emoji';
@@ -49,6 +49,30 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 		}
 	};
 
+	const grammar = {
+		name: 'emoji',
+		type: 'inline',
+		definition: {
+			match: ':[a-zA-Z_]+:',
+			name: 'markup.emoji.markdown'
+		}
+	} satisfies GrammarRule;
+
+	const highlighting = {
+		light: {
+			scope: 'markup.emoji',
+			settings: {
+				foreground: '#3bf'
+			}
+		},
+		dark: {
+			scope: 'markup.emoji',
+			settings: {
+				foreground: '#4dacfa'
+			}
+		}
+	} satisfies HighlightingRule;
+
 	return {
 		markedExtensions: [
 			{
@@ -56,12 +80,8 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 			}
 		],
 		components: [emojiComponent],
-		highlightRules: [
-			{
-				type: 'oper',
-				match: /:[a-z0-9_]+:/g
-			}
-		]
+		grammarRules: [grammar],
+		highlightingRules: [highlighting]
 	};
 };
 

@@ -1,6 +1,5 @@
 import type { TextAreaHistoryOptions } from './history';
 import type { SvelteComponent } from 'svelte';
-import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
 import { Marked, type MarkedExtension } from 'marked';
 import { InputEnhancer } from './input';
 import {
@@ -11,27 +10,33 @@ import {
 import { defaultIcons, type Icon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import { Renderer } from './renderer';
-import {
-	type HighlightFunctions,
-	loadCustomLanguage,
-	highlight,
-	highlightAutodetect,
-	loadCustomMarkdown
-} from './highlight.js';
 import { CustomEvent, type MaybeArray } from './utils';
+import {
+	loadHighlighter,
+	loadDefaultTheme,
+	type Highlighter,
+	type GrammarRule,
+	type ShikiOptions,
+	type DualTheme,
+	type Theme,
+	type HighlightingRule
+} from './highlight';
 
 /**
  * Carta-specific event with extra payload.
  */
 export type Event = CustomEvent<{ carta: Carta }>;
 const cartaEvents = ['carta-render', 'carta-render-ssr'] as const;
-type EventType = (typeof cartaEvents)[number];
+type CartaEventType = (typeof cartaEvents)[number];
 
-export type Listener<K extends EventType | keyof HTMLElementEventMap> = [
+/**
+ * Custom listeners for the textarea element.
+ */
+export type Listener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 	type: K,
 	listener: (
 		this: HTMLTextAreaElement,
-		ev: K extends EventType
+		ev: K extends CartaEventType
 			? Event
 			: K extends keyof HTMLElementEventMap
 			  ? HTMLElementEventMap[K]
@@ -39,9 +44,9 @@ export type Listener<K extends EventType | keyof HTMLElementEventMap> = [
 	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Listeners = Listener<any>[];
-
+/**
+ * Custom Svelte component for extensions.
+ */
 export interface ExtensionComponent<T extends object> {
 	/**
 	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
@@ -57,6 +62,8 @@ export interface ExtensionComponent<T extends object> {
 	parent: MaybeArray<'editor' | 'input' | 'renderer' | 'preview'>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Listeners = Listener<any>[];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ExtensionComponents = Array<ExtensionComponent<any>>;
 
@@ -93,6 +100,15 @@ export interface Options {
 	 * HTML sanitizer.
 	 */
 	sanitizer?: (html: string) => string;
+	/**
+	 * Highlighter options.
+	 */
+	shikiOptions?: ShikiOptions;
+	/**
+	 * ShikiJS theme
+	 * @default 'carta-light' for light mode and 'carta-dark' for dark mode.
+	 */
+	theme?: Theme | DualTheme;
 }
 
 /**
@@ -127,31 +143,26 @@ export interface Plugin {
 	 */
 	components?: ExtensionComponents;
 	/**
-	 * Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).
+	 * Custom markdown grammar highlight rules for ShiKiJS.
 	 */
-	highlightRules?: ShjLanguageDefinition;
+	grammarRules?: GrammarRule[];
+	/**
+	 * Custom markdown highlighting rules for ShiKiJS.
+	 */
+	highlightingRules?: HighlightingRule[];
 	/**
 	 * Use this callback to execute code when one Carta instance loads the extension.
 	 * @param data General Carta related data.
 	 */
-	onLoad?: (data: { carta: Carta; highlight: HighlightFunctions }) => void;
-	/**
-	 * This function can be used to access a reference to the `Carta` class immediately after initialization.
-	 * @deprecated Use `onLoad` instead.
-	 */
-	cartaRef?: (carta: Carta) => void;
-	/**
-	 * This function can be used to access a reference to all highlight functions immediately after initialization.
-	 * @deprecated Use `onLoad` instead.
-	 */
-	shjRef?: (functions: HighlightFunctions) => void;
+	onLoad?: (data: { carta: Carta }) => void;
 }
 
 export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: Icon[];
 	public readonly prefixes: Prefix[];
-	public readonly highlightRules: ShjLanguageDefinition;
+	public readonly grammarRules: GrammarRule[];
+	public readonly highlightingRules: HighlightingRule[];
 	public readonly textareaListeners: Listeners;
 	public readonly cartaListeners: Listeners;
 	public readonly components: ExtensionComponents;
@@ -159,17 +170,33 @@ export class Carta {
 	public readonly markedAsync = new Marked();
 	public readonly markedSync = new Marked();
 
-	private _element: HTMLDivElement | undefined;
-	private _input: InputEnhancer | undefined;
-	private _renderer: Renderer | undefined;
+	private mElement: HTMLDivElement | undefined;
+	private mInput: InputEnhancer | undefined;
+	private mRenderer: Renderer | undefined;
+	private mHighlighter: Highlighter | Promise<Highlighter> | undefined;
 	public get element() {
-		return this._element;
+		return this.mElement;
 	}
 	public get input() {
-		return this._input;
+		return this.mInput;
 	}
 	public get renderer() {
-		return this._renderer;
+		return this.mRenderer;
+	}
+	public async highlighter(): Promise<Highlighter> {
+		if (!this.mHighlighter) {
+			const promise = async () => {
+				return loadHighlighter({
+					theme: this.options?.theme ?? (await loadDefaultTheme()),
+					grammarRules: this.grammarRules,
+					highlightingRules: this.highlightingRules,
+					shiki: this.options?.shikiOptions
+				});
+			};
+			this.mHighlighter = promise(); // Cache the promise, so that it doesn't get called multiple times
+			this.mHighlighter = await this.mHighlighter; // Await the promise // FIXME: This is a hack to make TypeScript happy
+		}
+		return this.mHighlighter;
 	}
 
 	private elementsToBind: {
@@ -179,13 +206,15 @@ export class Carta {
 	}[] = [];
 
 	public constructor(public readonly options?: Options) {
+		// TODO: do not store options
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
 		this.textareaListeners = [];
 		this.cartaListeners = [];
 		this.components = [];
-		this.highlightRules = [];
+		this.grammarRules = [];
+		this.highlightingRules = [];
 
 		const listeners = [];
 
@@ -194,7 +223,8 @@ export class Carta {
 			this.icons.push(...(ext.icons ?? []));
 			this.prefixes.push(...(ext.prefixes ?? []));
 			this.components.push(...(ext.components ?? []));
-			this.highlightRules.push(...(ext.highlightRules ?? []));
+			this.grammarRules.push(...(ext.grammarRules ?? []));
+			this.highlightingRules.push(...(ext.highlightingRules ?? []));
 
 			listeners.push(...(ext.listeners ?? []));
 		}
@@ -240,25 +270,10 @@ export class Carta {
 				this.useMarkedExtension(ext);
 			});
 
-		// Load highlight custom language
-		loadCustomMarkdown(this.options?.extensions);
-
 		for (const ext of this.options?.extensions ?? []) {
-			ext.cartaRef && ext.cartaRef(this);
-			ext.shjRef &&
-				ext.shjRef({
-					highlight,
-					highlightAutodetect,
-					loadCustomLanguage
-				});
 			ext.onLoad &&
 				ext.onLoad({
-					carta: this,
-					highlight: {
-						highlight,
-						highlightAutodetect,
-						loadCustomLanguage
-					}
+					carta: this
 				});
 		}
 	}
@@ -302,7 +317,7 @@ export class Carta {
 	 * @param element The editor element.
 	 */
 	public $setElement(element: HTMLDivElement) {
-		this._element = element;
+		this.mElement = element;
 	}
 
 	/**
@@ -314,7 +329,7 @@ export class Carta {
 		// Remove old listeners if any
 		const previousInput = this.input;
 
-		this._input = new InputEnhancer(textarea, container, {
+		this.mInput = new InputEnhancer(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
 			listeners: this.textareaListeners,
@@ -323,10 +338,10 @@ export class Carta {
 
 		if (previousInput) {
 			previousInput.events.removeEventListener('update', callback);
-			this._input.history = previousInput.history;
+			this.mInput.history = previousInput.history;
 		}
 
-		this._input.events.addEventListener('update', callback);
+		this.mInput.events.addEventListener('update', callback);
 
 		// Bind elements
 		this.elementsToBind.forEach((it) => {
@@ -342,7 +357,7 @@ export class Carta {
 	 * @param container Div container of the rendered element.
 	 */
 	public $setRenderer(container: HTMLDivElement) {
-		this._renderer = new Renderer(container);
+		this.mRenderer = new Renderer(container);
 	}
 
 	/**
@@ -378,15 +393,5 @@ export class Carta {
 				this.elementsToBind = this.elementsToBind.filter((it) => it.elem != element);
 			}
 		};
-	}
-
-	/**
-	 * Highlight Markdown using Speed-Highlight and this Carta instance highlighting rules.
-	 * @param text Text to highlight.
-	 * @returns Highlighted html text.
-	 */
-	public async highlight(text: string) {
-		loadCustomMarkdown(this.options?.extensions);
-		return highlight(text, 'cartamd', true);
 	}
 }

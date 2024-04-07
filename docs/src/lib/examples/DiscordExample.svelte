@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { Carta, MarkdownEditor } from 'carta-md';
-	import 'carta-md/dark.css';
-	import '$lib/styles/discord.scss';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { code } from '@cartamd/plugin-code';
 	import { PlusCircled } from 'radix-icons-svelte';
+
+	import '$lib/styles/discord.scss';
 
 	const carta = new Carta({
 		disableIcons: true,

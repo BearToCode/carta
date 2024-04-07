@@ -2,10 +2,10 @@
 	import type { PageData } from './$types';
 	import { onMount, type SvelteComponent } from 'svelte';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 
 	import '$lib/styles/markdown.scss';
 	import '$lib/styles/coldark.scss';
-	import { base } from '$app/paths';
 
 	export let data: PageData;
 
