@@ -11,12 +11,12 @@ export interface TextAreaHistoryOptions {
 	 * Minimum interval between save states in ms.
 	 * @default 300ms
 	 */
-	minInterval: number;
+	minInterval?: number;
 	/**
 	 * Maximum history size in bytes.
 	 * @default 1MB
 	 */
-	maxSize: number;
+	maxSize?: number;
 }
 
 const defaultHistoryOptions: TextAreaHistoryOptions = {
@@ -79,7 +79,7 @@ export class TextAreaHistory {
 		}
 		this.currentIndex = -1;
 
-		if (latest && Date.now() - latest.timestamp.getTime() <= this.options.minInterval) {
+		if (latest && Date.now() - latest.timestamp.getTime() <= (this.options.minInterval ?? 300)) {
 			this.states.pop();
 		}
 
@@ -94,7 +94,7 @@ export class TextAreaHistory {
 		// every char is 2 bytes
 		size += value.length * 2;
 
-		while (size > this.options.maxSize) {
+		while (size > (this.options.maxSize ?? 1_000_000)) {
 			const removed = this.states.shift();
 			if (!removed) break; // This should never happen
 			size -= removed.value.length * 2;

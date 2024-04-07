@@ -129,7 +129,7 @@ const tikzTokenizer = (
 				html = template.outerHTML;
 			}
 
-			const sanitizer = cartaRef().options?.sanitizer;
+			const sanitizer = cartaRef().sanitizer;
 			if (sanitizer) html = sanitizer(html);
 
 			return `

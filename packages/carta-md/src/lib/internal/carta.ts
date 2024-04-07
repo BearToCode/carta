@@ -95,7 +95,7 @@ export interface Options {
 	/**
 	 * History (Undo/Redo) options.
 	 */
-	historyOptions?: Partial<TextAreaHistoryOptions>;
+	historyOptions?: TextAreaHistoryOptions;
 	/**
 	 * HTML sanitizer.
 	 */
@@ -158,6 +158,11 @@ export interface Plugin {
 }
 
 export class Carta {
+	public readonly sanitizer?: (html: string) => string;
+	public readonly historyOptions?: TextAreaHistoryOptions;
+	public readonly theme?: Theme | DualTheme;
+	public readonly shikiOptions?: ShikiOptions;
+	public readonly rendererDebounce: number;
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: Icon[];
 	public readonly prefixes: Prefix[];
@@ -187,10 +192,10 @@ export class Carta {
 		if (!this.mHighlighter) {
 			const promise = async () => {
 				return loadHighlighter({
-					theme: this.options?.theme ?? (await loadDefaultTheme()),
+					theme: this.theme ?? (await loadDefaultTheme()),
 					grammarRules: this.grammarRules,
 					highlightingRules: this.highlightingRules,
-					shiki: this.options?.shikiOptions
+					shiki: this.shikiOptions
 				});
 			};
 			this.mHighlighter = promise();
@@ -205,8 +210,14 @@ export class Carta {
 		callback: (() => void) | undefined;
 	}[] = [];
 
-	public constructor(public readonly options?: Options) {
-		// TODO: do not store options
+	public constructor(options?: Options) {
+		this.sanitizer = options?.sanitizer;
+		this.historyOptions = options?.historyOptions;
+		this.theme = options?.theme;
+		this.shikiOptions = options?.shikiOptions;
+		this.rendererDebounce = options?.rendererDebounce ?? 300;
+
+		// Load plugins
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
@@ -217,7 +228,6 @@ export class Carta {
 		this.highlightingRules = [];
 
 		const listeners = [];
-
 		for (const ext of options?.extensions ?? []) {
 			this.keyboardShortcuts.push(...(ext.shortcuts ?? []));
 			this.icons.push(...(ext.icons ?? []));
@@ -262,7 +272,7 @@ export class Carta {
 		);
 
 		// Load marked extensions
-		const markedExtensions = this.options?.extensions
+		const markedExtensions = options?.extensions
 			?.flatMap((ext) => ext.markedExtensions)
 			.filter((ext) => ext != null) as MarkedExtension[] | undefined;
 		if (markedExtensions)
@@ -270,7 +280,7 @@ export class Carta {
 				this.useMarkedExtension(ext);
 			});
 
-		for (const ext of this.options?.extensions ?? []) {
+		for (const ext of options?.extensions ?? []) {
 			ext.onLoad &&
 				ext.onLoad({
 					carta: this
@@ -294,7 +304,7 @@ export class Carta {
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
 		);
-		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
+		return (this.sanitizer && this.sanitizer(dirty)) ?? dirty;
 	}
 
 	/**
@@ -308,7 +318,7 @@ export class Carta {
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render-ssr', { detail: { carta: this } })
 		);
-		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
+		if (this.sanitizer) return this.sanitizer(dirty);
 		return dirty;
 	}
 
@@ -333,7 +343,7 @@ export class Carta {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
 			listeners: this.textareaListeners,
-			historyOpts: this.options?.historyOptions
+			historyOpts: this.historyOptions
 		});
 
 		if (previousInput) {

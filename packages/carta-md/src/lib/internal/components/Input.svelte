@@ -55,8 +55,8 @@
 			});
 		}
 
-		if (carta.options?.sanitizer) {
-			highlighted = carta.options.sanitizer(html);
+		if (carta.sanitizer) {
+			highlighted = carta.sanitizer(html);
 		} else {
 			highlighted = html;
 		}
