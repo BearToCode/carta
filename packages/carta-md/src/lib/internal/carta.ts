@@ -99,7 +99,7 @@ export interface Options {
 	/**
 	 * HTML sanitizer.
 	 */
-	sanitizer?: (html: string) => string;
+	sanitizer: ((html: string) => string) | false;
 	/**
 	 * Highlighter options.
 	 */
@@ -211,7 +211,7 @@ export class Carta {
 	}[] = [];
 
 	public constructor(options?: Options) {
-		this.sanitizer = options?.sanitizer;
+		this.sanitizer = options?.sanitizer || undefined;
 		this.historyOptions = options?.historyOptions;
 		this.theme = options?.theme;
 		this.shikiOptions = options?.shikiOptions;
