@@ -23,7 +23,7 @@
 		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.0.0",
+		"carta-md": "^4.0.0",
 		"katex": "^0.16.10",
 		"marked": "^9.1.5"
 	},

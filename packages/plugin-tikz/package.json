@@ -28,7 +28,7 @@
 		"vite-raw-plugin": "^1.0.2"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.0.0",
+		"carta-md": "^4.0.0",
 		"marked": "^9.1.5"
 	},
 	"files": [

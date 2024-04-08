@@ -24,7 +24,7 @@
 		"typescript-cp": "^0.1.8"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.0.0"
+		"carta-md": "^4.0.0"
 	},
 	"files": [
 		"dist"

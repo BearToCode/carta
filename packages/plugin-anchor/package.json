@@ -35,7 +35,7 @@
 		"slugify": "^1.6.6"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.1.0",
+		"carta-md": "^4.0.0",
 		"marked": "^9.1.5",
 		"svelte": "^3.54.0 || ^4.0.0"
 	},
