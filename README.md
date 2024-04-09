@@ -1,28 +1,24 @@
 <div align="right">
 	<a href="https://www.npmjs.com/package/carta-md">
-		<img src="https://img.shields.io/npm/v/carta-md?color=0384fc&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
+		<img src="https://img.shields.io/npm/v/carta-md?color=ff7cc6&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
 	</a>
 	<a href="https://bundlephobia.com/package/carta-md">
-		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=0384fc&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
+		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=4dacfa&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
 	</a>
 	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE">
-		<img src="https://img.shields.io/npm/l/carta-md?color=0384fc&labelColor=171d27&logo=git&logoColor=white" alt="license">
+		<img src="https://img.shields.io/npm/l/carta-md?color=71d58a&labelColor=171d27&logo=git&logoColor=white" alt="license">
 	</a>
 	<a href="http://beartocode.github.io/carta/">
-		<img src="https://img.shields.io/readthedocs/carta?logo=svelte&color=0384fc&logoColor=ffffff&labelColor=171d27" alt="docs">
+		<img src="https://img.shields.io/readthedocs/carta?logo=svelte&color=b581fd&logoColor=ffffff&labelColor=171d27" alt="docs">
 	</a>
 </div>
 
-<div align="center">
-	<a href="https://beartocode.github.io/carta/">
-		<img alt="banner" src="https://i.postimg.cc/1XPm8FSD/Frame-8.png">
-	</a>
-</div>
+[![Carta.png](https://i.postimg.cc/nV6DMXKM/Carta.png)](https://beartocode.github.io/carta/)
 
 <br>
 
-<div align="center"><strong>Carta</strong></div>
-<div align="center">Swiftly edit and render Markdown, with no overhead.</div>
+<h1 align="center"><strong>Carta</strong></h1>
+<div align="center">Modern, lightweight, powerful Markdown Editor.</div>
 <br />
 <div align="center">
 <a href="https://beartocode.github.io/carta/">Documentation</a> 
@@ -39,19 +35,19 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 
 ## Features
 
-- Keyboard **shortcuts** (extensible);
-- Toolbar (extensible);
-- Markdown syntax highlighting;
-- Scroll sync;
-- Accessibility friendly;
-- **SSR** compatible;
-- **Katex** support (plugin);
-- **Slash** commands (plugin);
-- **Emojis**, with included search (plugin);
-- **Tikz** support (plugin);
-- **Attachment** support (plugin);
-- **Anchor** links in headings;
-- Code blocks **syntax highlighting** (plugin).
+- ⌨️ Keyboard **shortcuts** (extensible);
+- 🛠️ Toolbar (extensible);
+- 🌈 Markdown syntax highlighting;
+- 🔀 Scroll sync;
+- ✅ Accessibility friendly;
+- 💻 **SSR** compatible;
+- ⚗️ **KaTeX** support (plugin);
+- 🔨 **Slash** commands (plugin);
+- 😄 **Emojis**, with included search (plugin);
+- ✏️ **TikZ** support (plugin);
+- 📂 **Attachment** support (plugin);
+- ⚓ **Anchor** links in headings;
+- 🌈 Code blocks **syntax highlighting** (plugin).
 
 ## Packages
 

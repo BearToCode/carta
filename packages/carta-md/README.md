@@ -13,16 +13,12 @@
 	</a>
 </div>
 
-<div align="center">
-	<a href="https://beartocode.github.io/carta/">
-		<img alt="banner" src="https://i.postimg.cc/1XPm8FSD/Frame-8.png">
-	</a>
-</div>
+[![Carta.png](https://i.postimg.cc/nV6DMXKM/Carta.png)](https://beartocode.github.io/carta/)
 
 <br>
 
-<div align="center"><strong>Carta</strong></div>
-<div align="center">Swiftly edit and render Markdown, with no overhead.</div>
+<h1 align="center"><strong>Carta</strong></h1>
+<div align="center">Modern, lightweight, powerful Markdown Editor.</div>
 <br />
 <div align="center">
 <a href="https://beartocode.github.io/carta/">Documentation</a> 
@@ -39,17 +35,19 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 
 ## Features
 
-- Keyboard **shortcuts** (extensible);
-- Toolbar (extensible);
-- Markdown syntax highlighting;
-- Scroll sync;
-- **SSR** compatible;
-- **Katex** support (plugin);
-- **Slash** commands (plugin);
-- **Emojis**, with included search (plugin);
-- **Tikz** support(plugin);
-- **Attachment** support(plugin);
-- Code blocks **syntax highlighting** (plugin).
+- ⌨️ Keyboard **shortcuts** (extensible);
+- 🛠️ Toolbar (extensible);
+- 🌈 Markdown syntax highlighting;
+- 🔀 Scroll sync;
+- ✅ Accessibility friendly;
+- 💻 **SSR** compatible;
+- ⚗️ **KaTeX** support (plugin);
+- 🔨 **Slash** commands (plugin);
+- 😄 **Emojis**, with included search (plugin);
+- ✏️ **TikZ** support (plugin);
+- 📂 **Attachment** support (plugin);
+- ⚓ **Anchor** links in headings;
+- 🌈 Code blocks **syntax highlighting** (plugin).
 
 # Getting started
 
