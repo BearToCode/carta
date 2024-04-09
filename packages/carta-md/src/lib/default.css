@@ -42,6 +42,10 @@
 	font-size: 0.95rem;
 }
 
+.carta-theme__default .carta-input ::placeholder {
+	color: var(--text-color);
+}
+
 /* Splitter */
 .carta-theme__default .mode-split.carta-container::after {
 	content: '';
