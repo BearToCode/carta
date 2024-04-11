@@ -35,8 +35,12 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"marked": "^9.1.5",
-		"shiki": "^1.2.4"
+		"rehype-stringify": "^10.0.0",
+		"remark-gfm": "^4.0.0",
+		"remark-parse": "^11.0.0",
+		"remark-rehype": "^11.1.0",
+		"shiki": "^1.3.0",
+		"unified": "^11.0.4"
 	},
 	"peerDependencies": {
 		"svelte": "^3.54.0 || ^4.0.0"

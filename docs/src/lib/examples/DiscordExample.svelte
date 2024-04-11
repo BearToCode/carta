@@ -7,6 +7,7 @@
 	import '$lib/styles/discord.scss';
 
 	const carta = new Carta({
+		sanitizer: false,
 		disableIcons: true,
 		extensions: [
 			emoji(),

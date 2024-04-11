@@ -3,6 +3,7 @@
 	import type { Carta } from '../carta';
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
+	import { isSingleTheme, loadNestedLanguages } from '../highlight';
 
 	export let carta: Carta;
 	export let value = '';
@@ -41,7 +42,7 @@
 		const highlighter = await carta.highlighter();
 		let html: string;
 
-		if (highlighter.isSingleTheme(highlighter.theme)) {
+		if (isSingleTheme(highlighter.theme)) {
 			// Single theme
 			html = highlighter.codeToHtml(text, {
 				lang: highlighter.lang,
@@ -62,40 +63,18 @@
 		}
 	};
 
-	const findNestedLanguages = (text: string) => {
-		const languages = new Set<string>();
-
-		const regex = /```([a-z]+)\n([\s\S]+?)\n```/g;
-		let match: RegExpExecArray | null;
-		while ((match = regex.exec(text))) {
-			languages.add(match[1]);
-		}
-		return languages;
-	};
-
-	const loadNestedLanguages = debounce(async (text: string) => {
-		const languages = findNestedLanguages(text);
-		const highlighter = await carta.highlighter();
-		const loadedLanguages = highlighter.getLoadedLanguages();
-		let updated = false;
-		for (const lang of languages) {
-			if (highlighter.isBundleLanguage(lang) && !loadedLanguages.includes(lang)) {
-				await highlighter.loadLanguage(lang);
-				loadedLanguages.push(lang);
-				updated = true;
-			}
-		}
-		if (updated) {
-			highlight(value);
-		}
-	}, 500);
-
 	const normalize = (text: string) => {
 		return text.replaceAll('\r\n', '\n');
 	};
 
+	const highlightNestedLanguages = debounce(async (text: string) => {
+		const highlighter = await carta.highlighter();
+		const { updated } = await loadNestedLanguages(highlighter, text);
+		if (updated) highlight(text);
+	}, 300);
+
 	$: highlight(normalize(value)).then(resize);
-	$: loadNestedLanguages(normalize(value));
+	$: highlightNestedLanguages(normalize(value));
 
 	onMount(() => {
 		mounted = true;

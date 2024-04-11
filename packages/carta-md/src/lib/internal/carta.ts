@@ -1,6 +1,10 @@
-import type { TextAreaHistoryOptions } from './history';
 import type { SvelteComponent } from 'svelte';
-import { Marked, type MarkedExtension } from 'marked';
+import { unified, type Processor } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm, { type Options as GfmOptions } from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
+import rehypeStringify from 'rehype-stringify';
+import type { TextAreaHistoryOptions } from './history';
 import { InputEnhancer } from './input';
 import {
 	type DefaultShortcutId,
@@ -72,6 +76,10 @@ type ExtensionComponents = Array<ExtensionComponent<any>>;
  */
 export interface Options {
 	/**
+	 * GitHub Flavored Markdown options.
+	 */
+	gfmOptions?: GfmOptions;
+	/**
 	 * Editor/viewer extensions.
 	 */
 	extensions?: Plugin[];
@@ -112,13 +120,30 @@ export interface Options {
 }
 
 /**
+ * Unified transformers plugins.
+ */
+export type UnifiedTransformers<E extends 'sync' | 'async'> = {
+	execution: 'sync' | 'async';
+	type: 'remark' | 'rehype';
+	transform: ({
+		processor,
+		carta
+	}: {
+		processor: Processor;
+		carta: Carta;
+	}) => E extends 'sync' ? void : Promise<void>;
+};
+
+/**
  * Carta editor extensions.
  */
 export interface Plugin {
 	/**
-	 * Marked extensions, more on that [here](https://marked.js.org/using_advanced).
+	 * Unified transformers plugins.
+	 * @important If the plugin is async, it will not run in SSR rendering.
 	 */
-	markedExtensions?: MarkedExtension[];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	transformers?: UnifiedTransformers<'sync' | 'async'>[];
 	/**
 	 * Additional keyboard shortcuts.
 	 */
@@ -172,13 +197,16 @@ export class Carta {
 	public readonly cartaListeners: Listeners;
 	public readonly components: ExtensionComponents;
 	public readonly dispatcher = new EventTarget();
-	public readonly markedAsync = new Marked();
-	public readonly markedSync = new Marked();
+	public readonly syncProcessor: Processor;
+	public readonly asyncProcessor: Promise<Processor>;
 
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
 	private mHighlighter: Highlighter | Promise<Highlighter> | undefined;
+	private mSyncTransformers: UnifiedTransformers<'sync'>[] = [];
+	private mAsyncTransformers: UnifiedTransformers<'async'>[] = [];
+
 	public get element() {
 		return this.mElement;
 	}
@@ -188,6 +216,7 @@ export class Carta {
 	public get renderer() {
 		return this.mRenderer;
 	}
+
 	public async highlighter(): Promise<Highlighter> {
 		if (!this.mHighlighter) {
 			const promise = async () => {
@@ -271,26 +300,82 @@ export class Carta {
 			)
 		);
 
-		// Load marked extensions
-		const markedExtensions = options?.extensions
-			?.flatMap((ext) => ext.markedExtensions)
-			.filter((ext) => ext != null) as MarkedExtension[] | undefined;
-		if (markedExtensions)
-			markedExtensions.forEach((ext) => {
-				this.useMarkedExtension(ext);
-			});
+		// Load unified extensions
+		this.mSyncTransformers = [];
+		this.mAsyncTransformers = [];
 
 		for (const ext of options?.extensions ?? []) {
-			ext.onLoad &&
+			for (const transformer of ext.transformers ?? []) {
+				if (transformer.execution === 'sync') {
+					this.mSyncTransformers.push(transformer);
+				} else {
+					this.mAsyncTransformers.push(transformer);
+				}
+			}
+		}
+
+		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: options?.gfmOptions });
+		this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: options?.gfmOptions });
+
+		for (const ext of options?.extensions ?? []) {
+			if (ext.onLoad) {
 				ext.onLoad({
 					carta: this
 				});
+			}
 		}
 	}
 
-	private useMarkedExtension(exts: MarkedExtension) {
-		this.markedAsync.use(exts);
-		if (!exts.async) this.markedSync.use(exts);
+	private setupSynchronousProcessor({ gfmOptions }: { gfmOptions?: GfmOptions }) {
+		const syncProcessor = unified();
+
+		const remarkPlugins = this.mSyncTransformers.filter((it) => it.type === 'remark');
+		const rehypePlugins = this.mSyncTransformers.filter((it) => it.type === 'rehype');
+
+		syncProcessor.use(remarkParse);
+		syncProcessor.use(remarkGfm, gfmOptions);
+
+		for (const plugin of remarkPlugins) {
+			plugin.transform({ processor: syncProcessor, carta: this });
+		}
+
+		syncProcessor.use(remarkRehype);
+
+		for (const plugin of rehypePlugins) {
+			plugin.transform({ processor: syncProcessor, carta: this });
+		}
+
+		syncProcessor.use(rehypeStringify);
+
+		return syncProcessor;
+	}
+
+	private async setupAsynchronousProcessor({ gfmOptions }: { gfmOptions?: GfmOptions }) {
+		const asyncProcessor = unified();
+
+		const remarkPlugins = [...this.mSyncTransformers, ...this.mAsyncTransformers].filter(
+			(it) => it.type === 'remark'
+		);
+		const rehypePlugins = [...this.mSyncTransformers, ...this.mAsyncTransformers].filter(
+			(it) => it.type === 'rehype'
+		);
+
+		asyncProcessor.use(remarkParse);
+		asyncProcessor.use(remarkGfm, gfmOptions);
+
+		for (const plugin of remarkPlugins) {
+			await plugin.transform({ processor: asyncProcessor, carta: this });
+		}
+
+		asyncProcessor.use(remarkRehype);
+
+		for (const plugin of rehypePlugins) {
+			await plugin.transform({ processor: asyncProcessor, carta: this });
+		}
+
+		asyncProcessor.use(rehypeStringify);
+
+		return asyncProcessor;
 	}
 
 	/**
@@ -299,7 +384,8 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		const dirty = await this.markedAsync.parse(markdown, { async: true });
+		const processor = await this.asyncProcessor;
+		const dirty = String(await processor.process(markdown));
 		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
@@ -313,7 +399,7 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		const dirty = this.markedSync.parse(markdown, { async: false });
+		const dirty = String(this.syncProcessor.processSync(markdown));
 		if (typeof dirty != 'string') return '';
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render-ssr', { detail: { carta: this } })

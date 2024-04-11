@@ -1,13 +1,12 @@
 import type { Plugin } from 'carta-md';
-import { TokenizerAndRendererExtension } from 'marked';
-import katex, { KatexOptions } from 'katex';
+import remarkMath, { type Options as RemarkMathOptions } from 'remark-math';
+import rehypeKatex, { type Options as RehypeKatexOptions } from 'rehype-katex';
 
 interface MathExtensionOptions {
 	/**
 	 * Options for inline katex, eg: $a^2+b^2=c^2$
 	 */
 	inline?: {
-		katexOptions?: KatexOptions;
 		/**
 		 * @default control+m
 		 */
@@ -21,32 +20,18 @@ interface MathExtensionOptions {
 	 */
 	block?: {
 		/**
-		 * Tag the generated katex will be put into. Must have `display: block`.
-		 */
-		tag?: string;
-		/**
-		 * Whether to center the generated expression.
-		 * @default true
-		 */
-		center?: boolean;
-		/**
-		 * Class for generated katex.
-		 */
-		class?: string;
-		/**
 		 * @default ctrl+shift+m
 		 */
 		shortcut?: Set<string>;
-		katexOptions?: KatexOptions;
 	};
-}
-
-function safeRender(tex: string, options?: KatexOptions | undefined) {
-	try {
-		return katex.renderToString(tex, options);
-	} catch (_) {
-		return '';
-	}
+	/**
+	 * Options for remark-math
+	 */
+	remarkMath?: RemarkMathOptions;
+	/**
+	 * Options for rehype-katex
+	 */
+	rehypeKatex?: RehypeKatexOptions;
 }
 
 /**
@@ -59,9 +44,20 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 			await highlighter.loadLanguage('latex');
 			carta.input?.update();
 		},
-		markedExtensions: [
+		transformers: [
 			{
-				extensions: [inlineKatex(options?.inline), blockKatex(options?.block)]
+				execution: 'sync',
+				type: 'remark',
+				transform({ processor }) {
+					processor.use(remarkMath, options?.remarkMath);
+				}
+			},
+			{
+				execution: 'sync',
+				type: 'rehype',
+				transform({ processor }) {
+					processor.use(rehypeKatex, options?.rehypeKatex);
+				}
 			}
 		],
 		shortcuts: [
@@ -128,54 +124,5 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 				}
 			}
 		]
-	};
-};
-
-const inlineKatex = (options?: MathExtensionOptions['inline']): TokenizerAndRendererExtension => {
-	return {
-		name: 'inlineKatex',
-		level: 'inline',
-		start: (src) => src.indexOf('$'),
-		tokenizer: (src) => {
-			const match = src.match(/^\$+([^$\n]+?)\$+/);
-			if (match) {
-				return {
-					type: 'inlineKatex',
-					raw: match[0],
-					text: match[1].trim()
-				};
-			}
-		},
-		renderer: (token) => safeRender(token.text, options?.katexOptions)
-	};
-};
-
-const blockKatex = (options?: MathExtensionOptions['block']): TokenizerAndRendererExtension => {
-	return {
-		name: 'blockKatex',
-		level: 'block',
-		start: (src) => src.indexOf('\n$$'),
-		tokenizer: (src) => {
-			const match = src.match(/^\$\$+\n([^$]+?)\n\$\$+\n/);
-			if (match) {
-				return {
-					type: 'blockKatex',
-					raw: match[0],
-					text: match[1].trim()
-				};
-			}
-		},
-		renderer: (token) => {
-			const tag = options?.tag ?? 'p';
-			const center = options?.center ?? true;
-			const katexOptions = options?.katexOptions ?? {};
-			if (katexOptions?.displayMode === undefined) katexOptions.displayMode = true;
-			return `
-				<${tag} 
-					class="${options?.class ?? ''}"
-					${center ? 'align="center"' : ''}
-				>${safeRender(token.text, katexOptions)}
-				</${tag}>`;
-		}
 	};
 };

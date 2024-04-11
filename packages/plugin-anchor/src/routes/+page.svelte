@@ -5,9 +5,10 @@
 	import '$lib/default.css';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			anchor({
-				maxDepth: 2
+				autolink: {}
 			})
 		]
 	});
@@ -38,9 +39,15 @@
 		min-height: 100vh;
 	}
 
-	:global(.carta-font-code, code) {
+	:global(.carta-font-code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
+		font-size: 1.1rem;
+	}
+
+	:global(.carta-renderer) {
+		/* Add some space to show icons */
+		padding-left: 2.5rem !important;
 	}
 
 	:global(input, textarea, button) {

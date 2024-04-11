@@ -67,13 +67,13 @@ Numbered list:
 
 An [example](http://example.com).
 
-![Image](Icon-pictures.png 'icon')
+![pic](pic.jpg)
 
 > Markdown uses email-style
 > characters for blockquoting.
 > Multiple paragraphs need to be prepended individually.
 
-| Item         | Price    | # In stock |
-| ------------ | -------- | ---------- |
-| Juicy Apples | 1.99     | _7_        |
-| Bananas      | **1.89** | 5234       |
+| Item         | Price    | In stock |
+| ------------ | -------- | -------- |
+| Juicy Apples | 1.99     | _7_      |
+| Bananas      | **1.89** | 5234     |

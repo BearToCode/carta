@@ -51,6 +51,10 @@
 		margin: 2rem auto 2rem auto;
 	}
 
+	:global(img) {
+		max-width: 50%;
+	}
+
 	:global(.toggle-theme) {
 		position: absolute;
 		top: 0;

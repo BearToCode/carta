@@ -45,7 +45,10 @@ type DefaultDarkThemeName = Awaited<(typeof import('./assets/theme-dark'))['defa
 export const customMarkdownLangName: CustomMarkdownLangName = 'cartamd';
 export const defaultLightThemeName: DefaultLightThemeName = 'carta-light';
 export const defaultDarkThemeName: DefaultDarkThemeName = 'carta-dark';
-export const loadDefaultTheme = async (): Promise<DualTheme> => ({
+export const loadDefaultTheme = async (): Promise<{
+	light: ThemeRegistration;
+	dark: ThemeRegistration;
+}> => ({
 	light: structuredClone((await import('./assets/theme-light')).default),
 	dark: structuredClone((await import('./assets/theme-dark')).default)
 });
@@ -92,17 +95,6 @@ export async function loadHighlighter({
 	theme,
 	shiki
 }: HighlighterOptions): Promise<Highlighter> {
-	// Type guards
-	const isBundleLanguage = (lang: string): lang is BundledLanguage =>
-		Object.keys(bundledLanguages).includes(lang);
-	const isBundleTheme = (theme: string): theme is BundledTheme =>
-		Object.keys(bundledThemes).includes(theme);
-	const isDualTheme = (theme: Theme | DualTheme): theme is DualTheme =>
-		typeof theme == 'object' && 'light' in theme && 'dark' in theme;
-	const isSingleTheme = (theme: Theme | DualTheme): theme is Theme => !isDualTheme(theme);
-	const isThemeRegistration = (theme: Theme): theme is ThemeRegistration =>
-		typeof theme == 'object';
-
 	// Inject rules into the custom markdown language
 	const injectGrammarRules = (
 		lang: Awaited<(typeof import('./assets/markdown'))['default']>,
@@ -185,11 +177,6 @@ export async function loadHighlighter({
 	return {
 		theme,
 		lang: customMarkdownLangName,
-		isBundleLanguage,
-		isBundleTheme,
-		isDualTheme,
-		isSingleTheme,
-		isThemeRegistration,
 		...highlighter
 	};
 }
@@ -202,34 +189,75 @@ export interface Highlighter extends HighlighterGeneric<BundledLanguage, Bundled
 	 * The theme specified for the highlighter.
 	 */
 	lang: Language;
-	/**
-	 * Checks if a language is a bundled language.
-	 * @param lang The language to check.
-	 * @returns Whether the language is a bundled language.
-	 */
-	isBundleLanguage(lang: string): lang is BundledLanguage;
-	/**
-	 * Checks if a theme is a bundled theme.
-	 * @param theme The theme to check.
-	 * @returns Whether the theme is a bundled theme.
-	 */
-	isBundleTheme(theme: string): theme is BundledTheme;
-	/**
-	 * Checks if a theme is a dual theme.
-	 * @param theme The theme to check.
-	 * @returns Whether the theme is a dual theme.
-	 */
-	isDualTheme(theme: Theme | DualTheme): theme is DualTheme;
-	/**
-	 * Checks if a theme is a single theme.
-	 * @param theme The theme to check.
-	 * @returns Whether the theme is a single theme.
-	 */
-	isSingleTheme(theme: Theme | DualTheme): theme is Theme;
-	/**
-	 * Checks if a theme is a theme registration.
-	 * @param theme The theme to check.
-	 * @returns Whether the theme is a theme registration.
-	 */
-	isThemeRegistration(theme: Theme): theme is ThemeRegistration;
 }
+
+/**
+ * Checks if a language is a bundled language.
+ * @param lang The language to check.
+ * @returns Whether the language is a bundled language.
+ */
+export const isBundleLanguage = (lang: string): lang is BundledLanguage =>
+	Object.keys(bundledLanguages).includes(lang); /**
+ * Checks if a theme is a bundled theme.
+ * @param theme The theme to check.
+ * @returns Whether the theme is a bundled theme.
+ */
+export const isBundleTheme = (theme: string): theme is BundledTheme =>
+	Object.keys(bundledThemes).includes(theme); /**
+ * Checks if a theme is a dual theme.
+ * @param theme The theme to check.
+ * @returns Whether the theme is a dual theme.
+ */
+export const isDualTheme = (theme: Theme | DualTheme): theme is DualTheme =>
+	typeof theme == 'object' && 'light' in theme && 'dark' in theme; /**
+ * Checks if a theme is a single theme.
+ * @param theme The theme to check.
+ * @returns Whether the theme is a single theme.
+ */
+export const isSingleTheme = (theme: Theme | DualTheme): theme is Theme => !isDualTheme(theme);
+/**
+ * Checks if a theme is a theme registration.
+ * @param theme The theme to check.
+ * @returns Whether the theme is a theme registration.
+ */
+export const isThemeRegistration = (theme: Theme): theme is ThemeRegistration =>
+	typeof theme == 'object';
+
+/**
+ * Find all nested languages in the markdown text and load them into the highlighter.
+ * @param text Markdown text to parse for nested languages.
+ * @returns The set of nested languages found in the text.
+ */
+const findNestedLanguages = (text: string) => {
+	const languages = new Set<string>();
+
+	const regex = /```([a-z]+)\n([\s\S]+?)\n```/g;
+	let match: RegExpExecArray | null;
+	while ((match = regex.exec(text))) {
+		languages.add(match[1]);
+	}
+	return languages;
+};
+
+/**
+ * Load all nested languages found in the markdown text into the highlighter.
+ * @param highlighter The highlighter instance.
+ * @param text The text to parse for nested languages.
+ * @returns Whether the highlighter was updated with new languages.
+ */
+export const loadNestedLanguages = async (highlighter: Highlighter, text: string) => {
+	const languages = findNestedLanguages(text);
+	const loadedLanguages = highlighter.getLoadedLanguages();
+	let updated = false;
+	for (const lang of languages) {
+		if (isBundleLanguage(lang) && !loadedLanguages.includes(lang)) {
+			await highlighter.loadLanguage(lang);
+			loadedLanguages.push(lang);
+			updated = true;
+		}
+	}
+
+	return {
+		updated
+	};
+};

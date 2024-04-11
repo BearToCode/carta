@@ -32,11 +32,11 @@
 		"!dist/**/*.spec.*"
 	],
 	"dependencies": {
-		"slugify": "^1.6.6"
+		"rehype-autolink-headings": "^7.1.0",
+		"rehype-slug": "^6.0.0"
 	},
 	"peerDependencies": {
 		"carta-md": "^4.0.0",
-		"marked": "^9.1.5",
 		"svelte": "^3.54.0 || ^4.0.0"
 	},
 	"devDependencies": {

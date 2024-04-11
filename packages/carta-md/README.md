@@ -15,8 +15,6 @@
 
 [![Carta.png](https://i.postimg.cc/nV6DMXKM/Carta.png)](https://beartocode.github.io/carta/)
 
-<br>
-
 <h1 align="center"><strong>Carta</strong></h1>
 <div align="center">Modern, lightweight, powerful Markdown Editor.</div>
 <br />

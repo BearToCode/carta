@@ -8,6 +8,7 @@
 	import 'katex/dist/katex.min.css';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			math(),
 			tikz({

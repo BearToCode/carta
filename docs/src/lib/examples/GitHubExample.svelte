@@ -8,6 +8,7 @@
 	import '$lib/styles/github.scss';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			attachment({
 				async upload() {
