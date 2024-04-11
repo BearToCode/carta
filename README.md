@@ -19,7 +19,7 @@
 <div align="center">Modern, lightweight, powerful Markdown Editor.</div>
 <br />
 <div align="center">
-<a href="https://beartocode.github.io/carta/">Documentation</a> 
+<a href="https://beartocode.github.io/carta/">📚 Documentation</a> 
 <span> · </span>
 <a href="https://github.com/BearToCode/carta">GitHub</a> 
 </div>
@@ -28,23 +28,29 @@
 
 # Introduction
 
-Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
-Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
+> [!NOTE]
+> Carta has recently been updated to `v4`, which features numerous major changes.
+>
+> Follow the [Migration Guide](http://beartocode.github.io/carta/migration) to update your project.
+
+Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. It is powered by [unified](https://github.com/unifiedjs/unified), [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
+Differently from most editors, Carta does not include a Code Editor, but it is _just_ a textarea with syntax highlighting, shortcuts and more.
 
 ## Features
 
-- ⌨️ Keyboard **shortcuts** (extensible);
+- 🌈 Markdown syntax highlighting ([Shiki](https://shiki.style/));
 - 🛠️ Toolbar (extensible);
-- 🌈 Markdown syntax highlighting;
+- ⌨️ Keyboard **shortcuts** (extensible);
+- 📦 Supports **[+150 plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins)** thanks to remark.
 - 🔀 Scroll sync;
 - ✅ Accessibility friendly;
-- 💻 **SSR** compatible;
+- 🖥️ **SSR** compatible;
 - ⚗️ **KaTeX** support (plugin);
 - 🔨 **Slash** commands (plugin);
 - 😄 **Emojis**, with included search (plugin);
 - ✏️ **TikZ** support (plugin);
 - 📂 **Attachment** support (plugin);
-- ⚓ **Anchor** links in headings;
+- ⚓ **Anchor** links in headings (plugin);
 - 🌈 Code blocks **syntax highlighting** (plugin).
 
 ## Packages
@@ -74,6 +80,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 > [!WARNING]
 > Sanitization is not dealt with by Carta. You need to provide a `sanitizer` in the options.
 > Common sanitizers are [isomorphic-dompurify](https://www.npmjs.com/package/isomorphic-dompurify) (suggested) and [sanitize-html](https://www.npmjs.com/package/sanitize-html).
+> Checkout the documentation for an example.
 
 ## Installation
 
@@ -96,8 +103,6 @@ npm i @cartamd/plugin-name
 	import { Carta, MarkdownEditor } from 'carta-md';
 	// Component default theme
 	import 'carta-md/default.css';
-	// Markdown input theme (Speed Highlight)
-	import 'carta-md/light.css';
 
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks
@@ -112,6 +117,7 @@ npm i @cartamd/plugin-name
 	/* Set your custom monospace font */
 	:global(.carta-font-code) {
 		font-family: '...', monospace;
+		font-size: 1.1rem;
 	}
 </style>
 ```

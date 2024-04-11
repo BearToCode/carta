@@ -39,7 +39,6 @@ Setup a basic editor:
 <script>
 	import { Carta, MarkdownEditor } from 'carta-md';
 	import 'carta-md/default.css'; /* Default theme */
-	import 'carta-md/light.css'; /* Markdown input theme */
 
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks!
@@ -56,6 +55,7 @@ Setup a basic editor:
 	/* Set your custom monospace font */
 	:global(.carta-font-code) {
 		font-family: '...', monospace;
+		font-size: 1.1rem;
 	}
 </style>
 ```
@@ -68,7 +68,7 @@ Or, if you just want to render content:
 
 ```svelte
 <script>
-	import { Carta, MarkdownEditor } from 'carta-md';
+	import { Carta, Markdown } from 'carta-md';
 
 	const carta = new Carta({
 		/* ... */
@@ -77,7 +77,7 @@ Or, if you just want to render content:
 	let value = '...';
 </script>
 
-<MarkdownEditor {carta} {value} />
+<Markdown {carta} {value} />
 ```
 
 </Code>

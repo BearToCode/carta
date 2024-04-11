@@ -7,8 +7,7 @@ title: Code
 	import Code from '$lib/components/code/Code.svelte';
 </script>
 
-This plugin adds support for code blocks **syntax highlighting**.
-This is done using [Speed-highlight JS](https://github.com/speed-highlight/core), which supports dynamic imports. This way, languages definitions are only imported at the moment of need.
+This plugin adds support for code blocks **syntax highlighting**. It uses the same highlighter from the core package(Shiki).
 
 ## Installation
 
@@ -36,26 +35,26 @@ import '@cartamd/plugin-code/default.css';
 
 ### Using the default highlighter
 
-Carta comes with a default highlighter that matches the one used to highlight Markdown in the editor and is used by default.
-The theme is the same as the one used in the main Carta package (`carta-md/light.css` or `carta-md/dark.css`).
-[Here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find other themes.
-
-### Using a custom highlighter
-
-You can also provide a custom highlighter, that can be either sync or async.
+Carta comes with a default highlighter that matches the one used to highlight markdown in the editor and is used by default (Shiki). If you want to use a theme different from the one used to highlight Markdown, you can specify it in the options.
 
 <Code>
 
 ```ts
-code({
-	customHighlight: {
-		highlighter: (code, lang) => myCustomHighlighter(code, lang),
-		langPrefix: 'my-highlighter-'
-	}
+const carta = new Carta({
+	// ...
+	extensions: [
+		code({
+			theme: 'ayu-light'
+		})
+	]
 });
 ```
 
 </Code>
+
+### Using a custom highlighter
+
+It is no longer possible to specify a custom highlighter in this plugin. However, there are many different [Remark plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins) that provide syntax highlighting.
 
 ### Extension
 
@@ -78,39 +77,4 @@ code({
 
 ## Options
 
-Here are the options you can pass to `code()`:
-
-```ts
-interface CodeExtensionOptions {
-	/**
-	 * Default language when none is provided.
-	 */
-	defaultLanguage?: string;
-	/**
-	 * Whether to autodetect a language when none is provided.
-	 * Overwritten by `defaultLanguage`.
-	 */
-	autoDetect?: string;
-	/**
-	 * Line numbering.
-	 * @defaults false.
-	 */
-	lineNumbering?: boolean;
-
-	/**
-	 * Options for custom syntax highlighting.
-	 */
-	customHighlight?: {
-		/**
-		 * Custom highlight function. Beware that you'll have to provide your own styles.
-		 * This function needs to convert a string of code into html.
-		 */
-		highlighter: (code: string, lang: string) => string | Promise<string>;
-		/**
-		 * The language tag found immediately after the code block opening marker is
-		 * appended to this to form the class attribute added to the `<code>` element.
-		 */
-		langPrefix: string;
-	};
-}
-```
+The options you can pass to `code()` extend the ones provided by [Shiki](https://shiki.matsu.io/guide/transformers).

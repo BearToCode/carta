@@ -131,7 +131,6 @@ interface MathExtensionOptions {
 	 * Options for inline katex, eg: $a^2+b^2=c^2$
 	 */
 	inline?: {
-		katexOptions?: KatexOptions;
 		/**
 		 * @default control+m
 		 */
@@ -145,22 +144,17 @@ interface MathExtensionOptions {
 	 */
 	block?: {
 		/**
-		 * Tag the generated katex will be put into. Must have `display: block`.
-		 */
-		tag?: string;
-		/**
-		 * Whether to center the generated expression.
-		 * @default true
-		 */
-		center?: boolean;
-		/**
-		 * Class for generated katex.
-		 */
-		class?: string;
-		/**
 		 * @default ctrl+shift+m
 		 */
 		shortcut?: Set<string>;
-		katexOptions?: KatexOptions;
 	};
+	/**
+	 * Options for remark-math
+	 */
+	remarkMath?: RemarkMathOptions;
+	/**
+	 * Options for rehype-katex
+	 */
+	rehypeKatex?: RehypeKatexOptions;
+}
 ```

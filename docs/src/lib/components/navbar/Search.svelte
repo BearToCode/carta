@@ -1,7 +1,6 @@
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command';
 	import type { Document } from 'flexsearch';
-	import { Enter, MagnifyingGlass } from 'radix-icons-svelte';
 	import {
 		enrichResult,
 		initializeSearch,
@@ -54,8 +53,8 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<button on:click={() => (open = !open)} class="mr-2 block md:hidden">
-	<MagnifyingGlass class="h-7 w-7 text-neutral-200" />
+<button on:click={() => (open = !open)} class="mr-2 block aspect-square md:hidden">
+	<iconify-icon icon="ion:search" class="text-2xl text-neutral-200"></iconify-icon>
 </button>
 
 <button
@@ -63,7 +62,7 @@
 	on:click={() => (open = !open)}
 >
 	<div class="inline-flex items-center space-x-2">
-		<MagnifyingGlass class="h-5 w-5 text-neutral-500" />
+		<iconify-icon icon="ion:search" class="text-xl text-neutral-500"></iconify-icon>
 		<span class="text-neutral-500">Search...</span>
 	</div>
 	<kbd
@@ -102,7 +101,7 @@
 						{/if}
 
 						<div class="absolute right-2 top-1/2 hidden -translate-y-1/2 group-aria-selected:block">
-							<Enter class="h-5 w-5 text-neutral-400" />
+							<iconify-icon icon="mi:enter" class="text-xl text-neutral-400"></iconify-icon>
 						</div>
 					</Command.Item>
 				{/each}

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Command as CommandPrimitive } from 'cmdk-sv';
-	import { MagnifyingGlass } from 'radix-icons-svelte';
 	import { cn } from '$lib/utils';
 
 	// type $$Props = CommandPrimitive.InputProps;
@@ -11,7 +10,7 @@
 </script>
 
 <div class="flex items-center border-b px-3" data-cmdk-input-wrapper="">
-	<MagnifyingGlass class="mr-2 h-4 w-4 shrink-0 opacity-50" />
+	<iconify-icon icon="ion:search" class="mr-2 shrink-0 text-xl opacity-50"></iconify-icon>
 	<CommandPrimitive.Input
 		bind:value
 		class={cn(

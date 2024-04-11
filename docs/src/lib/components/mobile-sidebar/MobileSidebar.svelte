@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Cross1, HamburgerMenu } from 'radix-icons-svelte';
 	import Sidebar from '../sidebar/Sidebar.svelte';
 	import { page } from '$app/stores';
 
@@ -16,7 +15,7 @@
 
 <div class="container mb-4 w-full border-b border-neutral-800 px-4 pb-1 sm:px-6 {className}">
 	<button on:click={() => (enabled = !enabled)} class="text-neutral-500 hover:text-neutral-200">
-		<HamburgerMenu class="h-7 w-7" />
+		<iconify-icon icon="ci:hamburger-lg" class="text-3xl"></iconify-icon>
 	</button>
 </div>
 
@@ -29,7 +28,7 @@
 			on:click={() => (enabled = false)}
 			class="absolute right-4 top-4 text-neutral-500 hover:text-neutral-200"
 		>
-			<Cross1 class="h-4 w-4" />
+			<iconify-icon icon="charm:cross" class="text-2xl"></iconify-icon>
 		</button>
 	</div>
 {/if}

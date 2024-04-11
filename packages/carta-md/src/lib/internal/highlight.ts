@@ -197,19 +197,22 @@ export interface Highlighter extends HighlighterGeneric<BundledLanguage, Bundled
  * @returns Whether the language is a bundled language.
  */
 export const isBundleLanguage = (lang: string): lang is BundledLanguage =>
-	Object.keys(bundledLanguages).includes(lang); /**
+	Object.keys(bundledLanguages).includes(lang);
+/**
  * Checks if a theme is a bundled theme.
  * @param theme The theme to check.
  * @returns Whether the theme is a bundled theme.
  */
 export const isBundleTheme = (theme: string): theme is BundledTheme =>
-	Object.keys(bundledThemes).includes(theme); /**
+	Object.keys(bundledThemes).includes(theme);
+/**
  * Checks if a theme is a dual theme.
  * @param theme The theme to check.
  * @returns Whether the theme is a dual theme.
  */
 export const isDualTheme = (theme: Theme | DualTheme): theme is DualTheme =>
-	typeof theme == 'object' && 'light' in theme && 'dark' in theme; /**
+	typeof theme == 'object' && 'light' in theme && 'dark' in theme;
+/**
  * Checks if a theme is a single theme.
  * @param theme The theme to check.
  * @returns Whether the theme is a single theme.

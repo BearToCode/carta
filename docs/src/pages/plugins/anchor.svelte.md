@@ -59,8 +59,12 @@ Here are the options you can pass to `anchor()`:
 ```ts
 export interface AnchorExtensionOptions {
 	/**
-	 * Maximum depth of headers to generate anchors for. Defaults to 6.
+	 * rehype-slug options.
 	 */
-	maxDepth?: number;
+	slug?: SlugOptions;
+	/**
+	 * rehype-autolink-headings options.
+	 */
+	autolink?: AutolinkOptions;
 }
 ```

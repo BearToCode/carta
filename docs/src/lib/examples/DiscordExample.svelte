@@ -2,7 +2,7 @@
 	import { Carta, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { code } from '@cartamd/plugin-code';
-	import { PlusCircled } from 'radix-icons-svelte';
+	import PlusCircled from './assets/PlusIcon.svelte';
 
 	import '$lib/styles/discord.scss';
 
@@ -16,8 +16,8 @@
 				components: [
 					{
 						component: PlusCircled,
-						props: { class: 'discord-plus-icon' },
-						parent: 'input'
+						parent: 'input',
+						props: {}
 					}
 				]
 			}

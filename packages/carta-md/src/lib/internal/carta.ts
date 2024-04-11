@@ -51,7 +51,7 @@ export type Listener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 /**
  * Custom Svelte component for extensions.
  */
-export interface ExtensionComponent<T extends object> {
+export interface ExtensionComponent<T extends object | undefined> {
 	/**
 	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
 	 */
@@ -122,7 +122,7 @@ export interface Options {
 /**
  * Unified transformers plugins.
  */
-export type UnifiedTransformers<E extends 'sync' | 'async'> = {
+export type UnifiedTransformer<E extends 'sync' | 'async'> = {
 	execution: 'sync' | 'async';
 	type: 'remark' | 'rehype';
 	transform: ({
@@ -143,7 +143,7 @@ export interface Plugin {
 	 * @important If the plugin is async, it will not run in SSR rendering.
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	transformers?: UnifiedTransformers<'sync' | 'async'>[];
+	transformers?: UnifiedTransformer<'sync' | 'async'>[];
 	/**
 	 * Additional keyboard shortcuts.
 	 */
@@ -168,11 +168,11 @@ export interface Plugin {
 	 */
 	components?: ExtensionComponents;
 	/**
-	 * Custom markdown grammar highlight rules for ShiKiJS.
+	 * Custom markdown grammar highlight rules for ShiKi.
 	 */
 	grammarRules?: GrammarRule[];
 	/**
-	 * Custom markdown highlighting rules for ShiKiJS.
+	 * Custom markdown highlighting rules for ShiKi.
 	 */
 	highlightingRules?: HighlightingRule[];
 	/**
@@ -204,8 +204,8 @@ export class Carta {
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
 	private mHighlighter: Highlighter | Promise<Highlighter> | undefined;
-	private mSyncTransformers: UnifiedTransformers<'sync'>[] = [];
-	private mAsyncTransformers: UnifiedTransformers<'async'>[] = [];
+	private mSyncTransformers: UnifiedTransformer<'sync'>[] = [];
+	private mAsyncTransformers: UnifiedTransformer<'async'>[] = [];
 
 	public get element() {
 		return this.mElement;

@@ -4,7 +4,13 @@ import type { Plugin } from 'carta-md';
 export * from './default.css?inline';
 
 export interface AnchorExtensionOptions {
+	/**
+	 * rehype-slug options.
+	 */
 	slug?: SlugOptions;
+	/**
+	 * rehype-autolink-headings options.
+	 */
 	autolink?: AutolinkOptions;
 }
 

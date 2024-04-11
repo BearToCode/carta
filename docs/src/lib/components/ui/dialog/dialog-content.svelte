@@ -2,7 +2,6 @@
 	import { Dialog as DialogPrimitive } from 'bits-ui';
 	import * as Dialog from '.';
 	import { cn, flyAndScale } from '$lib/utils';
-	import { Cross2 } from 'radix-icons-svelte';
 
 	type $$Props = DialogPrimitive.ContentProps;
 
@@ -27,9 +26,9 @@
 	>
 		<slot />
 		<DialogPrimitive.Close
-			class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+			class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute right-4 top-3 my-auto aspect-square rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
 		>
-			<Cross2 class="h-4 w-4" />
+			<iconify-icon icon="basil:cross-solid" class="text-2xl"></iconify-icon>
 			<span class="sr-only">Close</span>
 		</DialogPrimitive.Close>
 	</DialogPrimitive.Content>

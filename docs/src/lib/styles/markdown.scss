@@ -42,6 +42,10 @@
 		@apply text-sky-300 underline;
 	}
 
+	code {
+		@apply text-neutral-50 bg-neutral-800 rounded px-1;
+	}
+
 	.carta-renderer code {
 		font-family: 'Fira Code', monospace;
 	}

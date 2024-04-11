@@ -17,6 +17,12 @@ new Carta({
 });
 ```
 
+### `gfmOptions`
+
+Type: `GfmOptions`
+
+GitHub Flavored Markdown options.
+
 ### `extensions`
 
 Type: `Extension[]`
@@ -71,6 +77,18 @@ Defaults to 1MB.
 Type: `(html: string) => void`
 
 HTML sanitizer. See [here]({base}/getting-started#sanitization) for more details.
+
+### `shikiOptions`
+
+Type: `ShikiOptions`
+
+Highlighter(Shiki) options.
+
+### `theme`
+
+Type: `Theme | DualTheme`
+
+Shiki theme to use to highlight Markdown.
 
 # `MarkdownEditor` options
 

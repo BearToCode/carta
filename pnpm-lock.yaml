@@ -92,12 +92,12 @@ importers:
       flexsearch:
         specifier: 0.7.21
         version: 0.7.21
+      iconify-icon:
+        specifier: ^2.0.0
+        version: 2.0.0
       katex:
         specifier: ^0.16.10
         version: 0.16.10
-      radix-icons-svelte:
-        specifier: ^1.2.1
-        version: 1.2.1
       tailwind-merge:
         specifier: ^2.0.0
         version: 2.0.0
@@ -897,6 +897,10 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@iconify/types@2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+    dev: false
+
   /@internationalized/date@3.5.0:
     resolution: {integrity: sha512-nw0Q+oRkizBWMioseI8+2TeUPEyopJVz5YxoYVzR0W1v+2YytiYah7s/ot35F149q/xAg4F1gT/6eTd+tsUpFQ==}
     dependencies:
@@ -1444,7 +1448,7 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
     dependencies:
-      '@sveltejs/kit': 2.5.4(@sveltejs/vite-plugin-svelte@3.0.2)(svelte@4.2.2)(vite@5.1.6)
+      '@sveltejs/kit': 2.5.4(@sveltejs/vite-plugin-svelte@3.0.2)(svelte@4.2.12)(vite@5.1.6)
       import-meta-resolve: 4.0.0
     dev: true
 
@@ -3858,6 +3862,12 @@ packages:
     hasBin: true
     dev: true
 
+  /iconify-icon@2.0.0:
+    resolution: {integrity: sha512-38ArOkxmyD9oDbJBkxaFpE6eZ0K3F9Sk+3x4mWGfjMJaxi3EKrix9Du4iWhgBFT3imKC4FJJE34ur2Rc7Xm+Uw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -5910,10 +5920,6 @@ packages:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
     dev: true
-
-  /radix-icons-svelte@1.2.1:
-    resolution: {integrity: sha512-svmiMd0ocpdTm9cvAz0klcZpnh639lVctj6psQiawd4pYalVzOG4cX+JizAgRckyTAsRVdzObP7D2EBrSfdghA==}
-    dev: false
 
   /ramda@0.25.0:
     resolution: {integrity: sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==}

@@ -27,9 +27,45 @@ const carta = new Carta({
 
 Here are all the `Plugin` properties:
 
-### `markedExtensions`
+### `transformers`
 
-List of marked extensions. For more information check out [Marked docs](https://marked.js.org/using_pro).
+Type: `UnifiedTransformer`
+
+Remark or Rehype transformers.
+
+#### `UnifiedTransformer.execution`
+
+Type: `'sync' | 'async'`
+
+If you specify async, this transformer won't be available for SSR.
+
+#### `UnifiedTransformer.type`
+
+Type: `'remark' | 'rehype'`
+
+This determines at which step the transformer will operate, whether on Remark, on a Markdown-based syntax tree, or Rehype, on a HTML-based one.
+
+#### `UnifiedTransformer.transform`
+
+Type: `({ processor, carta }) => void`
+
+The actual processor, can be async if the execution is specified as such.
+
+<Code>
+
+```ts
+{
+	execution: 'sync',
+	type: 'rehype',
+	transform({ processor }) {
+		processor
+			.use(rehypeSlug)
+			.use(rehypeAutolinkHeadings);
+	}
+}
+```
+
+</Code>
 
 ### `shortcuts`
 
@@ -208,11 +244,17 @@ Type: `MaybeArray<'editor' | 'input' | 'renderer' | 'preview'>`
 
 Where the element will be placed.
 
+### `grammarRules`
+
+Type: `GrammarRule[]`
+
+Custom Markdown TextMate grammar rules for Shiki. They will be injected into the language.
+
 ### `highlightRules`
 
-Type: `ShjLanguageDefinition`
+Type: `HighlightingRule[]`
 
-Custom markdown highlighting rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages) for more info.
+Custom highlighting rules for ShiKi. They will be injected into the selected theme.
 
 ### `onLoad`
 
