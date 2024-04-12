@@ -9,7 +9,7 @@ section: Overview
 
 Marked has been replaced with a combination of Unified, Remark and Rehype. If you previously used a custom plugin with it, you'll have to update it manually. Otherwise, all builtin plugins have already been updated. Make sure to **update** them!
 
-Some plugins now have a different implementation and their options have changed. Those plugins are [plugin-math](/plugins/math) and [plugin-anchor](/plugins/anchor).
+Some plugins now have a different implementation and their options have changed. Those plugins are [plugin-math](https://beartocode.github.io/carta/plugins/math) and [plugin-anchor](https://beartocode.github.io/carta/plugins/anchor).
 
 ## Syntax highlighter update
 
