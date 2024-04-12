@@ -102,6 +102,21 @@ export const attachment = (options: AttachmentExtensionOptions): CartaExtension 
 		for (const file of files) handleFile(file);
 	}
 
+	function handlePaste(this: HTMLTextAreaElement, e: ClipboardEvent) {
+		const items = e.clipboardData?.items;
+		if (!items) return;
+
+		const itemsArray = Array.from(items);
+		for (const item of itemsArray) {
+			if (item.kind === 'file') {
+				const file = item.getAsFile();
+				if (!file) continue;
+				e.preventDefault();
+				handleFile(file);
+			}
+		}
+	}
+
 	return {
 		onLoad: ({ carta: c }) => {
 			carta = c;
@@ -110,7 +125,8 @@ export const attachment = (options: AttachmentExtensionOptions): CartaExtension 
 			['drop', handleDrop, false] satisfies CartaListener<'drop'>,
 			['dragenter', () => draggingOverTextArea.set(true)] satisfies CartaListener<'dragenter'>,
 			['dragleave', () => draggingOverTextArea.set(false)] satisfies CartaListener<'dragleave'>,
-			['dragover', (e) => e.preventDefault()] satisfies CartaListener<'dragover'>
+			['dragover', (e) => e.preventDefault()] satisfies CartaListener<'dragover'>,
+			['paste', handlePaste, false] satisfies CartaListener<'paste'>
 		],
 		components: [
 			{
