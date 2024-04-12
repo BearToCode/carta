@@ -34,14 +34,14 @@
 > Follow the [Migration Guide](http://beartocode.github.io/carta/migration) to update your project.
 
 Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. It is powered by [unified](https://github.com/unifiedjs/unified), [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
-Differently from most editors, Carta does not include a Code Editor, but it is _just_ a textarea with syntax highlighting, shortcuts and more.
+Differently from most editors, Carta does not include a code editor, but it is _just_ a textarea with syntax highlighting, shortcuts and more.
 
 ## Features
 
 - 🌈 Markdown syntax highlighting ([Shiki](https://shiki.style/));
 - 🛠️ Toolbar (extensible);
 - ⌨️ Keyboard **shortcuts** (extensible);
-- 📦 Supports **[+150 plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins)** thanks to remark.
+- 📦 Supports **[150+ plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins)** thanks to remark;
 - 🔀 Scroll sync;
 - ✅ Accessibility friendly;
 - 🖥️ **SSR** compatible;
