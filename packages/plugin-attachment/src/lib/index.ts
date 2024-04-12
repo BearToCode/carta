@@ -122,11 +122,11 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 			carta = c;
 		},
 		listeners: [
-			['drop', handleDrop, false] satisfies CartaListener<'drop'>,
-			['dragenter', () => draggingOverTextArea.set(true)] satisfies CartaListener<'dragenter'>,
-			['dragleave', () => draggingOverTextArea.set(false)] satisfies CartaListener<'dragleave'>,
-			['dragover', (e) => e.preventDefault()] satisfies CartaListener<'dragover'>,
-			['paste', handlePaste, false] satisfies CartaListener<'paste'>
+			['drop', handleDrop, false] satisfies Listener<'drop'>,
+			['dragenter', () => draggingOverTextArea.set(true)] satisfies Listener<'dragenter'>,
+			['dragleave', () => draggingOverTextArea.set(false)] satisfies Listener<'dragleave'>,
+			['dragover', (e) => e.preventDefault()] satisfies Listener<'dragover'>,
+			['paste', handlePaste, false] satisfies Listener<'paste'>
 		],
 		components: [
 			{
