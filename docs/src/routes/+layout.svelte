@@ -24,6 +24,6 @@
 			<slot />
 			<Footer />
 		</main>
-		<HeaderTracker class="sticky top-24 hidden w-[30rem] xl:block" />
+		<HeaderTracker class="sticky top-24 hidden w-[15rem] flex-shrink-0 xl:block" />
 	</div>
 </div>

@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onNavigate } from '$app/navigation';
+	import { debounce, throttle } from '$lib/utils';
+	import { onMount } from 'svelte';
 
 	const PADDING = 80;
 
@@ -7,49 +9,58 @@
 
 	let className = '';
 	let headers: HTMLElement[] = [];
-	let scrollY = 0;
+	let selectedHeaderIndex = 0;
 
 	function retrieveHeaders() {
-		const markdownContainer = document.querySelector('.markdown');
-		if (!markdownContainer) return;
-		headers = Array.from(markdownContainer.querySelectorAll('h1, h2, h3')) as HTMLElement[];
+		headers = Array.from(
+			document.querySelectorAll('.markdown > h1, .markdown > h2, .markdown > h3')
+		) as HTMLElement[];
 	}
 
-	function highlightHeader(header: HTMLElement, nextHeader: HTMLElement | null, index: number) {
-		const headerHasReachedTop = header.getBoundingClientRect().top <= PADDING || index == 0;
-		const nextHeaderReachedTop = nextHeader && nextHeader.getBoundingClientRect().top <= PADDING;
-		return !nextHeaderReachedTop && headerHasReachedTop;
-	}
+	const highlightHeader = () => {
+		for (let index = headers.length - 1; index >= 0; index--) {
+			const header = headers[index];
+			const rect = header.getBoundingClientRect();
+			if (rect.top < PADDING) {
+				selectedHeaderIndex = index;
+				return;
+			}
+		}
+		selectedHeaderIndex = 0;
+	};
 
-	let observer: MutationObserver;
+	const [throttledHighlightHeader] = throttle(highlightHeader, 100);
+	const debouncedHighlightHeader = debounce(highlightHeader, 100);
 
-	onMount(() => {
-		observer = new MutationObserver(retrieveHeaders);
-		observer.observe(document.body, { childList: true, subtree: true });
-		retrieveHeaders();
+	onNavigate(() => {
+		setTimeout(() => {
+			retrieveHeaders();
+			highlightHeader();
+		}, 300);
 	});
-
-	onDestroy(() => {
-		observer?.disconnect();
-	});
+	onMount(retrieveHeaders);
 </script>
 
-<svelte:window bind:scrollY />
+<svelte:window
+	on:scroll={() => {
+		throttledHighlightHeader();
+		debouncedHighlightHeader(); // So it is called at the end of the scroll event
+	}}
+/>
 
 <div class="h-full space-y-3 {className}">
 	{#each headers as header, i}
 		{@const margin = Number(header.tagName.split('')[1]) - 1}
-		{@const nextHeader = headers[i + 1]}
-		{#if header.children[0] instanceof HTMLAnchorElement && header.children[0].href}
-			{#key scrollY}
+		{#key selectedHeaderIndex}
+			{#if header.children[0] instanceof HTMLAnchorElement && header.children[0].href}
 				<a
 					style="margin-left: {margin * 0.75}rem;"
-					class="block text-sm {highlightHeader(header, nextHeader, i)
+					class="block text-sm {selectedHeaderIndex === i
 						? 'font-medium text-sky-300'
 						: 'text-neutral-400'}"
 					href={header.children[0].href}>{header.innerText}</a
 				>
-			{/key}
-		{/if}
+			{/if}
+		{/key}
 	{/each}
 </div>
