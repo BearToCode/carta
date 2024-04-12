@@ -18,18 +18,18 @@
 		"build": "vite build"
 	},
 	"devDependencies": {
+		"@types/hast": "^3.0.4",
 		"@types/md5": "^2.3.2",
 		"carta-md": "workspace:*",
-		"marked": "^9.1.5",
 		"md5": "^2.3.0",
 		"typescript": "^5.0.4",
+		"unified": "^11.0.4",
 		"vite": "^5.1.6",
 		"vite-plugin-dts": "^3.7.3",
 		"vite-raw-plugin": "^1.0.2"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.0.0",
-		"marked": "^9.1.5"
+		"carta-md": "^4.0.0"
 	},
 	"files": [
 		"dist"
@@ -46,5 +46,9 @@
 		"syntax highlighting",
 		"emoji",
 		"katex"
-	]
+	],
+	"dependencies": {
+		"hast-util-from-dom": "^5.0.0",
+		"unist-util-visit": "^5.0.0"
+	}
 }

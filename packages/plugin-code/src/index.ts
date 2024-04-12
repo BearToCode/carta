@@ -1,70 +1,34 @@
-import type { CartaExtension, HighlightFunctions } from 'carta-md';
-import { markedHighlight } from 'marked-highlight';
+import { DualTheme, Theme, isSingleTheme, type Plugin } from 'carta-md';
+import { type RehypeShikiOptions } from '@shikijs/rehype';
+import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
 
-interface CodeExtensionOptions {
-	/**
-	 * Default language when none is provided.
-	 */
-	defaultLanguage?: string;
-	/**
-	 * Whether to autodetect a language when none is provided.
-	 * Overwritten by `defaultLanguage`.
-	 */
-	autoDetect?: string;
-	/**
-	 * Line numbering.
-	 * @defaults false.
-	 */
-	lineNumbering?: boolean;
-
-	/**
-	 * Options for custom syntax highlighting.
-	 */
-	customHighlight?: {
-		/**
-		 * Custom highlight function. Beware that you'll have to provide your own styles.
-		 * This function needs to convert a string of code into html.
-		 */
-		highlighter: (code: string, lang: string) => string | Promise<string>;
-		/**
-		 * The language tag found immediately after the code block opening marker is
-		 * appended to this to form the class attribute added to the `<code>` element.
-		 */
-		langPrefix: string;
-	};
-}
-
-let shj: HighlightFunctions;
+export type CodeExtensionOptions = Omit<RehypeShikiOptions, 'theme' | 'themes'> & {
+	theme?: Theme | DualTheme;
+};
 
 /**
  * Carta code highlighting plugin. Themes available on [GitHub](https://github.com/speed-highlight/core/tree/main/dist/themes).
  */
-export const code = (options?: CodeExtensionOptions): CartaExtension => {
+export const code = (options?: CodeExtensionOptions): Plugin => {
 	return {
-		onLoad: ({ highlight }) => (shj = highlight),
-		markedExtensions: [
-			markedHighlight({
-				langPrefix: options?.customHighlight?.langPrefix ?? 'shj-lang-',
-				async: true,
-				async highlight(code, lang) {
-					if (options?.customHighlight) {
-						return await options.customHighlight.highlighter(code, lang);
+		transformers: [
+			{
+				execution: 'async',
+				type: 'rehype',
+				async transform({ processor, carta }) {
+					let theme = options?.theme;
+					const highlighter = await carta.highlighter();
+					if (!theme) {
+						theme = highlighter.theme; // Use the theme specified in the highlighter
 					}
 
-					const { highlight, highlightAutodetect } = shj;
-
-					lang ||= options?.defaultLanguage ?? '';
-					let highlighted: string | null = null;
-
-					if (lang) highlighted = await highlight(code, lang, !(options?.lineNumbering ?? false));
-					if (highlighted) return highlighted;
-
-					if (options?.autoDetect ?? true)
-						return await highlightAutodetect(code, !(options?.lineNumbering ?? false));
-
-					return (await highlight(code, 'plain', !(options?.lineNumbering ?? false))) as string;
+					if (isSingleTheme(theme)) {
+						processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, theme });
+					} else {
+						processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, themes: theme });
+					}
 				}
-			})
+			}
 		]
 	};
 };

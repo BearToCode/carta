@@ -4,8 +4,8 @@
 	import Navbar from '$lib/components/navbar/Navbar.svelte';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import Footer from '$lib/components/footer/Footer.svelte';
-	import '../app.postcss';
 	import { base } from '$app/paths';
+	import '../app.postcss';
 </script>
 
 <Navbar />

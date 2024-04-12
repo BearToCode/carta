@@ -1,6 +1,6 @@
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import SlashComponent from './Slash.svelte';
-import type { CartaExtension, CartaExtensionComponent } from 'carta-md';
+import type { Plugin, ExtensionComponent } from 'carta-md';
 import BezierEasing from 'bezier-easing';
 import { defaultSnippets, type DefaultSnippetId, type SlashSnippet } from './snippets';
 export * from './default.css?inline';
@@ -35,7 +35,7 @@ interface ComponentProps {
  * @param options Extension options.
  * @returns The slash extension.
  */
-export const slash = (options?: SlashExtensionOptions): CartaExtension => {
+export const slash = (options?: SlashExtensionOptions): Plugin => {
 	const snippets: SlashSnippet[] = defaultSnippets.filter((snippet) =>
 		options?.disableDefaultSnippets === true
 			? false
@@ -56,7 +56,7 @@ export const slash = (options?: SlashExtensionOptions): CartaExtension => {
 			fade(node, {
 				duration: 100
 			}));
-	const slashComponent: CartaExtensionComponent<ComponentProps> = {
+	const slashComponent: ExtensionComponent<ComponentProps> = {
 		component: SlashComponent,
 		props: {
 			snippets,

@@ -39,7 +39,7 @@ import '@cartamd/plugin-anchor/default.css';
 
 ```svelte
 <script>
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { anchor } from '@cartamd/plugin-anchor';
 
 	const carta = new Carta({
@@ -47,7 +47,7 @@ import '@cartamd/plugin-anchor/default.css';
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 </Code>
@@ -59,8 +59,12 @@ Here are the options you can pass to `anchor()`:
 ```ts
 export interface AnchorExtensionOptions {
 	/**
-	 * Maximum depth of headers to generate anchors for. Defaults to 6.
+	 * rehype-slug options.
 	 */
-	maxDepth?: number;
+	slug?: SlugOptions;
+	/**
+	 * rehype-autolink-headings options.
+	 */
+	autolink?: AutolinkOptions;
 }
 ```

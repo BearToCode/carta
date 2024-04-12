@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { attachment } from '$lib';
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 
 	import 'carta-md/default.css';
 	import '$lib/default.css';
@@ -30,7 +30,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} />
+	<MarkdownEditor {carta} />
 </main>
 
 <style>

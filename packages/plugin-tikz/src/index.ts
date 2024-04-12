@@ -1,5 +1,8 @@
-import type { Carta, CartaEvent, CartaExtension } from 'carta-md';
-import { TokenizerAndRendererExtension } from 'marked';
+import type { Carta, Event, Plugin } from 'carta-md';
+import type { Plugin as UnifiedPlugin } from 'unified';
+import { visit, SKIP } from 'unist-util-visit';
+import { fromDom } from 'hast-util-from-dom';
+import type * as hast from 'hast';
 import md5 from 'md5';
 
 interface TikzExtensionOptions {
@@ -18,102 +21,118 @@ interface TikzExtensionOptions {
 	center?: boolean;
 	/**
 	 * Post processing function for html.
-	 * This also runs on stored html, differently
-	 * from `postProcess`, which only runs when
-	 * the element is first created.
+	 * This also runs on stored html.
 	 */
 	postProcessing?: (html: string) => string;
-	/**
-	 * Post processing function for rendered SVGs Elem.
-	 * @deprecated Use `postProcessing` instead.
-	 */
-	postProcess?: (elem: SVGElement) => void;
 }
-
-let carta: Carta;
 
 /**
  * TikzJax extension for Carta.
  * @param options Tikz options.
  */
-export const tikz = (options?: TikzExtensionOptions): CartaExtension => {
+export const tikz = (options?: TikzExtensionOptions): Plugin => {
+	let carta: Carta;
 	return {
-		cartaRef: (c) => (carta = c),
-		shjRef: (shj) => {
-			import('./tikz')
-				.then((module) => shj.loadCustomLanguage('tikz', module))
-				.then(() => carta.input?.update());
+		onLoad: async ({ carta: c }) => {
+			carta = c;
+
+			const highlighter = await carta.highlighter();
+			await highlighter.loadLanguage('latex');
+			carta.input?.update();
 		},
-		markedExtensions: [
+		transformers: [
 			{
-				async: true,
-				extensions: [tikzTokenizer(options)]
+				execution: 'async',
+				type: 'rehype',
+				transform({ carta, processor }) {
+					processor.use(tikzTransformer, { carta, options });
+				}
 			}
 		],
-		listeners: [['carta-render', (e) => generateTikzImages(e, options)]]
+		listeners: [['carta-render', (e) => generateTikzImages(e, options)]],
+		grammarRules: [
+			{
+				name: 'tikz',
+				type: 'block',
+				definition: {
+					begin: '(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(tikz)((\\s+|:|,|\\{|\\?)[^`]*)?$)',
+					beginCaptures: {
+						'3': { name: 'punctuation.definition.markdown' },
+						'4': { name: 'fenced_code.block.language.markdown' },
+						'5': { name: 'fenced_code.block.language.attributes.markdown' }
+					},
+					end: '(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$',
+					endCaptures: { '3': { name: 'punctuation.definition.markdown' } },
+					name: 'markup.fenced_code.block.markdown',
+					patterns: [
+						{
+							begin: '(^|\\G)(\\s*)(.*)',
+							contentName: 'meta.embedded.block.latex',
+							patterns: [{ include: 'text.tex.latex' }],
+							while: '(^|\\G)(?!\\s*([`~]{3,})\\s*$)'
+						}
+					]
+				}
+			}
+		]
 	};
 };
 
 // Keeps track of tikz generation to remove previous items
 let currentGeneration = 0;
 
-const tikzTokenizer = (options?: TikzExtensionOptions): TokenizerAndRendererExtension => {
-	return {
-		name: 'tikz',
-		level: 'block',
-		start: (src) => src.indexOf('\n```tikz'),
-		tokenizer: (src) => {
-			const match = src.match(/^```tikz+\n([^`]+?)\n```+\n/);
-			if (match) {
-				return {
-					type: 'tikz',
-					raw: match[0],
-					text: match[1].trim()
-				};
-			}
-		},
-		renderer: (token) => {
+const tikzTransformer: UnifiedPlugin<
+	[{ carta: Carta; options: TikzExtensionOptions | undefined }],
+	hast.Root
+> = ({ carta, options }) => {
+	return async function (tree) {
+		visit(tree, (node, index, parent) => {
 			if (typeof document === 'undefined') {
 				// Cannot run outside the browser
-				return ``;
+				return;
 			}
 
-			const template = document.createElement('div');
+			if (node.type !== 'element') return;
+			const element = node as hast.Element;
+			if (element.tagName !== 'code') return;
+			if (!(element.properties['className'] as string[]).includes('language-tikz')) return;
 
-			const center = options?.center ?? true;
+			// Element is a TikZ code block
+			const source = tidyTikzSource((element.children[0] as hast.Text).value as string);
+
+			const container = document.createElement('div');
+			const template = document.createElement('div');
+			const text = document.createTextNode(source);
+
+			container.classList.add('tikz-generated');
+			container.setAttribute('tikz-generation', currentGeneration.toString());
+			if (options?.center ?? true) container.setAttribute('align', 'center');
+			if (options?.class) container.classList.add(...options.class.split(' '));
+
 			template.setAttribute('type', 'tikzjax');
 			if (options?.debug) template.setAttribute('data-show-console', 'true');
 
-			const text = document.createTextNode(
-				tidyTikzSource(token.raw.slice(8, token.raw.length - 4))
-			);
 			template.appendChild(text);
 
-			// Try accessing cached HTML
-			const hash = md5(JSON.stringify(template.dataset) + template.childNodes[0].nodeValue);
-			const savedSvg = window.localStorage.getItem(hash);
+			const hash = md5(JSON.stringify(template.dataset) + text.nodeValue);
+			let savedSvg = window.localStorage.getItem(hash);
 
-			let html: string;
 			if (savedSvg) {
-				html = savedSvg;
-				if (options?.postProcessing) html = options.postProcessing(html);
+				if (options?.postProcessing) savedSvg = options.postProcessing(savedSvg);
+				container.innerHTML = savedSvg;
 			} else {
-				html = template.outerHTML;
+				container.appendChild(template);
 			}
 
-			const sanitizer = carta.options?.sanitizer;
-			if (sanitizer) html = sanitizer(html);
+			if (carta.sanitizer) {
+				container.innerHTML = carta.sanitizer(container.innerHTML);
+			}
 
-			return `
-			<div
-				${center ? 'align="center"' : ''}
-				class="tikz-generated ${options?.class ?? ''}"
-				tikz-generation="${currentGeneration}"
-			>
-				${html}
-			</div>
-			`;
-		}
+			const hastNode = fromDom(container) as hast.Element;
+			parent?.children.splice(index!, 1, hastNode);
+
+			return [SKIP, index!];
+		});
 	};
 };
 
@@ -123,7 +142,7 @@ declare global {
 	}
 }
 
-function generateTikzImages(e: CartaEvent, options?: TikzExtensionOptions) {
+function generateTikzImages(e: Event, options?: TikzExtensionOptions) {
 	const carta = e.detail.carta;
 	const container = carta.renderer?.container;
 	if (!container) {
@@ -150,7 +169,7 @@ async function loadTikz(options?: TikzExtensionOptions) {
 	// @ts-ignore
 	const tikzjax = (await import('./assets/tikzjax.js')).default;
 
-	const script = `<script type="text/javascript" id="tikzjax">${tikzjax}</script>`;
+	const script = /* html */ `<script type="text/javascript" id="tikzjax">${tikzjax}</script>`;
 
 	// Simply appending the element does not work as the script is not executed
 	// By doing the following we ensure that it is run.
@@ -161,9 +180,6 @@ async function loadTikz(options?: TikzExtensionOptions) {
 
 	document.addEventListener('tikzjax-load-finished', (e) => {
 		const elem = e.target as SVGElement;
-		// Support old version
-		options?.postProcess && options.postProcess(elem);
-
 		if (options?.postProcessing) elem.outerHTML = options.postProcessing(elem.outerHTML);
 	});
 }

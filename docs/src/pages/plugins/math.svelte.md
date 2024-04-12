@@ -5,7 +5,7 @@ title: Math
 
 <script>
   import Code from '$lib/components/code/Code.svelte';
-  import { CartaViewer, Carta } from 'carta-md';
+  import { Markdown, Carta } from 'carta-md';
   import { math } from '@cartamd/plugin-math';
   import 'katex/dist/katex.css';
 
@@ -78,7 +78,7 @@ or by using a content delivery network:
 
 ```svelte
 <script>
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { math } from '@cartamd/plugin-math';
 
 	const carta = new Carta({
@@ -86,7 +86,7 @@ or by using a content delivery network:
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 </Code>
@@ -103,7 +103,7 @@ Pythagorean theorem: $a^2+b^2=c^2$
 
 </Code>
 
-<CartaViewer {carta} value={inline} />
+<Markdown {carta} value={inline} />
 
 <br>
 
@@ -119,7 +119,7 @@ $$
 
 </Code>
 
-<CartaViewer {carta} value={block} />
+<Markdown {carta} value={block} />
 
 ## Options
 
@@ -131,7 +131,6 @@ interface MathExtensionOptions {
 	 * Options for inline katex, eg: $a^2+b^2=c^2$
 	 */
 	inline?: {
-		katexOptions?: KatexOptions;
 		/**
 		 * @default control+m
 		 */
@@ -145,22 +144,17 @@ interface MathExtensionOptions {
 	 */
 	block?: {
 		/**
-		 * Tag the generated katex will be put into. Must have `display: block`.
-		 */
-		tag?: string;
-		/**
-		 * Whether to center the generated expression.
-		 * @default true
-		 */
-		center?: boolean;
-		/**
-		 * Class for generated katex.
-		 */
-		class?: string;
-		/**
 		 * @default ctrl+shift+m
 		 */
 		shortcut?: Set<string>;
-		katexOptions?: KatexOptions;
 	};
+	/**
+	 * Options for remark-math
+	 */
+	remarkMath?: RemarkMathOptions;
+	/**
+	 * Options for rehype-katex
+	 */
+	rehypeKatex?: RehypeKatexOptions;
+}
 ```

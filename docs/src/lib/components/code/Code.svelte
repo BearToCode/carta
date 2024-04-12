@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Copy } from 'radix-icons-svelte';
-
 	let elem: HTMLElement;
 </script>
 
@@ -13,10 +11,10 @@
 			navigator.clipboard.writeText(elem.innerText);
 		}}
 		class="
-      absolute right-4 top-[min(50%_,_32px)] -translate-y-1/2 transform
-      rounded p-2 hover:bg-neutral-800 hover:text-neutral-300 active:text-sky-300
+      absolute right-4 top-[min(50%_,_32px)] aspect-square -translate-y-1/2 transform
+      rounded hover:bg-neutral-800 hover:text-neutral-300 active:text-sky-300
     "
 	>
-		<Copy class="h-5 w-5" />
+		<iconify-icon icon="octicon:copy-16" class="p-2 text-lg"></iconify-icon>
 	</button>
 </div>

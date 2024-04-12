@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { anchor } from '$lib';
 	import 'carta-md/default.css';
 	import '$lib/default.css';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			anchor({
-				maxDepth: 2
+				autolink: {}
 			})
 		]
 	});
@@ -28,7 +29,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} {value} />
+	<MarkdownEditor {carta} {value} />
 </main>
 
 <style>
@@ -38,9 +39,15 @@
 		min-height: 100vh;
 	}
 
-	:global(.carta-font-code, code) {
+	:global(.carta-font-code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
+		font-size: 1.1rem;
+	}
+
+	:global(.carta-renderer) {
+		/* Add some space to show icons */
+		padding-left: 2.5rem !important;
 	}
 
 	:global(input, textarea, button) {

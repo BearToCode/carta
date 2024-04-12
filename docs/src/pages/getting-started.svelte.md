@@ -37,9 +37,8 @@ Setup a basic editor:
 
 ```svelte
 <script>
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import 'carta-md/default.css'; /* Default theme */
-	import 'carta-md/light.css'; /* Markdown input theme */
 
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks!
@@ -50,12 +49,13 @@ Setup a basic editor:
 	let value = '';
 </script>
 
-<CartaEditor {carta} bind:value />
+<MarkdownEditor {carta} bind:value />
 
 <style>
 	/* Set your custom monospace font */
 	:global(.carta-font-code) {
 		font-family: '...', monospace;
+		font-size: 1.1rem;
 	}
 </style>
 ```
@@ -68,7 +68,7 @@ Or, if you just want to render content:
 
 ```svelte
 <script>
-	import { Carta, CartaViewer } from 'carta-md';
+	import { Carta, Markdown } from 'carta-md';
 
 	const carta = new Carta({
 		/* ... */
@@ -77,7 +77,7 @@ Or, if you just want to render content:
 	let value = '...';
 </script>
 
-<CartaViewer {carta} {value} />
+<Markdown {carta} {value} />
 ```
 
 </Code>
@@ -102,7 +102,7 @@ Since Carta operates both on the server and the client, you'd need a sanitizer a
 	let value = '';
 </script>
 
-<CartaEditor {carta} bind:value />
+<MarkdownEditor {carta} bind:value />
 ```
 
 </Code>

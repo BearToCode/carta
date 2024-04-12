@@ -5,11 +5,15 @@
 		"coldark",
 		"dompurify",
 		"flexsearch",
+		"Gemoji",
 		"gruvbox",
+		"iconify",
 		"Katex",
 		"mdsvex",
 		"oldschool",
 		"rehype",
+		"shiki",
+		"shikijs",
 		"tikz",
 		"tikzjax",
 		"typeof"
@@ -17,5 +21,6 @@
 	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"[svelte]": {
 		"editor.defaultFormatter": "svelte.svelte-vscode"
-	}
+	},
+	"css.customData": [".vscode/tailwind.json"]
 }

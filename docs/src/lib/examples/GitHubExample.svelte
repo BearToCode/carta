@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { attachment } from '@cartamd/plugin-attachment';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { slash } from '@cartamd/plugin-slash';
 	import { code } from '@cartamd/plugin-code';
-	import 'carta-md/dark.css';
+
 	import '$lib/styles/github.scss';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			attachment({
 				async upload() {
@@ -20,7 +21,10 @@
 		]
 	});
 
-	export let value = 'This is an example inspired by [GitHub](https://github.com)';
+	export let value = `This is an example inspired by [GitHub](https://github.com)
+\`\`\`js
+console.log('Hello, World!');
+\`\`\``;
 </script>
 
-<CartaEditor bind:value mode="tabs" theme="github" {carta} />
+<MarkdownEditor bind:value mode="tabs" theme="github" {carta} />

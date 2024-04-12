@@ -47,7 +47,36 @@ By using the `theme` property in the editor you can differentiate the themes of 
 
 ## Changing Markdown color theme
 
-Carta uses [Speed Highlight JS](https://github.com/speed-highlight/core) for syntax highlighting. Two default themes are included in the core package, `light.css` and `dark.css`, and others can be found on the Speed Highlight [GitHub](https://github.com/speed-highlight/core/tree/main/src/themes), but you can also easily create your own.
+Carta uses [Shiki](https://shiki.matsu.io/) for syntax highlighting. Two default themes are included in the core package, which are as a [dual theme](https://shiki.matsu.io/guide/dual-themes) used for light and dark mode.
+
+You can change theme in the options:
+
+<Code>
+
+```ts
+const carta = new Carta({
+	// ...
+	theme: 'github-dark'
+});
+```
+
+</Code>
+
+If you use a [custom theme](https://shiki.matsu.io/guide/load-theme)(or also a custom language), you need to specify it, so that it gets loaded into the highlighter:
+
+<Code>
+
+```ts
+const carta = new Carta({
+	// ...
+	shikiOptions: {
+		langs: // ...
+		themes: // ...
+	}
+})
+```
+
+</Code>
 
 ## Markdown stylesheets
 

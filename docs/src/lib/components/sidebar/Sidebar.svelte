@@ -1,18 +1,4 @@
 <script lang="ts">
-	import {
-		Code,
-		CodesandboxLogo,
-		Cube,
-		Dashboard,
-		Download,
-		Face,
-		FontFamily,
-		Link2,
-		Slash,
-		File,
-		FontStyle,
-		Stack
-	} from 'radix-icons-svelte';
 	import SidebarLink from './SidebarLink.svelte';
 
 	export { className as class };
@@ -25,31 +11,37 @@
 
 	<!-- Introduction -->
 	<SidebarLink href="/introduction">
-		<Dashboard class="h-5 w-5" />
+		<iconify-icon icon="radix-icons:dashboard" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Introduction</span>
 	</SidebarLink>
 
 	<!-- Examples -->
 	<SidebarLink href="/examples">
-		<CodesandboxLogo class="h-5 w-5" />
+		<iconify-icon icon="ph:codesandbox-logo" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Examples</span>
 	</SidebarLink>
 
 	<!-- Getting Started -->
 	<SidebarLink href="/getting-started">
-		<Download class="h-5 w-5" />
+		<iconify-icon icon="ic:round-download" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Getting Started</span>
 	</SidebarLink>
 
 	<!-- Editing Styles -->
 	<SidebarLink href="/editing-styles">
-		<FontStyle class="h-5 w-5" />
+		<iconify-icon icon="lucide:palette" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Editing Styles</span>
+	</SidebarLink>
+
+	<!-- Migration -->
+	<SidebarLink href="/migration">
+		<iconify-icon icon="material-symbols:upgrade" class="text-xl"></iconify-icon>
+		<span class="text-[0.95rem]">Migration</span>
 	</SidebarLink>
 
 	<!-- Community Plugins -->
 	<SidebarLink href="/community-plugins">
-		<Stack class="h-5 w-5" />
+		<iconify-icon icon="ph:stack-fill" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Community Plugins</span>
 	</SidebarLink>
 
@@ -57,43 +49,43 @@
 
 	<!-- Math -->
 	<SidebarLink href="/plugins/math">
-		<FontFamily class="h-5 w-5" />
+		<iconify-icon icon="tabler:math" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Math</span>
 	</SidebarLink>
 
 	<!-- Code -->
 	<SidebarLink href="/plugins/code">
-		<Code class="h-5 w-5" />
+		<iconify-icon icon="fluent:code-16-filled" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Code</span>
 	</SidebarLink>
 
 	<!-- Emoji -->
 	<SidebarLink href="/plugins/emoji">
-		<Face class="h-5 w-5" />
+		<iconify-icon icon="mingcute:emoji-line" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Emoji</span>
 	</SidebarLink>
 
 	<!-- Slash -->
 	<SidebarLink href="/plugins/slash">
-		<Slash class="h-5 w-5" />
+		<iconify-icon icon="tabler:slash" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Slash</span>
 	</SidebarLink>
 
 	<!-- TikZ -->
 	<SidebarLink href="/plugins/tikz">
-		<Cube class="h-5 w-5" />
+		<iconify-icon icon="mdi:draw-pen" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">TikZ</span>
 	</SidebarLink>
 
 	<!-- Attachment -->
 	<SidebarLink href="/plugins/attachment">
-		<File class="h-5 w-5" />
+		<iconify-icon icon="tdesign:attach" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Attachment</span>
 	</SidebarLink>
 
 	<!-- Anchor -->
 	<SidebarLink href="/plugins/anchor">
-		<Link2 class="h-5 w-5" />
+		<iconify-icon icon="mingcute:link-fill" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Anchor</span>
 	</SidebarLink>
 

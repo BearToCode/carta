@@ -28,6 +28,7 @@
 		.carta-font-code {
 			font-family: 'Fira Code', monospace;
 			caret-color: white;
+			font-size: 1.1rem;
 		}
 
 		.carta-toolbar {
@@ -115,10 +116,6 @@
 				}
 			}
 		}
-
-		[class*='shj-lang-'] {
-			background: transparent;
-		}
 	}
 
 	// Plugin emoji
@@ -198,4 +195,9 @@
 		font-size: 0.8rem;
 		text-overflow: ellipsis;
 	}
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+	color: var(--shiki-dark) !important;
 }

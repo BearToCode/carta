@@ -20,7 +20,7 @@ import '@cartamd/plugin-attachment/default.css';
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { attachment } from '@cartamd/plugin-attachment';
 
 	const carta = new Carta({
@@ -34,7 +34,7 @@ import '@cartamd/plugin-attachment/default.css';
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 ## Documentation

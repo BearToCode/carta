@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { CartaEditor } from '$lib';
+	import { MarkdownEditor } from '$lib';
 	import { Carta } from '$lib/internal/carta';
-
+	import ToggleTheme from './ToggleTheme.svelte';
+	import sampleText from './sample.md?raw';
 	import '$lib/default.css';
-	import '$lib/light.css';
 
 	const carta = new Carta();
 </script>
@@ -23,7 +23,8 @@
 </svelte:head>
 
 <main>
-	<CartaEditor placeholder="Some text..." mode="tabs" {carta} />
+	<ToggleTheme class="toggle-theme" />
+	<MarkdownEditor value={sampleText} placeholder="Some text..." mode="tabs" {carta} />
 </main>
 
 <style>
@@ -33,9 +34,10 @@
 		min-height: 100vh;
 	}
 
-	:global(.carta-font-code, code) {
+	:global(.carta-font-code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
+		font-size: 1.1rem;
 	}
 
 	:global(input, textarea, button) {
@@ -43,9 +45,21 @@
 	}
 
 	main {
+		position: relative;
+
 		max-width: 1536px;
-		margin: 0 auto 0 auto;
-		padding: 2rem 0 2rem 0;
+		margin: 2rem auto 2rem auto;
+	}
+
+	:global(img) {
+		max-width: 50%;
+	}
+
+	:global(.toggle-theme) {
+		position: absolute;
+		top: 0;
+		left: -6px;
+		transform: translateX(-100%);
 	}
 
 	/* Responsive main */

@@ -16,7 +16,7 @@ npm i @cartamd/plugin-tikz
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { tikz } from '@cartamd/plugin-tikz';
 
 	import '@cartamd/plugin-tikz/fonts.css';
@@ -26,7 +26,7 @@ npm i @cartamd/plugin-tikz
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 ## Documentation

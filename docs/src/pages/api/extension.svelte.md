@@ -7,14 +7,14 @@ title: Extension
   import Code from '$lib/components/code/Code.svelte';
 </script>
 
-# `CartaExtension` properties
+# `Plugin` properties
 
 You can easily extend Carta by creating custom plugins.
 
 <Code>
 
 ```ts
-const ext: CartaExtension = {
+const ext: Plugin = {
 	// ...
 };
 
@@ -25,11 +25,47 @@ const carta = new Carta({
 
 </Code>
 
-Here are all the `CartaExtension` properties:
+Here are all the `Plugin` properties:
 
-### `markedExtensions`
+### `transformers`
 
-List of marked extensions. For more information check out [Marked docs](https://marked.js.org/using_pro).
+Type: `UnifiedTransformer`
+
+Remark or Rehype transformers.
+
+#### `UnifiedTransformer.execution`
+
+Type: `'sync' | 'async'`
+
+If you specify async, this transformer won't be available for SSR.
+
+#### `UnifiedTransformer.type`
+
+Type: `'remark' | 'rehype'`
+
+This determines at which step the transformer will operate, whether on Remark, on a Markdown-based syntax tree, or Rehype, on a HTML-based one.
+
+#### `UnifiedTransformer.transform`
+
+Type: `({ processor, carta }) => void`
+
+The actual processor, can be async if the execution is specified as such.
+
+<Code>
+
+```ts
+{
+	execution: 'sync',
+	type: 'rehype',
+	transform({ processor }) {
+		processor
+			.use(rehypeSlug)
+			.use(rehypeAutolinkHeadings);
+	}
+}
+```
+
+</Code>
 
 ### `shortcuts`
 
@@ -63,7 +99,7 @@ Set of keys, corresponding to the `e.key` of `KeyboardEvent`s, but lowercase.
 
 #### `KeyboardShortcut.action`
 
-Type: `(input: CartaInput) => void`
+Type: `(input: InputEnhancer) => void`
 
 Shortcut callback.
 
@@ -73,14 +109,14 @@ Prevent saving the current state in history.
 
 ### `icons`
 
-Type: `CartaIcon[]`
+Type: `Icon[]`
 
 Additional toolbar icons. For example:
 
 <Code>
 
 ```ts
-const icon: CartaIcon = {
+const icon: Icon = {
 	id: 'heading',
 	action: (input) => input.toggleLinePrefix('###'),
 	component: HeadingIcon
@@ -89,19 +125,19 @@ const icon: CartaIcon = {
 
 </Code>
 
-#### `CartaIcon.id`
+#### `Icon.id`
 
 Type: `string`
 
 Id of the icon.
 
-#### `CartaIcon.action`
+#### `Icon.action`
 
-Type: `(input: CartaInput) => void`
+Type: `(input: InputEnhancer) => void`
 
 Click callback.
 
-#### `CartaIcon.component`
+#### `Icon.component`
 
 Type: `ComponentType` (SvelteComponent)
 
@@ -162,15 +198,15 @@ const prefix: Prefix = {
 
 ### `listeners`
 
-Type: `CartaListener[]`
+Type: `Listener[]`
 
 Textarea event listeners. Has an additional `carta-render` and `carta-render-ssr` events keys.
 
 <Code>
 
 ```ts
-const click: CartaListener = ['click', () => console.log('I was clicked!')];
-const render: CartaListener = [
+const click: Listener = ['click', () => console.log('I was clicked!')];
+const render: Listener = [
 	'carta-render',
 	(e) => {
 		const carta = e.detail.carta;
@@ -186,33 +222,39 @@ const render: CartaListener = [
 
 ### `components`
 
-Type: `CartaExtensionComponent[]`
+Type: `ExtensionComponent[]`
 
 Additional components to be added to the editor or viewer.
 
-#### `CartaExtensionComponent<T>.component`
+#### `ExtensionComponent<T>.component`
 
 Type: `typeof SvelteComponentTyped<T & { carta: Carta }>`
 
 Svelte components that exports `carta: Carta` and all the other properties specified as the generic parameter and in `props`.
 
-#### `CartaExtensionComponent<T>.props`
+#### `ExtensionComponent<T>.props`
 
 Type: `T`
 
 Properties that will be handed to the component.
 
-#### `CartaExtensionComponent<T>.parent`
+#### `ExtensionComponent<T>.parent`
 
 Type: `MaybeArray<'editor' | 'input' | 'renderer' | 'preview'>`
 
 Where the element will be placed.
 
+### `grammarRules`
+
+Type: `GrammarRule[]`
+
+Custom Markdown TextMate grammar rules for Shiki. They will be injected into the language.
+
 ### `highlightRules`
 
-Type: `ShjLanguageDefinition`
+Type: `HighlightingRule[]`
 
-Custom markdown highlighting rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages) for more info.
+Custom highlighting rules for ShiKi. They will be injected into the selected theme.
 
 ### `onLoad`
 

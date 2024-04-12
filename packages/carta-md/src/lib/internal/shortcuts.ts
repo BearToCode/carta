@@ -1,4 +1,4 @@
-import type { CartaInput } from './input';
+import type { InputEnhancer } from './input';
 
 /**
  * Keyboard shortcut data.
@@ -13,7 +13,7 @@ export interface KeyboardShortcut {
 	 * Callback action.
 	 * @param input Input helper.
 	 */
-	action: (input: CartaInput) => void;
+	action: (input: InputEnhancer) => void;
 	/**
 	 * Prevent saving the current state in history.
 	 */

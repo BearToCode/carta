@@ -20,28 +20,28 @@ import '@cartamd/plugin-code/default.css';
 
 ### Using the default highlighter
 
-Carta comes with a default highlighter that matches the one used to highlight markdown in the editor and is used by default.
-The theme is the same as the one used in the main carta package (`carta-md/light.css` or `carta-md/dark.css`).
-[Here](https://github.com/speed-highlight/core/tree/main/src/themes) you can find other themes.
+Carta comes with a default highlighter that matches the one used to highlight markdown in the editor and is used by default (Shiki). If you want to use a theme different from the one used to highlight Markdown, you can specify it in the options.
+
+```ts
+const carta = new Carta({
+	// ...
+	extensions: [
+		code({
+			theme: 'ayu-light'
+		})
+	]
+});
+```
 
 ### Using a custom highlighter
 
-You can also provide a custom highlighter, that can be either sync or async.
-
-```ts
-code({
-	customHighlight: {
-		highlighter: (code, lang) => myCustomHighlighter(code, lang),
-		langPrefix: 'my-highlighter-'
-	}
-});
-```
+It is no longer possible to specify a custom highlighter in this plugin. However, there are many different [Remark plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins) that provide syntax highlighting.
 
 ### Extension
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { code } from '@cartamd/plugin-code';
 
 	const carta = new Carta({
@@ -49,7 +49,7 @@ code({
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 ## Documentation

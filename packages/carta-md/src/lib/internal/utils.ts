@@ -4,6 +4,8 @@ interface Nothing {}
 type Union<T, U> = T | (U & Nothing);
 
 export type Intellisense<T> = Union<T, string>;
+export type MaybeArray<T> = T | Array<T>;
+export type NonNullable<T> = Exclude<T, null | undefined>;
 
 /**
  * Debounce the provided function.

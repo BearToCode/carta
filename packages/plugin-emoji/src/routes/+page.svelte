@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { emoji } from '$lib';
 	import 'carta-md/default.css';
 	import '$lib/default.css';
@@ -22,7 +22,7 @@
 </svelte:head>
 
 <main>
-	<CartaEditor {carta} />
+	<MarkdownEditor {carta} />
 </main>
 
 <style>
@@ -32,9 +32,10 @@
 		min-height: 100vh;
 	}
 
-	:global(.carta-font-code, code) {
+	:global(.carta-font-code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
+		font-size: 1.1rem;
 	}
 
 	:global(input, textarea, button) {

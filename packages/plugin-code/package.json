@@ -16,21 +16,22 @@
 		"build": "tsc && tscp"
 	},
 	"devDependencies": {
+		"@shikijs/rehype": "^1.3.0",
 		"@types/node": "^18.16.3",
 		"carta-md": "workspace:*",
 		"typescript": "^5.0.4",
-		"typescript-cp": "^0.1.8",
-		"marked": "^9.1.5"
+		"typescript-cp": "^0.1.8"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.0.0"
+		"carta-md": "^4.0.0"
 	},
 	"files": [
 		"dist"
 	],
 	"version": "3.0.0",
 	"dependencies": {
-		"marked-highlight": "^2.0.6"
+		"@shikijs/rehype": "^1.3.0",
+		"unified": "^11.0.4"
 	},
 	"keywords": [
 		"carta",

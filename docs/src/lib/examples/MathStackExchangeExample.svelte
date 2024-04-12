@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { Carta, CartaEditor, CartaViewer } from 'carta-md';
+	import { Carta, MarkdownEditor, Markdown } from 'carta-md';
 	import placeholder from './math-stack-exchange-placeholder.tex?raw';
 	import { math } from '@cartamd/plugin-math';
 	import { tikz } from '@cartamd/plugin-tikz';
-	import 'carta-md/dark.css';
+
 	import '$lib/styles/math-stack-exchange.scss';
 	import 'katex/dist/katex.min.css';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			math(),
 			tikz({
@@ -30,9 +31,9 @@
 </script>
 
 <div class="math-stack-exchange-container">
-	<CartaEditor bind:value mode="tabs" theme="math-stack-exchange" {carta} />
+	<MarkdownEditor bind:value mode="tabs" theme="math-stack-exchange" {carta} />
 
 	{#key value}
-		<CartaViewer theme="math-stack-exchange" {value} {carta} />
+		<Markdown theme="math-stack-exchange" {value} {carta} />
 	{/key}
 </div>

@@ -1,13 +1,32 @@
-.carta-renderer .anchor-link {
-	visibility: hidden;
-	opacity: 0.6;
+.carta-renderer h1,
+.carta-renderer h2,
+.carta-renderer h3,
+.carta-renderer h4,
+.carta-renderer h5,
+.carta-renderer h6 {
+	position: relative;
 }
 
-.carta-renderer h1:hover .anchor-link,
-.carta-renderer h2:hover .anchor-link,
-.carta-renderer h3:hover .anchor-link,
-.carta-renderer h4:hover .anchor-link,
-.carta-renderer h5:hover .anchor-link,
-.carta-renderer h6:hover .anchor-link {
-	visibility: visible;
+.carta-renderer h1 .icon.icon-link,
+.carta-renderer h2 .icon.icon-link,
+.carta-renderer h3 .icon.icon-link,
+.carta-renderer h4 .icon.icon-link,
+.carta-renderer h5 .icon.icon-link,
+.carta-renderer h6 .icon.icon-link {
+	opacity: 0;
+	content: url('./link.svg');
+	position: absolute;
+	right: 100%;
+	top: 50%;
+	padding-right: 4px;
+	transform: translateY(-50%);
+}
+
+.carta-renderer h1:hover .icon-link,
+.carta-renderer h2:hover .icon-link,
+.carta-renderer h3:hover .icon-link,
+.carta-renderer h4:hover .icon-link,
+.carta-renderer h5:hover .icon-link,
+.carta-renderer h6:hover .icon-link {
+	opacity: 1;
 }

@@ -33,11 +33,11 @@
 	],
 	"dependencies": {
 		"bezier-easing": "^2.1.0",
-		"node-emoji": "^1.11.0"
+		"node-emoji": "^1.11.0",
+		"remark-gemoji": "^8.0.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^3.1.0",
-		"marked": "^9.1.5",
+		"carta-md": "^4.0.0",
 		"svelte": "^3.54.0 || ^4.0.0"
 	},
 	"devDependencies": {

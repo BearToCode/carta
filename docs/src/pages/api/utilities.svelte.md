@@ -40,3 +40,52 @@ Svelte action that allows you to bind a specific element to the caret position. 
 	<!-- ... -->
 </div>
 ```
+
+## `Carta.highlighter`
+
+Get the Shiki highlighter.
+
+```ts
+const highlighter = await carta.highlighter();
+const userTheme = carta.theme;
+```
+
+Here are some other highlight related utilities:
+
+### `isBundleLanguage`
+
+Checks if a language is a bundled language.
+
+```ts
+export const isBundleLanguage = (lang: string): lang is BundledLanguage;
+```
+
+### `isBundleTheme`
+
+Checks if a theme is a bundled theme.
+
+```ts
+export const isBundleTheme = (theme: string): theme is BundledTheme;
+```
+
+### `isDualTheme`
+
+Checks if a theme is a dual theme.
+
+```ts
+export const isDualTheme = (theme: Theme | DualTheme): theme is DualTheme;
+```
+
+### `isSingleTheme`
+
+```ts
+export const isSingleTheme = (theme: Theme | DualTheme): theme is Theme;
+```
+
+### `isThemeRegistration`
+
+Checks if a theme is a theme registration.
+
+```ts
+export const isThemeRegistration = (theme: Theme): theme is ThemeRegistration;
+```

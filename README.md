@@ -1,31 +1,25 @@
 <div align="right">
 	<a href="https://www.npmjs.com/package/carta-md">
-		<img src="https://img.shields.io/npm/v/carta-md?color=0384fc&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
+		<img src="https://img.shields.io/npm/v/carta-md?color=ff7cc6&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
 	</a>
 	<a href="https://bundlephobia.com/package/carta-md">
-		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=0384fc&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
+		<img src="https://img.shields.io/bundlephobia/min/carta-md?color=4dacfa&labelColor=171d27&logo=javascript&logoColor=white" alt="bundle">
 	</a>
 	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE">
-		<img src="https://img.shields.io/npm/l/carta-md?color=0384fc&labelColor=171d27&logo=git&logoColor=white" alt="license">
+		<img src="https://img.shields.io/npm/l/carta-md?color=71d58a&labelColor=171d27&logo=git&logoColor=white" alt="license">
 	</a>
 	<a href="http://beartocode.github.io/carta/">
-		<img src="https://img.shields.io/readthedocs/carta?logo=svelte&color=0384fc&logoColor=ffffff&labelColor=171d27" alt="docs">
+		<img src="https://img.shields.io/readthedocs/carta?logo=svelte&color=b581fd&logoColor=ffffff&labelColor=171d27" alt="docs">
 	</a>
 </div>
 
-<div align="center">
-	<a href="https://beartocode.github.io/carta/">
-		<img alt="banner" src="https://i.postimg.cc/1XPm8FSD/Frame-8.png">
-	</a>
-</div>
+[![Carta.png](https://i.postimg.cc/nV6DMXKM/Carta.png)](https://beartocode.github.io/carta/)
 
-<br>
-
-<div align="center"><strong>Carta</strong></div>
-<div align="center">Swiftly edit and render Markdown, with no overhead.</div>
+<h1 align="center"><strong>Carta</strong></h1>
+<div align="center">Modern, lightweight, powerful Markdown Editor.</div>
 <br />
 <div align="center">
-<a href="https://beartocode.github.io/carta/">Documentation</a> 
+<a href="https://beartocode.github.io/carta/">📚 Documentation</a> 
 <span> · </span>
 <a href="https://github.com/BearToCode/carta">GitHub</a> 
 </div>
@@ -34,24 +28,30 @@
 
 # Introduction
 
-Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer, based on [Marked](https://github.com/markedjs/marked). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
-Differently from most editors, Carta includes neither ProseMirror nor CodeMirror, allowing for an extremely small bundle size and fast loading time.
+> [!NOTE]
+> Carta has recently been updated to `v4`, which features numerous major changes.
+>
+> Follow the [Migration Guide](http://beartocode.github.io/carta/migration) to update your project.
+
+Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. It is powered by [unified](https://github.com/unifiedjs/unified), [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
+Differently from most editors, Carta does not include a code editor, but it is _just_ a textarea with syntax highlighting, shortcuts and more.
 
 ## Features
 
-- Keyboard **shortcuts** (extensible);
-- Toolbar (extensible);
-- Markdown syntax highlighting;
-- Scroll sync;
-- Accessibility friendly;
-- **SSR** compatible;
-- **Katex** support (plugin);
-- **Slash** commands (plugin);
-- **Emojis**, with included search (plugin);
-- **Tikz** support (plugin);
-- **Attachment** support (plugin);
-- **Anchor** links in headings;
-- Code blocks **syntax highlighting** (plugin).
+- 🌈 Markdown syntax highlighting ([Shiki](https://shiki.style/));
+- 🛠️ Toolbar (extensible);
+- ⌨️ Keyboard **shortcuts** (extensible);
+- 📦 Supports **[150+ plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins)** thanks to remark;
+- 🔀 Scroll sync;
+- ✅ Accessibility friendly;
+- 🖥️ **SSR** compatible;
+- ⚗️ **KaTeX** support (plugin);
+- 🔨 **Slash** commands (plugin);
+- 😄 **Emojis**, with included search (plugin);
+- ✏️ **TikZ** support (plugin);
+- 📂 **Attachment** support (plugin);
+- ⚓ **Anchor** links in headings (plugin);
+- 🌈 Code blocks **syntax highlighting** (plugin).
 
 ## Packages
 
@@ -80,6 +80,7 @@ Differently from most editors, Carta includes neither ProseMirror nor CodeMirror
 > [!WARNING]
 > Sanitization is not dealt with by Carta. You need to provide a `sanitizer` in the options.
 > Common sanitizers are [isomorphic-dompurify](https://www.npmjs.com/package/isomorphic-dompurify) (suggested) and [sanitize-html](https://www.npmjs.com/package/sanitize-html).
+> Checkout the documentation for an example.
 
 ## Installation
 
@@ -99,11 +100,9 @@ npm i @cartamd/plugin-name
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	// Component default theme
 	import 'carta-md/default.css';
-	// Markdown input theme (Speed Highlight)
-	import 'carta-md/light.css';
 
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks
@@ -111,13 +110,14 @@ npm i @cartamd/plugin-name
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 
 <style>
 	/* Or in global stylesheet */
 	/* Set your custom monospace font */
 	:global(.carta-font-code) {
 		font-family: '...', monospace;
+		font-size: 1.1rem;
 	}
 </style>
 ```

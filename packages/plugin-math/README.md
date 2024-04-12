@@ -38,7 +38,7 @@ or by using a content delivery network:
 
 ```svelte
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { math } from '@cartamd/plugin-math';
 
 	const carta = new Carta({
@@ -46,7 +46,7 @@ or by using a content delivery network:
 	});
 </script>
 
-<CartaEditor {carta} />
+<MarkdownEditor {carta} />
 ```
 
 ## Usage

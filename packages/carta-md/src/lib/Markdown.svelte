@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from './';
+	import { loadNestedLanguages, type Carta } from '.';
 
 	export let carta: Carta;
 	export let value: string;
@@ -12,7 +12,12 @@
 	let rendered = carta.renderSSR(value);
 	onMount(async () => {
 		carta.$setRenderer(elem);
-		// Add code syntax highlighting (if plugin is present) once loaded on the client.
+
+		// Load highlighting languages
+		const highlighter = await carta.highlighter();
+		await loadNestedLanguages(highlighter, value);
+
+		// Render using asynchronous renderer
 		rendered = await carta.render(value);
 
 		mounted = true;

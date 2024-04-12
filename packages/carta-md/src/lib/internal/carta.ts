@@ -1,53 +1,61 @@
-import type { CartaHistoryOptions } from './history';
-import type { SvelteComponentTyped } from 'svelte';
-import type { ShjLanguageDefinition } from '@speed-highlight/core/index';
-import { Marked, type MarkedExtension } from 'marked';
-import { CartaInput } from './input';
+import type { SvelteComponent } from 'svelte';
+import { unified, type Processor } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm, { type Options as GfmOptions } from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
+import rehypeStringify from 'rehype-stringify';
+import type { TextAreaHistoryOptions } from './history';
+import { InputEnhancer } from './input';
 import {
 	type DefaultShortcutId,
 	type KeyboardShortcut,
 	defaultKeyboardShortcuts
 } from './shortcuts';
-import { defaultIcons, type CartaIcon, type DefaultIconId } from './icons';
+import { defaultIcons, type Icon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
-import { CartaRenderer } from './renderer';
+import { Renderer } from './renderer';
+import { CustomEvent, type MaybeArray } from './utils';
 import {
-	type HighlightFunctions,
-	loadCustomLanguage,
-	highlight,
-	highlightAutodetect,
-	loadCustomMarkdown
-} from './highlight.js';
-import { CustomEvent } from './utils';
+	loadHighlighter,
+	loadDefaultTheme,
+	type Highlighter,
+	type GrammarRule,
+	type ShikiOptions,
+	type DualTheme,
+	type Theme,
+	type HighlightingRule
+} from './highlight';
+
 /**
  * Carta-specific event with extra payload.
  */
-export type CartaEvent = CustomEvent<{ carta: Carta }>;
+export type Event = CustomEvent<{ carta: Carta }>;
 const cartaEvents = ['carta-render', 'carta-render-ssr'] as const;
 type CartaEventType = (typeof cartaEvents)[number];
 
-export type CartaListener<K extends CartaEventType | keyof HTMLElementEventMap> = [
+/**
+ * Custom listeners for the textarea element.
+ */
+export type Listener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 	type: K,
 	listener: (
 		this: HTMLTextAreaElement,
 		ev: K extends CartaEventType
-			? CartaEvent
+			? Event
 			: K extends keyof HTMLElementEventMap
 			  ? HTMLElementEventMap[K]
 			  : Event
 	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CartaListeners = CartaListener<any>[];
-
-type MaybeArray<T> = T | Array<T>;
-
-export interface CartaExtensionComponent<T extends object> {
+/**
+ * Custom Svelte component for extensions.
+ */
+export interface ExtensionComponent<T extends object | undefined> {
 	/**
 	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
 	 */
-	component: typeof SvelteComponentTyped<T & { carta: Carta }>;
+	component: typeof SvelteComponent<T & { carta: Carta }>;
 	/**
 	 * Properties that will be handed to the component.
 	 */
@@ -59,16 +67,22 @@ export interface CartaExtensionComponent<T extends object> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CartaExtensionComponents = Array<CartaExtensionComponent<any>>;
+type Listeners = Listener<any>[];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ExtensionComponents = Array<ExtensionComponent<any>>;
 
 /**
  * Carta editor options.
  */
-export interface CartaOptions {
+export interface Options {
+	/**
+	 * GitHub Flavored Markdown options.
+	 */
+	gfmOptions?: GfmOptions;
 	/**
 	 * Editor/viewer extensions.
 	 */
-	extensions?: CartaExtension[];
+	extensions?: Plugin[];
 	/**
 	 * Renderer debouncing timeout, in ms.
 	 * @defaults 300ms
@@ -89,21 +103,47 @@ export interface CartaOptions {
 	/**
 	 * History (Undo/Redo) options.
 	 */
-	historyOptions?: Partial<CartaHistoryOptions>;
+	historyOptions?: TextAreaHistoryOptions;
 	/**
 	 * HTML sanitizer.
 	 */
-	sanitizer?: (html: string) => string;
+	sanitizer: ((html: string) => string) | false;
+	/**
+	 * Highlighter options.
+	 */
+	shikiOptions?: ShikiOptions;
+	/**
+	 * ShikiJS theme
+	 * @default 'carta-light' for light mode and 'carta-dark' for dark mode.
+	 */
+	theme?: Theme | DualTheme;
 }
+
+/**
+ * Unified transformers plugins.
+ */
+export type UnifiedTransformer<E extends 'sync' | 'async'> = {
+	execution: 'sync' | 'async';
+	type: 'remark' | 'rehype';
+	transform: ({
+		processor,
+		carta
+	}: {
+		processor: Processor;
+		carta: Carta;
+	}) => E extends 'sync' ? void : Promise<void>;
+};
 
 /**
  * Carta editor extensions.
  */
-export interface CartaExtension {
+export interface Plugin {
 	/**
-	 * Marked extensions, more on that [here](https://marked.js.org/using_advanced).
+	 * Unified transformers plugins.
+	 * @important If the plugin is async, it will not run in SSR rendering.
 	 */
-	markedExtensions?: MarkedExtension[];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	transformers?: UnifiedTransformer<'sync' | 'async'>[];
 	/**
 	 * Additional keyboard shortcuts.
 	 */
@@ -111,7 +151,7 @@ export interface CartaExtension {
 	/**
 	 * Additional icons.
 	 */
-	icons?: CartaIcon[];
+	icons?: Icon[];
 	/**
 	 * Additional prefixes.
 	 */
@@ -119,58 +159,78 @@ export interface CartaExtension {
 	/**
 	 * Textarea event listeners.
 	 */
-	listeners?: CartaListeners;
+	listeners?: Listeners;
 	/**
 	 * Additional components, that will be put after the editor.
 	 * All components are given a `carta: Carta` prop.
 	 * The editor has a `relative` position, so you can position
 	 * elements absolutely.
 	 */
-	components?: CartaExtensionComponents;
+	components?: ExtensionComponents;
 	/**
-	 * Custom markdown highlight rules. See [Speed-Highlight Wiki](https://github.com/speed-highlight/core/wiki/Create-or-suggest-new-languages).
+	 * Custom markdown grammar highlight rules for ShiKi.
 	 */
-	highlightRules?: ShjLanguageDefinition;
+	grammarRules?: GrammarRule[];
+	/**
+	 * Custom markdown highlighting rules for ShiKi.
+	 */
+	highlightingRules?: HighlightingRule[];
 	/**
 	 * Use this callback to execute code when one Carta instance loads the extension.
 	 * @param data General Carta related data.
 	 */
-	onLoad?: (data: { carta: Carta; highlight: HighlightFunctions }) => void;
-	/**
-	 * This function can be used to access a reference to the `Carta` class immediately after initialization.
-	 * @deprecated Use `onLoad` instead.
-	 */
-	cartaRef?: (carta: Carta) => void;
-	/**
-	 * This function can be used to access a reference to all highlight functions immediately after initialization.
-	 * @deprecated Use `onLoad` instead.
-	 */
-	shjRef?: (functions: HighlightFunctions) => void;
+	onLoad?: (data: { carta: Carta }) => void;
 }
 
 export class Carta {
+	public readonly sanitizer?: (html: string) => string;
+	public readonly historyOptions?: TextAreaHistoryOptions;
+	public readonly theme?: Theme | DualTheme;
+	public readonly shikiOptions?: ShikiOptions;
+	public readonly rendererDebounce: number;
 	public readonly keyboardShortcuts: KeyboardShortcut[];
-	public readonly icons: CartaIcon[];
+	public readonly icons: Icon[];
 	public readonly prefixes: Prefix[];
-	public readonly highlightRules: ShjLanguageDefinition;
-	public readonly textareaListeners: CartaListeners;
-	public readonly cartaListeners: CartaListeners;
-	public readonly components: CartaExtensionComponents;
+	public readonly grammarRules: GrammarRule[];
+	public readonly highlightingRules: HighlightingRule[];
+	public readonly textareaListeners: Listeners;
+	public readonly cartaListeners: Listeners;
+	public readonly components: ExtensionComponents;
 	public readonly dispatcher = new EventTarget();
-	public readonly markedAsync = new Marked();
-	public readonly markedSync = new Marked();
+	public readonly syncProcessor: Processor;
+	public readonly asyncProcessor: Promise<Processor>;
 
-	private _element: HTMLDivElement | undefined;
-	private _input: CartaInput | undefined;
-	private _renderer: CartaRenderer | undefined;
+	private mElement: HTMLDivElement | undefined;
+	private mInput: InputEnhancer | undefined;
+	private mRenderer: Renderer | undefined;
+	private mHighlighter: Highlighter | Promise<Highlighter> | undefined;
+	private mSyncTransformers: UnifiedTransformer<'sync'>[] = [];
+	private mAsyncTransformers: UnifiedTransformer<'async'>[] = [];
+
 	public get element() {
-		return this._element;
+		return this.mElement;
 	}
 	public get input() {
-		return this._input;
+		return this.mInput;
 	}
 	public get renderer() {
-		return this._renderer;
+		return this.mRenderer;
+	}
+
+	public async highlighter(): Promise<Highlighter> {
+		if (!this.mHighlighter) {
+			const promise = async () => {
+				return loadHighlighter({
+					theme: this.theme ?? (await loadDefaultTheme()),
+					grammarRules: this.grammarRules,
+					highlightingRules: this.highlightingRules,
+					shiki: this.shikiOptions
+				});
+			};
+			this.mHighlighter = promise();
+			this.mHighlighter = await this.mHighlighter;
+		}
+		return this.mHighlighter;
 	}
 
 	private elementsToBind: {
@@ -179,23 +239,31 @@ export class Carta {
 		callback: (() => void) | undefined;
 	}[] = [];
 
-	public constructor(public readonly options?: CartaOptions) {
+	public constructor(options?: Options) {
+		this.sanitizer = options?.sanitizer || undefined;
+		this.historyOptions = options?.historyOptions;
+		this.theme = options?.theme;
+		this.shikiOptions = options?.shikiOptions;
+		this.rendererDebounce = options?.rendererDebounce ?? 300;
+
+		// Load plugins
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
 		this.textareaListeners = [];
 		this.cartaListeners = [];
 		this.components = [];
-		this.highlightRules = [];
+		this.grammarRules = [];
+		this.highlightingRules = [];
 
 		const listeners = [];
-
 		for (const ext of options?.extensions ?? []) {
 			this.keyboardShortcuts.push(...(ext.shortcuts ?? []));
 			this.icons.push(...(ext.icons ?? []));
 			this.prefixes.push(...(ext.prefixes ?? []));
 			this.components.push(...(ext.components ?? []));
-			this.highlightRules.push(...(ext.highlightRules ?? []));
+			this.grammarRules.push(...(ext.grammarRules ?? []));
+			this.highlightingRules.push(...(ext.highlightingRules ?? []));
 
 			listeners.push(...(ext.listeners ?? []));
 		}
@@ -232,41 +300,82 @@ export class Carta {
 			)
 		);
 
-		// Load marked extensions
-		const markedExtensions = this.options?.extensions
-			?.flatMap((ext) => ext.markedExtensions)
-			.filter((ext) => ext != null) as MarkedExtension[] | undefined;
-		if (markedExtensions)
-			markedExtensions.forEach((ext) => {
-				this.useMarkedExtension(ext);
-			});
+		// Load unified extensions
+		this.mSyncTransformers = [];
+		this.mAsyncTransformers = [];
 
-		// Load highlight custom language
-		loadCustomMarkdown(this.options?.extensions);
+		for (const ext of options?.extensions ?? []) {
+			for (const transformer of ext.transformers ?? []) {
+				if (transformer.execution === 'sync') {
+					this.mSyncTransformers.push(transformer);
+				} else {
+					this.mAsyncTransformers.push(transformer);
+				}
+			}
+		}
 
-		for (const ext of this.options?.extensions ?? []) {
-			ext.cartaRef && ext.cartaRef(this);
-			ext.shjRef &&
-				ext.shjRef({
-					highlight,
-					highlightAutodetect,
-					loadCustomLanguage
-				});
-			ext.onLoad &&
+		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: options?.gfmOptions });
+		this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: options?.gfmOptions });
+
+		for (const ext of options?.extensions ?? []) {
+			if (ext.onLoad) {
 				ext.onLoad({
-					carta: this,
-					highlight: {
-						highlight,
-						highlightAutodetect,
-						loadCustomLanguage
-					}
+					carta: this
 				});
+			}
 		}
 	}
 
-	private useMarkedExtension(exts: MarkedExtension) {
-		this.markedAsync.use(exts);
-		if (!exts.async) this.markedSync.use(exts);
+	private setupSynchronousProcessor({ gfmOptions }: { gfmOptions?: GfmOptions }) {
+		const syncProcessor = unified();
+
+		const remarkPlugins = this.mSyncTransformers.filter((it) => it.type === 'remark');
+		const rehypePlugins = this.mSyncTransformers.filter((it) => it.type === 'rehype');
+
+		syncProcessor.use(remarkParse);
+		syncProcessor.use(remarkGfm, gfmOptions);
+
+		for (const plugin of remarkPlugins) {
+			plugin.transform({ processor: syncProcessor, carta: this });
+		}
+
+		syncProcessor.use(remarkRehype);
+
+		for (const plugin of rehypePlugins) {
+			plugin.transform({ processor: syncProcessor, carta: this });
+		}
+
+		syncProcessor.use(rehypeStringify);
+
+		return syncProcessor;
+	}
+
+	private async setupAsynchronousProcessor({ gfmOptions }: { gfmOptions?: GfmOptions }) {
+		const asyncProcessor = unified();
+
+		const remarkPlugins = [...this.mSyncTransformers, ...this.mAsyncTransformers].filter(
+			(it) => it.type === 'remark'
+		);
+		const rehypePlugins = [...this.mSyncTransformers, ...this.mAsyncTransformers].filter(
+			(it) => it.type === 'rehype'
+		);
+
+		asyncProcessor.use(remarkParse);
+		asyncProcessor.use(remarkGfm, gfmOptions);
+
+		for (const plugin of remarkPlugins) {
+			await plugin.transform({ processor: asyncProcessor, carta: this });
+		}
+
+		asyncProcessor.use(remarkRehype);
+
+		for (const plugin of rehypePlugins) {
+			await plugin.transform({ processor: asyncProcessor, carta: this });
+		}
+
+		asyncProcessor.use(rehypeStringify);
+
+		return asyncProcessor;
 	}
 
 	/**
@@ -275,12 +384,13 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		const dirty = await this.markedAsync.parse(markdown, { async: true });
+		const processor = await this.asyncProcessor;
+		const dirty = String(await processor.process(markdown));
 		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
 		);
-		return (this.options?.sanitizer && this.options?.sanitizer(dirty)) ?? dirty;
+		return (this.sanitizer && this.sanitizer(dirty)) ?? dirty;
 	}
 
 	/**
@@ -289,12 +399,12 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public renderSSR(markdown: string): string {
-		const dirty = this.markedSync.parse(markdown, { async: false });
+		const dirty = String(this.syncProcessor.processSync(markdown));
 		if (typeof dirty != 'string') return '';
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render-ssr', { detail: { carta: this } })
 		);
-		if (this.options?.sanitizer) return this.options.sanitizer(dirty);
+		if (this.sanitizer) return this.sanitizer(dirty);
 		return dirty;
 	}
 
@@ -303,7 +413,7 @@ export class Carta {
 	 * @param element The editor element.
 	 */
 	public $setElement(element: HTMLDivElement) {
-		this._element = element;
+		this.mElement = element;
 	}
 
 	/**
@@ -315,19 +425,19 @@ export class Carta {
 		// Remove old listeners if any
 		const previousInput = this.input;
 
-		this._input = new CartaInput(textarea, container, {
+		this.mInput = new InputEnhancer(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
 			listeners: this.textareaListeners,
-			historyOpts: this.options?.historyOptions
+			historyOpts: this.historyOptions
 		});
 
 		if (previousInput) {
 			previousInput.events.removeEventListener('update', callback);
-			this._input.history = previousInput.history;
+			this.mInput.history = previousInput.history;
 		}
 
-		this._input.events.addEventListener('update', callback);
+		this.mInput.events.addEventListener('update', callback);
 
 		// Bind elements
 		this.elementsToBind.forEach((it) => {
@@ -343,7 +453,7 @@ export class Carta {
 	 * @param container Div container of the rendered element.
 	 */
 	public $setRenderer(container: HTMLDivElement) {
-		this._renderer = new CartaRenderer(container);
+		this.mRenderer = new Renderer(container);
 	}
 
 	/**
@@ -379,15 +489,5 @@ export class Carta {
 				this.elementsToBind = this.elementsToBind.filter((it) => it.elem != element);
 			}
 		};
-	}
-
-	/**
-	 * Highlight Markdown using Speed-Highlight and this Carta instance highlighting rules.
-	 * @param text Text to highlight.
-	 * @returns Highlighted html text.
-	 */
-	public async highlight(text: string) {
-		loadCustomMarkdown(this.options?.extensions);
-		return highlight(text, 'cartamd', true);
 	}
 }

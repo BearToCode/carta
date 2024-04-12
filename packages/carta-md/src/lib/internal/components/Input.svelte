@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import type { Carta } from '../carta';
 	import type { TextAreaProps } from '../textarea-props';
+	import { debounce } from '../utils';
+	import { isSingleTheme, loadNestedLanguages } from '../highlight';
 
 	export let carta: Carta;
 	export let value = '';
@@ -11,7 +13,7 @@
 	export let props: TextAreaProps = {};
 
 	let textarea: HTMLTextAreaElement;
-	let highlighElem: HTMLPreElement;
+	let highlighElem: HTMLDivElement;
 	let highlighted = value;
 	let mounted = false;
 
@@ -36,10 +38,48 @@
 		});
 	};
 
-	const highlight = async (text: string) => (highlighted = (await carta.highlight(text)) as string);
-	$: highlight(value).then(resize);
+	const highlight = async (text: string) => {
+		const highlighter = await carta.highlighter();
+		let html: string;
 
-	onMount(() => (mounted = true));
+		if (isSingleTheme(highlighter.theme)) {
+			// Single theme
+			html = highlighter.codeToHtml(text, {
+				lang: highlighter.lang,
+				theme: highlighter.theme
+			});
+		} else {
+			// Dual theme
+			html = highlighter.codeToHtml(text, {
+				lang: highlighter.lang,
+				themes: highlighter.theme
+			});
+		}
+
+		if (carta.sanitizer) {
+			highlighted = carta.sanitizer(html);
+		} else {
+			highlighted = html;
+		}
+	};
+
+	const normalize = (text: string) => {
+		return text.replaceAll('\r\n', '\n');
+	};
+
+	const highlightNestedLanguages = debounce(async (text: string) => {
+		const highlighter = await carta.highlighter();
+		const { updated } = await loadNestedLanguages(highlighter, text);
+		if (updated) highlight(text);
+	}, 300);
+
+	$: highlight(normalize(value)).then(resize);
+	$: highlightNestedLanguages(normalize(value));
+
+	onMount(() => {
+		mounted = true;
+		requestAnimationFrame(resize);
+	});
 	onMount(setInput);
 </script>
 
@@ -56,11 +96,14 @@
 	bind:this={elem}
 >
 	<div class="carta-input-wrapper">
-		<pre
-			class="shj-lang-md carta-font-code"
-			bind:this={highlighElem}
+		<div
+			class="carta-highlight carta-font-code"
 			tabindex="-1"
-			aria-hidden="true"><!-- eslint-disable-line svelte/no-at-html-tags -->{@html highlighted}</pre>
+			aria-hidden="true"
+			bind:this={highlighElem}
+		>
+			<!-- eslint-disable-line svelte/no-at-html-tags -->{@html highlighted}
+		</div>
 
 		<textarea
 			name="md"
@@ -110,12 +153,11 @@
 		color: transparent;
 		background: transparent;
 
-		font-size: inherit;
-
 		outline: none;
+		tab-size: 4;
 	}
 
-	pre {
+	.carta-highlight {
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -127,6 +169,21 @@
 
 		padding: inherit;
 		margin: inherit;
+
+		word-wrap: break-word;
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
+
+	:global(.carta-highlight .shiki) {
+		margin: 0;
+		tab-size: 4;
+		background-color: transparent !important;
+	}
+
+	:global(.carta-highlight *) {
+		font-family: inherit;
+		font-size: inherit;
 
 		word-wrap: break-word;
 		white-space: pre-wrap;
