@@ -1,0 +1,1 @@
+function e(n){return(n==null?void 0:n.length)!==void 0?n:Array.from(n)}var f=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{};function d(n){return n&&n.__esModule&&Object.prototype.hasOwnProperty.call(n,"default")?n.default:n}export{f as c,e,d as g};
