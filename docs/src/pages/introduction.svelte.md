@@ -13,7 +13,7 @@ Carta is a lightweight, fast and extensible Svelte Markdown editor and viewer, d
 
 ## Features
 
-- 🌈 Markdown syntax highlighting ([shiki](https://shiki.style/));
+- 🌈 Markdown syntax highlighting ([Shiki](https://shiki.style/));
 - 🛠️ Toolbar (extensible);
 - ⌨️ Keyboard **shortcuts** (extensible);
 - 📦 Supports **[+150 plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins)** thanks to remark.

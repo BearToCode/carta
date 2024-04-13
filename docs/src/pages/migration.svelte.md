@@ -21,7 +21,7 @@ Make sure to remove previous themes imports, as Shiki uses JS based ones.
 import 'carta-md/light.css'; // 👈 To be removed!
 ```
 
-And also update the default theme. SHJ based selectors should be removed:
+And also update the default theme. Previous based selectors should be removed:
 
 ```css
 [class*='shj-lang-'] {
@@ -32,7 +32,7 @@ And also update the default theme. SHJ based selectors should be removed:
 
 ## Removed verbose prefixes
 
-Many exports have been renamed to make them less verbose, here are them:
+Many exports have been renamed to make them less verbose:
 
 - `CartaEditor` -> `MarkdownEditor` (old one still supported);
 - `CartaRenderer` -> `Markdown` (old one still supported);
@@ -49,7 +49,7 @@ Many exports have been renamed to make them less verbose, here are them:
 - `CartaRenderer` -> `Renderer`;
 - `CartaLabels` -> `Labels`;
 
-## Minor Changes
+# Minor Changes
 
 - If you don't use a sanitizer, you need to explicitly set it to `false`;
 - Removed deprecated option `cartaRef` and `shjRef` for extensions;
