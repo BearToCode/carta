@@ -1,5 +1,5 @@
-import { DualTheme, Theme, isSingleTheme, type Plugin } from 'carta-md';
-import { type RehypeShikiOptions } from '@shikijs/rehype';
+import type { DualTheme, Theme, Plugin } from 'carta-md';
+import type { RehypeShikiOptions } from '@shikijs/rehype';
 import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
 
 export type CodeExtensionOptions = Omit<RehypeShikiOptions, 'theme' | 'themes'> & {
@@ -17,6 +17,7 @@ export const code = (options?: CodeExtensionOptions): Plugin => {
 				type: 'rehype',
 				async transform({ processor, carta }) {
 					let theme = options?.theme;
+					const { isSingleTheme } = await import('carta-md');
 					const highlighter = await carta.highlighter();
 					if (!theme) {
 						theme = highlighter.theme; // Use the theme specified in the highlighter
