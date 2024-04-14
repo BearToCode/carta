@@ -1,4 +1,4 @@
-import{s as ia,e as a,a as l,c as p,l as i,g as o,p as k,i as s,f as n,H as Xt,b as Zt,m as te,n as ee}from"./scheduler.DKiYiPX0.js";import{S as ca,i as ua,c as Yt,a as Bt,m as Dt,t as Jt,b as Ot,d as Qt}from"./index.z4bt_ZBS.js";import{C as Vt}from"./Code.tlNrnEug.js";function ra(v){let c,r,d=`<code class="language-ts"><span class="token keyword">const</span> ext<span class="token operator">:</span> Plugin <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+import{s as ia,e as a,a as l,c as p,l as i,g as o,p as k,i as s,f as n,H as Xt,b as Zt,m as te,n as ee}from"./scheduler.WCevfC9S.js";import{S as ca,i as ua,c as Yt,a as Bt,m as Dt,t as Jt,b as Ot,d as Qt}from"./index.BWhD-onO.js";import{C as Vt}from"./Code.BS7VoApD.js";function ra(v){let c,r,d=`<code class="language-ts"><span class="token keyword">const</span> ext<span class="token operator">:</span> Plugin <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
 	<span class="token comment">// ...</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
