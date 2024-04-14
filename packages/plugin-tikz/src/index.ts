@@ -95,6 +95,7 @@ const tikzTransformer: UnifiedPlugin<
 			if (node.type !== 'element') return;
 			const element = node as hast.Element;
 			if (element.tagName !== 'code') return;
+			if (!element.properties['className']) return;
 			if (!(element.properties['className'] as string[]).includes('language-tikz')) return;
 
 			// Element is a TikZ code block
