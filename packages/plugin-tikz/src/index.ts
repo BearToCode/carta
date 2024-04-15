@@ -86,14 +86,18 @@ const tikzTransformer: UnifiedPlugin<
 	hast.Root
 > = ({ carta, options }) => {
 	return async function (tree) {
-		visit(tree, (node, index, parent) => {
+		visit(tree, (pre, index, parent) => {
 			if (typeof document === 'undefined') {
 				// Cannot run outside the browser
 				return;
 			}
 
-			if (node.type !== 'element') return;
-			const element = node as hast.Element;
+			if (pre.type !== 'element') return;
+			const preElement = pre as hast.Element;
+			if (preElement.tagName !== 'pre') return;
+			const element = pre.children.at(0) as hast.Element | undefined;
+			if (!element) return;
+
 			if (element.tagName !== 'code') return;
 			if (!element.properties['className']) return;
 			if (!(element.properties['className'] as string[]).includes('language-tikz')) return;
@@ -130,6 +134,7 @@ const tikzTransformer: UnifiedPlugin<
 			}
 
 			const hastNode = fromDom(container) as hast.Element;
+
 			parent?.children.splice(index!, 1, hastNode);
 
 			return [SKIP, index!];
