@@ -1,12 +1,10 @@
 # Carta Code Plugin
 
-This plugin adds support for code blocks **syntax highlighting**. Install it using:
+This plugin adds support for code blocks **syntax highlighting**. It uses the same highlighter from the core package(Shiki).
 
 ```
 npm i @cartamd/plugin-code
 ```
-
-This is done using [Speed-highlight JS](https://github.com/speed-highlight/core), which supports dynamic imports. This way, languages definitions are only imported at the moment of need.
 
 ## Setup
 
