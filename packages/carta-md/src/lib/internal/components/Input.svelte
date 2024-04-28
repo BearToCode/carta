@@ -63,18 +63,14 @@
 		}
 	};
 
-	const normalize = (text: string) => {
-		return text.replaceAll('\r\n', '\n');
-	};
-
 	const highlightNestedLanguages = debounce(async (text: string) => {
 		const highlighter = await carta.highlighter();
 		const { updated } = await loadNestedLanguages(highlighter, text);
 		if (updated) highlight(text);
 	}, 300);
 
-	$: highlight(normalize(value)).then(resize);
-	$: highlightNestedLanguages(normalize(value));
+	$: highlight(value).then(resize);
+	$: highlightNestedLanguages(value);
 
 	onMount(() => {
 		mounted = true;

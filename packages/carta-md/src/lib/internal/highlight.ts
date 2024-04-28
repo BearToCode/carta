@@ -249,6 +249,8 @@ const findNestedLanguages = (text: string) => {
  * @returns Whether the highlighter was updated with new languages.
  */
 export const loadNestedLanguages = async (highlighter: Highlighter, text: string) => {
+	text = text.replaceAll('\r\n', '\n'); // Normalize line endings
+
 	const languages = findNestedLanguages(text);
 	const loadedLanguages = highlighter.getLoadedLanguages();
 	let updated = false;
