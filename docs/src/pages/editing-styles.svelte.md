@@ -49,6 +49,8 @@ By using the `theme` property in `<MarkdownEditor>` you can differentiate the th
 
 When using dark mode, there are two different themes that have to be changed: the editor theme and the one used for syntax highlighting:
 
+<Code>
+
 ```css
 /* Editor dark mode */
 /* Only if you are using the default theme */
@@ -68,6 +70,8 @@ html.dark .shiki span {
 	color: var(--shiki-dark) !important;
 }
 ```
+
+</Code>
 
 ## Changing Markdown input color theme
 
