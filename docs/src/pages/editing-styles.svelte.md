@@ -43,11 +43,35 @@ While the core styles are embedded in the Svelte components, the others can be s
 
 ### Using multiple themes
 
-By using the `theme` property in the editor you can differentiate the themes of multiple editors.
+By using the `theme` property in `<MarkdownEditor>` you can differentiate the themes of multiple editors.
 
-## Changing Markdown color theme
+## Dark mode
 
-Carta uses [Shiki](https://shiki.matsu.io/) for syntax highlighting. Two default themes are included in the core package, which are as a [dual theme](https://shiki.matsu.io/guide/dual-themes) used for light and dark mode.
+When using dark mode, there are two different themes that have to be changed: the editor theme and the one used for syntax highlighting:
+
+```css
+/* Editor dark mode */
+/* Only if you are using the default theme */
+html.dark .carta-theme__default {
+	--border-color: var(--border-color-dark);
+	--selection-color: var(--selection-color-dark);
+	--focus-outline: var(--focus-outline-dark);
+	--hover-color: var(--hover-color-dark);
+	--caret-color: var(--caret-color-dark);
+	--text-color: var(--text-color-dark);
+}
+
+/* Code dark mode */
+/* Only if you didn't specify a custom code theme */
+html.dark .shiki,
+html.dark .shiki span {
+	color: var(--shiki-dark) !important;
+}
+```
+
+## Changing Markdown input color theme
+
+Carta uses [Shiki](https://shiki.matsu.io/) for syntax highlighting. Two default themes are included in the core package, which are set as a [dual theme](https://shiki.matsu.io/guide/dual-themes) to support light and dark mode. If you plan to use a custom one with light/dark modes, make sure to use a dual theme as well.
 
 You can change theme in the options:
 
@@ -62,7 +86,7 @@ const carta = new Carta({
 
 </Code>
 
-If you use a [custom theme](https://shiki.matsu.io/guide/load-theme)(or also a custom language), you need to specify it, so that it gets loaded into the highlighter:
+If you use a [custom theme](https://shiki.matsu.io/guide/load-theme)(or a custom language), you need to provide it inside the options, so that it gets loaded into the highlighter:
 
 <Code>
 
