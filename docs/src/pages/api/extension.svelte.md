@@ -7,14 +7,15 @@ title: Extension
   import Code from '$lib/components/code/Code.svelte';
 </script>
 
-# `Plugin` properties
+# `Extension` properties
 
 You can easily extend Carta by creating custom plugins.
 
 <Code>
 
 ```ts
-const ext: Plugin = {
+import type { CartaExtension } from 'carta-md';
+const ext: CartaExtension = {
 	// ...
 };
 
@@ -25,7 +26,7 @@ const carta = new Carta({
 
 </Code>
 
-Here are all the `Plugin` properties:
+Here are all the `CartaExtension` properties:
 
 ### `transformers`
 
