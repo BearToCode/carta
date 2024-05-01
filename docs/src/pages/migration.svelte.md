@@ -38,7 +38,7 @@ Many exports have been renamed to make them less verbose:
 - `CartaRenderer` -> `Markdown` (old one still supported);
 - `CartaEvent` -> `Event`;
 - `CartaEventType` -> `EventType`;
-- `CartaExtension` -> `Extension`;
+- `CartaExtension` -> `Plugin`;
 - `CartaExtensionComponent` -> `ExtensionComponent`;
 - `CartaOptions` -> `Options`;
 - `CartaHistory` -> `TextAreaHistory`;
