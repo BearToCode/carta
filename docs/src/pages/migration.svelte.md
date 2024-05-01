@@ -24,8 +24,8 @@ import 'carta-md/light.css'; // 👈 To be removed!
 And also update the default theme. Previous based selectors should be removed:
 
 ```css
+/* 👇 To be removed! */
 [class*='shj-lang-'] {
-	/* 👈 To be removed! */
 	/* ... */
 }
 ```
