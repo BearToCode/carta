@@ -18,7 +18,7 @@ import '@cartamd/plugin-code/default.css';
 
 ### Using the default highlighter
 
-Carta comes with a default highlighter that matches the one used to highlight markdown in the editor and is used by default (Shiki). If you want to use a theme different from the one used to highlight Markdown, you can specify it in the options.
+Carta comes with a default highlighter that matches the one used to highlight markdown in the editor and is used by default (Shiki). If you want to use a theme different from the one used to highlight Markdown, you can specify it in the options. Remember to also have it loaded into the highlighter, by specifying it in `shikiOptions`.
 
 ```ts
 const carta = new Carta({
@@ -27,7 +27,10 @@ const carta = new Carta({
 		code({
 			theme: 'ayu-light'
 		})
-	]
+	],
+	shikiOptions: {
+		themes: ['ayu-light']
+	}
 });
 ```
 
