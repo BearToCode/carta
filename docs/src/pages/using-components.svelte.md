@@ -18,7 +18,7 @@ Let's say we want to replace all hashtags, such as `#something`, with a custom c
 
 ### Parsing the hashtags
 
-First things first: we need to tell the parser that we want to parse hashtags as custom elements. To do this, we it's useful to first install the following packages:
+First things first: we need to tell the parser that we want to parse hashtags as custom elements. To do this, it's useful to first install the following packages:
 
 <Code>
 
@@ -103,7 +103,7 @@ If you want a more in-depth guide on writing Unified plugins, you can check out 
 Notice that hashtags are now replaced with the following:
 
 ```html
-<span type="hashtags" value="pizza"> #pizza </span>
+<span type="hashtag" value="pizza"> #pizza </span>
 ```
 
 ### Configuring the transformer
