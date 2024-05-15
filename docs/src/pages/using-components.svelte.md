@@ -65,7 +65,7 @@ const unifiedPlugin: UnifiedPlugin<[], hast.Root> = () => {
 			const text = node as hast.Text;
 
 			// Parse the text node and replace hashtags with spans
-			const regex = /#(\w+)/g;
+			const regex = /#(\\\w+)/g;
 			const children: (hast.Element | hast.Text)[] = [];
 			let lastIndex = 0;
 			let match;
