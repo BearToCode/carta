@@ -37,7 +37,7 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 			carta = c;
 
 			const highlighter = await carta.highlighter();
-			await highlighter.loadLanguage('latex');
+			await highlighter.loadLanguage('tex');
 			carta.input?.update();
 		},
 		transformers: [
@@ -68,7 +68,7 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 						{
 							begin: '(^|\\G)(\\s*)(.*)',
 							contentName: 'meta.embedded.block.latex',
-							patterns: [{ include: 'text.tex.latex' }],
+							patterns: [{ include: 'text.tex' }],
 							while: '(^|\\G)(?!\\s*([`~]{3,})\\s*$)'
 						}
 					]

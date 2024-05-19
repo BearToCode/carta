@@ -41,7 +41,7 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 	return {
 		onLoad: async ({ carta }) => {
 			const highlighter = await carta.highlighter();
-			await highlighter.loadLanguage('latex');
+			await highlighter.loadLanguage('tex');
 			carta.input?.update();
 		},
 		transformers: [
@@ -81,7 +81,7 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 					name: 'markup.inline.math.markdown',
 					captures: {
 						'1': { name: 'punctuation.definition.latex.inline' },
-						'2': { name: 'meta.embedded.block.latex', patterns: [{ include: 'text.tex.latex' }] },
+						'2': { name: 'meta.embedded.block.latex', patterns: [{ include: 'text.tex' }] },
 						'3': { name: 'punctuation.definition.latex.inline' }
 					}
 				}
@@ -101,7 +101,7 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 						{
 							begin: '(^|\\G)(\\s*)(.*)',
 							contentName: 'meta.embedded.block.latex',
-							patterns: [{ include: 'text.tex.latex' }],
+							patterns: [{ include: 'text.tex' }],
 							while: '(^|\\G)(?!\\s*([$]{2,})\\s*$)'
 						}
 					]

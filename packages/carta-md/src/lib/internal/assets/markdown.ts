@@ -127,6 +127,7 @@ const lang = {
 				{ include: '#fenced_code_block_erlang' },
 				{ include: '#fenced_code_block_elixir' },
 				{ include: '#fenced_code_block_latex' },
+				{ include: '#fenced_code_block_tex' },
 				{ include: '#fenced_code_block_bibtex' },
 				{ include: '#fenced_code_block_twig' },
 				{ include: '#fenced_code_block_unknown' }
@@ -653,7 +654,7 @@ const lang = {
 			]
 		},
 		fenced_code_block_latex: {
-			begin: '(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(latex|tex)((\\s+|:|,|\\{|\\?)[^`]*)?$)',
+			begin: '(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(latex)((\\s+|:|,|\\{|\\?)[^`]*)?$)',
 			beginCaptures: {
 				'3': { name: 'punctuation.definition.markdown' },
 				'4': { name: 'fenced_code.block.language.markdown' },
@@ -667,6 +668,25 @@ const lang = {
 					begin: '(^|\\G)(\\s*)(.*)',
 					contentName: 'meta.embedded.block.latex',
 					patterns: [{ include: 'text.tex.latex' }],
+					while: '(^|\\G)(?!\\s*([`~]{3,})\\s*$)'
+				}
+			]
+		},
+		fenced_code_block_tex: {
+			begin: '(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(tex)((\\s+|:|,|\\{|\\?)[^`]*)?$)',
+			beginCaptures: {
+				'3': { name: 'punctuation.definition.markdown' },
+				'4': { name: 'fenced_code.block.language.markdown' },
+				'5': { name: 'fenced_code.block.language.attributes.markdown' }
+			},
+			end: '(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$',
+			endCaptures: { '3': { name: 'punctuation.definition.markdown' } },
+			name: 'markup.fenced_code.block.markdown',
+			patterns: [
+				{
+					begin: '(^|\\G)(\\s*)(.*)',
+					contentName: 'meta.embedded.block.tex',
+					patterns: [{ include: 'text.tex' }],
 					while: '(^|\\G)(?!\\s*([`~]{3,})\\s*$)'
 				}
 			]
@@ -1771,6 +1791,7 @@ $
 		'erlang',
 		'elixir',
 		'latex',
+		'tex',
 		'bibtex',
 		'html-derivative'
 	]
