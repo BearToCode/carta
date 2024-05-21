@@ -158,6 +158,7 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 							const input = document.createElement('input');
 							input.type = 'file';
 							input.multiple = true;
+							input.accept = allowedMimeTypes.join(", ");
 
 							input.onchange = (e) => {
 								const files = (e.target as HTMLInputElement)?.files;
