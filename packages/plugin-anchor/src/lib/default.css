@@ -1,18 +1,18 @@
-.carta-viewer h1,
-.carta-viewer h2,
-.carta-viewer h3,
-.carta-viewer h4,
-.carta-viewer h5,
-.carta-viewer h6 {
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
 	position: relative;
 }
 
-.carta-viewer h1 .icon.icon-link,
-.carta-viewer h2 .icon.icon-link,
-.carta-viewer h3 .icon.icon-link,
-.carta-viewer h4 .icon.icon-link,
-.carta-viewer h5 .icon.icon-link,
-.carta-viewer h6 .icon.icon-link {
+.markdown-body h1 .icon.icon-link,
+.markdown-body h2 .icon.icon-link,
+.markdown-body h3 .icon.icon-link,
+.markdown-body h4 .icon.icon-link,
+.markdown-body h5 .icon.icon-link,
+.markdown-body h6 .icon.icon-link {
 	opacity: 0;
 	content: url('./link.svg');
 	position: absolute;
@@ -22,11 +22,11 @@
 	transform: translateY(-50%);
 }
 
-.carta-viewer h1:hover .icon-link,
-.carta-viewer h2:hover .icon-link,
-.carta-viewer h3:hover .icon-link,
-.carta-viewer h4:hover .icon-link,
-.carta-viewer h5:hover .icon-link,
-.carta-viewer h6:hover .icon-link {
+.markdown-body h1:hover .icon.icon-link,
+.markdown-body h2:hover .icon.icon-link,
+.markdown-body h3:hover .icon.icon-link,
+.markdown-body h4:hover .icon.icon-link,
+.markdown-body h5:hover .icon.icon-link,
+.markdown-body h6:hover .icon.icon-link {
 	opacity: 1;
 }
