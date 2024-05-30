@@ -1,3 +1,8 @@
+<!-- 
+	@description This component to render Markdown once after being parsed twice
+	by Carta. The first parsing is done in the server-side rendering (SSR) and the
+	second parsing is done in the client-side rendering.
+ -->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { loadNestedLanguages, type Carta } from '.';
@@ -11,6 +16,7 @@
 
 	let rendered = carta.renderSSR(value);
 	onMount(async () => {
+		// Register the renderer element
 		carta.$setRenderer(elem);
 
 		// Load highlighting languages
