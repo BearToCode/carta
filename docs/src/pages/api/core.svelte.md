@@ -171,3 +171,9 @@ The theme of this editor. The viewer and related elements will have the `carta-t
 Type: `string`
 
 Current Markdown input value.
+
+### `selectedTab`
+
+Type: `'write' | 'preview'`
+
+The selected editor tab.

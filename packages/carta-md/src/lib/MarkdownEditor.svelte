@@ -16,6 +16,7 @@
 	export let disableToolbar = false;
 	export let placeholder = '';
 	export let textarea: TextAreaProps = {};
+	export let selectedTab: 'write' | 'preview' = 'write';
 
 	let userLabels: Partial<Labels> = {};
 	export { userLabels as labels };
@@ -25,7 +26,6 @@
 	};
 
 	let width: number;
-	let selectedTab: 'write' | 'preview' = 'write';
 	let windowMode: 'tabs' | 'split';
 	let mounted = false;
 	let resizeInput: () => void;
