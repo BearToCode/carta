@@ -1,8 +1,10 @@
 <!--
-	@description This is the main editor component that combines the input and renderer
+	@component
+	This is the main editor component that combines the input and renderer
 	components. It also handles the scroll synchronization between the input and renderer
 	components (if set to sync), and the window mode management (tabs or split).
 -->
+
 <script lang="ts">
 	import type { Carta } from './internal/carta';
 	import { onMount } from 'svelte';
@@ -113,7 +115,7 @@
 	 * Handle the scroll event to synchronize the scroll between the input and renderer.
 	 * @param e The scroll event.
 	 */
-	function handleScroll(e: UIEvent) {
+	function handleScroll(e: Event) {
 		const [scrolled, target] =
 			e.target == inputElem ? [inputElem, rendererElem] : [rendererElem, inputElem];
 
@@ -169,11 +171,11 @@
 				<Input
 					{carta}
 					{placeholder}
-					{handleScroll}
 					props={textarea}
 					bind:value
 					bind:resize={resizeInput}
 					bind:elem={inputElem}
+					on:scroll{handleScroll}
 				>
 					<!-- Input extensions components -->
 					{#if mounted}
@@ -188,9 +190,9 @@
 			{#if windowMode == 'split' || selectedTab == 'preview'}
 				<Renderer
 					{carta}
-					{handleScroll}
 					bind:value
 					bind:elem={rendererElem}
+					on:scroll={handleScroll}
 					on:render={() => {
 						if (windowMode != 'split') return;
 						if (scroll != 'sync') return;

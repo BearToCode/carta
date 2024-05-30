@@ -24,7 +24,7 @@
 
 <main>
 	<ToggleTheme class="toggle-theme" />
-	<MarkdownEditor value={sampleText} placeholder="Some text..." mode="tabs" {carta} />
+	<MarkdownEditor value={sampleText} placeholder="Some text..." mode="split" {carta} />
 </main>
 
 <style>

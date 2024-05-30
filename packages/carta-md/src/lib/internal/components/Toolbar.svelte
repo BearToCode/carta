@@ -1,3 +1,8 @@
+<!--
+	@component
+	Displays the buttons to switch tabs and the icons to interact with the editor.
+-->
+
 <script lang="ts">
 	import type { Labels } from '../labels';
 	import { handleArrowKeysNavigation } from '../accessibility';
@@ -6,9 +11,21 @@
 	import { onMount } from 'svelte';
 	import { debounce } from '../utils';
 
+	/**
+	 * The Carta instance to use.
+	 */
 	export let carta: Carta;
+	/**
+	 * The current editor mode.
+	 */
 	export let mode: 'tabs' | 'split';
+	/**
+	 * The current tab.
+	 */
 	export let tab: 'write' | 'preview';
+	/**
+	 * Editor labels.
+	 */
 	export let labels: Labels;
 
 	let toolbar: HTMLDivElement;
@@ -27,6 +44,7 @@
 	const waitForDOMUpdate = () => new Promise(requestAnimationFrame);
 
 	const onResize = debounce(async () => {
+		// Resize to fit the icons
 		const overflowing = () => toolbar.scrollWidth - toolbar.clientWidth > 0;
 		while (overflowing()) {
 			visibleIcons.pop();

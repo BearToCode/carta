@@ -1,14 +1,25 @@
 <!-- 
-	@description This component to render Markdown once after being parsed twice
+	@component
+	This component is used to render Markdown once after being parsed twice
 	by Carta. The first parsing is done in the server-side rendering (SSR) and the
-	second parsing is done in the client-side rendering.
- -->
+	second (async) parsing is done in the client-side rendering.
+-->
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { loadNestedLanguages, type Carta } from '.';
 
+	/**
+	 * The Carta instance to use.
+	 */
 	export let carta: Carta;
+	/**
+	 * Content to render.
+	 */
 	export let value: string;
+	/**
+	 * The theme to use, which translates to the CSS class `carta-theme__{theme}`.
+	 */
 	export let theme = 'default';
 
 	let elem: HTMLDivElement;
