@@ -1,3 +1,9 @@
+<!--
+	@component
+	A wrapped textarea component integrated with Carta. It handles the highlighting
+	and propagates events to the Carta instance.	
+-->
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Carta } from '../carta';
@@ -5,11 +11,25 @@
 	import { debounce } from '../utils';
 	import { isSingleTheme, loadNestedLanguages } from '../highlight';
 
+	/**
+	 * The Carta instance to use.
+	 */
 	export let carta: Carta;
+	/**
+	 * The editor content.
+	 */
 	export let value = '';
+	/**
+	 * The placeholder text for the textarea.
+	 */
 	export let placeholder = '';
+	/**
+	 * The element of the wrapper div.
+	 */
 	export let elem: HTMLDivElement;
-	export let handleScroll: (e: UIEvent) => void;
+	/**
+	 * Additional textarea properties.
+	 */
 	export let props: TextAreaProps = {};
 
 	let textarea: HTMLTextAreaElement;
@@ -17,6 +37,10 @@
 	let highlighted = value;
 	let mounted = false;
 
+	/**
+	 * Manually resize the textarea to fit the content, so that it
+	 * always perfectly overlaps the highlighting overlay.
+	 */
 	export const resize = () => {
 		if (!mounted || !textarea) return;
 		textarea.style.height = highlighElem.scrollHeight + 'px';
@@ -31,13 +55,10 @@
 		textarea?.focus();
 	};
 
-	const setInput = () => {
-		carta.$setInput(textarea, elem, () => {
-			value = textarea.value;
-			highlight(value);
-		});
-	};
-
+	/**
+	 * Highlight the text in the textarea.
+	 * @param text The text to highlight.
+	 */
 	const highlight = async (text: string) => {
 		const highlighter = await carta.highlighter();
 		let html: string;
@@ -63,6 +84,10 @@
 		}
 	};
 
+	/**
+	 * Highlight the nested languages in the markdown, loading the necessary
+	 * languages if needed.
+	 */
 	const highlightNestedLanguages = debounce(async (text: string) => {
 		const highlighter = await carta.highlighter();
 		const { updated } = await loadNestedLanguages(highlighter, text);
@@ -74,9 +99,15 @@
 
 	onMount(() => {
 		mounted = true;
+		// Resize once the DOM is updated.
 		requestAnimationFrame(resize);
 	});
-	onMount(setInput);
+	onMount(() => {
+		carta.$setInput(textarea, elem, () => {
+			value = textarea.value;
+			highlight(value);
+		});
+	});
 </script>
 
 <div role="tooltip" id="editor-unfocus-suggestion">
@@ -85,7 +116,7 @@
 <div
 	on:click={focus}
 	on:keydown={focus}
-	on:scroll={handleScroll}
+	on:scroll
 	role="textbox"
 	tabindex="-1"
 	class="carta-input"
