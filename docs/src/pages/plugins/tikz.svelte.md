@@ -5,6 +5,7 @@ title: TikZ
 
 <script>
 	import Code from '$lib/components/code/Code.svelte';
+	import { base } from '$app/paths';
 </script>
 
 This plugin adds support for **PGF/TikZ** illustrations thanks to [TikZJax](https://tikzjax.com/). It uses the code generated for the [Obsidian-TikZ plugin](https://github.com/artisticat1/obsidian-tikzjax).
@@ -19,9 +20,8 @@ npm i @cartamd/plugin-tikz
 
 ## Important Notes
 
-1. This plugin requires the import of a **heavy** library (~7Mb), which is dynamically imported at runtime;
-2. Generated images are **not SSR compatible**, as they are rendered in the browser;
-3. You need to update your sanitizer to allow the specific tag: `<div type="text/tikz">`.
+1. This plugin requires the import of a **heavy** library (~7Mb), which is dynamically imported at runtime. This can be improved by [pre-rendering]({base}/getting-started#pre-rendering) content on the server;
+2. You need to update your sanitizer to allow the specific tag: `<div type="text/tikz">`.
 
 ## Setup
 

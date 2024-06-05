@@ -104,7 +104,7 @@ Carta manager to use for this editor.
 
 Type: `string`
 
-The theme of this editor. The editor and related elements will have the `carta-theme__<theme>` as a class.
+The theme of this editor. The editor and related elements will have `carta-theme__<theme>` as a class.
 
 ### `value`
 
@@ -164,7 +164,7 @@ Carta manager to use for this editor.
 
 Type: `string`
 
-The theme of this editor. The viewer and related elements will have the `carta-theme__<theme>` as a class.
+The theme of to use. This element will have `carta-theme__<theme>` as a class.
 
 ### `value`
 
@@ -177,3 +177,17 @@ Current Markdown input value.
 Type: `'write' | 'preview'`
 
 The selected editor tab.
+
+# `PreRendered` options
+
+### `html`
+
+Type: `string`
+
+The HTML to render. It is **NOT** sanitized.
+
+### `theme`
+
+Type: `string`
+
+The theme to use. The viewer and related elements will have `carta-theme__<theme>` as a class.

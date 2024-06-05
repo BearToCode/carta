@@ -30,8 +30,16 @@
 		@apply mb-3 text-lg italic text-neutral-300;
 	}
 
+	ol {
+		@apply list-decimal;
+	}
+
+	ul {
+		@apply list-disc;
+	}
+
 	li {
-		@apply ml-4 list-disc;
+		@apply ml-4;
 	}
 
 	strong {
