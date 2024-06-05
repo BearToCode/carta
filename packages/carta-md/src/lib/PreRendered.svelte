@@ -5,7 +5,7 @@
 
 <script lang="ts">
 	export let html: string;
-	export let theme: string;
+	export let theme = 'default';
 </script>
 
 <div class="carta-viewer carta-theme__{theme} markdown-body">
