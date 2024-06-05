@@ -20,7 +20,7 @@ npm i @cartamd/plugin-tikz
 
 ## Important Notes
 
-1. This plugin requires the import of a **heavy** library (~7Mb), which is dynamically imported at runtime. This can be improved by [pre-rendering]({base}/getting-started#pre-rendering) content on the server;
+1. This plugin requires the import of a **heavy** library (~7Mb), which is dynamically imported at runtime. This can be avoided by [pre-rendering]({base}/getting-started#pre-rendering) content on the server;
 2. You need to update your sanitizer to allow the specific tag: `<div type="text/tikz">`.
 
 ## Setup
