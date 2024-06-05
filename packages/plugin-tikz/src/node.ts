@@ -35,6 +35,10 @@ export const nodeTikzTransform = async (
 		})
 			.then((dvi) => dvi2svg(dvi))
 			.then((svg) => {
+				if (options?.postProcessing) {
+					svg = options.postProcessing(svg);
+				}
+
 				const hastNode = unified().use(rehypeParse).parse(svg);
 				let svgNode: hast.Element | undefined;
 				visit(hastNode, (node) => {
@@ -43,6 +47,7 @@ export const nodeTikzTransform = async (
 						return [EXIT];
 					}
 				});
+
 				if (svgNode) {
 					const container: hast.Element = {
 						type: 'element',
