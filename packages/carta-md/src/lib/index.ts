@@ -1,5 +1,6 @@
 export { default as MarkdownEditor } from '$lib/MarkdownEditor.svelte';
 export { default as Markdown } from '$lib/Markdown.svelte';
+export { default as PreRendered } from '$lib/PreRendered.svelte';
 export type { InputEnhancer, TextSelection } from '$lib/internal/input';
 export type { Icon } from '$lib/internal/icons';
 export type { KeyboardShortcut } from '$lib/internal/shortcuts';
