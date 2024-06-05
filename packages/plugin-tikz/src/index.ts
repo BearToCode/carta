@@ -1,13 +1,10 @@
-import type { Carta, Event, Plugin } from 'carta-md';
+import type { Carta, Plugin } from 'carta-md';
 import type { Plugin as UnifiedPlugin } from 'unified';
-import { visit, SKIP } from 'unist-util-visit';
-import { fromDom } from 'hast-util-from-dom';
 import type * as hast from 'hast';
-import md5 from 'md5';
 
-interface TikzExtensionOptions {
+export interface TikzExtensionOptions {
 	/**
-	 * Enables Tikzjax console output.
+	 * Enables TikZJax console output (server and client).
 	 */
 	debug?: boolean;
 	/**
@@ -31,11 +28,8 @@ interface TikzExtensionOptions {
  * @param options Tikz options.
  */
 export const tikz = (options?: TikzExtensionOptions): Plugin => {
-	let carta: Carta;
 	return {
-		onLoad: async ({ carta: c }) => {
-			carta = c;
-
+		onLoad: async ({ carta }) => {
 			const highlighter = await carta.highlighter();
 			await highlighter.loadLanguage('tex');
 			carta.input?.update();
@@ -49,7 +43,17 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 				}
 			}
 		],
-		listeners: [['carta-render', (e) => generateTikzImages(e, options)]],
+		listeners: [
+			[
+				'carta-render',
+				async (e) => {
+					const isBrowser = typeof window !== 'undefined';
+					if (isBrowser) {
+						(await browser()).processTikzScripts(e, options);
+					}
+				}
+			]
+		],
 		grammarRules: [
 			{
 				name: 'tikz',
@@ -78,131 +82,23 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 	};
 };
 
-// Keeps track of tikz generation to remove previous items
-let currentGeneration = 0;
+let browserModule: typeof import('./browser') | undefined;
+let nodeModule: typeof import('./node') | undefined;
+const browser = async () => (browserModule ??= await import('./browser'));
+const node = async () => (nodeModule ??= await import('./node'));
 
 const tikzTransformer: UnifiedPlugin<
 	[{ carta: Carta; options: TikzExtensionOptions | undefined }],
 	hast.Root
 > = ({ carta, options }) => {
 	return async function (tree) {
-		visit(tree, (pre, index, parent) => {
-			if (typeof document === 'undefined') {
-				// Cannot run outside the browser
-				return;
-			}
-
-			if (pre.type !== 'element') return;
-			const preElement = pre as hast.Element;
-			if (preElement.tagName !== 'pre') return;
-			const element = pre.children.at(0) as hast.Element | undefined;
-			if (!element) return;
-
-			if (element.tagName !== 'code') return;
-			if (!element.properties['className']) return;
-			if (!(element.properties['className'] as string[]).includes('language-tikz')) return;
-
-			// Element is a TikZ code block
-			const source = tidyTikzSource((element.children[0] as hast.Text).value as string);
-
-			const container = document.createElement('div');
-			const template = document.createElement('div');
-			const text = document.createTextNode(source);
-
-			container.classList.add('tikz-generated');
-			container.setAttribute('tikz-generation', currentGeneration.toString());
-			if (options?.center ?? true) container.setAttribute('align', 'center');
-			if (options?.class) container.classList.add(...options.class.split(' '));
-
-			template.setAttribute('type', 'tikzjax');
-			if (options?.debug) template.setAttribute('data-show-console', 'true');
-
-			template.appendChild(text);
-
-			const hash = md5(JSON.stringify(template.dataset) + text.nodeValue);
-			let savedSvg = window.localStorage.getItem(hash);
-
-			if (savedSvg) {
-				if (options?.postProcessing) savedSvg = options.postProcessing(savedSvg);
-				container.innerHTML = savedSvg;
-			} else {
-				container.appendChild(template);
-			}
-
-			if (carta.sanitizer) {
-				container.innerHTML = carta.sanitizer(container.innerHTML);
-			}
-
-			const hastNode = fromDom(container) as hast.Element;
-
-			parent?.children.splice(index!, 1, hastNode);
-
-			return [SKIP, index!];
-		});
+		const isBrowser = typeof window !== 'undefined';
+		if (isBrowser) {
+			const browserModule = await browser();
+			return browserModule.browserTikzTransform(tree, carta, options);
+		} else {
+			const nodeModule = await node();
+			return await nodeModule.nodeTikzTransform(tree, carta, options);
+		}
 	};
 };
-
-declare global {
-	interface Window {
-		tikzjax: boolean | undefined;
-	}
-}
-
-function generateTikzImages(e: Event, options?: TikzExtensionOptions) {
-	const carta = e.detail.carta;
-	const container = carta.renderer?.container;
-	if (!container) {
-		console.error(`Failed to process tikz code: cannot find renderer container element.`);
-		return;
-	}
-
-	currentGeneration++;
-	removePreviousImages(container);
-	loadTikz(options);
-}
-
-function removePreviousImages(container: HTMLDivElement) {
-	Array.from(container.querySelectorAll('.tikz-generated[tikz-generation]'))
-		.filter((elem) => Number(elem.getAttribute('tikz-generation') ?? -1) < currentGeneration)
-		.forEach((elem) => elem.remove());
-}
-
-async function loadTikz(options?: TikzExtensionOptions) {
-	if (window.tikzjax != null) return;
-	window.tikzjax = true;
-
-	// eslint-disable-next-line
-	// @ts-ignore
-	const tikzjax = (await import('./assets/tikzjax.js')).default;
-
-	const script = /* html */ `<script type="text/javascript" id="tikzjax">${tikzjax}</script>`;
-
-	// Simply appending the element does not work as the script is not executed
-	// By doing the following we ensure that it is run.
-	const range = document.createRange();
-	range.selectNode(document.getElementsByTagName('body')[0]);
-	const documentFragment = range.createContextualFragment(script);
-	document.body.appendChild(documentFragment);
-
-	document.addEventListener('tikzjax-load-finished', (e) => {
-		const elem = e.target as SVGElement;
-		if (options?.postProcessing) elem.outerHTML = options.postProcessing(elem.outerHTML);
-	});
-}
-
-function tidyTikzSource(tikzSource: string) {
-	// From: Obsidian-TikZ plugin, credit to them
-	// Remove non-breaking space characters, otherwise we get errors
-	const remove = '&nbsp;';
-	tikzSource = tikzSource.replaceAll(remove, '');
-
-	let lines = tikzSource.split('\n');
-
-	// Trim whitespace that is inserted when pasting in code, otherwise TikZJax complains
-	lines = lines.map((line) => line.trim());
-
-	// Remove empty lines
-	lines = lines.filter((line) => line);
-
-	return lines.join('\n');
-}

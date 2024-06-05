@@ -10,6 +10,26 @@ export default defineConfig({
 			entry: resolve(__dirname, 'src/index.ts'),
 			name: 'plugin-tikz',
 			fileName: 'index'
+		},
+		rollupOptions: {
+			external: [
+				'node-tikzjax',
+				'unified',
+				'unist-util-visit',
+				'hast-util-from-dom',
+				'md5',
+				'rehype-parse'
+			],
+			output: {
+				globals: {
+					'node-tikzjax': 'nodeTikzjax',
+					unified: 'unified',
+					'unist-util-visit': 'unistUtilVisit',
+					'hast-util-from-dom': 'hastUtilFromDom',
+					md5: 'md5',
+					'rehype-parse': 'rehypeParse'
+				}
+			}
 		}
 	},
 	plugins: [
