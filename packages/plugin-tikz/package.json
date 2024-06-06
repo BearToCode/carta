@@ -21,7 +21,6 @@
 		"@types/hast": "^3.0.4",
 		"@types/md5": "^2.3.2",
 		"carta-md": "workspace:*",
-		"md5": "^2.3.0",
 		"typescript": "^5.0.4",
 		"unified": "^11.0.4",
 		"vite": "^5.1.6",
@@ -54,6 +53,7 @@
 		"hast-util-from-dom": "^5.0.0",
 		"node-tikzjax": "^1.0.3",
 		"rehype-parse": "^9.0.0",
-		"unist-util-visit": "^5.0.0"
+		"unist-util-visit": "^5.0.0",
+		"md5": "^2.3.0"
 	}
 }

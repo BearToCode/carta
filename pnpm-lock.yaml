@@ -423,6 +423,9 @@ importers:
       hast-util-from-dom:
         specifier: ^5.0.0
         version: 5.0.0
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
       node-tikzjax:
         specifier: ^1.0.3
         version: 1.0.3
@@ -442,9 +445,6 @@ importers:
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
-      md5:
-        specifier: ^2.3.0
-        version: 2.3.0
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
