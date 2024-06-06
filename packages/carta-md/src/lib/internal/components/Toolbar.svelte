@@ -44,7 +44,7 @@
 	const waitForDOMUpdate = () => new Promise(requestAnimationFrame);
 
 	const onResize = debounce(async () => {
-		// Resize to fit the icons
+		if (!toolbar || !iconsContainer) return;
 		const overflowing = () => toolbar.scrollWidth - toolbar.clientWidth > 0;
 		while (overflowing()) {
 			visibleIcons.pop();
