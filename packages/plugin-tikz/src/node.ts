@@ -54,7 +54,7 @@ export const nodeTikzTransform = async (
 						tagName: 'div',
 						properties: {
 							className: ['tikz-generated', ...(options?.class ?? '').split(' ')],
-							center: options?.center ?? true
+							align: options?.center ? 'center' : undefined
 						},
 						children: [svgNode]
 					};
