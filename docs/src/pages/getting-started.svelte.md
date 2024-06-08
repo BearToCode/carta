@@ -114,7 +114,7 @@ While the `<Markdown>` component is SSR compatible and allows you to pre-render 
 1. It cannot render content requiring asynchronous code execution(for example `plugin-code`);
 2. For the previous reason, it also needs to render the same markdown on the client. This requires the client to import this library and then render the new HTML, which can slow down the page, especially if you are using different plugins.
 
-This can be avoided by pre-rendering the whole content on the server, which can also be improved further by storing/caching the render HTML(this implementation up to you).
+This can be avoided by pre-rendering the whole content on the server, which can also be improved further by storing/caching the rendered HTML(this implementation is up to you).
 
 For example, in SvelteKit:
 
@@ -122,6 +122,8 @@ For example, in SvelteKit:
 
 ```ts
 // +page.server.ts
+
+// Path to an server-side static Carta instance
 import { carta } from '$lib/path/to/carta';
 
 export const load: PageServerLoad = async () => {
@@ -140,11 +142,12 @@ export const load: PageServerLoad = async () => {
 <Code>
 
 ```svelte
+<!-- +page.svelte -->
 <script>
 	import { PageData } from './$types';
 	import PreRendered from 'carta-md';
 
-	export let data: PageData;
+	export let data;
 </script>
 
 <PreRendered html={data.html} />
