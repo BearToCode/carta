@@ -144,7 +144,6 @@ export const load: PageServerLoad = async () => {
 ```svelte
 <!-- +page.svelte -->
 <script>
-	import { PageData } from './$types';
 	import PreRendered from 'carta-md';
 
 	export let data;
