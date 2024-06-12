@@ -49,7 +49,7 @@ export const defaultIcons = [
 	},
 	{
 		id: 'italic',
-		action: (input) => input.toggleSelectionSurrounding('_'),
+		action: (input) => input.toggleSelectionSurrounding('*'),
 		component: ItalicIcon,
 		label: 'Italic'
 	},
