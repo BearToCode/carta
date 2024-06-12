@@ -190,7 +190,7 @@
 			{#if windowMode == 'split' || selectedTab == 'preview'}
 				<Renderer
 					{carta}
-					bind:value
+					{value}
 					bind:elem={rendererElem}
 					on:scroll={handleScroll}
 					on:render={() => {
