@@ -182,9 +182,11 @@ export class InputEnhancer {
 			if (match) {
 				e.preventDefault();
 
+				const strMatch: string = Array.isArray(match) ? match[0] : match
+
 				// Check if anything was typed.
 				// If not, remove the prefix.
-				const content = line.slice(match.length).trim();
+				const content = line.slice(strMatch.length).trim();
 				if (content === '') {
 					const line = this.getLine(lineStartingIndex);
 					this.removeAt(lineStartingIndex, line.value.length);
