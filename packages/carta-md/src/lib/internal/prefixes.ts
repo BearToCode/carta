@@ -23,7 +23,7 @@ export interface Prefix {
 }
 
 const matchRegexs = {
-	taskList:     /^(\s*)(\-\s+\[)[ xX]?(\])/,
+	taskList:     /^(\s*)(\-\s+\[)[ xX]?(\]\s+)/,
 	bulletedList: /^(\s*)([\-\*]\s+)/,
 	numberedList: /^(\s*)(\d+)(\.\s+)/,
 	blockquote:   /^(\s*)([\> ]*[\>]\s+)/
