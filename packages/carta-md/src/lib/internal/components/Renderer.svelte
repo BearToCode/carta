@@ -33,11 +33,8 @@
 			.then(() => events('render', void 0));
 	}, carta.rendererDebounce ?? 300);
 
-	$: {
-		// On value updates
-		value = value;
-		debouncedRenderer();
-	}
+	// On value updates
+	$: debouncedRenderer(value);
 
 	onMount(() => carta.$setRenderer(elem));
 	onMount(() => (mounted = true));
