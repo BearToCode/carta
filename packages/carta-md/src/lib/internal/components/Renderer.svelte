@@ -26,7 +26,7 @@
 	let renderedHtml = carta.renderSSR(value);
 
 	// Debounce the rendering
-	const debouncedRenderer = debounce(() => {
+	const debouncedRenderer = debounce((value: string) => {
 		carta
 			.render(value)
 			.then((rendered) => (renderedHtml = rendered))
