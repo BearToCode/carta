@@ -182,7 +182,7 @@ export class InputEnhancer {
 			if (match) {
 				e.preventDefault();
 
-				const strMatch: string = Array.isArray(match) ? match[0] : match
+				const strMatch: string = Array.isArray(match) ? match[0] : match;
 
 				// Check if anything was typed.
 				// If not, remove the prefix.
