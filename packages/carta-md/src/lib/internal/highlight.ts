@@ -234,7 +234,7 @@ export const isThemeRegistration = (theme: Theme): theme is ThemeRegistration =>
 const findNestedLanguages = (text: string) => {
 	const languages = new Set<string>();
 
-	const regex = /```([a-z]+)\n([\s\S]+?)\n```/g;
+	const regex = /```(\w+)$/mg;
 	let match: RegExpExecArray | null;
 	while ((match = regex.exec(text))) {
 		languages.add(match[1]);
