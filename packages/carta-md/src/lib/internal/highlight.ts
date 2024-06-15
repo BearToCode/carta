@@ -231,7 +231,7 @@ export const isThemeRegistration = (theme: Theme): theme is ThemeRegistration =>
  * @param text Markdown text to parse for nested languages.
  * @returns The set of nested languages found in the text.
  */
-const findNestedLanguages = (text: string) => {
+const findNestedLanguages = (text: string): Set<string> => {
 	const languages = new Set<string>();
 
 	const regex = /```([a-z]+)\n([\s\S]+?)\n```/g;
@@ -251,18 +251,35 @@ const findNestedLanguages = (text: string) => {
 export const loadNestedLanguages = async (highlighter: Highlighter, text: string) => {
 	text = text.replaceAll('\r\n', '\n'); // Normalize line endings
 
-	const languages = findNestedLanguages(text);
-	const loadedLanguages = highlighter.getLoadedLanguages();
-	let updated = false;
-	for (const lang of languages) {
-		if (isBundleLanguage(lang) && !loadedLanguages.includes(lang)) {
-			await highlighter.loadLanguage(lang);
-			loadedLanguages.push(lang);
-			updated = true;
-		}
+	const languages: Set<string> = findNestedLanguages(text);
+	const loadedLanguages: Array<string> = highlighter.getLoadedLanguages();
+	let updated: boolean = false;
+	for (const lang: string of languages) {
+		if (await loadLanguage(highlighter, lang, loadedLanguages))
+			updated = true
 	}
 
 	return {
 		updated
 	};
+};
+
+/**
+ * Load one language into the highlighter.
+ * @param highlighter The highlighter instance.
+ * @param lang The language to load.
+ * @returns Whether the highlighter was updated with the new language.
+ */
+export const loadLanguage = async (highlighter: Highlighter, lang: string, loadedLanguages: Array<string> | undefined): Promise<boolean> => {
+	if (!loadedLanguages)
+		loadedLanguages = highlighter.getLoadedLanguages();
+
+	let updated: boolean = false;
+	if (isBundleLanguage(lang) && !loadedLanguages.includes(lang)) {
+		await highlighter.loadLanguage(lang);
+		loadedLanguages.push(lang);
+		updated = true;
+	}
+
+	return updated;
 };

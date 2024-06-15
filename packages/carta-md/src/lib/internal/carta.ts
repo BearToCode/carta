@@ -18,6 +18,7 @@ import { CustomEvent, type MaybeArray } from './utils';
 import {
 	loadHighlighter,
 	loadDefaultTheme,
+	loadLanguage,
 	type Highlighter,
 	type GrammarRule,
 	type ShikiOptions,
@@ -43,8 +44,8 @@ export type Listener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 		ev: K extends CartaEventType
 			? Event
 			: K extends keyof HTMLElementEventMap
-			  ? HTMLElementEventMap[K]
-			  : Event
+				? HTMLElementEventMap[K]
+				: Event
 	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];
@@ -231,6 +232,10 @@ export class Carta {
 			this.mHighlighter = await this.mHighlighter;
 		}
 		return this.mHighlighter;
+	}
+
+	public loadHighlighterLanguage(highlighter: Highlighter, lang: string): Promise<boolean> {
+		return loadLanguage(highlighter, lang, /* loadedLanguages */ undefined);
 	}
 
 	private elementsToBind: {
@@ -465,7 +470,7 @@ export class Carta {
 	 * @example
 	 * ```svelte
 	 * <script>
-	 * 	export let carta;
+	 *   export let carta;
 	 * </script>
 	 *
 	 * <div use:carta.bindToCaret>

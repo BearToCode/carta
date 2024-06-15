@@ -1,13 +1,17 @@
 {
 	"name": "@cartamd/plugin-code",
+	"version": "4.0.5",
 	"type": "module",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/BearToCode/carta.git"
 	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": "./dist/index.js",
 		"./*.css": "./dist/*.css"
@@ -15,23 +19,20 @@
 	"scripts": {
 		"build": "tsc && tscp"
 	},
+	"dependencies": {
+		"@shikijs/rehype": "^1.4.0"
+	},
 	"devDependencies": {
-		"@shikijs/rehype": "^1.4.0",
+		"@shikijs/core": "^1.6.4",
+		"@types/hast": "^3.0.4",
 		"@types/node": "^18.16.3",
 		"carta-md": "workspace:*",
 		"typescript": "^5.0.4",
-		"typescript-cp": "^0.1.8"
+		"typescript-cp": "^0.1.8",
+		"unified": "^11.0.4"
 	},
 	"peerDependencies": {
 		"carta-md": "^4.0.0"
-	},
-	"files": [
-		"dist"
-	],
-	"version": "4.0.0",
-	"dependencies": {
-		"@shikijs/rehype": "^1.4.0",
-		"unified": "^11.0.4"
 	},
 	"keywords": [
 		"carta",
