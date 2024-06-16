@@ -7,7 +7,7 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { loadNestedLanguages, type Carta } from '.';
+	import type { Carta } from '.';
 
 	/**
 	 * The Carta instance to use.
@@ -28,10 +28,6 @@
 	onMount(async () => {
 		// Register the renderer element
 		carta.$setRenderer(elem);
-
-		// Load highlighting languages
-		const highlighter = await carta.highlighter();
-		await loadNestedLanguages(highlighter, value);
 
 		// Render using asynchronous renderer
 		rendered = await carta.render(value);
