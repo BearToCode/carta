@@ -101,7 +101,7 @@
 	<div class="carta-filler" bind:clientWidth={availableWidth} />
 
 	<div class="carta-toolbar-right" bind:this={iconsContainer}>
-		{#if !((mode === 'tabs') && (tab === 'preview'))}
+		{#if !(mode === 'tabs' && tab === 'preview')}
 			{#each visibleIcons as icon, index}
 				{@const label = labels.iconsLabels[icon.id] ?? icon.label}
 				<button
