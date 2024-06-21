@@ -23,8 +23,7 @@ import {
 	type ShikiOptions,
 	type DualTheme,
 	type Theme,
-	type HighlightingRule,
-	loadNestedLanguages
+	type HighlightingRule
 } from './highlight';
 
 /**
@@ -387,7 +386,7 @@ export class Carta {
 	public async render(markdown: string): Promise<string> {
 		const processor = await this.asyncProcessor;
 		const highlighter = await this.highlighter();
-		await loadNestedLanguages(highlighter, markdown);
+		await highlighter.loadNestedLanguages(markdown);
 		const dirty = String(await processor.process(markdown));
 		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(

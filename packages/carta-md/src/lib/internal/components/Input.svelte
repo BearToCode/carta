@@ -9,7 +9,6 @@
 	import type { Carta } from '../carta';
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
-	import { isSingleTheme, loadNestedLanguages } from '../highlight';
 
 	/**
 	 * The Carta instance to use.
@@ -61,21 +60,7 @@
 	 */
 	const highlight = async (text: string) => {
 		const highlighter = await carta.highlighter();
-		let html: string;
-
-		if (isSingleTheme(highlighter.theme)) {
-			// Single theme
-			html = highlighter.codeToHtml(text, {
-				lang: highlighter.lang,
-				theme: highlighter.theme
-			});
-		} else {
-			// Dual theme
-			html = highlighter.codeToHtml(text, {
-				lang: highlighter.lang,
-				themes: highlighter.theme
-			});
-		}
+		const html = highlighter.highlightMarkdown(text) ?? '';
 
 		if (carta.sanitizer) {
 			highlighted = carta.sanitizer(html);
@@ -90,7 +75,7 @@
 	 */
 	const highlightNestedLanguages = debounce(async (text: string) => {
 		const highlighter = await carta.highlighter();
-		const { updated } = await loadNestedLanguages(highlighter, text);
+		const { updated } = await highlighter.loadNestedLanguages(text);
 		if (updated) highlight(text);
 	}, 300);
 

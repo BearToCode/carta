@@ -172,8 +172,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       shiki:
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: ^1.7.0
+        version: 1.7.0
       svelte:
         specifier: ^3.54.0 || ^4.0.0
         version: 4.2.2
@@ -291,8 +291,8 @@ importers:
   packages/plugin-code:
     dependencies:
       '@shikijs/rehype':
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: ^1.7.0
+        version: 1.7.0
       unified:
         specifier: ^11.0.4
         version: 11.0.4
@@ -303,6 +303,9 @@ importers:
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
+      shiki:
+        specifier: ^1.7.0
+        version: 1.7.0
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
@@ -982,14 +985,14 @@ packages:
     peerDependencies:
       semantic-release: '>=18.0.0-beta.1'
 
-  '@shikijs/core@1.4.0':
-    resolution: {integrity: sha512-CxpKLntAi64h3j+TwWqVIQObPTED0FyXLHTTh3MKXtqiQNn2JGcMQQ362LftDbc9kYbDtrksNMNoVmVXzKFYUQ==}
+  '@shikijs/core@1.7.0':
+    resolution: {integrity: sha512-O6j27b7dGmJbR3mjwh/aHH8Ld+GQvA0OQsNO43wKWnqbAae3AYXrhFyScHGX8hXZD6vX2ngjzDFkZY5srtIJbQ==}
 
-  '@shikijs/rehype@1.4.0':
-    resolution: {integrity: sha512-Ba6QHYx+EIEvmqyNy/B49KAz3rXsTfAqYRY3KTZjPWonytokGOiJ1q/FV9l13D/ad6Qv+eWKhkAz6ITxx6ziFA==}
+  '@shikijs/rehype@1.7.0':
+    resolution: {integrity: sha512-PmjhKdud2FzdexQiU79XJqH3jp4X7vQkgjeMtJIhKNuO4Q1WnOL4ah6wJjmvr0ayOSrcAHaM3bYXGUqq9NKjsQ==}
 
-  '@shikijs/transformers@1.4.0':
-    resolution: {integrity: sha512-kzvlWmWYYSeaLKRce/kgmFFORUtBtFahfXRKndor0b60ocYiXufBQM6d6w1PlMuUkdk55aor9xLvy9wy7hTEJg==}
+  '@shikijs/transformers@1.7.0':
+    resolution: {integrity: sha512-QX3TP+CS4yYLt4X4Dk7wT0MsC7yweTYHMAAKY+ay+uuR9yRdFae/h+hivny2O+YixJHfZl57xtiZfWSrHdyVhQ==}
 
   '@sveltejs/adapter-auto@3.1.1':
     resolution: {integrity: sha512-6LeZft2Fo/4HfmLBi5CucMYmgRxgcETweQl/yQoZo/895K3S9YWYN4Sfm/IhwlIpbJp3QNvhKmwCHbsqQNYQpw==}
@@ -3792,8 +3795,8 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  shiki@1.4.0:
-    resolution: {integrity: sha512-5WIn0OL8PWm7JhnTwRWXniy6eEDY234mRrERVlFa646V2ErQqwIFd2UML7e0Pq9eqSKLoMa3Ke+xbsF+DAuy+Q==}
+  shiki@1.7.0:
+    resolution: {integrity: sha512-H5pMn4JA7ayx8H0qOz1k2qANq6mZVCMl1gKLK6kWIrv1s2Ial4EmD4s4jE8QB5Dw03d/oCQUxc24sotuyR5byA==}
 
   signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
@@ -5088,20 +5091,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@shikijs/core@1.4.0': {}
+  '@shikijs/core@1.7.0': {}
 
-  '@shikijs/rehype@1.4.0':
+  '@shikijs/rehype@1.7.0':
     dependencies:
-      '@shikijs/transformers': 1.4.0
+      '@shikijs/transformers': 1.7.0
       '@types/hast': 3.0.4
       hast-util-to-string: 3.0.0
-      shiki: 1.4.0
+      shiki: 1.7.0
       unified: 11.0.4
       unist-util-visit: 5.0.0
 
-  '@shikijs/transformers@1.4.0':
+  '@shikijs/transformers@1.7.0':
     dependencies:
-      shiki: 1.4.0
+      shiki: 1.7.0
 
   '@sveltejs/adapter-auto@3.1.1(@sveltejs/kit@2.5.4(@sveltejs/vite-plugin-svelte@3.0.2(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5)))(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5)))':
     dependencies:
@@ -8325,9 +8328,9 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shiki@1.4.0:
+  shiki@1.7.0:
     dependencies:
-      '@shikijs/core': 1.4.0
+      '@shikijs/core': 1.7.0
 
   signal-exit@3.0.7: {}
 

@@ -1,18 +1,15 @@
 import {
-	getHighlighter,
 	type BundledTheme,
-	type ThemeInput,
-	type StringLiteralUnion,
 	type BundledLanguage,
-	type SpecialLanguage,
-	type LanguageInput,
 	type LanguageRegistration,
-	type HighlighterGeneric,
-	bundledLanguages,
-	bundledThemes,
-	type ThemeRegistration
+	type ThemeRegistration,
+	type HighlighterCore,
+	type DynamicImportLanguageRegistration,
+	type DynamicImportThemeRegistration
 } from 'shiki';
 import type { Intellisense } from './utils';
+import customMarkdown from './assets/markdown';
+import getWasm from 'shiki/wasm';
 
 /**
  * Custom TextMate grammar rule for the highlighter.
@@ -35,8 +32,9 @@ export type HighlightingRule = {
  * Shiki options for the highlighter.
  */
 export type ShikiOptions = {
-	themes?: Array<ThemeInput | StringLiteralUnion<BundledTheme>>;
-	langs?: (LanguageInput | StringLiteralUnion<BundledLanguage> | SpecialLanguage)[];
+	bundle: 'full' | 'web' | 'core';
+	themes?: Array<Theme>;
+	langs?: Array<Language>;
 };
 
 type CustomMarkdownLangName = Awaited<(typeof import('./assets/markdown'))['default']['name']>;
@@ -54,13 +52,17 @@ export const loadDefaultTheme = async (): Promise<{
 });
 
 /**
- * Language for the highlighter.
+ * Language name for the highlighter.
  */
-export type Language = Intellisense<BundledLanguage | CustomMarkdownLangName>;
+export type LanguageName = Intellisense<BundledLanguage | CustomMarkdownLangName>;
 /**
  * Theme name for the highlighter.
  */
 export type ThemeName = Intellisense<BundledTheme | DefaultLightThemeName | DefaultDarkThemeName>;
+/**
+ * Language for the highlighter.
+ */
+export type Language = LanguageName | LanguageRegistration;
 /**
  * Theme for the highlighter.
  */
@@ -95,174 +97,328 @@ export async function loadHighlighter({
 	theme,
 	shiki
 }: HighlighterOptions): Promise<Highlighter> {
-	// Inject rules into the custom markdown language
-	const injectGrammarRules = (
-		lang: Awaited<(typeof import('./assets/markdown'))['default']>,
-		rules: GrammarRule[]
-	) => {
-		lang.repository = {
-			...langDefinition.repository,
-			...Object.fromEntries(rules.map(({ name, definition }) => [name, definition]))
-		};
-		for (const rule of rules) {
-			if (rule.type === 'block') {
-				lang.repository.block.patterns.unshift({ include: `#${rule.name}` });
-			} else {
-				lang.repository.inline.patterns.unshift({ include: `#${rule.name}` });
-			}
-		}
-	};
-
-	const injectHighlightRules = (theme: ThemeRegistration, rules: HighlightingRule[]) => {
-		if (theme.type === 'light') {
-			theme.tokenColors ||= [];
-			theme.tokenColors.unshift(...rules.map(({ light }) => light));
-		} else {
-			theme.tokenColors ||= [];
-			theme.tokenColors.unshift(...rules.map(({ dark }) => dark));
-		}
-	};
-
-	// Additional themes and languages provided by the user
+	const highlighter = new Highlighter({
+		grammarRules,
+		highlightingRules
+	});
+	const bundle = shiki?.bundle ?? 'full';
 	const themes = shiki?.themes ?? [];
 	const langs = shiki?.langs ?? [];
 
-	const highlighter: HighlighterGeneric<BundledLanguage, BundledTheme> = await getHighlighter({
-		themes,
-		langs
-	});
-
-	// Custom markdown language
-	const langDefinition = (await import('./assets/markdown')).default;
-	injectGrammarRules(langDefinition, grammarRules);
-	await highlighter.loadLanguage(langDefinition);
-
-	// Custom themes
-	if (isSingleTheme(theme)) {
-		let registration: ThemeRegistration;
-		if (isThemeRegistration(theme)) {
-			registration = theme;
-		} else {
-			registration = (await bundledThemes[theme as BundledTheme]()).default;
-		}
-
-		injectHighlightRules(registration, highlightingRules);
-
-		await highlighter.loadTheme(registration);
-	} else {
-		const { light, dark } = theme;
-
-		let lightRegistration: ThemeRegistration;
-		let darkRegistration: ThemeRegistration;
-
-		if (isThemeRegistration(light)) {
-			lightRegistration = light;
-		} else {
-			lightRegistration = (await bundledThemes[light as BundledTheme]()).default;
-		}
-
-		if (isThemeRegistration(dark)) {
-			darkRegistration = dark;
-		} else {
-			darkRegistration = (await bundledThemes[dark as BundledTheme]()).default;
-		}
-
-		injectHighlightRules(lightRegistration, highlightingRules);
-		injectHighlightRules(darkRegistration, highlightingRules);
-
-		await highlighter.loadTheme(lightRegistration);
-		await highlighter.loadTheme(darkRegistration);
+	await highlighter.loadBundle(bundle);
+	for (const lang of langs) {
+		await highlighter.loadLanguage(lang);
+	}
+	for (const theme of themes) {
+		await highlighter.loadTheme(theme);
 	}
 
-	return {
-		theme,
-		lang: customMarkdownLangName,
-		...highlighter
-	};
-}
-export interface Highlighter extends HighlighterGeneric<BundledLanguage, BundledTheme> {
-	/**
-	 * The language specified for the highlighter.
-	 */
-	theme: Theme | DualTheme;
-	/**
-	 * The theme specified for the highlighter.
-	 */
-	lang: Language;
+	await highlighter.loadLanguage(customMarkdown);
+	// The markdown theme does not need to be loaded
+
+	await highlighter.setMarkdownLanguage(customMarkdown);
+	await highlighter.setMarkdownTheme(theme);
+
+	return highlighter;
 }
 
-/**
- * Checks if a language is a bundled language.
- * @param lang The language to check.
- * @returns Whether the language is a bundled language.
- */
-export const isBundleLanguage = (lang: string): lang is BundledLanguage =>
-	Object.keys(bundledLanguages).includes(lang);
-/**
- * Checks if a theme is a bundled theme.
- * @param theme The theme to check.
- * @returns Whether the theme is a bundled theme.
- */
-export const isBundleTheme = (theme: string): theme is BundledTheme =>
-	Object.keys(bundledThemes).includes(theme);
-/**
- * Checks if a theme is a dual theme.
- * @param theme The theme to check.
- * @returns Whether the theme is a dual theme.
- */
-export const isDualTheme = (theme: Theme | DualTheme): theme is DualTheme =>
-	typeof theme == 'object' && 'light' in theme && 'dark' in theme;
-/**
- * Checks if a theme is a single theme.
- * @param theme The theme to check.
- * @returns Whether the theme is a single theme.
- */
-export const isSingleTheme = (theme: Theme | DualTheme): theme is Theme => !isDualTheme(theme);
-/**
- * Checks if a theme is a theme registration.
- * @param theme The theme to check.
- * @returns Whether the theme is a theme registration.
- */
-export const isThemeRegistration = (theme: Theme): theme is ThemeRegistration =>
-	typeof theme == 'object';
+export class Highlighter {
+	private mGrammarRules: GrammarRule[];
+	private mHighlightingRules: HighlightingRule[];
 
-/**
- * Find all nested languages in the markdown text and load them into the highlighter.
- * @param text Markdown text to parse for nested languages.
- * @returns The set of nested languages found in the text.
- */
-const findNestedLanguages = (text: string) => {
-	const languages = new Set<string>();
+	private mShiki: HighlighterCore | undefined;
+	private mBundledLanguages: Record<string, DynamicImportLanguageRegistration> = {};
+	private mBundledThemes: Record<string, DynamicImportThemeRegistration> = {};
+	private mTheme: Theme | DualTheme | undefined;
+	private mLang: Language | undefined;
 
-	const regex = /```(\w+)$/gm;
-	let match: RegExpExecArray | null;
-	while ((match = regex.exec(text))) {
-		languages.add(match[1]);
+	public get shiki() {
+		return this.mShiki;
 	}
-	return languages;
-};
+	public get bundledLanguages() {
+		return this.mBundledLanguages;
+	}
+	public get bundledThemes() {
+		return this.mBundledThemes;
+	}
+	public get theme() {
+		return this.mTheme;
+	}
+	public get lang() {
+		return this.mLang;
+	}
 
-/**
- * Load all nested languages found in the markdown text into the highlighter.
- * @param highlighter The highlighter instance.
- * @param text The text to parse for nested languages.
- * @returns Whether the highlighter was updated with new languages.
- */
-export const loadNestedLanguages = async (highlighter: Highlighter, text: string) => {
-	text = text.replaceAll('\r\n', '\n'); // Normalize line endings
+	constructor({
+		grammarRules,
+		highlightingRules
+	}: {
+		grammarRules: GrammarRule[];
+		highlightingRules: HighlightingRule[];
+	}) {
+		this.mGrammarRules = grammarRules;
+		this.mHighlightingRules = highlightingRules;
+	}
 
-	const languages = findNestedLanguages(text);
-	const loadedLanguages = highlighter.getLoadedLanguages();
-	let updated = false;
-	for (const lang of languages) {
-		if (isBundleLanguage(lang) && !loadedLanguages.includes(lang)) {
-			await highlighter.loadLanguage(lang);
-			loadedLanguages.push(lang);
-			updated = true;
+	/**
+	 * Loads a bundle into the highlighter.
+	 * @param bundle The bundle to load.
+	 */
+	public async loadBundle(bundle: 'full' | 'web' | 'core') {
+		switch (bundle) {
+			case 'full': {
+				const module = await import('shiki/bundle/full');
+				this.mBundledLanguages = module.bundledLanguages;
+				this.mBundledThemes = module.bundledThemes;
+				this.mShiki = await module.getHighlighterCore({
+					loadWasm: getWasm
+				});
+				break;
+			}
+			case 'web': {
+				const module = await import('shiki/bundle/web');
+				this.mBundledLanguages = module.bundledLanguages;
+				this.mBundledThemes = module.bundledThemes;
+				this.mShiki = await module.getHighlighterCore({
+					loadWasm: getWasm
+				});
+				break;
+			}
+			case 'core': {
+				const module = await import('shiki/core');
+				this.mBundledLanguages = {};
+				this.mBundledThemes = {};
+				this.mShiki = await module.getHighlighterCore({
+					loadWasm: getWasm
+				});
+				break;
+			}
 		}
 	}
 
-	return {
-		updated
+	/**
+	 * Loads a theme into the highlighter.
+	 * @param language The language to load.
+	 */
+	public async loadLanguage(language: Language) {
+		if (this.isLanguageRegistration(language)) {
+			await this.shiki?.loadLanguage(language);
+		} else if (this.isBundleLanguage(language)) {
+			await this.shiki?.loadLanguage(this.bundledLanguages[language]);
+		} else {
+			console.error(
+				'Failed to load language, probably it is not included in the current bundle: ',
+				language
+			);
+		}
+	}
+
+	/**
+	 * Loads a theme into the highlighter.
+	 * @param theme The theme to load.
+	 */
+	public async loadTheme(theme: Theme) {
+		if (this.isThemeRegistration(theme)) {
+			await this.shiki?.loadTheme(theme);
+		} else if (this.isBundleTheme(theme)) {
+			const registration = (await this.bundledThemes[theme]()).default;
+			await this.shiki?.loadTheme(registration);
+		} else {
+			console.error(
+				'Failed to load theme, probably it is not included in the current bundle: ',
+				theme
+			);
+		}
+	}
+
+	/**
+	 * Sets the language used by the highlighter.
+	 * @param language The language to set.
+	 */
+	public async setMarkdownLanguage(language: Language) {
+		if (this.isLanguageRegistration(language)) {
+			this.injectGrammarRules(language);
+		} else {
+			const [registration] = (await this.bundledLanguages[language]()).default;
+			this.injectGrammarRules(registration);
+		}
+
+		this.mLang = language;
+	}
+
+	/**
+	 * Sets the theme used by the highlighter to highlight custom markdown.
+	 * @param theme The theme to set.
+	 */
+	public async setMarkdownTheme(theme: Theme | DualTheme) {
+		const loadIfNeeded = async (theme: Theme) => {
+			if (this.isThemeRegistration(theme)) {
+				this.injectHighlightingRules(theme);
+			} else {
+				const registration = (await this.bundledThemes[theme]()).default;
+				this.injectHighlightingRules(registration);
+			}
+		};
+
+		if (this.isSingleTheme(theme)) {
+			await loadIfNeeded(theme);
+		} else {
+			await loadIfNeeded(theme.light);
+			await loadIfNeeded(theme.dark);
+		}
+		this.mTheme = theme;
+	}
+
+	/**
+	 * Highlights markdown text.
+	 * @param markdown The markdown to highlight.
+	 * @returns The highlighted HTML.
+	 */
+	public highlightMarkdown(markdown: string) {
+		if (this.isLanguageRegistration(this.mLang!)) {
+			return this.highlight(markdown, this.mLang!.name);
+		} else {
+			return this.highlight(markdown, this.mLang!);
+		}
+	}
+
+	/**
+	 * Highlights code with a specific language.
+	 * @param code The code to highlight
+	 * @param lang The language of the code
+	 * @returns The highlighted HTML
+	 */
+	public highlight(code: string, lang: string) {
+		// console.log(lang, this.mTheme, this.shiki?.getLanguage('cartamd'));
+		if (this.isSingleTheme(this.theme!)) {
+			return this.shiki?.codeToHtml(code, {
+				lang,
+				theme: this.theme!
+			});
+		} else {
+			return this.shiki?.codeToHtml(code, {
+				lang,
+				themes: this.theme!
+			});
+		}
+	}
+
+	/**
+	 * Checks if a language is a bundled language.
+	 * @param lang The language to check.
+	 * @returns Whether the language is a bundled language.
+	 */
+	public isBundleLanguage = (lang: string): lang is BundledLanguage =>
+		Object.keys(this.bundledLanguages).includes(lang);
+
+	/**
+	 * Checks if a theme is a bundled theme.
+	 * @param theme The theme to check.
+	 * @returns Whether the theme is a bundled theme.
+	 */
+	public isBundleTheme = (theme: string): theme is BundledTheme =>
+		Object.keys(this.bundledThemes).includes(theme);
+
+	/**
+	 * Checks if a theme is a dual theme.
+	 * @param theme The theme to check.
+	 * @returns Whether the theme is a dual theme.
+	 */
+	public isDualTheme = (theme: Theme | DualTheme): theme is DualTheme =>
+		typeof theme == 'object' && 'light' in theme && 'dark' in theme;
+
+	/**
+	 * Checks if a theme is a single theme.
+	 * @param theme The theme to check.
+	 * @returns Whether the theme is a single theme.
+	 */
+	public isSingleTheme = (theme: Theme | DualTheme): theme is Theme => !this.isDualTheme(theme);
+
+	/**
+	 * Checks if a language is a language registration.
+	 * @param lang The language to check.
+	 * @returns Whether the language is a language registration.
+	 */
+	public isLanguageRegistration = (lang: Language): lang is LanguageRegistration =>
+		typeof lang == 'object';
+
+	/**
+	 * Checks if a theme is a theme registration.
+	 * @param theme The theme to check.
+	 * @returns Whether the theme is a theme registration.
+	 */
+
+	public isThemeRegistration = (theme: Theme): theme is ThemeRegistration =>
+		typeof theme == 'object';
+
+	/**
+	 * Find all nested languages in the markdown text and load them into the highlighter.
+	 * @param text Markdown text to parse for nested languages.
+	 * @returns The set of nested languages found in the text.
+	 */
+	public findNestedLanguages = (text: string) => {
+		const languages = new Set<string>();
+
+		const regex = /```(\w+)$/gm;
+		let match: RegExpExecArray | null;
+		while ((match = regex.exec(text))) {
+			languages.add(match[1]);
+		}
+		return languages;
 	};
-};
+
+	/**
+	 * Load all nested languages found in the markdown text into the highlighter.
+	 * @param text The text to parse for nested languages.
+	 * @returns Whether the highlighter was updated with new languages.
+	 */
+	public loadNestedLanguages = async (text: string) => {
+		text = text.replaceAll('\r\n', '\n'); // Normalize line endings
+
+		const languages = this.findNestedLanguages(text);
+		const loadedLanguages = this.shiki!.getLoadedLanguages();
+		let updated = false;
+		for (const lang of languages) {
+			if (this.isBundleLanguage(lang) && !loadedLanguages.includes(lang)) {
+				await this.loadLanguage(lang);
+				loadedLanguages.push(lang);
+				updated = true;
+			}
+		}
+
+		return {
+			updated
+		};
+	};
+
+	/**
+	 * Inject custom Markdown grammar rules into the language.
+	 * @param lang The language to inject the grammar rules into.
+	 */
+	private injectGrammarRules(lang: LanguageRegistration) {
+		lang.repository = {
+			...lang.repository,
+			...Object.fromEntries(this.mGrammarRules.map(({ name, definition }) => [name, definition]))
+		};
+		for (const rule of this.mGrammarRules) {
+			if (rule.type === 'block') {
+				lang.repository.block.patterns!.unshift({ include: `#${rule.name}` });
+			} else {
+				lang.repository.inline.patterns!.unshift({ include: `#${rule.name}` });
+			}
+		}
+	}
+
+	/**
+	 * Inject custom Markdown highlighting rules into the theme.
+	 * @param theme The theme to inject the highlighting rules into.
+	 */
+	private injectHighlightingRules(theme: ThemeRegistration) {
+		if (theme.type === 'light') {
+			theme.tokenColors ||= [];
+			theme.tokenColors.unshift(...this.mHighlightingRules.map(({ light }) => light));
+		} else {
+			theme.tokenColors ||= [];
+			theme.tokenColors.unshift(...this.mHighlightingRules.map(({ dark }) => dark));
+		}
+	}
+}
