@@ -16,13 +16,13 @@ import { defaultIcons, type Icon, type DefaultIconId } from './icons';
 import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import { Renderer } from './renderer';
 import { CustomEvent, type MaybeArray } from './utils';
-import {
-	type Highlighter,
-	type GrammarRule,
-	type ShikiOptions,
-	type DualTheme,
-	type Theme,
-	type HighlightingRule
+import type {
+	Highlighter,
+	GrammarRule,
+	ShikiOptions,
+	DualTheme,
+	Theme,
+	HighlightingRule
 } from './highlight';
 let loadNestedLanguages;
 
@@ -43,8 +43,8 @@ export type Listener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 		ev: K extends CartaEventType
 			? Event
 			: K extends keyof HTMLElementEventMap
-			  ? HTMLElementEventMap[K]
-			  : Event
+				? HTMLElementEventMap[K]
+				: Event
 	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];
@@ -198,12 +198,12 @@ export class Carta {
 	public readonly components: ExtensionComponents;
 	public readonly dispatcher = new EventTarget();
 	public readonly syncProcessor: Processor;
-	public readonly asyncProcessor: Promise<Processor>;
+	public readonly asyncProcessor: Promise<Processor> | undefined;
 
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
-	private mHighlighter: Highlighter | undefined;
+	private mHighlighter: Promise<Highlighter> | undefined;
 	private mSyncTransformers: UnifiedTransformer<'sync'>[] = [];
 	private mAsyncTransformers: UnifiedTransformer<'async'>[] = [];
 
@@ -217,25 +217,24 @@ export class Carta {
 		return this.mRenderer;
 	}
 
-	public async highlighter(): Promise<Highlighter | undefined> {
-		if (!browser || this.mHighlighter) return this.mHighlighter;
+	public highlighter(): Promise<Highlighter> | undefined {
+		if (browser && !this.mHighlighter)
+			this.mHighlighter = this.getHighlighterPromise();
 
+		return this.mHighlighter;
+	}
+
+	private async getHighlighterPromise(): Promise<Highlighter> {
 		const hl = await import('./highlight');
 		const {loadHighlighter, loadDefaultTheme} = hl;
 		loadNestedLanguages = hl.loadNestedLanguages;
 
-		const getPromise = async () => {
-			return loadHighlighter({
-				theme: this.theme ?? (await loadDefaultTheme()),
-				grammarRules: this.grammarRules,
-				highlightingRules: this.highlightingRules,
-				shiki: this.shikiOptions
-			});
-		};
-		const promise: Promise<Highlighter> = getPromise();
-		this.mHighlighter = await promise;
-
-		return this.mHighlighter;
+		return loadHighlighter({
+			theme: this.theme ?? (await loadDefaultTheme()),
+			grammarRules: this.grammarRules,
+			highlightingRules: this.highlightingRules,
+			shiki: this.shikiOptions
+		});
 	}
 
 	private elementsToBind: {
@@ -320,7 +319,10 @@ export class Carta {
 		}
 
 		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: options?.gfmOptions });
-		this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: options?.gfmOptions });
+
+		this.asyncProcessor = browser
+			? this.setupAsynchronousProcessor({ gfmOptions: options?.gfmOptions })
+			: undefined;
 
 		for (const ext of options?.extensions ?? []) {
 			if (ext.onLoad) {
@@ -392,9 +394,10 @@ export class Carta {
 		// sanity check: this shouldn't happen
 		if (!browser) return this.renderSSR(markdown);
 
-		const processor = await this.asyncProcessor;
 		const highlighter = await this.highlighter();
 		await loadNestedLanguages(highlighter, markdown);
+
+		const processor = await this.asyncProcessor;
 		const dirty = String(await processor.process(markdown));
 		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(
@@ -475,7 +478,7 @@ export class Carta {
 	 * @example
 	 * ```svelte
 	 * <script>
-	 * 	export let carta;
+	 *   export let carta;
 	 * </script>
 	 *
 	 * <div use:carta.bindToCaret>
