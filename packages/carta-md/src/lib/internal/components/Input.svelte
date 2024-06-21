@@ -6,6 +6,7 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import type { Carta } from '../carta';
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
@@ -94,8 +95,12 @@
 		if (updated) highlight(text);
 	}, 300);
 
-	$: highlight(value).then(resize);
-	$: highlightNestedLanguages(value);
+	const onValueChange = (value) => {
+		highlight(value).then(resize);
+		highlightNestedLanguages(value);
+	};
+
+	$: if (browser) onValueChange(value);
 
 	onMount(() => {
 		mounted = true;

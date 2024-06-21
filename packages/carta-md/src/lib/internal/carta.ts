@@ -1,4 +1,5 @@
 import type { SvelteComponent } from 'svelte';
+import { browser } from '$app/environment';
 import { unified, type Processor } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm, { type Options as GfmOptions } from 'remark-gfm';
@@ -16,16 +17,14 @@ import { defaultPrefixes, type DefaultPrefixId, type Prefix } from './prefixes';
 import { Renderer } from './renderer';
 import { CustomEvent, type MaybeArray } from './utils';
 import {
-	loadHighlighter,
-	loadDefaultTheme,
 	type Highlighter,
 	type GrammarRule,
 	type ShikiOptions,
 	type DualTheme,
 	type Theme,
-	type HighlightingRule,
-	loadNestedLanguages
+	type HighlightingRule
 } from './highlight';
+let loadNestedLanguages;
 
 /**
  * Carta-specific event with extra payload.
@@ -204,7 +203,7 @@ export class Carta {
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
-	private mHighlighter: Highlighter | Promise<Highlighter> | undefined;
+	private mHighlighter: Highlighter | undefined;
 	private mSyncTransformers: UnifiedTransformer<'sync'>[] = [];
 	private mAsyncTransformers: UnifiedTransformer<'async'>[] = [];
 
@@ -218,19 +217,24 @@ export class Carta {
 		return this.mRenderer;
 	}
 
-	public async highlighter(): Promise<Highlighter> {
-		if (!this.mHighlighter) {
-			const promise = async () => {
-				return loadHighlighter({
-					theme: this.theme ?? (await loadDefaultTheme()),
-					grammarRules: this.grammarRules,
-					highlightingRules: this.highlightingRules,
-					shiki: this.shikiOptions
-				});
-			};
-			this.mHighlighter = promise();
-			this.mHighlighter = await this.mHighlighter;
-		}
+	public async highlighter(): Promise<Highlighter | undefined> {
+		if (!browser || this.mHighlighter) return this.mHighlighter;
+
+		const hl = await import('./highlight');
+		const {loadHighlighter, loadDefaultTheme} = hl;
+		loadNestedLanguages = hl.loadNestedLanguages;
+
+		const getPromise = async () => {
+			return loadHighlighter({
+				theme: this.theme ?? (await loadDefaultTheme()),
+				grammarRules: this.grammarRules,
+				highlightingRules: this.highlightingRules,
+				shiki: this.shikiOptions
+			});
+		};
+		const promise: Promise<Highlighter> = getPromise();
+		this.mHighlighter = await promise;
+
 		return this.mHighlighter;
 	}
 
@@ -386,8 +390,10 @@ export class Carta {
 	 */
 	public async render(markdown: string): Promise<string> {
 		const processor = await this.asyncProcessor;
-		const highlighter = await this.highlighter();
-		await loadNestedLanguages(highlighter, markdown);
+		if (browser) {
+			const highlighter = await this.highlighter();
+			await loadNestedLanguages(highlighter, markdown);
+		}
 		const dirty = String(await processor.process(markdown));
 		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(
