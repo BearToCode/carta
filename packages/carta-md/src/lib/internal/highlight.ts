@@ -32,10 +32,15 @@ export type HighlightingRule = {
  * Shiki options for the highlighter.
  */
 export type ShikiOptions = {
-	bundle: 'full' | 'web' | 'core';
+	bundle?: ShikiBundle;
 	themes?: Array<Theme>;
 	langs?: Array<Language>;
 };
+
+export type ShikiBundle = () => Promise<{
+	bundledLanguages: Record<string, DynamicImportLanguageRegistration>;
+	bundledThemes: Record<string, DynamicImportThemeRegistration>;
+}>;
 
 type CustomMarkdownLangName = Awaited<(typeof import('./assets/markdown'))['default']['name']>;
 type DefaultLightThemeName = Awaited<(typeof import('./assets/theme-light'))['default']['name']>;
@@ -101,7 +106,7 @@ export async function loadHighlighter({
 		grammarRules,
 		highlightingRules
 	});
-	const bundle = shiki?.bundle ?? 'full';
+	const bundle = shiki?.bundle;
 	const themes = shiki?.themes ?? [];
 	const langs = shiki?.langs ?? [];
 
@@ -163,36 +168,16 @@ export class Highlighter {
 	 * Loads a bundle into the highlighter.
 	 * @param bundle The bundle to load.
 	 */
-	public async loadBundle(bundle: 'full' | 'web' | 'core') {
-		switch (bundle) {
-			case 'full': {
-				const module = await import('shiki/bundle/full');
-				this.mBundledLanguages = module.bundledLanguages;
-				this.mBundledThemes = module.bundledThemes;
-				this.mShiki = await module.getHighlighterCore({
-					loadWasm: getWasm
-				});
-				break;
-			}
-			case 'web': {
-				const module = await import('shiki/bundle/web');
-				this.mBundledLanguages = module.bundledLanguages;
-				this.mBundledThemes = module.bundledThemes;
-				this.mShiki = await module.getHighlighterCore({
-					loadWasm: getWasm
-				});
-				break;
-			}
-			case 'core': {
-				const module = await import('shiki/core');
-				this.mBundledLanguages = {};
-				this.mBundledThemes = {};
-				this.mShiki = await module.getHighlighterCore({
-					loadWasm: getWasm
-				});
-				break;
-			}
+	public async loadBundle(bundle?: ShikiBundle) {
+		if (bundle) {
+			const module = await bundle();
+			this.mBundledLanguages = module.bundledLanguages;
+			this.mBundledThemes = module.bundledThemes;
 		}
+		const module = await import('shiki/core');
+		this.mShiki = await module.getHighlighterCore({
+			loadWasm: getWasm
+		});
 	}
 
 	/**

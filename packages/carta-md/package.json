@@ -14,6 +14,14 @@
 			"svelte": "./dist/index.js",
 			"import": "./dist/index.js"
 		},
+		"./bundle/full": {
+			"types": "./dist/bundle/full.d.ts",
+			"import": "./dist/bundle/full.js"
+		},
+		"./bundle/web": {
+			"types": "./dist/bundle/web.d.ts",
+			"import": "./dist/bundle/web.js"
+		},
 		"./default.css": "./dist/default.css"
 	},
 	"version": "3.0.0",
