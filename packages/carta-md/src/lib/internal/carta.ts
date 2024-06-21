@@ -389,11 +389,12 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
+		// sanity check: this shouldn't happen
+		if (!browser) return this.renderSSR(markdown);
+
 		const processor = await this.asyncProcessor;
-		if (browser) {
-			const highlighter = await this.highlighter();
-			await loadNestedLanguages(highlighter, markdown);
-		}
+		const highlighter = await this.highlighter();
+		await loadNestedLanguages(highlighter, markdown);
 		const dirty = String(await processor.process(markdown));
 		if (!dirty) return '';
 		this.dispatcher.dispatchEvent(
