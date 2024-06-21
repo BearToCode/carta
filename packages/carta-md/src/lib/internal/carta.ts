@@ -217,24 +217,29 @@ export class Carta {
 		return this.mRenderer;
 	}
 
-	public highlighter(): Promise<Highlighter> | undefined {
-		if (browser && !this.mHighlighter)
-			this.mHighlighter = this.getHighlighterPromise();
+	public async highlighter(): Promise<Highlighter | undefined> {
+		if (!browser || this.mHighlighter)
+			return this.mHighlighter;
 
-		return this.mHighlighter;
-	}
+		let resolve;
+		this.mHighlighter = new Promise(res => {
+				resolve = res;
+		});
 
-	private async getHighlighterPromise(): Promise<Highlighter> {
 		const hl = await import('./highlight');
 		const {loadHighlighter, loadDefaultTheme} = hl;
 		loadNestedLanguages = hl.loadNestedLanguages;
 
-		return loadHighlighter({
-			theme: this.theme ?? (await loadDefaultTheme()),
-			grammarRules: this.grammarRules,
-			highlightingRules: this.highlightingRules,
-			shiki: this.shikiOptions
-		});
+		resolve(
+			await loadHighlighter({
+				theme: this.theme ?? (await loadDefaultTheme()),
+				grammarRules: this.grammarRules,
+				highlightingRules: this.highlightingRules,
+				shiki: this.shikiOptions
+			})
+		);
+
+		return this.mHighlighter;
 	}
 
 	private elementsToBind: {
