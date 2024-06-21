@@ -1,11 +1,11 @@
-import {
-	type BundledTheme,
-	type BundledLanguage,
-	type LanguageRegistration,
-	type ThemeRegistration,
-	type HighlighterCore,
-	type DynamicImportLanguageRegistration,
-	type DynamicImportThemeRegistration
+import type {
+	BundledTheme,
+	BundledLanguage,
+	LanguageRegistration,
+	ThemeRegistration,
+	HighlighterCore,
+	DynamicImportLanguageRegistration,
+	DynamicImportThemeRegistration
 } from 'shiki';
 import type { Intellisense } from './utils';
 import customMarkdown from './assets/markdown';
