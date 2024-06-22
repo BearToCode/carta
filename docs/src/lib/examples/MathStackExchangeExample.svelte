@@ -24,10 +24,7 @@
 						.replaceAll('~~~', '#fff');
 				}
 			})
-		],
-		shikiOptions: {
-			bundle: () => import('carta-md/bundle/web')
-		}
+		]
 	});
 
 	export let value = placeholder;

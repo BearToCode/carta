@@ -21,10 +21,7 @@
 					}
 				]
 			}
-		],
-		shikiOptions: {
-			bundle: () => import('carta-md/bundle/web')
-		}
+		]
 	});
 </script>
 

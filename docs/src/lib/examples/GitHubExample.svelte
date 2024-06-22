@@ -18,10 +18,7 @@
 			emoji(),
 			slash(),
 			code()
-		],
-		shikiOptions: {
-			bundle: () => import('carta-md/bundle/web')
-		}
+		]
 	});
 
 	export let value = `This is an example inspired by [GitHub](https://github.com)

@@ -32,15 +32,9 @@ export type HighlightingRule = {
  * Shiki options for the highlighter.
  */
 export type ShikiOptions = {
-	bundle?: ShikiBundle;
 	themes?: Array<Theme>;
 	langs?: Array<Language>;
 };
-
-export type ShikiBundle = () => Promise<{
-	bundledLanguages: Record<string, DynamicImportLanguageRegistration>;
-	bundledThemes: Record<string, DynamicImportThemeRegistration>;
-}>;
 
 type CustomMarkdownLangName = Awaited<(typeof import('./assets/markdown'))['default']['name']>;
 type DefaultLightThemeName = Awaited<(typeof import('./assets/theme-light'))['default']['name']>;
@@ -106,11 +100,10 @@ export async function loadHighlighter({
 		grammarRules,
 		highlightingRules
 	});
-	const bundle = shiki?.bundle;
 	const themes = shiki?.themes ?? [];
 	const langs = shiki?.langs ?? [];
 
-	await highlighter.loadBundle(bundle);
+	await highlighter.loadBundle();
 	for (const lang of langs) {
 		await highlighter.loadLanguage(lang);
 	}
@@ -165,16 +158,11 @@ export class Highlighter {
 	}
 
 	/**
-	 * Loads a bundle into the highlighter.
+	 * Loads the bundle into the highlighter.
 	 * @param bundle The bundle to load.
 	 */
-	public async loadBundle(bundle?: ShikiBundle) {
-		if (bundle) {
-			const module = await bundle();
-			this.mBundledLanguages = module.bundledLanguages;
-			this.mBundledThemes = module.bundledThemes;
-		}
-		const module = await import('shiki/core');
+	public async loadBundle() {
+		const module = await import('shiki/bundle/full');
 		this.mShiki = await module.getHighlighterCore({
 			loadWasm: getWasm
 		});

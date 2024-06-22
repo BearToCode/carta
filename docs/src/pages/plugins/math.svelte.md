@@ -10,10 +10,7 @@ title: Math
   import 'katex/dist/katex.css';
 
   const carta = new Carta({
-    extensions: [math()],
-		shikiOptions: {
-			bundle: () => import('carta-md/bundle/full')
-		}
+    extensions: [math()]
   })
   export let inline = "$a^2+b^2=c^2$";
   export let block = `

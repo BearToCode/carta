@@ -3,7 +3,7 @@
 		<img src="https://img.shields.io/npm/v/carta-md?color=ff7cc6&labelColor=171d27&logo=npm&logoColor=white" alt="npm">
 	</a>
 	<a href="https://ko-fi.com/beartocode">
-		<img src="https://img.shields.io/badge/Ko--fi-FF5E5B?logo=ko-fi&logoColor=white&color=4dacfa&labelColor=171d27&label=Donate" alt="bundle">
+		<img src="https://img.shields.io/badge/Ko--fi-FF5E5B?logo=ko-fi&logoColor=white&color=4dacfa&labelColor=171d27&label=Donate" alt="donate">
 	</a>
 	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE">
 		<img src="https://img.shields.io/npm/l/carta-md?color=71d58a&labelColor=171d27&logo=git&logoColor=white" alt="license">
