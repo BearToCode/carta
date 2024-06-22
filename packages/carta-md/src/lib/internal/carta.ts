@@ -197,6 +197,7 @@ export class Carta {
 	public readonly cartaListeners: Listeners;
 	public readonly components: ExtensionComponents;
 	public readonly dispatcher = new EventTarget();
+	public readonly gfmOptions: GfmOptions | undefined;
 	public readonly syncProcessor: Processor;
 	public readonly asyncProcessor: Promise<Processor> | undefined;
 
@@ -217,13 +218,13 @@ export class Carta {
 		return this.mRenderer;
 	}
 
-	public async highlighter(): Promise<Highlighter | undefined> {
-		if (!browser || this.mHighlighter)
+	public async highlighter(allowSSR?: boolean = false): Promise<Highlighter | undefined> {
+		if ((!browser && !allowSSR) || this.mHighlighter)
 			return this.mHighlighter;
 
 		let resolve;
 		this.mHighlighter = new Promise(res => {
-				resolve = res;
+			resolve = res;
 		});
 
 		const hl = await import('./highlight');
@@ -323,10 +324,10 @@ export class Carta {
 			}
 		}
 
-		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: options?.gfmOptions });
-
+		this.gfmOptions = options?.gfmOptions;
+		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: this.gfmOptions });
 		this.asyncProcessor = browser
-			? this.setupAsynchronousProcessor({ gfmOptions: options?.gfmOptions })
+			? this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions })
 			: undefined;
 
 		for (const ext of options?.extensions ?? []) {
@@ -395,12 +396,15 @@ export class Carta {
 	 * @param markdown Markdown input.
 	 * @returns Rendered html.
 	 */
-	public async render(markdown: string): Promise<string> {
+	public async render(markdown: string, allowSSR?: boolean = false): Promise<string> {
 		// sanity check: this shouldn't happen
-		if (!browser) return this.renderSSR(markdown);
+		if (!browser && !allowSSR) return this.renderSSR(markdown);
 
-		const highlighter = await this.highlighter();
+		const highlighter = await this.highlighter(allowSSR);
 		await loadNestedLanguages(highlighter, markdown);
+
+		if (!this.asyncProcessor)
+			this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions });
 
 		const processor = await this.asyncProcessor;
 		const dirty = String(await processor.process(markdown));
