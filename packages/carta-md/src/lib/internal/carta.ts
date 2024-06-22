@@ -218,8 +218,8 @@ export class Carta {
 		return this.mRenderer;
 	}
 
-	public async highlighter(allowSSR?: boolean = false): Promise<Highlighter | undefined> {
-		if ((!browser && !allowSSR) || this.mHighlighter)
+	public async highlighter(): Promise<Highlighter | undefined> {
+		if ((!browser && !__ENABLE_CARTA_SSR_HIGHLIGHTER__) || this.mHighlighter)
 			return this.mHighlighter;
 
 		let resolve;
@@ -396,12 +396,13 @@ export class Carta {
 	 * @param markdown Markdown input.
 	 * @returns Rendered html.
 	 */
-	public async render(markdown: string, allowSSR?: boolean = false): Promise<string> {
-		// sanity check: this shouldn't happen
-		if (!browser && !allowSSR) return this.renderSSR(markdown);
+	public async render(markdown: string): Promise<string> {
+		if (!browser && !__ENABLE_CARTA_SSR_ASYNC_PLUGINS__) return this.renderSSR(markdown);
 
-		const highlighter = await this.highlighter(allowSSR);
-		await loadNestedLanguages(highlighter, markdown);
+		if (!browser && __ENABLE_CARTA_SSR_HIGHLIGHTER__) {
+			const highlighter = await this.highlighter();
+			await loadNestedLanguages(highlighter, markdown);
+		}
 
 		if (!this.asyncProcessor)
 			this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions });
