@@ -36,14 +36,16 @@ export const code = (options?: CodeExtensionOptions): Plugin => {
 					let theme = options?.theme;
 
 					const highlighter = await carta.highlighter();
-					if (!theme) {
-						theme = highlighter.theme; // Use the theme specified in the highlighter
-					}
+					if (highlighter) {
+						if (!theme) {
+							theme = highlighter.theme; // Use the theme specified in the highlighter
+						}
 
-					if (isSingleTheme(theme)) {
-						processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, theme });
-					} else {
-						processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, themes: theme });
+						if (isSingleTheme(theme)) {
+							processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, theme });
+						} else {
+							processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, themes: theme });
+						}
 					}
 				}
 			}
