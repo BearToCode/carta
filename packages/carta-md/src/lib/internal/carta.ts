@@ -399,7 +399,7 @@ export class Carta {
 	public async render(markdown: string): Promise<string> {
 		if (!browser && !__ENABLE_CARTA_SSR_ASYNC_PLUGINS__) return this.renderSSR(markdown);
 
-		if (!browser && __ENABLE_CARTA_SSR_HIGHLIGHTER__) {
+		if (browser || __ENABLE_CARTA_SSR_HIGHLIGHTER__) {
 			const highlighter = await this.highlighter();
 			await loadNestedLanguages(highlighter, markdown);
 		}
