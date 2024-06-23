@@ -6,14 +6,15 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from '../carta';
-	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
+	import type { TextAreaProps } from '../textarea-props';
+	import type { CartaBrowser } from '$lib/bundle/browser';
+	import type { Highlighter } from '../highlight';
 
 	/**
 	 * The Carta instance to use.
 	 */
-	export let carta: Carta;
+	export let carta: CartaBrowser;
 	/**
 	 * The editor content.
 	 */
@@ -30,6 +31,10 @@
 	 * Additional textarea properties.
 	 */
 	export let props: TextAreaProps = {};
+	/**
+	 * The highlighter instance to use.
+	 */
+	export let highlighter: Highlighter | undefined;
 
 	let textarea: HTMLTextAreaElement;
 	let highlighElem: HTMLDivElement;
@@ -46,6 +51,9 @@
 		textarea.scrollTop = 0;
 	};
 
+	/**
+	 * Focus the textarea.
+	 */
 	const focus = () => {
 		// Allow text selection
 		const selectedText = window.getSelection()?.toString();
@@ -59,7 +67,7 @@
 	 * @param text The text to highlight.
 	 */
 	const highlight = async (text: string) => {
-		const highlighter = await carta.highlighter();
+		if (!highlighter) return;
 		const html = highlighter.highlightMarkdown(text) ?? '';
 
 		if (carta.sanitizer) {
@@ -74,25 +82,35 @@
 	 * languages if needed.
 	 */
 	const highlightNestedLanguages = debounce(async (text: string) => {
-		const highlighter = await carta.highlighter();
+		if (!highlighter) return;
 		const { updated } = await highlighter.loadNestedLanguages(text);
 		if (updated) highlight(text);
 	}, 300);
 
-	$: highlight(value).then(resize);
-	$: highlightNestedLanguages(value);
+	/**
+	 * Callback when the highlighter is loaded.
+	 */
+	const onHighlighterLoad = () => {
+		highlightNestedLanguages(value);
+		highlight(value);
+	};
 
 	onMount(() => {
 		mounted = true;
 		// Resize once the DOM is updated.
 		requestAnimationFrame(resize);
 	});
-	onMount(() => {
+
+	onMount(async () => {
 		carta.$setInput(textarea, elem, () => {
 			value = textarea.value;
 			highlight(value);
 		});
 	});
+
+	$: highlight(value).then(resize);
+	$: highlightNestedLanguages(value);
+	$: highlighter && onHighlighterLoad();
 </script>
 
 <div role="tooltip" id="editor-unfocus-suggestion">

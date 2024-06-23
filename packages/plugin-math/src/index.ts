@@ -1,4 +1,5 @@
 import type { Plugin } from 'carta-md';
+import type { CartaBrowser } from 'carta-md/bundle/browser';
 import remarkMath, { type Options as RemarkMathOptions } from 'remark-math';
 import rehypeKatex, { type Options as RehypeKatexOptions } from 'rehype-katex';
 
@@ -40,9 +41,11 @@ interface MathExtensionOptions {
 export const math = (options?: MathExtensionOptions): Plugin => {
 	return {
 		onLoad: async ({ carta }) => {
-			const highlighter = await carta.highlighter();
+			if (carta.bundle() !== 'browser') return;
+			const browserBundle = carta as CartaBrowser;
+			const highlighter = await browserBundle.highlighter();
 			await highlighter.loadLanguage('tex');
-			carta.input?.update();
+			browserBundle.input?.update();
 		},
 		transformers: [
 			{

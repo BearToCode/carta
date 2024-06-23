@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { MarkdownEditor } from '$lib';
-	import { Carta } from '$lib/internal/carta';
+	import { Carta, MarkdownEditor } from '$lib';
 	import ToggleTheme from './ToggleTheme.svelte';
 	import sampleText from './sample.md?raw';
 	import '$lib/default.css';
 
-	const carta = new Carta();
+	const carta = new Carta({
+		sanitizer: false
+	});
 </script>
 
 <svelte:head>

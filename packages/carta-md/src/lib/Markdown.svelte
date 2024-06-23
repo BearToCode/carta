@@ -7,12 +7,12 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from '.';
+	import type { CartaBrowser } from './bundle/browser';
 
 	/**
 	 * The Carta instance to use.
 	 */
-	export let carta: Carta;
+	export let carta: CartaBrowser;
 	/**
 	 * Content to render.
 	 */

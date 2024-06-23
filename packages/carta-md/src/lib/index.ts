@@ -1,15 +1,20 @@
 export { default as MarkdownEditor } from '$lib/MarkdownEditor.svelte';
 export { default as Markdown } from '$lib/Markdown.svelte';
 export { default as PreRendered } from '$lib/PreRendered.svelte';
-export type { InputEnhancer, TextSelection } from '$lib/internal/input';
-export type { Icon } from '$lib/internal/icons';
-export type { KeyboardShortcut } from '$lib/internal/shortcuts';
-export type { Prefix } from '$lib/internal/prefixes';
-export * from '$lib/internal/carta';
-export * from '$lib/internal/highlight';
-export * from '$lib/internal/textarea-props';
-export * from '$lib/internal/labels';
-export * from './default.css?inline';
+
+export * from '$lib/core/input';
+export * from '$lib/core/icons';
+export * from '$lib/core/shortcuts';
+export * from '$lib/core/prefixes';
+export * from '$lib/core/carta';
+export * from '$lib/core/textarea-props';
+export * from '$lib/core/labels';
+
+// Only export types from the highlight module
+export type * from '$lib/core/highlight';
+
+// Default bundle is the browser one
+export { CartaBrowser as Carta } from '$lib/bundle/browser';
 
 // Legacy
 export { default as CartaEditor } from '$lib/MarkdownEditor.svelte';

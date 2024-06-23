@@ -1,6 +1,8 @@
-import type { Carta, Plugin } from 'carta-md';
+import type { Plugin } from 'carta-md';
 import type { Plugin as UnifiedPlugin } from 'unified';
 import type * as hast from 'hast';
+import type { CartaBrowser } from 'carta-md/bundle/browser';
+import type { CartaBase } from 'carta-md/bundle/base';
 
 export interface TikzExtensionOptions {
 	/**
@@ -30,9 +32,11 @@ export interface TikzExtensionOptions {
 export const tikz = (options?: TikzExtensionOptions): Plugin => {
 	return {
 		onLoad: async ({ carta }) => {
-			const highlighter = await carta.highlighter();
+			if (carta.bundle() !== 'browser') return;
+			const browserBundle = carta as CartaBrowser;
+			const highlighter = await browserBundle.highlighter();
 			await highlighter.loadLanguage('tex');
-			carta.input?.update();
+			browserBundle.input?.update();
 		},
 		transformers: [
 			{
@@ -88,7 +92,7 @@ const browser = async () => (browserModule ??= await import('./browser'));
 const node = async () => (nodeModule ??= await import('./node'));
 
 const tikzTransformer: UnifiedPlugin<
-	[{ carta: Carta; options: TikzExtensionOptions | undefined }],
+	[{ carta: CartaBase; options: TikzExtensionOptions | undefined }],
 	hast.Root
 > = ({ carta, options }) => {
 	return async function (tree) {

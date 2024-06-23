@@ -5,8 +5,8 @@
 
 <script lang="ts">
 	import type { Labels } from '../labels';
+	import type { CartaBrowser } from '$lib/bundle/browser';
 	import { handleArrowKeysNavigation } from '../accessibility';
-	import type { Carta } from '../carta';
 	import MenuIcon from './icons/MenuIcon.svelte';
 	import { onMount } from 'svelte';
 	import { debounce } from '../utils';
@@ -14,7 +14,7 @@
 	/**
 	 * The Carta instance to use.
 	 */
-	export let carta: Carta;
+	export let carta: CartaBrowser;
 	/**
 	 * The current editor mode.
 	 */

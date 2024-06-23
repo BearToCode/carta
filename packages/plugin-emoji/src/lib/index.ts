@@ -3,7 +3,6 @@ import remarkGemoji from 'remark-gemoji';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import Emoji from './Emoji.svelte';
 import BezierEasing from 'bezier-easing';
-export * from './default.css?inline';
 
 export interface EmojiExtensionOptions {
 	/**

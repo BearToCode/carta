@@ -14,6 +14,22 @@
 			"svelte": "./dist/index.js",
 			"import": "./dist/index.js"
 		},
+		"./bundle/base": {
+			"types": "./dist/bundle/base.d.ts",
+			"import": "./dist/bundle/base.js"
+		},
+		"./bundle/server": {
+			"types": "./dist/bundle/server.d.ts",
+			"import": "./dist/bundle/server.js"
+		},
+		"./bundle/browser": {
+			"types": "./dist/bundle/browser.d.ts",
+			"import": "./dist/bundle/browser.js"
+		},
+		"./core/*": {
+			"types": "./dist/core/*.d.ts",
+			"import": "./dist/core/*.js"
+		},
 		"./default.css": "./dist/default.css"
 	},
 	"version": "3.0.0",

@@ -6,19 +6,20 @@
 -->
 
 <script lang="ts">
-	import type { Carta } from './internal/carta';
 	import { onMount } from 'svelte';
-	import Renderer from './internal/components/Renderer.svelte';
-	import Input from './internal/components/Input.svelte';
-	import { debounce } from './internal/utils';
-	import type { TextAreaProps } from './internal/textarea-props';
-	import { defaultLabels, type Labels } from './internal/labels';
-	import Toolbar from './internal/components/Toolbar.svelte';
+	import type { CartaBrowser } from './bundle/browser';
+	import type { TextAreaProps } from './core/textarea-props';
+	import type { Highlighter } from './core/highlight';
+	import { defaultLabels, type Labels } from './core/labels';
+	import { debounce } from './core/utils';
+	import Toolbar from './core/components/Toolbar.svelte';
+	import Input from './core/components/Input.svelte';
+	import Renderer from './core/components/Renderer.svelte';
 
 	/**
 	 * The Carta instance to use.
 	 */
-	export let carta: Carta;
+	export let carta: CartaBrowser;
 	/**
 	 * The theme to use, which translates to the CSS class `carta-theme__{theme}`.
 	 */
@@ -77,6 +78,7 @@
 	let rendererElem: HTMLDivElement;
 	let currentlyScrolling: HTMLDivElement | null;
 	let currentScrollPercentage = 0;
+	let highlighter: Highlighter;
 
 	$: {
 		// Change the window mode based on the width
@@ -158,6 +160,16 @@
 
 	onMount(() => carta.$setElement(editorElem));
 	onMount(() => (mounted = true));
+	onMount(async () => {
+		const module = await import('$lib/core/highlight');
+		highlighter = await module.loadHighlighter({
+			grammarRules: carta.grammarRules,
+			highlightingRules: carta.highlightingRules,
+			theme: carta.theme ?? (await module.loadDefaultTheme()),
+			shiki: carta.shikiOptions
+		});
+		carta.$setHighlighter(highlighter);
+	});
 </script>
 
 <div bind:this={editorElem} bind:clientWidth={width} class="carta-editor carta-theme__{theme}">
@@ -171,11 +183,12 @@
 				<Input
 					{carta}
 					{placeholder}
+					{highlighter}
 					props={textarea}
 					bind:value
 					bind:resize={resizeInput}
 					bind:elem={inputElem}
-					on:scroll{handleScroll}
+					on:scroll={handleScroll}
 				>
 					<!-- Input extensions components -->
 					{#if mounted}

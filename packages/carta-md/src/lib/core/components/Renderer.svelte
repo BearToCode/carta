@@ -6,13 +6,13 @@
 
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
-	import type { Carta } from '../carta';
 	import { debounce } from '../utils';
+	import type { CartaBrowser } from '$lib/bundle/browser';
 
 	/**
 	 * The Carta instance to use.
 	 */
-	export let carta: Carta;
+	export let carta: CartaBrowser;
 	/**
 	 * The markdown content to render.
 	 */

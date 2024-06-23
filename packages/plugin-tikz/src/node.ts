@@ -1,5 +1,5 @@
 import { load, tex, dvi2svg } from 'node-tikzjax';
-import type { Carta } from 'carta-md';
+import type { CartaBase } from 'carta-md/bundle/base';
 import { EXIT, SKIP, visit } from 'unist-util-visit';
 import type { TikzExtensionOptions } from '.';
 import * as hast from 'hast';
@@ -9,7 +9,7 @@ import rehypeParse from 'rehype-parse';
 
 export const nodeTikzTransform = async (
 	root: hast.Root,
-	carta: Carta,
+	carta: CartaBase,
 	options: TikzExtensionOptions | undefined
 ) => {
 	const tasks: Promise<void>[] = [];

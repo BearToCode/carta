@@ -1,18 +1,20 @@
-import type { Event, Carta } from 'carta-md';
 import { SKIP } from 'unist-util-visit';
 import { fromDom } from 'hast-util-from-dom';
 import { visit } from 'unist-util-visit';
-import type { TikzExtensionOptions } from '.';
 import md5 from 'md5';
-import type * as hast from 'hast';
 import { tidyTikzSource } from './utils';
+import type { Event } from 'carta-md';
+import type { TikzExtensionOptions } from '.';
+import type * as hast from 'hast';
+import type { CartaBase } from 'carta-md/bundle/base';
+import type { CartaBrowser } from 'carta-md/bundle/browser';
 
 // Keeps track of tikz generation to remove previous items
 let currentGeneration = 0;
 
 export const browserTikzTransform = (
 	root: hast.Root,
-	carta: Carta,
+	carta: CartaBase,
 	options: TikzExtensionOptions | undefined
 ) =>
 	visit(root, (pre, index, parent) => {
@@ -72,7 +74,8 @@ declare global {
 
 export function processTikzScripts(e: Event, options?: TikzExtensionOptions) {
 	const carta = e.detail.carta;
-	const container = carta.renderer?.container;
+	if (carta.bundle() !== 'browser') return;
+	const container = (carta as CartaBrowser).renderer?.container;
 	if (!container) {
 		console.error(`Failed to process tikz code: cannot find renderer container element.`);
 		return;

@@ -1,7 +1,8 @@
-import type { DualTheme, Theme, Plugin } from 'carta-md';
-import type { HighlighterGeneric } from 'shiki';
+import type { DualTheme, Plugin, Theme } from 'carta-md';
 import type { RehypeShikiOptions } from '@shikijs/rehype';
-import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
+import type { CartaBrowser } from 'carta-md/bundle/browser';
+import { loadDefaultTheme } from 'carta-md/core/highlight';
+import rehypeShiki from '@shikijs/rehype';
 
 export type CodeExtensionOptions = Omit<RehypeShikiOptions, 'theme' | 'themes'> & {
 	theme?: Theme | DualTheme;
@@ -19,24 +20,16 @@ export const code = (options?: CodeExtensionOptions): Plugin => {
 				async transform({ processor, carta }) {
 					let theme = options?.theme;
 
-					const highlighter = await carta.highlighter();
-					if (!theme) {
-						theme = highlighter.theme!; // Use the theme specified in the highlighter
+					if (carta.bundle() == 'browser') {
+						theme ??= (carta as CartaBrowser).theme ?? (await loadDefaultTheme());
 					}
 
-					if (highlighter.isSingleTheme(theme)) {
-						processor.use(
-							rehypeShikiFromHighlighter,
-							highlighter.shiki! as HighlighterGeneric<string, string>,
-							{ ...options, theme }
-						);
-					} else {
-						processor.use(
-							rehypeShikiFromHighlighter,
-							highlighter.shiki! as HighlighterGeneric<string, string>,
-							{ ...options, themes: theme }
-						);
-					}
+					processor.use(rehypeShiki, {
+						...options,
+						...(typeof theme == 'object' && 'light' in theme && 'dark' in theme
+							? { themes: theme as DualTheme }
+							: { theme: theme as Theme })
+					});
 				}
 			}
 		]

@@ -163,6 +163,8 @@ export class Highlighter {
 	 */
 	public async loadBundle() {
 		const module = await import('shiki/bundle/full');
+		this.mBundledLanguages = module.bundledLanguages;
+		this.mBundledThemes = module.bundledThemes;
 		this.mShiki = await module.getHighlighterCore({
 			loadWasm: getWasm
 		});
