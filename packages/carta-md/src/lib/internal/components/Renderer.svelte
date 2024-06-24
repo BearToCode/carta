@@ -6,7 +6,6 @@
 
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import type { Carta } from '../carta';
 	import { debounce } from '../utils';
 
@@ -34,11 +33,11 @@
 			.then(() => events('render', void 0));
 	}, carta.rendererDebounce ?? 300);
 
-	const onValueChange = (value) => {
+	const onValueChange = (value: string) => {
 		debouncedRenderer(value);
 	};
 
-	$: if (browser) onValueChange(value);
+	$: if (mounted) onValueChange(value);
 
 	onMount(() => carta.$setRenderer(elem));
 	onMount(() => (mounted = true));

@@ -6,11 +6,10 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import type { Carta } from '../carta';
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
-	import { isSingleTheme, loadNestedLanguages } from '../highlight';
+	import { BROWSER } from 'esm-env';
 
 	/**
 	 * The Carta instance to use.
@@ -62,7 +61,11 @@
 	 */
 	const highlight = async (text: string) => {
 		const highlighter = await carta.highlighter();
+		if (!highlighter) return;
 		let html: string;
+
+		const hl = await import('$lib/internal/highlight');
+		const { isSingleTheme } = hl;
 
 		if (isSingleTheme(highlighter.theme)) {
 			// Single theme
@@ -91,16 +94,21 @@
 	 */
 	const highlightNestedLanguages = debounce(async (text: string) => {
 		const highlighter = await carta.highlighter();
+
+		const hl = await import('$lib/internal/highlight');
+		const { loadNestedLanguages } = hl;
+
+		if (!highlighter) return;
 		const { updated } = await loadNestedLanguages(highlighter, text);
 		if (updated) highlight(text);
 	}, 300);
 
-	const onValueChange = (value) => {
+	const onValueChange = (value: string) => {
 		highlight(value).then(resize);
 		highlightNestedLanguages(value);
 	};
 
-	$: if (browser) onValueChange(value);
+	$: if (BROWSER) onValueChange(value);
 
 	onMount(() => {
 		mounted = true;

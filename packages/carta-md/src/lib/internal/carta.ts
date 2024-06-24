@@ -1,5 +1,4 @@
 import type { SvelteComponent } from 'svelte';
-import { browser } from '$app/environment';
 import { unified, type Processor } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm, { type Options as GfmOptions } from 'remark-gfm';
@@ -24,7 +23,7 @@ import type {
 	Theme,
 	HighlightingRule
 } from './highlight';
-let loadNestedLanguages;
+import { BROWSER } from 'esm-env';
 
 /**
  * Carta-specific event with extra payload.
@@ -43,8 +42,8 @@ export type Listener<K extends CartaEventType | keyof HTMLElementEventMap> = [
 		ev: K extends CartaEventType
 			? Event
 			: K extends keyof HTMLElementEventMap
-				? HTMLElementEventMap[K]
-				: Event
+			  ? HTMLElementEventMap[K]
+			  : Event
 	) => unknown,
 	options?: boolean | AddEventListenerOptions
 ];
@@ -199,7 +198,7 @@ export class Carta {
 	public readonly dispatcher = new EventTarget();
 	public readonly gfmOptions: GfmOptions | undefined;
 	public readonly syncProcessor: Processor;
-	public readonly asyncProcessor: Promise<Processor> | undefined;
+	public readonly asyncProcessor: Promise<Processor>;
 
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
@@ -219,26 +218,25 @@ export class Carta {
 	}
 
 	public async highlighter(): Promise<Highlighter | undefined> {
-		if ((!browser && !__ENABLE_CARTA_SSR_HIGHLIGHTER__) || this.mHighlighter)
-			return this.mHighlighter;
+		if (this.mHighlighter) return this.mHighlighter;
+		if (
+			!BROWSER &&
+			// Replaced at build time to tree-shake the shiki, if it disabled
+			typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ !== 'undefined' &&
+			__ENABLE_CARTA_SSR_HIGHLIGHTER__ === false
+		)
+			return;
 
-		let resolve;
-		this.mHighlighter = new Promise(res => {
-			resolve = res;
-		});
-
-		const hl = await import('./highlight');
-		const {loadHighlighter, loadDefaultTheme} = hl;
-		loadNestedLanguages = hl.loadNestedLanguages;
-
-		resolve(
-			await loadHighlighter({
+		this.mHighlighter = (async () => {
+			const hl = await import('./highlight');
+			const { loadHighlighter, loadDefaultTheme } = hl;
+			return loadHighlighter({
 				theme: this.theme ?? (await loadDefaultTheme()),
 				grammarRules: this.grammarRules,
 				highlightingRules: this.highlightingRules,
 				shiki: this.shikiOptions
-			})
-		);
+			});
+		})();
 
 		return this.mHighlighter;
 	}
@@ -326,9 +324,7 @@ export class Carta {
 
 		this.gfmOptions = options?.gfmOptions;
 		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: this.gfmOptions });
-		this.asyncProcessor = browser
-			? this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions })
-			: undefined;
+		this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions });
 
 		for (const ext of options?.extensions ?? []) {
 			if (ext.onLoad) {
@@ -397,15 +393,18 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		if (!browser && !__ENABLE_CARTA_SSR_ASYNC_PLUGINS__) return this.renderSSR(markdown);
+		if (
+			BROWSER ||
+			// Replaced at build time to tree-shake the shiki, if it disabled
+			typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ === 'undefined' ||
+			__ENABLE_CARTA_SSR_HIGHLIGHTER__ === true
+		) {
+			const hl = await import('./highlight');
+			const { loadNestedLanguages } = hl;
 
-		if (browser || __ENABLE_CARTA_SSR_HIGHLIGHTER__) {
-			const highlighter = await this.highlighter();
+			const highlighter = (await this.highlighter()) as Highlighter;
 			await loadNestedLanguages(highlighter, markdown);
 		}
-
-		if (!this.asyncProcessor)
-			this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions });
 
 		const processor = await this.asyncProcessor;
 		const dirty = String(await processor.process(markdown));
