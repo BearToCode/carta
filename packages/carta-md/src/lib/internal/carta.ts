@@ -221,7 +221,7 @@ export class Carta {
 		if (this.mHighlighter) return this.mHighlighter;
 		if (
 			!BROWSER &&
-			// Replaced at build time to tree-shake the shiki, if it disabled
+			// Replaced at build time to tree-shake shiki on the server, if specified
 			typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ !== 'undefined' &&
 			__ENABLE_CARTA_SSR_HIGHLIGHTER__ === false
 		)
@@ -395,7 +395,7 @@ export class Carta {
 	public async render(markdown: string): Promise<string> {
 		if (
 			BROWSER ||
-			// Replaced at build time to tree-shake the shiki, if it disabled
+			// Replaced at build time to tree-shake shiki on the server, if specified
 			typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ === 'undefined' ||
 			__ENABLE_CARTA_SSR_HIGHLIGHTER__ === true
 		) {
