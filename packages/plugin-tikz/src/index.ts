@@ -31,6 +31,7 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 	return {
 		onLoad: async ({ carta }) => {
 			const highlighter = await carta.highlighter();
+			if (!highlighter) return;
 			await highlighter.loadLanguage('tex');
 			carta.input?.update();
 		},
