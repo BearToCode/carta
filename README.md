@@ -122,6 +122,24 @@ npm i @cartamd/plugin-name
 </style>
 ```
 
+## Flags
+
+You can reduce the server-side bundle by using the following vite config. This will remove shiki from the bundle. It may cause issues if you try to use `plugin-code` on the server, as the highlighter is no longer present there.
+
+```ts
+// vite.config.js
+import { sveltekit } from '@sveltejs/kit/vite';
+
+/** @type {import('vite').UserConfig} */
+const config = {
+	plugins: [sveltekit()],
+	define: {
+		__ENABLE_CARTA_SSR_HIGHLIGHTER__: false
+	}
+};
+export default config;
+```
+
 # Documentation
 
 For the full documentation, examples, guides and more checkout the [website](https://beartocode.github.io/carta/).
