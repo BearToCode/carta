@@ -11,19 +11,19 @@
 		<link href="./_app/immutable/assets/index.DMK8G4el.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/math.DAoj5Yzl.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/3.C5O4UI8R.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.BPz5X2u6.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.BeamjgHt.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.DHiQJsps.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.Dl02wrxk.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.MTTyNl1s.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.DsJsvxj0.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.DRMqnUIk.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.BQ24v_F8.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.DrAlApqI.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.DxaLlEV3.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.CinwHvLx.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.B_-Twcix.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.Bn5nfv3t.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/Link.kpWBE2a5.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/stores.C1Xs63Nf.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Link.Cm-GDmna.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.CMc1GcPW.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_commonjsHelpers.BosuxZz1.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/3.DoH6rz6p.js"><title>Migration Guide - Carta</title><!-- HEAD_svelte-lepr8h_START --><!-- HEAD_svelte-lepr8h_END -->
+		<link rel="modulepreload" href="./_app/immutable/nodes/3.CEclbuPH.js"><title>Migration Guide - Carta</title><!-- HEAD_svelte-lepr8h_START --><!-- HEAD_svelte-lepr8h_END -->
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -80,7 +80,7 @@
 			
 			<script>
 				{
-					__sveltekit_16o0it3 = {
+					__sveltekit_sgew5z = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						assets: "/carta"
 					};
@@ -90,8 +90,8 @@
 					const data = [null,{"type":"data","data":{content:{html:"\u003Ch1 id=\"major-changes\" data-svelte-h=\"svelte-1tg160a\">\u003Ca href=\"#major-changes\">Major Changes\u003C/a>\u003C/h1> \u003Ch2 id=\"removal-of-marked\" data-svelte-h=\"svelte-1ym65x3\">\u003Ca href=\"#removal-of-marked\">Removal of Marked\u003C/a>\u003C/h2> \u003Cp data-svelte-h=\"svelte-s8z3r2\">Marked has been replaced with a combination of Unified, Remark and Rehype. If you previously used a custom plugin with it, you’ll have to update it manually. Otherwise, all builtin plugins have already been updated. Make sure to \u003Cstrong>update\u003C/strong> them!\u003C/p> \u003Cp data-svelte-h=\"svelte-1irrcb9\">Some plugins now have a different implementation and their options have changed. Those plugins are \u003Ca href=\"https://beartocode.github.io/carta/plugins/math\" rel=\"nofollow\">plugin-math\u003C/a> and \u003Ca href=\"https://beartocode.github.io/carta/plugins/anchor\" rel=\"nofollow\">plugin-anchor\u003C/a>.\u003C/p> \u003Ch2 id=\"syntax-highlighter-update\" data-svelte-h=\"svelte-1ym73dx\">\u003Ca href=\"#syntax-highlighter-update\">Syntax highlighter update\u003C/a>\u003C/h2> \u003Cp data-svelte-h=\"svelte-3rqw20\">SpeedHighlight has been replaced with \u003Ca href=\"https://shiki.matsu.io/\" rel=\"nofollow\">Shiki\u003C/a>. It now offers support for more languages, themes, and extensibility.\u003C/p> \u003Cp data-svelte-h=\"svelte-511g4\">Make sure to remove previous themes imports, as Shiki uses JS based ones.\u003C/p> \u003Cpre class=\"language-ts\">\u003C!-- HTML_TAG_START -->\u003Ccode class=\"language-ts\">\u003Cspan class=\"token keyword\">import\u003C/span> \u003Cspan class=\"token string\">'carta-md/light.css'\u003C/span>\u003Cspan class=\"token punctuation\">;\u003C/span> \u003Cspan class=\"token comment\">// 👈 To be removed!\u003C/span>\u003C/code>\u003C!-- HTML_TAG_END -->\u003C/pre> \u003Cp data-svelte-h=\"svelte-19786vm\">And also update the default theme. Previous based selectors should be removed:\u003C/p> \u003Cpre class=\"language-css\">\u003C!-- HTML_TAG_START -->\u003Ccode class=\"language-css\">\u003Cspan class=\"token comment\">/* 👇 To be removed! */\u003C/span>\n\u003Cspan class=\"token selector\">[class*='shj-lang-']\u003C/span> \u003Cspan class=\"token punctuation\">&#123;\u003C/span>\n\t\u003Cspan class=\"token comment\">/* ... */\u003C/span>\n\u003Cspan class=\"token punctuation\">&#125;\u003C/span>\u003C/code>\u003C!-- HTML_TAG_END -->\u003C/pre> \u003Ch2 id=\"removed-verbose-prefixes\" data-svelte-h=\"svelte-3mj8ha\">\u003Ca href=\"#removed-verbose-prefixes\">Removed verbose prefixes\u003C/a>\u003C/h2> \u003Cp data-svelte-h=\"svelte-rnaylg\">Many exports have been renamed to make them less verbose:\u003C/p> \u003Cul data-svelte-h=\"svelte-4cgeij\">\u003Cli>\u003Ccode>CartaEditor\u003C/code> -&gt; \u003Ccode>MarkdownEditor\u003C/code> (old one still supported);\u003C/li> \u003Cli>\u003Ccode>CartaRenderer\u003C/code> -&gt; \u003Ccode>Markdown\u003C/code> (old one still supported);\u003C/li> \u003Cli>\u003Ccode>CartaEvent\u003C/code> -&gt; \u003Ccode>Event\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaEventType\u003C/code> -&gt; \u003Ccode>EventType\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaExtension\u003C/code> -&gt; \u003Ccode>Plugin\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaExtensionComponent\u003C/code> -&gt; \u003Ccode>ExtensionComponent\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaOptions\u003C/code> -&gt; \u003Ccode>Options\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaHistory\u003C/code> -&gt; \u003Ccode>TextAreaHistory\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaHistoryOptions\u003C/code> -&gt; \u003Ccode>TextAreaHistoryOptions\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaIcon\u003C/code> -&gt; \u003Ccode>Icon\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaListener\u003C/code> -&gt; \u003Ccode>Listener\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaInput\u003C/code> -&gt; \u003Ccode>InputEnhancer\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaRenderer\u003C/code> -&gt; \u003Ccode>Renderer\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>CartaLabels\u003C/code> -&gt; \u003Ccode>Labels\u003C/code>;\u003C/li>\u003C/ul> \u003Ch1 id=\"minor-changes\" data-svelte-h=\"svelte-1cxdvk6\">\u003Ca href=\"#minor-changes\">Minor Changes\u003C/a>\u003C/h1> \u003Cul data-svelte-h=\"svelte-8dheqx\">\u003Cli>If you don’t use a sanitizer, you need to explicitly set it to \u003Ccode>false\u003C/code>;\u003C/li> \u003Cli>Removed deprecated option \u003Ccode>cartaRef\u003C/code> and \u003Ccode>shjRef\u003C/code> for extensions;\u003C/li> \u003Cli>Removed deprecated options \u003Ccode>postProcess\u003C/code> for \u003Ccode>plugin-tikz\u003C/code>;\u003C/li> \u003Cli>\u003Ccode>Carta.options\u003C/code> are no longer available.\u003C/li>\u003C/ul>",css:{code:"",map:null},head:""},metadata:{title:"Migration Guide",section:"Overview"}},"uses":{"url":1}}];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.BPz5X2u6.js"),
-						import("./_app/immutable/entry/app.DsJsvxj0.js")
+						import("./_app/immutable/entry/start.DHiQJsps.js"),
+						import("./_app/immutable/entry/app.DRMqnUIk.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 3],
