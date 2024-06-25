@@ -7,14 +7,12 @@ import md5 from 'md5';
 import type * as hast from 'hast';
 import { tidyTikzSource } from './utils';
 
-// Keeps track of tikz generation to remove previous items
-let currentGeneration = 0;
-
 export const browserTikzTransform = (
 	root: hast.Root,
 	carta: Carta,
 	options: TikzExtensionOptions | undefined
-) =>
+) => {
+	const genTime = new Date().getTime();
 	visit(root, (pre, index, parent) => {
 		if (pre.type !== 'element') return;
 		const preElement = pre as hast.Element;
@@ -34,7 +32,7 @@ export const browserTikzTransform = (
 		const text = document.createTextNode(source);
 
 		container.classList.add('tikz-generated');
-		container.setAttribute('tikz-generation', currentGeneration.toString());
+		container.setAttribute('tikz-generation', genTime.toString());
 		if (options?.center ?? true) container.setAttribute('align', 'center');
 		if (options?.class) container.classList.add(...options.class.split(' '));
 
@@ -63,6 +61,7 @@ export const browserTikzTransform = (
 
 		return [SKIP, index!];
 	});
+};
 
 declare global {
 	interface Window {
@@ -78,15 +77,21 @@ export function processTikzScripts(e: Event, options?: TikzExtensionOptions) {
 		return;
 	}
 
-	currentGeneration++;
 	removePreviousImages(container);
 	loadTikz(options);
 }
 
 function removePreviousImages(container: HTMLDivElement) {
-	Array.from(container.querySelectorAll('.tikz-generated[tikz-generation]'))
-		.filter((elem) => Number(elem.getAttribute('tikz-generation') ?? -1) < currentGeneration)
-		.forEach((elem) => elem.remove());
+	const elements = container.querySelectorAll('.tikz-generated[tikz-generation]');
+	const times = Array.from(elements).map((elem) =>
+		Number(elem.getAttribute('tikz-generation') ?? -1)
+	);
+	const maxTime = Math.max(...times);
+
+	// Remove all the elements that are older than the current generation
+	container.querySelectorAll('.tikz-generated[tikz-generation]').forEach((elem) => {
+		if (Number(elem.getAttribute('tikz-generation') ?? -1) < maxTime) elem.remove();
+	});
 }
 
 async function loadTikz(options?: TikzExtensionOptions) {
