@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Carta } from 'carta-md';
 	import { onDestroy, onMount } from 'svelte';
-	import nodeEmoji from 'node-emoji';
+	import * as nodeEmoji from 'node-emoji';
 	import type { TransitionConfig } from 'svelte/transition';
 
 	const cols = 8;
@@ -98,8 +98,8 @@
 		if (!carta.input) return;
 		// Remove slash and filter
 		carta.input.removeAt(colonPosition, filter.length + 1);
-		carta.input.insertAt(colonPosition, ':' + emoji.key + ':');
-		const newPosition = colonPosition + 2 + emoji.key.length;
+		carta.input.insertAt(colonPosition, ':' + emoji.name + ':');
+		const newPosition = colonPosition + 2 + emoji.name.length;
 		carta.input.textarea.setSelectionRange(newPosition, newPosition);
 		carta.input.update();
 	}
@@ -128,7 +128,7 @@
 		{#each emojis as emoji, i}
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}
-				title={emoji.key}
+				title={emoji.name}
 				on:click={() => selectEmoji(emoji)}
 				bind:this={emojisElements[i]}
 			>

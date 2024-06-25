@@ -1,5 +1,5 @@
 import type { Plugin, ExtensionComponent, GrammarRule, HighlightingRule } from 'carta-md';
-import remarkGemoji from 'remark-gemoji';
+import remarkEmoji from 'remark-emoji';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
 import Emoji from './Emoji.svelte';
 import BezierEasing from 'bezier-easing';
@@ -14,6 +14,12 @@ export interface EmojiExtensionOptions {
 	 * Custom out transition. See https://svelte.dev/docs#run-time-svelte-transition.
 	 */
 	outTransition?: (node: Element) => TransitionConfig;
+	/**
+	 * Options for the 'remark-emoji' plugin.
+	 */
+	accessible?: boolean;
+	padSpaceAfter?: boolean;
+	emoticon?: boolean;
 }
 
 interface ComponentProps {
@@ -52,7 +58,7 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 		name: 'emoji',
 		type: 'inline',
 		definition: {
-			match: ':[a-zA-Z_]+:',
+			match: ':(?:\\+1|[-\\w]+):',
 			name: 'markup.emoji.markdown'
 		}
 	} satisfies GrammarRule;
@@ -78,7 +84,7 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 				execution: 'sync',
 				type: 'remark',
 				transform({ processor }) {
-					processor.use(remarkGemoji);
+					processor.use(remarkEmoji, options);
 				}
 			}
 		],
