@@ -18,7 +18,8 @@ export default defineConfig({
 				'unist-util-visit',
 				'hast-util-from-dom',
 				'md5',
-				'rehype-parse'
+				'rehype-parse',
+				'esm-env'
 			],
 			output: {
 				globals: {
@@ -27,7 +28,8 @@ export default defineConfig({
 					'unist-util-visit': 'unistUtilVisit',
 					'hast-util-from-dom': 'hastUtilFromDom',
 					md5: 'md5',
-					'rehype-parse': 'rehypeParse'
+					'rehype-parse': 'rehypeParse',
+					'esm-env': 'esm-env'
 				}
 			}
 		}

@@ -423,9 +423,6 @@ importers:
 
   packages/plugin-tikz:
     dependencies:
-      esm-env:
-        specifier: ^1.0.0
-        version: 1.0.0
       hast-util-from-dom:
         specifier: ^5.0.0
         version: 5.0.0
@@ -451,6 +448,9 @@ importers:
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
+      esm-env:
+        specifier: ^1.0.0
+        version: 1.0.0
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
