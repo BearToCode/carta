@@ -1,6 +1,7 @@
 import type { Carta, Plugin } from 'carta-md';
 import type { Plugin as UnifiedPlugin } from 'unified';
 import type * as hast from 'hast';
+import { BROWSER } from 'esm-env';
 
 export interface TikzExtensionOptions {
 	/**
@@ -48,9 +49,9 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 			[
 				'carta-render',
 				async (e) => {
-					const isBrowser = typeof window !== 'undefined';
-					if (isBrowser) {
-						(await browser()).processTikzScripts(e, options);
+					if (BROWSER) {
+						const module = await import('./browser');
+						module.processTikzScripts(e, options);
 					}
 				}
 			]
@@ -83,22 +84,16 @@ export const tikz = (options?: TikzExtensionOptions): Plugin => {
 	};
 };
 
-let browserModule: typeof import('./browser') | undefined;
-let nodeModule: typeof import('./node') | undefined;
-const browser = async () => (browserModule ??= await import('./browser'));
-const node = async () => (nodeModule ??= await import('./node'));
-
 const tikzTransformer: UnifiedPlugin<
 	[{ carta: Carta; options: TikzExtensionOptions | undefined }],
 	hast.Root
 > = ({ carta, options }) => {
 	return async function (tree) {
-		const isBrowser = typeof window !== 'undefined';
-		if (isBrowser) {
-			const browserModule = await browser();
+		if (BROWSER) {
+			const browserModule = await import('./browser');
 			return browserModule.browserTikzTransform(tree, carta, options);
 		} else {
-			const nodeModule = await node();
+			const nodeModule = await import('./node');
 			return await nodeModule.nodeTikzTransform(tree, carta, options);
 		}
 	};

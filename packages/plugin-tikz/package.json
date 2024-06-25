@@ -50,10 +50,11 @@
 		"katex"
 	],
 	"dependencies": {
+		"esm-env": "^1.0.0",
 		"hast-util-from-dom": "^5.0.0",
+		"md5": "^2.3.0",
 		"node-tikzjax": "^1.0.3",
 		"rehype-parse": "^9.0.0",
-		"unist-util-visit": "^5.0.0",
-		"md5": "^2.3.0"
+		"unist-util-visit": "^5.0.0"
 	}
 }
