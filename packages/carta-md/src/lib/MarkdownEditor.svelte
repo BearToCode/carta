@@ -175,7 +175,7 @@
 					bind:value
 					bind:resize={resizeInput}
 					bind:elem={inputElem}
-					on:scroll{handleScroll}
+					on:scroll={handleScroll}
 				>
 					<!-- Input extensions components -->
 					{#if mounted}
