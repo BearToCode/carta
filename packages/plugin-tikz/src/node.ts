@@ -27,6 +27,10 @@ export const nodeTikzTransform = async (
 		if (!element.properties['className']) return;
 		if (!(element.properties['className'] as string[]).includes('language-tikz')) return;
 
+		if (options?.debug) {
+			console.log('plugin-tikz: processing TikZ code block: ', element.children[0]);
+		}
+
 		// Element is a TikZ code block
 		const source = tidyTikzSource((element.children[0] as hast.Text).value as string);
 
@@ -64,9 +68,7 @@ export const nodeTikzTransform = async (
 				}
 			})
 			.catch((error) => {
-				if (options?.debug) {
-					console.error('plugin-tikz: error processing TikZ code block:', error);
-				}
+				console.error('plugin-tikz: error processing TikZ code block:', error);
 			});
 
 		tasks.push(task);
