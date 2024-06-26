@@ -6,7 +6,7 @@
 		<img src="https://img.shields.io/badge/Ko--fi-FF5E5B?logo=ko-fi&logoColor=white&color=4dacfa&labelColor=171d27&label=Donate" alt="bundle">
 	</a>
 	<a href="https://github.com/BearToCode/carta/blob/master/LICENSE">
-		<img src="https://img.shields.io/npm/l/carta-md?color=71d58a&labelColor=171d27&logo=git&logoColor=white" alt="license">
+		<img src="https://img.shields.io/github/license/BearToCode/carta?color=71d58a&labelColor=171d27&logo=git&logoColor=white" alt="license">
 	</a>
 	<a href="http://beartocode.github.io/carta/">
 		<img src="https://img.shields.io/readthedocs/carta?logo=svelte&color=b581fd&logoColor=ffffff&labelColor=171d27" alt="docs">
