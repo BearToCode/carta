@@ -12,7 +12,7 @@ export const nodeTikzTransform = async (
 	carta: Carta,
 	options: TikzExtensionOptions | undefined
 ) => {
-	const tasks: Promise<void>[] = [];
+	const tasks: (() => Promise<void>)[] = [];
 
 	await load();
 
@@ -34,47 +34,50 @@ export const nodeTikzTransform = async (
 		// Element is a TikZ code block
 		const source = tidyTikzSource((element.children[0] as hast.Text).value as string);
 
-		const task = tex(source, {
-			showConsole: options?.debug
-		})
-			.then((dvi) => dvi2svg(dvi))
-			.then((svg) => {
-				if (options?.postProcessing) {
-					svg = options.postProcessing(svg);
-				}
-
-				const hastNode = unified().use(rehypeParse).parse(svg);
-				let svgNode: hast.Element | undefined;
-				visit(hastNode, (node) => {
-					if (node.type === 'element' && node.tagName === 'svg') {
-						svgNode = node as hast.Element;
-						return [EXIT];
-					}
-				});
-
-				if (svgNode) {
-					const container: hast.Element = {
-						type: 'element',
-						tagName: 'div',
-						properties: {
-							className: ['tikz-generated', ...(options?.class ?? '').split(' ')],
-							align: options?.center ?? true ? 'center' : undefined
-						},
-						children: [svgNode]
-					};
-					parent?.children.splice(index!, 1, container);
-				} else {
-					console.error('plugin-tikz: could not find SVG node in TikZ output');
-				}
+		const task = () =>
+			tex(source, {
+				showConsole: options?.debug
 			})
-			.catch((error) => {
-				console.error('plugin-tikz: error processing TikZ code block:', error);
-			});
+				.then((dvi) => dvi2svg(dvi))
+				.then((svg) => {
+					if (options?.postProcessing) {
+						svg = options.postProcessing(svg);
+					}
+
+					const hastNode = unified().use(rehypeParse).parse(svg);
+					let svgNode: hast.Element | undefined;
+					visit(hastNode, (node) => {
+						if (node.type === 'element' && node.tagName === 'svg') {
+							svgNode = node as hast.Element;
+							return [EXIT];
+						}
+					});
+
+					if (svgNode) {
+						const container: hast.Element = {
+							type: 'element',
+							tagName: 'div',
+							properties: {
+								className: ['tikz-generated', ...(options?.class ?? '').split(' ')],
+								align: options?.center ?? true ? 'center' : undefined
+							},
+							children: [svgNode]
+						};
+						parent?.children.splice(index!, 1, container);
+					} else {
+						console.error('plugin-tikz: could not find SVG node in TikZ output');
+					}
+				})
+				.catch((error) => {
+					console.error('plugin-tikz: error processing TikZ code block:', error);
+				});
 
 		tasks.push(task);
 
 		return [SKIP];
 	});
 
-	await Promise.all(tasks);
+	for (const task of tasks) {
+		await task();
+	}
 };
