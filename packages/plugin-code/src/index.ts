@@ -16,6 +16,7 @@ export type CodeExtensionOptions = Omit<RehypeShikiOptions, 'theme' | 'themes'> 
  */
 export const isDualTheme = (theme: Theme | DualTheme): theme is DualTheme =>
 	typeof theme == 'object' && 'light' in theme && 'dark' in theme;
+
 /**
  * Checks if a theme is a single theme.
  * @param theme The theme to check.

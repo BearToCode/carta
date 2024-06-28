@@ -1,6 +1,6 @@
 import type { Plugin, ExtensionComponent, GrammarRule, HighlightingRule } from 'carta-md';
-import remarkEmoji from 'remark-emoji';
 import { fade, scale, type TransitionConfig } from 'svelte/transition';
+import remarkEmoji from 'remark-emoji';
 import Emoji from './Emoji.svelte';
 import BezierEasing from 'bezier-easing';
 export * from './default.css?inline';

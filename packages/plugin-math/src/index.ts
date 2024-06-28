@@ -1,6 +1,6 @@
 import type { Plugin } from 'carta-md';
-import remarkMath, { type Options as RemarkMathOptions } from 'remark-math';
 import rehypeKatex, { type Options as RehypeKatexOptions } from 'rehype-katex';
+import remarkMath, { type Options as RemarkMathOptions } from 'remark-math';
 
 interface MathExtensionOptions {
 	/**
