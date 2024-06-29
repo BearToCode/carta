@@ -133,7 +133,7 @@
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}
 				title={emoji.name}
-				on:click={() => selectEmoji(emoji)}
+				on:click={selectEmoji.bind(null, emoji)}
 				bind:this={emojisElements[i]}
 			>
 				{emoji.emoji}
