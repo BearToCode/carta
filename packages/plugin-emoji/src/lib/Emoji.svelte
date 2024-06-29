@@ -22,15 +22,19 @@
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
 		carta.input?.textarea.addEventListener('keyup', handleKeyUp);
 		carta.input?.textarea.addEventListener('click', hide);
-		carta.input?.textarea.addEventListener('blur', hide);
+		carta.input?.textarea.addEventListener('blur', hide_after_delay);
 	});
 
 	onDestroy(() => {
 		carta.input?.textarea.removeEventListener('keydown', handleKeyDown);
 		carta.input?.textarea.removeEventListener('keyup', handleKeyUp);
 		carta.input?.textarea.removeEventListener('click', hide);
-		carta.input?.textarea.removeEventListener('blur', hide);
+		carta.input?.textarea.removeEventListener('blur', hide_after_delay);
 	});
+
+	function hide_after_delay() {
+		setTimeout(hide, 100);
+	}
 
 	function hide() {
 		visible = false;
