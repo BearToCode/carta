@@ -7,15 +7,14 @@
 	export let carta: Carta;
 	export let inTransition: (node: Element) => TransitionConfig;
 	export let outTransition: (node: Element) => TransitionConfig;
-	export let cols: number;
-	export let maxRows: number;
+	export let maxResults: number;
 
 	let visible = false;
 	let filter = '';
 	let colonPosition = 0;
 	let hoveringIndex = 0;
 	let emojis: nodeEmoji.Emoji[] = [];
-	let emojisElements: HTMLButtonElement[] = Array(cols * maxRows);
+	let emojisElements: HTMLButtonElement[] = Array(maxResults);
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -59,12 +58,10 @@
 				// Check for arrows
 				if (e.key === 'ArrowUp') {
 					e.preventDefault();
-					hoveringIndex =
-						(emojis.length + hoveringIndex - Math.min(cols, emojis.length)) % emojis.length;
+					hoveringIndex = getIndexOfEmojiElementInPrevRow();
 				} else if (e.key === 'ArrowDown') {
 					e.preventDefault();
-					hoveringIndex =
-						(emojis.length + hoveringIndex + Math.min(cols, emojis.length)) % emojis.length;
+					hoveringIndex = getIndexOfEmojiElementInNextRow();
 				} else if (e.key === 'ArrowLeft') {
 					e.preventDefault();
 					hoveringIndex = (emojis.length + hoveringIndex - 1) % emojis.length;
@@ -92,9 +89,69 @@
 				colonPosition + 1,
 				carta.input.textarea.selectionStart
 			);
-			emojis = nodeEmoji.search(filter).slice(0, cols * maxRows);
+			emojis = nodeEmoji.search(filter).slice(0, maxResults);
 			hoveringIndex = 0;
 		}
+	}
+
+	function getIndexOfEmojiElementInPrevRow() {
+		if (emojisElements.at(hoveringIndex)) {
+			let index = hoveringIndex;
+			let el = emojisElements[index];
+			const startPos = {
+				top:	 el.offsetTop,
+				left:	 el.offsetLeft,
+				right: el.offsetLeft + el.offsetWidth
+			};
+			let prevIndex, prevPos;
+			while(true) {
+				prevIndex = index - 1;
+				if ((prevIndex < 0) || !emojisElements.at(prevIndex)) return index;
+				index = prevIndex;
+
+				el = emojisElements[index];
+				prevPos = {
+					top:	 el.offsetTop,
+					left:	 el.offsetLeft,
+					right: el.offsetLeft + el.offsetWidth
+				};
+
+				if (prevPos.top === startPos.top) continue;
+				if (prevPos.left > startPos.right) continue;
+				return index;
+			}
+		}
+		return hoveringIndex;
+	}
+
+	function getIndexOfEmojiElementInNextRow() {
+		if (emojisElements.at(hoveringIndex)) {
+			let index = hoveringIndex;
+			let el = emojisElements[index];
+			const startPos = {
+				top:	 el.offsetTop,
+				left:	 el.offsetLeft,
+				right: el.offsetLeft + el.offsetWidth
+			};
+			let nextIndex, nextPos;
+			while(true) {
+				nextIndex = index + 1;
+				if ((nextIndex >= emojisElements.length) || !emojisElements.at(nextIndex)) return index;
+				index = nextIndex;
+
+				el = emojisElements[index];
+				nextPos = {
+					top:	 el.offsetTop,
+					left:	 el.offsetLeft,
+					right: el.offsetLeft + el.offsetWidth
+				};
+
+				if (nextPos.top === startPos.top) continue;
+				if (nextPos.right < startPos.left) continue;
+				return index;
+			}
+		}
+		return hoveringIndex;
 	}
 
 	function selectEmoji(emoji: nodeEmoji.Emoji) {

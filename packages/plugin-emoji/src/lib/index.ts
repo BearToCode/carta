@@ -15,13 +15,9 @@ export interface EmojiExtensionOptions {
 	 */
 	outTransition?: (node: Element) => TransitionConfig;
 	/**
-	 * Approximate count of emoji icons per row. Can vary because emojis contain a variable count of unicode characters. Used to determine the number of emoji icons to skip forward or backward when arrow keys are pressed (ie: down and up, respectively).
+	 * Maximum count of emoji icons to display that match partial user input.
 	 */
-	cols?: number;
-	/**
-	 * Maximum count of rows of emoji icons to display.
-	 */
-	maxRows?: number;
+	maxResults?: number;
 	/**
 	 * Options for the 'remark-emoji' plugin.
 	 */
@@ -33,8 +29,7 @@ export interface EmojiExtensionOptions {
 interface ComponentProps {
 	inTransition: (node: Element) => TransitionConfig;
 	outTransition: (node: Element) => TransitionConfig;
-	cols: number;
-	maxRows: number;
+	maxResults: number;
 }
 
 /**
@@ -54,10 +49,8 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 			fade(node, {
 				duration: 100
 			}));
-	const cols =
-		options?.cols ?? 10;
-	const maxRows =
-		options?.maxRows ?? 12;
+	const maxResults =
+		options?.maxResults ?? 120;
 
 	const emojiComponent: ExtensionComponent<ComponentProps> = {
 		component: Emoji,
@@ -65,8 +58,7 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 		props: {
 			inTransition,
 			outTransition,
-			cols,
-			maxRows
+			maxResults
 		}
 	};
 
