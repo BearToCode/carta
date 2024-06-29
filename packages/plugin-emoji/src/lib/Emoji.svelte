@@ -4,12 +4,11 @@
 	import * as nodeEmoji from 'node-emoji';
 	import type { TransitionConfig } from 'svelte/transition';
 
-	const cols = 8;
-	const maxRows = 12;
-
 	export let carta: Carta;
 	export let inTransition: (node: Element) => TransitionConfig;
 	export let outTransition: (node: Element) => TransitionConfig;
+	export let cols: number;
+	export let maxRows: number;
 
 	let visible = false;
 	let filter = '';
@@ -123,7 +122,6 @@
 
 {#if visible && filter.length > 0 && emojis.length > 0}
 	<div
-		style="--cols: {cols};"
 		class="carta-emoji"
 		in:inTransition
 		out:outTransition
@@ -141,12 +139,3 @@
 		{/each}
 	</div>
 {/if}
-
-<style>
-	.carta-emoji {
-		position: absolute;
-
-		display: grid;
-		grid-template-columns: repeat(var(--cols), 1fr);
-	}
-</style>
