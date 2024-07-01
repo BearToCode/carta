@@ -13,7 +13,7 @@
 	let filter = '';
 	let colonPosition = 0;
 	let hoveringIndex = 0;
-	let emojis: nodeEmoji.Emoji[] = [];
+	let emojis: { emoji: string; name: string }[] = [];
 	let emojisElements: HTMLButtonElement[] = Array(maxResults);
 
 	onMount(() => {
@@ -99,20 +99,20 @@
 			let index = hoveringIndex;
 			let el = emojisElements[index];
 			const startPos = {
-				top:	 el.offsetTop,
-				left:	 el.offsetLeft,
+				top: el.offsetTop,
+				left: el.offsetLeft,
 				right: el.offsetLeft + el.offsetWidth
 			};
 			let prevIndex, prevPos;
-			while(true) {
+			for (;;) {
 				prevIndex = index - 1;
-				if ((prevIndex < 0) || !emojisElements.at(prevIndex)) return index;
+				if (prevIndex < 0 || !emojisElements.at(prevIndex)) return index;
 				index = prevIndex;
 
 				el = emojisElements[index];
 				prevPos = {
-					top:	 el.offsetTop,
-					left:	 el.offsetLeft,
+					top: el.offsetTop,
+					left: el.offsetLeft,
 					right: el.offsetLeft + el.offsetWidth
 				};
 
@@ -129,20 +129,20 @@
 			let index = hoveringIndex;
 			let el = emojisElements[index];
 			const startPos = {
-				top:	 el.offsetTop,
-				left:	 el.offsetLeft,
+				top: el.offsetTop,
+				left: el.offsetLeft,
 				right: el.offsetLeft + el.offsetWidth
 			};
 			let nextIndex, nextPos;
-			while(true) {
+			for (;;) {
 				nextIndex = index + 1;
-				if ((nextIndex >= emojisElements.length) || !emojisElements.at(nextIndex)) return index;
+				if (nextIndex >= emojisElements.length || !emojisElements.at(nextIndex)) return index;
 				index = nextIndex;
 
 				el = emojisElements[index];
 				nextPos = {
-					top:	 el.offsetTop,
-					left:	 el.offsetLeft,
+					top: el.offsetTop,
+					left: el.offsetLeft,
 					right: el.offsetLeft + el.offsetWidth
 				};
 
@@ -154,7 +154,7 @@
 		return hoveringIndex;
 	}
 
-	function selectEmoji(emoji: nodeEmoji.Emoji) {
+	function selectEmoji(emoji: { emoji: string; name: string }) {
 		if (!carta.input) return;
 		// Remove slash and filter
 		carta.input.removeAt(colonPosition, filter.length + 1);
@@ -178,12 +178,7 @@
 </script>
 
 {#if visible && filter.length > 0 && emojis.length > 0}
-	<div
-		class="carta-emoji"
-		in:inTransition
-		out:outTransition
-		use:carta.bindToCaret
-	>
+	<div class="carta-emoji" in:inTransition out:outTransition use:carta.bindToCaret>
 		{#each emojis as emoji, i}
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}

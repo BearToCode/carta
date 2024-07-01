@@ -6,8 +6,9 @@
 	--contrast-background: #f1f1f1;
 	--hover-background: #e3e1e1;
 
-	display: block;
-	width: 18rem;
+	display: grid;
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+
 	max-height: 14rem;
 	overflow-x: auto;
 	overflow-y: auto;
@@ -31,6 +32,7 @@
 	cursor: pointer;
 
 	height: 2rem;
+	width: 2rem;
 	font-size: 1.2rem;
 	line-height: 100%;
 	white-space: nowrap;

@@ -49,8 +49,7 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 			fade(node, {
 				duration: 100
 			}));
-	const maxResults =
-		options?.maxResults ?? 120;
+	const maxResults = options?.maxResults ?? 120;
 
 	const emojiComponent: ExtensionComponent<ComponentProps> = {
 		component: Emoji,
