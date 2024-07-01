@@ -20,18 +20,18 @@
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
 		carta.input?.textarea.addEventListener('keyup', handleKeyUp);
 		carta.input?.textarea.addEventListener('click', hide);
-		carta.input?.textarea.addEventListener('blur', hide_after_delay);
+		carta.input?.textarea.addEventListener('blur', hideAfterDelay);
 	});
 
 	onDestroy(() => {
 		carta.input?.textarea.removeEventListener('keydown', handleKeyDown);
 		carta.input?.textarea.removeEventListener('keyup', handleKeyUp);
 		carta.input?.textarea.removeEventListener('click', hide);
-		carta.input?.textarea.removeEventListener('blur', hide_after_delay);
+		carta.input?.textarea.removeEventListener('blur', hideAfterDelay);
 	});
 
-	function hide_after_delay() {
-		setTimeout(hide, 100);
+	function hideAfterDelay() {
+		setTimeout(hide, 250);
 	}
 
 	function hide() {
@@ -183,7 +183,7 @@
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}
 				title={emoji.name}
-				on:click={selectEmoji.bind(null, emoji)}
+				on:click={() => selectEmoji(emoji)}
 				bind:this={emojisElements[i]}
 			>
 				{emoji.emoji}
