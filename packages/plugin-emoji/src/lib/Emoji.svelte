@@ -4,33 +4,35 @@
 	import * as nodeEmoji from 'node-emoji';
 	import type { TransitionConfig } from 'svelte/transition';
 
-	const cols = 8;
-	const maxRows = 12;
-
 	export let carta: Carta;
 	export let inTransition: (node: Element) => TransitionConfig;
 	export let outTransition: (node: Element) => TransitionConfig;
+	export let maxResults: number;
 
 	let visible = false;
 	let filter = '';
 	let colonPosition = 0;
 	let hoveringIndex = 0;
-	let emojis: nodeEmoji.Emoji[] = [];
-	let emojisElements: HTMLButtonElement[] = Array(cols * maxRows);
+	let emojis: { emoji: string; name: string }[] = [];
+	let emojisElements: HTMLButtonElement[] = Array(maxResults);
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
 		carta.input?.textarea.addEventListener('keyup', handleKeyUp);
 		carta.input?.textarea.addEventListener('click', hide);
-		carta.input?.textarea.addEventListener('blur', hide);
+		carta.input?.textarea.addEventListener('blur', hideAfterDelay);
 	});
 
 	onDestroy(() => {
 		carta.input?.textarea.removeEventListener('keydown', handleKeyDown);
 		carta.input?.textarea.removeEventListener('keyup', handleKeyUp);
 		carta.input?.textarea.removeEventListener('click', hide);
-		carta.input?.textarea.removeEventListener('blur', hide);
+		carta.input?.textarea.removeEventListener('blur', hideAfterDelay);
 	});
+
+	function hideAfterDelay() {
+		setTimeout(hide, 250);
+	}
 
 	function hide() {
 		visible = false;
@@ -56,12 +58,10 @@
 				// Check for arrows
 				if (e.key === 'ArrowUp') {
 					e.preventDefault();
-					hoveringIndex =
-						(emojis.length + hoveringIndex - Math.min(cols, emojis.length)) % emojis.length;
+					hoveringIndex = getIndexOfEmojiElementInPrevRow();
 				} else if (e.key === 'ArrowDown') {
 					e.preventDefault();
-					hoveringIndex =
-						(emojis.length + hoveringIndex + Math.min(cols, emojis.length)) % emojis.length;
+					hoveringIndex = getIndexOfEmojiElementInNextRow();
 				} else if (e.key === 'ArrowLeft') {
 					e.preventDefault();
 					hoveringIndex = (emojis.length + hoveringIndex - 1) % emojis.length;
@@ -89,12 +89,72 @@
 				colonPosition + 1,
 				carta.input.textarea.selectionStart
 			);
-			emojis = nodeEmoji.search(filter).slice(0, cols * maxRows);
+			emojis = nodeEmoji.search(filter).slice(0, maxResults);
 			hoveringIndex = 0;
 		}
 	}
 
-	function selectEmoji(emoji: nodeEmoji.Emoji) {
+	function getIndexOfEmojiElementInPrevRow() {
+		if (emojisElements.at(hoveringIndex)) {
+			let index = hoveringIndex;
+			let el = emojisElements[index];
+			const startPos = {
+				top: el.offsetTop,
+				left: el.offsetLeft,
+				right: el.offsetLeft + el.offsetWidth
+			};
+			let prevIndex, prevPos;
+			for (;;) {
+				prevIndex = index - 1;
+				if (prevIndex < 0 || !emojisElements.at(prevIndex)) return index;
+				index = prevIndex;
+
+				el = emojisElements[index];
+				prevPos = {
+					top: el.offsetTop,
+					left: el.offsetLeft,
+					right: el.offsetLeft + el.offsetWidth
+				};
+
+				if (prevPos.top === startPos.top) continue;
+				if (prevPos.left > startPos.right) continue;
+				return index;
+			}
+		}
+		return hoveringIndex;
+	}
+
+	function getIndexOfEmojiElementInNextRow() {
+		if (emojisElements.at(hoveringIndex)) {
+			let index = hoveringIndex;
+			let el = emojisElements[index];
+			const startPos = {
+				top: el.offsetTop,
+				left: el.offsetLeft,
+				right: el.offsetLeft + el.offsetWidth
+			};
+			let nextIndex, nextPos;
+			for (;;) {
+				nextIndex = index + 1;
+				if (nextIndex >= emojisElements.length || !emojisElements.at(nextIndex)) return index;
+				index = nextIndex;
+
+				el = emojisElements[index];
+				nextPos = {
+					top: el.offsetTop,
+					left: el.offsetLeft,
+					right: el.offsetLeft + el.offsetWidth
+				};
+
+				if (nextPos.top === startPos.top) continue;
+				if (nextPos.right < startPos.left) continue;
+				return index;
+			}
+		}
+		return hoveringIndex;
+	}
+
+	function selectEmoji(emoji: { emoji: string; name: string }) {
 		if (!carta.input) return;
 		// Remove slash and filter
 		carta.input.removeAt(colonPosition, filter.length + 1);
@@ -118,13 +178,7 @@
 </script>
 
 {#if visible && filter.length > 0 && emojis.length > 0}
-	<div
-		style="--cols: {cols};"
-		class="carta-emoji"
-		in:inTransition
-		out:outTransition
-		use:carta.bindToCaret
-	>
+	<div class="carta-emoji" in:inTransition out:outTransition use:carta.bindToCaret>
 		{#each emojis as emoji, i}
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}
@@ -137,12 +191,3 @@
 		{/each}
 	</div>
 {/if}
-
-<style>
-	.carta-emoji {
-		position: absolute;
-
-		display: grid;
-		grid-template-columns: repeat(var(--cols), 1fr);
-	}
-</style>

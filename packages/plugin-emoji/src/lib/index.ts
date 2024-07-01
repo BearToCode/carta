@@ -15,6 +15,10 @@ export interface EmojiExtensionOptions {
 	 */
 	outTransition?: (node: Element) => TransitionConfig;
 	/**
+	 * Maximum count of emoji icons to display that match partial user input.
+	 */
+	maxResults?: number;
+	/**
 	 * Options for the 'remark-emoji' plugin.
 	 */
 	accessible?: boolean;
@@ -25,6 +29,7 @@ export interface EmojiExtensionOptions {
 interface ComponentProps {
 	inTransition: (node: Element) => TransitionConfig;
 	outTransition: (node: Element) => TransitionConfig;
+	maxResults: number;
 }
 
 /**
@@ -44,13 +49,15 @@ export const emoji = (options?: EmojiExtensionOptions): Plugin => {
 			fade(node, {
 				duration: 100
 			}));
+	const maxResults = options?.maxResults ?? 120;
 
 	const emojiComponent: ExtensionComponent<ComponentProps> = {
 		component: Emoji,
 		parent: 'input',
 		props: {
 			inTransition,
-			outTransition
+			outTransition,
+			maxResults
 		}
 	};
 
