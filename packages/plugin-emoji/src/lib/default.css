@@ -8,9 +8,9 @@
 
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-evenly;
+	justify-content: start;
 
-	width: 18rem;
+	width: 19rem;
 	max-height: 14rem;
 	overflow-x: auto;
 	overflow-y: auto;
