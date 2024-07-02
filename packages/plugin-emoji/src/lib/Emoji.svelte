@@ -31,9 +31,9 @@
 	});
 
 	function hideAfterDelay() {
-		const el = document.activeElement
-		const ignoreBlur = (el && (el.tagName === 'TEXTAREA') && (el.id === 'md'))
-		if (ignoreBlur) return
+		const el = document.activeElement;
+		const ignoreBlur = el && el.tagName === 'TEXTAREA' && el.id === 'md';
+		if (ignoreBlur) return;
 
 		setTimeout(hide, 250);
 	}
@@ -80,7 +80,7 @@
 	function handleKeyInput(e: KeyboardEvent) {
 		if (!carta.input) return;
 
-		if ((e.inputType === 'insertText') && (e.data === ':')) {
+		if (e.inputType === 'insertText' && e.data === ':') {
 			if (!visible) {
 				// open
 				visible = true;
@@ -98,24 +98,24 @@
 			visible = false;
 			return;
 		}
-		if ((e.inputType === 'insertText') || (e.inputType === 'insertCompositionText') || (e.inputType === 'deleteContentBackward')) {
+		if (
+			e.inputType === 'insertText' ||
+			e.inputType === 'insertCompositionText' ||
+			e.inputType === 'deleteContentBackward'
+		) {
 			filter = carta.input.textarea.value.slice(
 				colonPosition + 1,
 				carta.input.textarea.selectionStart
 			);
 
-			const last_char = filter.length
-				? filter[filter.length - 1]
-				: '';
+			const last_char = filter.length ? filter[filter.length - 1] : '';
 
 			if (last_char === ' ') {
 				visible = false;
 				return;
 			}
 
-			emojis = filter.length
-				? nodeEmoji.search(filter).slice(0, maxResults)
-				: [];
+			emojis = filter.length ? nodeEmoji.search(filter).slice(0, maxResults) : [];
 			hoveringIndex = 0;
 		}
 	}
