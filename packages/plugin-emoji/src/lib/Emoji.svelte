@@ -77,10 +77,11 @@
 		}
 	}
 
-	function handleKeyInput(e: KeyboardEvent) {
+	function handleKeyInput(e: Event) {
 		if (!carta.input) return;
+		const event = e as InputEvent;
 
-		if (e.inputType === 'insertText' && e.data === ':') {
+		if (event.inputType === 'insertText' && event.data === ':') {
 			if (!visible) {
 				// open
 				visible = true;
@@ -99,18 +100,18 @@
 			return;
 		}
 		if (
-			e.inputType === 'insertText' ||
-			e.inputType === 'insertCompositionText' ||
-			e.inputType === 'deleteContentBackward'
+			event.inputType === 'insertText' ||
+			event.inputType === 'insertCompositionText' ||
+			event.inputType === 'deleteContentBackward'
 		) {
 			filter = carta.input.textarea.value.slice(
 				colonPosition + 1,
 				carta.input.textarea.selectionStart
 			);
 
-			const last_char = filter.length ? filter[filter.length - 1] : '';
+			const lastChar = filter.length ? filter[filter.length - 1] : '';
 
-			if (last_char === ' ') {
+			if (lastChar === ' ') {
 				visible = false;
 				return;
 			}
