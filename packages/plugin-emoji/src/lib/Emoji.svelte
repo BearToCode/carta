@@ -18,14 +18,14 @@
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
-		carta.input?.textarea.addEventListener('keyup', handleKeyUp);
+		carta.input?.textarea.addEventListener('input', handleKeyInput);
 		carta.input?.textarea.addEventListener('click', hide);
 		carta.input?.textarea.addEventListener('blur', hideAfterDelay);
 	});
 
 	onDestroy(() => {
 		carta.input?.textarea.removeEventListener('keydown', handleKeyDown);
-		carta.input?.textarea.removeEventListener('keyup', handleKeyUp);
+		carta.input?.textarea.removeEventListener('input', handleKeyInput);
 		carta.input?.textarea.removeEventListener('click', hide);
 		carta.input?.textarea.removeEventListener('blur', hideAfterDelay);
 	});
@@ -70,21 +70,24 @@
 					hoveringIndex = (emojis.length + hoveringIndex + 1) % emojis.length;
 				}
 			}
-		} else if (e.key === ':') {
+		}
+	}
+
+	function handleKeyInput(e: KeyboardEvent) {
+		if (!carta.input) return;
+		if ((e.inputType !== 'insertText') || !e.data || (e.data.length !== 1)) return;
+		if (!visible && (e.data === ':')) {
 			// Open
 			visible = true;
 			colonPosition = carta.input.textarea.selectionStart;
 			filter = '';
+			return;
 		}
-	}
-
-	function handleKeyUp(e: KeyboardEvent) {
-		if (!carta.input) return;
 		if (!visible) return;
 		// Has moved out of slash argument
-		if (carta.input.textarea.selectionStart < colonPosition) {
+		if ((carta.input.textarea.selectionStart < colonPosition) || (e.data === ' ')) {
 			visible = false;
-		} else if (e.key.length === 1 || e.key === 'Backspace') {
+		} else {
 			filter = carta.input.textarea.value.slice(
 				colonPosition + 1,
 				carta.input.textarea.selectionStart
