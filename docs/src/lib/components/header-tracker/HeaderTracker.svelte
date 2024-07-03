@@ -13,7 +13,7 @@
 
 	function retrieveHeaders() {
 		headers = Array.from(
-			document.querySelectorAll('.markdown > h1, .markdown > h2, .markdown > h3')
+			document.querySelectorAll('.markdown > h1, .markdown > h2')
 		) as HTMLElement[];
 	}
 

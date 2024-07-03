@@ -82,6 +82,18 @@ Or, if you just want to render content:
 
 </Code>
 
+### Reactivity
+
+The `<Markdown>` component is not reactive. If you want to make it reactive, you can either create your own component using the `render` function provided by the `Carta` class, or use Svelte `#key` block:
+
+```svelte
+{#key value}
+	<Markdown {carta} {value} />
+{/key}
+```
+
+Beware that rendering Markdown can become quite resources-expensive, especially if you are using different plugins.
+
 ## Sanitization
 
 By default Carta does **not** sanitize user input, which can include malicious code that could lead to [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting). For this reason it is _strongly recommended_ to install a package that handles that for you.

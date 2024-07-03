@@ -3,6 +3,9 @@
 	This component is used to render Markdown once after being parsed twice
 	by Carta. The first parsing is done in the server-side rendering (SSR) and the
 	second (async) parsing is done in the client-side rendering.
+
+	This component is not reactive. It is only rendered once. If you want to make it
+	reactive, you need to destroy and recreate it using Svelte #key block.
 -->
 
 <script lang="ts">
