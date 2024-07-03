@@ -311,29 +311,33 @@ export class InputEnhancer {
 		const selection = this.getSelection();
 		let index = selection.start;
 		while (index > 0 && this.textarea.value.at(index - 1) !== '\n') index--;
-
-		let newPosition = selection.start;
-
-		const currentPrefix = this.textarea.value.slice(index, prefix.length);
-		if (currentPrefix === prefix) {
-			if (whitespace === 'attach' && this.textarea.value.at(index + prefix.length) === ' ') {
-				this.removeAt(index, prefix.length + 1);
-				newPosition -= prefix.length + 1;
+		let furtherLinesExist = true;
+		const startLocation = selection.start;
+		let endLocation = selection.end;
+		while (furtherLinesExist) {
+			const currentPrefix = this.textarea.value.slice(index, index + prefix.length);
+			if (currentPrefix === prefix) {
+				if (whitespace === 'attach' && this.textarea.value.at(index + prefix.length) === ' ') {
+					this.removeAt(index, prefix.length + 1);
+					endLocation -= prefix.length + 1;
+				} else {
+					this.removeAt(index, prefix.length);
+					endLocation -= prefix.length;
+				}
 			} else {
-				this.removeAt(index, prefix.length);
-				newPosition -= prefix.length;
+				if (whitespace === 'attach') {
+					this.insertAt(index, prefix + ' ');
+					endLocation += prefix.length + 1;
+				} else {
+					this.insertAt(index, prefix);
+					endLocation += prefix.length;
+				}
 			}
-		} else {
-			if (whitespace === 'attach') {
-				this.insertAt(index, prefix + ' ');
-				newPosition += prefix.length + 1;
-			} else {
-				this.insertAt(index, prefix);
-				newPosition += prefix.length;
-			}
+			while (index < this.textarea.value.length && this.textarea.value.at(index) !== '\n') index++;
+			if (this.textarea.value.at(index) == '\n') index++;
+			furtherLinesExist = index < endLocation;
 		}
-
-		this.textarea.setSelectionRange(newPosition, newPosition + selection.slice.length);
+		this.textarea.setSelectionRange(startLocation, endLocation);
 	}
 
 	/**
