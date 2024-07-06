@@ -66,7 +66,7 @@ Differently from most editors, Carta does not include a code editor, but it is _
 | [plugin-tikz](https://www.npmjs.com/package/@cartamd/plugin-tikz)             | ![plugin-tikz](https://img.shields.io/npm/v/@cartamd/plugin-tikz)             | [/plugins/tikz](https://beartocode.github.io/carta/plugins/tikz)             |
 | [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) | [/plugins/attachment](https://beartocode.github.io/carta/plugins/attachment) |
 | [plugin-anchor](https://www.npmjs.com/package/@cartamd/plugin-anchor)         | ![plugin-anchor](https://img.shields.io/npm/v/@cartamd/plugin-anchor)         | [/plugins/anchor](https://beartocode.github.io/carta/plugins/anchor)         |
-| [plugin-component](https://www.npmjs.com/package/@cartamd/plugin-component)   | ![plugin-component](https://img.shields.io/npm/v/@cartamd/plugin-component)   | [/plugins/component](https://beartocode.github.io/carta/plugins/anchor)      |
+| [plugin-component](https://www.npmjs.com/package/@cartamd/plugin-component)   | ![plugin-component](https://img.shields.io/npm/v/@cartamd/plugin-component)   | [/plugins/component](https://beartocode.github.io/carta/plugins/component)   |
 
 ## Community plugins
 
