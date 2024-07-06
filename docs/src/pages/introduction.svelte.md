@@ -85,6 +85,14 @@ Carta comes with a set of official plugins for the most common use cases.
 </Card.Header>
 </Card.Root>
 
+<Card.Root href="/plugins/component">
+<Card.Header>
+<iconify-icon icon="ri:svelte-fill" class="text-3xl text-sky-300"></iconify-icon>
+<Card.Title>Component</Card.Title>
+<Card.Description>Map elements to components.</Card.Description>
+</Card.Header>
+</Card.Root>
+
 <Card.Root href="/community-plugins">
 <Card.Header>
 <iconify-icon icon="ph:stack-fill" class="text-3xl text-sky-300"></iconify-icon>
