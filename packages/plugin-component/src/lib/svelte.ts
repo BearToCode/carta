@@ -53,7 +53,7 @@ export const svelteCustom = <T extends Record<string, unknown>>(
 				};
 				return [placeholder];
 			} else {
-				// @ts-expect-error The .render component is not picked up by the svelte intellisense
+				// @ts-expect-error The .render component is not picked up by Svelte intellisense
 				// docs here: https://svelte.dev/docs/server-side-component-api
 				const html: string = component.render(node.properties).html;
 
