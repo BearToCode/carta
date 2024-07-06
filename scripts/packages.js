@@ -41,5 +41,6 @@ export const packages = [
 	'plugin-code',
 	'plugin-tikz',
 	'plugin-attachment',
-	'plugin-anchor'
+	'plugin-anchor',
+	'plugin-component'
 ];
