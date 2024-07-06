@@ -3,10 +3,10 @@
 	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
 	import { initializeComponents, svelte } from '$lib/svelte';
 	import Heading from './Heading.svelte';
-
-	import 'carta-md/default.css';
 	import Img from './Img.svelte';
 	import UnorderedList from './UnorderedList.svelte';
+
+	import 'carta-md/default.css';
 
 	const carta = new Carta({
 		sanitizer: false,
