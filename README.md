@@ -52,6 +52,7 @@ Differently from most editors, Carta does not include a code editor, but it is _
 - 📂 **Attachment** support (plugin);
 - ⚓ **Anchor** links in headings (plugin);
 - 🌈 Code blocks **syntax highlighting** (plugin).
+- ⚙️ Embed **Components** (plugin);
 
 ## Packages
 
@@ -65,6 +66,7 @@ Differently from most editors, Carta does not include a code editor, but it is _
 | [plugin-tikz](https://www.npmjs.com/package/@cartamd/plugin-tikz)             | ![plugin-tikz](https://img.shields.io/npm/v/@cartamd/plugin-tikz)             | [/plugins/tikz](https://beartocode.github.io/carta/plugins/tikz)             |
 | [plugin-attachment](https://www.npmjs.com/package/@cartamd/plugin-attachment) | ![plugin-attachment](https://img.shields.io/npm/v/@cartamd/plugin-attachment) | [/plugins/attachment](https://beartocode.github.io/carta/plugins/attachment) |
 | [plugin-anchor](https://www.npmjs.com/package/@cartamd/plugin-anchor)         | ![plugin-anchor](https://img.shields.io/npm/v/@cartamd/plugin-anchor)         | [/plugins/anchor](https://beartocode.github.io/carta/plugins/anchor)         |
+| [plugin-component](https://www.npmjs.com/package/@cartamd/plugin-component)   | ![plugin-component](https://img.shields.io/npm/v/@cartamd/plugin-component)   | [/plugins/component](https://beartocode.github.io/carta/plugins/anchor)      |
 
 ## Community plugins
 
@@ -156,6 +158,7 @@ For the full documentation, examples, guides and more checkout the [website](htt
   - [TikZ](https://beartocode.github.io/carta/plugins/tikz)
   - [Attachment](https://beartocode.github.io/carta/plugins/attachment)
   - [Anchor](https://beartocode.github.io/carta/plugins/anchor)
+  - [Component](https://beartocode.github.io/carta/plugins/component)
 - API:
   - [Utilities](https://beartocode.github.io/carta/api/utilities)
   - [Core](https://beartocode.github.io/carta/api/core)
