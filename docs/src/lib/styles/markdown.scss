@@ -54,13 +54,8 @@
 		@apply rounded bg-neutral-800 px-1 text-neutral-50;
 	}
 
-	p,
-	h1,
-	h2,
-	h3 {
-		code {
-			@apply px-1;
-		}
+	pre > code {
+		@apply px-0;
 	}
 
 	.carta-editor code {
