@@ -407,8 +407,9 @@ export class Carta {
 		}
 
 		const processor = await this.asyncProcessor;
-		const dirty = String(await processor.process(markdown));
-		if (!dirty) return '';
+		const result = await processor.process(markdown);
+		if (!result) return '';
+		const dirty = String(result);
 		this.dispatcher.dispatchEvent(
 			new CustomEvent<{ carta: Carta }>('carta-render', { detail: { carta: this } })
 		);
