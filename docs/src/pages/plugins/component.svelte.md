@@ -45,14 +45,14 @@ For example, if you want to use a custom renderer for images:
 
 ```ts
 import { Carta } from 'carta-md';
-import { attachment } from '@cartamd/plugin-attachment';
-import { svelte, initializeComponents } from '@cartamd/plugin-attachment/svelte';
+import { component } from '@cartamd/plugin-component';
+import { svelte, initializeComponents } from '@cartamd/plugin-component/svelte';
 import Image from './Image.svelte';
 
 const mapped = [svelte('img', Image) /* other components ... */];
 
 const carta = new Carta({
-	extensions: [attachment(mapped, initializeComponents)]
+	extensions: [component(mapped, initializeComponents)]
 	// ...
 });
 ```
@@ -64,7 +64,7 @@ You can use custom logic when selecting which nodes to map:
 <Code>
 
 ```ts
-import { svelteCustom } from '@cartamd/plugin-attachment/svelte';
+import { svelteCustom } from '@cartamd/plugin-component/svelte';
 import MyComponent from '...';
 
 const mapped = [
@@ -107,7 +107,7 @@ When pre-rendering content on the server (using the `<PreRendered>` component), 
 
 ```svelte
 <script>
-	import { initializeComponents } from '@cartamd/plugin-attachment/svelte';
+	import { initializeComponents } from '@cartamd/plugin-component/svelte';
 	import { onMount } from 'svelte';
 	// ...
 
