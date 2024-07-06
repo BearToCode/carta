@@ -1,12 +1,23 @@
-# Carta Component Plugin
+---
+section: Plugins
+title: Component
+---
+
+<script>
+	import Code from '$lib/components/code/Code.svelte';
+</script>
 
 This plugin adds support for mapping certain elements to **components** inside the editor.
 
 ## Installation
 
+<Code>
+
 ```
 npm i @cartamd/plugin-component
 ```
+
+</Code>
 
 ## Usage
 
@@ -14,6 +25,8 @@ npm i @cartamd/plugin-component
 
 The first thing to do is to map certain elements(nodes) to their corresponding components.
 For example, if you want to use a custom renderer for images:
+
+<Code>
 
 ```svelte
 <!-- Image.svelte -->
@@ -25,6 +38,10 @@ For example, if you want to use a custom renderer for images:
 <!-- Your custom component... -->
 <img {src} {alt} />
 ```
+
+</Code>
+
+<Code>
 
 ```ts
 import { Carta } from 'carta-md';
@@ -40,7 +57,11 @@ const carta = new Carta({
 });
 ```
 
+</Code>
+
 You can use custom logic when selecting which nodes to map:
+
+<Code>
 
 ```ts
 import { svelteCustom } from '@cartamd/plugin-attachment/svelte';
@@ -57,9 +78,13 @@ const mapped = [
 ];
 ```
 
+</Code>
+
 ### Using `<slot />`
 
 To render children, you need to use a custom `<Slot />` component:
+
+<Code>
 
 ```svelte
 <!-- Heading.svelte -->
@@ -72,9 +97,13 @@ To render children, you need to use a custom `<Slot />` component:
 </h1>
 ```
 
+</Code>
+
 ### Usage with pre-rendering
 
 When pre-rendering content on the server (using the `<PreRendered>` component), the components will not be mounted by default. You need to use the `initializeComponents` function yourself.
+
+<Code>
 
 ```svelte
 <script>
@@ -98,6 +127,8 @@ When pre-rendering content on the server (using the `<PreRendered>` component), 
 	<PreRendered html={data.html} />
 </div>
 ```
+
+</Code>
 
 ### Limitations
 
