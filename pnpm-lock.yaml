@@ -159,6 +159,9 @@ importers:
 
   packages/carta-md:
     dependencies:
+      diff:
+        specifier: ^5.2.0
+        version: 5.2.0
       esm-env:
         specifier: ^1.0.0
         version: 1.0.0
@@ -196,6 +199,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.2
         version: 3.0.2(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5))
+      '@types/diff':
+        specifier: ^5.2.1
+        version: 5.2.1
       svelte-check:
         specifier: ^3.6.7
         version: 3.6.7(postcss-load-config@4.0.1(postcss@8.4.36)(ts-node@10.9.1(@types/node@18.16.3)(typescript@5.3.3)))(postcss@8.4.36)(sass@1.69.5)(svelte@4.2.12)
@@ -1125,6 +1131,9 @@ packages:
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
+  '@types/diff@5.2.1':
+    resolution: {integrity: sha512-uxpcuwWJGhe2AR1g8hD9F5OYGCqjqWnBUQFD8gMZsDbv8oPHzxJF6iMO6n8Tk0AdzlxoaaoQhOYlIg/PukVU8g==}
+
   '@types/estree@1.0.1':
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
 
@@ -1860,6 +1869,10 @@ packages:
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
+    engines: {node: '>=0.3.1'}
+
+  diff@5.2.0:
+    resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
     engines: {node: '>=0.3.1'}
 
   dir-glob@3.0.1:
@@ -5359,6 +5372,8 @@ snapshots:
     dependencies:
       '@types/ms': 0.7.34
 
+  '@types/diff@5.2.1': {}
+
   '@types/estree@1.0.1': {}
 
   '@types/estree@1.0.5': {}
@@ -6142,6 +6157,8 @@ snapshots:
 
   diff@4.0.2:
     optional: true
+
+  diff@5.2.0: {}
 
   dir-glob@3.0.1:
     dependencies:

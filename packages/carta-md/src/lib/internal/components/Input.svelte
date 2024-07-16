@@ -10,6 +10,7 @@
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
 	import { BROWSER } from 'esm-env';
+	import { removeTemporaryNodes, speculativeHighlightUpdate } from '../speculative';
 
 	/**
 	 * The Carta instance to use.
@@ -33,9 +34,10 @@
 	export let props: TextAreaProps = {};
 
 	let textarea: HTMLTextAreaElement;
-	let highlighElem: HTMLDivElement;
+	let highlightElem: HTMLDivElement;
 	let highlighted = value;
 	let mounted = false;
+	let prevValue = value;
 
 	/**
 	 * Manually resize the textarea to fit the content, so that it
@@ -43,7 +45,7 @@
 	 */
 	export const resize = () => {
 		if (!mounted || !textarea) return;
-		textarea.style.height = highlighElem.scrollHeight + 'px';
+		textarea.style.height = highlightElem.scrollHeight + 'px';
 		textarea.scrollTop = 0;
 	};
 
@@ -59,7 +61,7 @@
 	 * Highlight the text in the textarea.
 	 * @param text The text to highlight.
 	 */
-	const highlight = async (text: string) => {
+	const highlight = debounce(async (text: string) => {
 		const highlighter = await carta.highlighter();
 		if (!highlighter) return;
 		let html: string;
@@ -81,12 +83,16 @@
 			});
 		}
 
+		removeTemporaryNodes(highlightElem);
+
 		if (carta.sanitizer) {
 			highlighted = carta.sanitizer(html);
 		} else {
 			highlighted = html;
 		}
-	};
+
+		requestAnimationFrame(resize);
+	}, 250);
 
 	/**
 	 * Highlight the nested languages in the markdown, loading the necessary
@@ -104,7 +110,12 @@
 	}, 300);
 
 	const onValueChange = (value: string) => {
-		highlight(value).then(resize);
+		if (highlightElem) {
+			speculativeHighlightUpdate(highlightElem, prevValue, value);
+			requestAnimationFrame(resize);
+		}
+
+		highlight(value);
 		highlightNestedLanguages(value);
 	};
 
@@ -118,7 +129,6 @@
 	onMount(() => {
 		carta.$setInput(textarea, elem, () => {
 			value = textarea.value;
-			highlight(value);
 		});
 	});
 </script>
@@ -140,7 +150,7 @@
 			class="carta-highlight carta-font-code"
 			tabindex="-1"
 			aria-hidden="true"
-			bind:this={highlighElem}
+			bind:this={highlightElem}
 		>
 			<!-- eslint-disable-line svelte/no-at-html-tags -->{@html highlighted}
 		</div>
@@ -158,6 +168,7 @@
 			bind:value
 			bind:this={textarea}
 			on:scroll={() => (textarea.scrollTop = 0)}
+			on:keydown={() => (prevValue = value)}
 		/>
 	</div>
 
