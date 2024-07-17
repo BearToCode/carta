@@ -14,7 +14,9 @@ export function speculativeHighlightUpdate(container: HTMLDivElement, from: stri
 	const textNodes = textNodesUnder(container);
 
 	if (textNodes.length == 0) {
-		textNodes.push(createTemporaryNode(container));
+		const tempNode = createTemporaryNode(container);
+		if (!tempNode) return; // Could not create a temporary node
+		textNodes.push(tempNode);
 	}
 
 	let currentNodeIdx = 0;
@@ -119,7 +121,8 @@ function textNodesUnder(elem: HTMLElement) {
  * @returns A new text node appended to the last line of the container.
  */
 export function createTemporaryNode(container: HTMLDivElement) {
-	const span = Array.from(container.querySelectorAll('.line')).at(-1)!;
+	const span = Array.from(container.querySelectorAll('.line')).at(-1);
+	if (!span) return null; // Could not find a line
 
 	const node = document.createTextNode('');
 	span.appendChild(node);
