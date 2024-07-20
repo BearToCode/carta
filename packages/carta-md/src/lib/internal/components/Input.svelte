@@ -61,7 +61,7 @@
 	 * Highlight the text in the textarea.
 	 * @param text The text to highlight.
 	 */
-	const highlight = debounce(async (text: string) => {
+	const highlight = async (text: string) => {
 		const highlighter = await carta.highlighter();
 		if (!highlighter) return;
 		let html: string;
@@ -92,7 +92,9 @@
 		}
 
 		requestAnimationFrame(resize);
-	}, 250);
+	};
+
+	const debouncedHighlight = debounce(highlight, 250);
 
 	/**
 	 * Highlight the nested languages in the markdown, loading the necessary
@@ -106,16 +108,25 @@
 
 		if (!highlighter) return;
 		const { updated } = await loadNestedLanguages(highlighter, text);
-		if (updated) highlight(text);
+		if (updated) debouncedHighlight(text);
 	}, 300);
 
 	const onValueChange = (value: string) => {
-		if (highlightElem) {
-			speculativeHighlightUpdate(highlightElem, prevValue, value);
-			requestAnimationFrame(resize);
+		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+		if (isMobile) {
+			// On mobile, highlight immediately as using the debounced version
+			// causes issues with the keyboard and focus.
+			highlight(value);
+		} else {
+			if (highlightElem) {
+				speculativeHighlightUpdate(highlightElem, prevValue, value);
+				requestAnimationFrame(resize);
+			}
+
+			debouncedHighlight(value);
 		}
 
-		highlight(value);
 		highlightNestedLanguages(value);
 	};
 
