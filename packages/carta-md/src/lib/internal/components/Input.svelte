@@ -167,8 +167,6 @@
 		</div>
 
 		<textarea
-			name="md"
-			id="md"
 			spellcheck="false"
 			class="carta-font-code"
 			aria-multiline="true"
