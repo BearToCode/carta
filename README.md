@@ -13,7 +13,7 @@
 	</a>
 </div>
 
-[![Logo](https://i.postimg.cc/nV6DMXKM/Carta.png)](https://beartocode.github.io/carta/)
+[![Logo](https://i.postimg.cc/436th25b/Carta.png)](https://beartocode.github.io/carta/)
 
 <h1 align="center"><strong>Carta</strong></h1>
 <div align="center">Modern, lightweight, powerful Markdown Editor.</div>
