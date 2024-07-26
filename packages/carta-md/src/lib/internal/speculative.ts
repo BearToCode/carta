@@ -44,7 +44,8 @@ export function speculativeHighlightUpdate(container: HTMLDivElement, from: stri
 		advance(change.value.length);
 	};
 	const addedCallback = (change: Change) => {
-		const node = textNodes[currentNodeIdx] ?? createTemporaryNode(container);
+		const node = textNodes.at(currentNodeIdx) ?? createTemporaryNode(container);
+		if (!node) return; // Could not create a temporary node
 
 		const text = node.textContent ?? '';
 		const pre = text.slice(0, currentNodeCharIdx);
@@ -54,40 +55,26 @@ export function speculativeHighlightUpdate(container: HTMLDivElement, from: stri
 		advance(change.value.length);
 	};
 	const removedCallback = (change: Change) => {
-		// Use the Selection object to delete removed text
-		const startNodeIdx = currentNodeIdx;
-		const startNodeCharIdx = currentNodeCharIdx;
-		advance(change.value.length);
-		const endNodeIdx = currentNodeIdx;
-		let endNodeCharIdx = currentNodeCharIdx;
+		let charsToRemove = change.value.length;
 
-		const startNode = textNodes[startNodeIdx];
-		let endNode = textNodes[endNodeIdx];
+		while (charsToRemove > 0) {
+			const node = textNodes.at(currentNodeIdx);
+			if (!node) return; // Could not find a node
 
-		if (!endNode) {
-			// Remove everything
-			endNode = textNodes.at(-1)!;
-			endNodeCharIdx = endNode.textContent?.length ?? 0;
+			const text = node.textContent ?? '';
+			const availableNodeChars = text.length - currentNodeCharIdx;
+
+			const stepsTaken = Math.min(availableNodeChars, charsToRemove);
+
+			node.textContent =
+				text.slice(0, currentNodeCharIdx) + text.slice(currentNodeCharIdx + stepsTaken);
+
+			charsToRemove -= stepsTaken;
+			if (stepsTaken == availableNodeChars) {
+				currentNodeIdx++;
+				currentNodeCharIdx = 0;
+			}
 		}
-
-		const range = new Range();
-		range.setStart(startNode, startNodeCharIdx);
-		range.setEnd(endNode, endNodeCharIdx);
-
-		const selection = window.getSelection();
-		if (!selection) return;
-
-		const initialRanges = new Array(selection.rangeCount).map((_, i) => selection.getRangeAt(i));
-		selection.removeAllRanges();
-
-		selection.addRange(range);
-		selection.deleteFromDocument();
-
-		initialRanges.forEach(selection.addRange);
-
-		// Go back to start
-		currentNodeIdx = startNodeIdx;
-		currentNodeCharIdx = startNodeCharIdx;
 	};
 
 	for (const change of diff) {

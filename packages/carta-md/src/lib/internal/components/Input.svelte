@@ -112,20 +112,12 @@
 	}, 300);
 
 	const onValueChange = (value: string) => {
-		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-		if (isMobile) {
-			// On mobile, highlight immediately as using the debounced version
-			// causes issues with the keyboard and focus.
-			highlight(value);
-		} else {
-			if (highlightElem) {
-				speculativeHighlightUpdate(highlightElem, prevValue, value);
-				requestAnimationFrame(resize);
-			}
-
-			debouncedHighlight(value);
+		if (highlightElem) {
+			speculativeHighlightUpdate(highlightElem, prevValue, value);
+			requestAnimationFrame(resize);
 		}
+
+		debouncedHighlight(value);
 
 		highlightNestedLanguages(value);
 	};
