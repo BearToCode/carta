@@ -25,10 +25,12 @@
 			&:focus-within {
 				outline: 3px solid rgba($accent, 0.5);
 			}
+		}
 
-			.carta-container {
-				height: 200px;
-			}
+		.carta-input,
+		.carta-renderer {
+			height: 200px;
+			overflow: auto;
 		}
 
 		.carta-font-code {

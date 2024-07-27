@@ -22,5 +22,8 @@
 	"[svelte]": {
 		"editor.defaultFormatter": "svelte.svelte-vscode"
 	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
 	"css.customData": [".vscode/tailwind.json"]
 }

@@ -49,8 +49,13 @@
 		textarea.style.height = textarea.scrollHeight + 'px';
 		textarea.scrollTop = 0;
 
+		const isFocused = document.activeElement === textarea;
+		if (!isFocused) return;
 		const coords = carta.input?.getCursorXY();
-		elem.scrollTo({ top: coords?.top, behavior: 'instant' });
+		if (!coords) return;
+
+		if (coords.top < 0 || coords.top >= elem.scrollTop + elem.clientHeight)
+			elem.scrollTo({ top: coords?.top, behavior: 'instant' });
 	};
 
 	const focus = () => {
@@ -188,7 +193,6 @@
 	}
 
 	.carta-input-wrapper {
-		height: 100%;
 		position: relative;
 		font-family: monospace;
 	}

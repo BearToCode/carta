@@ -14,14 +14,18 @@
 
 		.carta-wrapper {
 			padding: 1rem;
-			padding-left: 56px;
 			flex-grow: 1;
-			overflow-y: auto;
+		}
 
-			.carta-container {
-				min-height: 32px;
-				max-height: 400px;
-			}
+		.carta-input-wrapper {
+			padding-left: 36px;
+		}
+
+		.carta-input,
+		.carta-renderer {
+			min-height: 32px;
+			max-height: 400px;
+			overflow: auto;
 		}
 
 		.carta-font-code {
@@ -37,7 +41,7 @@
 		.discord-plus-icon {
 			position: absolute;
 			top: 15px;
-			left: -24px;
+			left: 15px;
 			width: 1.75rem;
 			height: 1.75rem;
 			transform: translateX(-50%) translateY(-50%);
