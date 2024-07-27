@@ -45,8 +45,12 @@
 	 */
 	export const resize = () => {
 		if (!mounted || !textarea) return;
-		textarea.style.height = highlightElem.scrollHeight + 'px';
+		textarea.style.height = '0';
+		textarea.style.height = textarea.scrollHeight + 'px';
 		textarea.scrollTop = 0;
+
+		const coords = carta.input?.getCursorXY();
+		elem.scrollTo({ top: coords?.top, behavior: 'instant' });
 	};
 
 	const focus = () => {
