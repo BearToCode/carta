@@ -51,10 +51,14 @@
 
 		const isFocused = document.activeElement === textarea;
 		if (!isFocused) return;
-		const coords = carta.input?.getCursorXY();
+		if (!carta.input) return;
+		const coords = carta.input.getCursorXY();
 		if (!coords) return;
 
-		if (coords.top < 0 || coords.top >= elem.scrollTop + elem.clientHeight)
+		if (
+			coords.top < 0 ||
+			coords.top + carta.input.getRowHeight() >= elem.scrollTop + elem.clientHeight
+		)
 			elem.scrollTo({ top: coords?.top, behavior: 'instant' });
 	};
 
