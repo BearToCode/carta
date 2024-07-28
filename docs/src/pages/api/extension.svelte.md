@@ -196,6 +196,22 @@ const prefix: Prefix = {
 
 </Code>
 
+## `tabOuts`
+
+"Tab-outs" allow users to use the `tab` key to skip certain pieces of text. For example, after using the bold shortcut and having typed the text, you can press `tab` to skip the ending `**`.
+
+### `TabOut.id`
+
+Type: `string`
+
+Id of the tab-out.
+
+### `TabOut.delimiter`
+
+Type: `string | readonly string[]`
+
+Text(s) to check for. If one of them is found after the textarea `selectionEnd`, pressing tab will place the cursor after that.
+
 ### `listeners`
 
 Type: `Listener[]`

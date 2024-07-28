@@ -156,5 +156,13 @@ interface MathExtensionOptions {
 	 * Options for rehype-katex
 	 */
 	rehypeKatex?: RehypeKatexOptions;
+	/**
+	 * Disable tab outs.
+	 */
+	disableTabOuts?: boolean;
+	/**
+	 * Disable the katex icon.
+	 */
+	disableIcon?: boolean;
 }
 ```

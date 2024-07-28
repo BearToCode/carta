@@ -54,6 +54,12 @@ Type: `DefaultPrefixId[] | true`
 
 Remove default prefixes by id. You can use `true` to disable all of them.
 
+### `disableTabOuts`
+
+Type: `DefaultTabOutId[] | true`
+
+Remove default tab-outs by id. You can use `true` to disable all of them.
+
 ### `historyOptions`
 
 History management options.
