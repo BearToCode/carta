@@ -38,7 +38,7 @@ export const defaultTabOuts = [
 		delimiter: '`'
 	},
 	{
-		id: 'code-block',
+		id: 'block-code',
 		delimiter: '\n```'
 	}
 ] as const satisfies readonly TabOut[];
