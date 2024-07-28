@@ -61,15 +61,19 @@
 			} else {
 				// Check for arrows
 				if (e.key === 'ArrowUp') {
+					if (filter === '') return (visible = false);
 					e.preventDefault();
 					hoveringIndex = getIndexOfEmojiElementInPrevRow();
 				} else if (e.key === 'ArrowDown') {
+					if (filter === '') return (visible = false);
 					e.preventDefault();
 					hoveringIndex = getIndexOfEmojiElementInNextRow();
 				} else if (e.key === 'ArrowLeft') {
+					if (filter === '') return (visible = false);
 					e.preventDefault();
 					hoveringIndex = (emojis.length + hoveringIndex - 1) % emojis.length;
 				} else if (e.key === 'ArrowRight') {
+					if (filter === '') return (visible = false);
 					e.preventDefault();
 					hoveringIndex = (emojis.length + hoveringIndex + 1) % emojis.length;
 				}
