@@ -5,6 +5,7 @@ export type { InputEnhancer, TextSelection } from '$lib/internal/input';
 export type { Icon } from '$lib/internal/icons';
 export type { KeyboardShortcut } from '$lib/internal/shortcuts';
 export type { Prefix } from '$lib/internal/prefixes';
+export type { TabOut } from '$lib/internal/tabouts';
 export * from '$lib/internal/carta';
 export * from '$lib/internal/highlight';
 export * from '$lib/internal/textarea-props';
