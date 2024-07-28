@@ -159,9 +159,6 @@ importers:
 
   packages/carta-md:
     dependencies:
-      carta-md:
-        specifier: 'link:'
-        version: 'link:'
       diff:
         specifier: ^5.2.0
         version: 5.2.0
