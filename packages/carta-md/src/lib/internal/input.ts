@@ -3,6 +3,7 @@ import type { Prefix } from './prefixes';
 import type { KeyboardShortcut } from './shortcuts';
 import { TextAreaHistory as TextAreaHistory, type TextAreaHistoryOptions } from './history';
 import { areEqualSets } from './utils';
+import type { TabOut } from './tabouts';
 
 /**
  * Text selection information.
@@ -20,6 +21,7 @@ export interface TextSelection {
 export interface InputSettings {
 	readonly shortcuts: KeyboardShortcut[];
 	readonly prefixes: Prefix[];
+	readonly tabOuts: TabOut[];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly listeners: Listener<any>[];
 	readonly historyOpts?: Partial<TextAreaHistoryOptions>;
@@ -120,14 +122,36 @@ export class InputEnhancer {
 			}
 
 			this.onKeyDownValue = undefined;
-		} else {
-			// On newline
-			if (key === 'enter') {
-				// Check prefixes
-				this.handleNewLine(e);
-			} else if (key == 'tab' && !this.escapePressed) {
-				e.preventDefault(); // Don't select other stuff
+			return;
+		}
 
+		// On newline
+		if (key === 'enter') {
+			// Check prefixes
+			this.handleNewLine(e);
+		} else if (key == 'tab' && !this.escapePressed) {
+			e.preventDefault(); // Don't select other stuff
+
+			// Check for tab-outs
+			let matchedDelimiter = null;
+			const tabOutsDelimiters = this.settings.tabOuts.map((tabOut) => tabOut.delimiter).flat();
+			for (const delimiter of tabOutsDelimiters) {
+				if (
+					this.textarea.value.slice(
+						this.textarea.selectionEnd,
+						this.textarea.selectionEnd + delimiter.length
+					) === delimiter
+				) {
+					matchedDelimiter = delimiter;
+					break;
+				}
+			}
+
+			if (matchedDelimiter) {
+				const cursor = this.textarea.selectionEnd + matchedDelimiter.length;
+				this.textarea.setSelectionRange(cursor, cursor);
+			} else {
+				// Indentation
 				if (e.shiftKey) {
 					// Unindent
 					const line = this.getLine();
@@ -143,6 +167,7 @@ export class InputEnhancer {
 						this.textarea.selectionEnd = position - 1;
 					}
 				} else {
+					// Indent
 					const position = this.textarea.selectionStart;
 					this.insertAt(this.textarea.selectionStart, '\t');
 					this.textarea.selectionStart = position + 1;
@@ -150,11 +175,12 @@ export class InputEnhancer {
 				}
 
 				this.update();
-			} else if (key === 'escape') {
-				this.escapePressed = true;
 			}
-			this.onKeyDownValue = this.textarea.value;
+		} else if (key === 'escape') {
+			this.escapePressed = true;
 		}
+
+		this.onKeyDownValue = this.textarea.value;
 	}
 
 	private handleKeyUp(e: KeyboardEvent) {

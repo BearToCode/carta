@@ -4,20 +4,20 @@ import type { InputEnhancer } from './input';
  * Keyboard shortcut data.
  */
 export interface KeyboardShortcut {
-	id: string;
+	readonly id: string;
 	/**
 	 * Set of keys, corresponding to the `e.key` of `KeyboardEvent`s, but lowercase.
 	 */
-	combination: Set<string>;
+	readonly combination: Set<string>;
 	/**
 	 * Callback action.
 	 * @param input Input helper.
 	 */
-	action: (input: InputEnhancer) => void;
+	readonly action: (input: InputEnhancer) => void;
 	/**
 	 * Prevent saving the current state in history.
 	 */
-	preventSave?: boolean;
+	readonly preventSave?: boolean;
 }
 
 /**
@@ -35,7 +35,7 @@ export const defaultKeyboardShortcuts = [
 	{
 		id: 'italic',
 		combination: new Set(['control', 'i']),
-		action: (input) => input.toggleSelectionSurrounding('_')
+		action: (input) => input.toggleSelectionSurrounding('*')
 	},
 	// Quote
 	{

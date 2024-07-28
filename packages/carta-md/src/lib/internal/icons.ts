@@ -18,20 +18,20 @@ export interface Icon {
 	/**
 	 * The icon's unique identifier.
 	 */
-	id: string;
+	readonly id: string;
 	/**
 	 * Callback function to execute when the icon is clicked.
 	 * @param input InputEnhancer instance
 	 */
-	action: (input: InputEnhancer) => void;
+	readonly action: (input: InputEnhancer) => void;
 	/**
 	 * The icon's component.
 	 */
-	component: ComponentType;
+	readonly component: ComponentType;
 	/**
 	 * The icon's label (used as aria-label).
 	 */
-	label?: string;
+	readonly label?: string;
 }
 
 export const defaultIcons = [

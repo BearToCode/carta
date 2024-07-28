@@ -24,6 +24,7 @@ import type {
 	HighlightingRule
 } from './highlight';
 import { BROWSER } from 'esm-env';
+import { defaultTabOuts, type DefaultTabOutId, type TabOut } from './tabouts';
 
 /**
  * Carta-specific event with extra payload.
@@ -100,6 +101,10 @@ export interface Options {
 	 */
 	disablePrefixes?: DefaultPrefixId[] | true;
 	/**
+	 * Remove default tab-outs by ids.
+	 */
+	disableTabOuts?: DefaultTabOutId[] | true;
+	/**
 	 * History (Undo/Redo) options.
 	 */
 	historyOptions?: TextAreaHistoryOptions;
@@ -156,6 +161,10 @@ export interface Plugin {
 	 */
 	prefixes?: Prefix[];
 	/**
+	 * Additional tab-outs.
+	 */
+	tabOuts?: TabOut[];
+	/**
 	 * Textarea event listeners.
 	 */
 	listeners?: Listeners;
@@ -190,6 +199,7 @@ export class Carta {
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: Icon[];
 	public readonly prefixes: Prefix[];
+	public readonly tabOuts: TabOut[];
 	public readonly grammarRules: GrammarRule[];
 	public readonly highlightingRules: HighlightingRule[];
 	public readonly textareaListeners: Listeners;
@@ -258,6 +268,7 @@ export class Carta {
 		this.keyboardShortcuts = [];
 		this.icons = [];
 		this.prefixes = [];
+		this.tabOuts = [];
 		this.textareaListeners = [];
 		this.cartaListeners = [];
 		this.components = [];
@@ -269,6 +280,7 @@ export class Carta {
 			this.keyboardShortcuts.push(...(ext.shortcuts ?? []));
 			this.icons.push(...(ext.icons ?? []));
 			this.prefixes.push(...(ext.prefixes ?? []));
+			this.tabOuts.push(...(ext.tabOuts ?? []));
 			this.components.push(...(ext.components ?? []));
 			this.grammarRules.push(...(ext.grammarRules ?? []));
 			this.highlightingRules.push(...(ext.highlightingRules ?? []));
@@ -305,6 +317,13 @@ export class Carta {
 		this.prefixes.push(
 			...defaultPrefixes.filter((prefix) =>
 				options?.disablePrefixes === true ? false : !options?.disablePrefixes?.includes(prefix.id)
+			)
+		);
+
+		// Load default tab-outs
+		this.tabOuts.push(
+			...defaultTabOuts.filter((tabOut) =>
+				options?.disableTabOuts === true ? false : !options?.disableTabOuts?.includes(tabOut.id)
 			)
 		);
 
@@ -451,6 +470,7 @@ export class Carta {
 		this.mInput = new InputEnhancer(textarea, container, {
 			shortcuts: this.keyboardShortcuts,
 			prefixes: this.prefixes,
+			tabOuts: this.tabOuts,
 			listeners: this.textareaListeners,
 			historyOpts: this.historyOptions
 		});
