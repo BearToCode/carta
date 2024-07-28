@@ -159,6 +159,9 @@ importers:
 
   packages/carta-md:
     dependencies:
+      carta-md:
+        specifier: 'link:'
+        version: 'link:'
       diff:
         specifier: ^5.2.0
         version: 5.2.0
@@ -432,12 +435,45 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
     devDependencies:
+      '@sveltejs/adapter-auto':
+        specifier: ^3.1.1
+        version: 3.1.1(@sveltejs/kit@2.5.4(@sveltejs/vite-plugin-svelte@3.0.2(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5)))(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5)))
+      '@sveltejs/kit':
+        specifier: ^2.5.4
+        version: 2.5.4(@sveltejs/vite-plugin-svelte@3.0.2(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5)))(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5))
+      '@sveltejs/package':
+        specifier: ^2.3.0
+        version: 2.3.0(svelte@4.2.12)(typescript@5.3.3)
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^3.0.2
+        version: 3.0.2(svelte@4.2.12)(vite@5.1.6(@types/node@20.5.1)(sass@1.69.5))
+      '@types/node-emoji':
+        specifier: ^1.8.2
+        version: 1.8.2
       carta-md:
         specifier: workspace:*
         version: link:../carta-md
+      katex:
+        specifier: ^0.16.10
+        version: 0.16.10
+      publint:
+        specifier: ^0.1.9
+        version: 0.1.12
+      svelte:
+        specifier: ^4.2.12
+        version: 4.2.12
+      svelte-check:
+        specifier: ^3.6.7
+        version: 3.6.7(postcss-load-config@4.0.1(postcss@8.4.36)(ts-node@10.9.1(@types/node@18.16.3)(typescript@5.3.3)))(postcss@8.4.36)(sass@1.69.5)(svelte@4.2.12)
+      tslib:
+        specifier: ^2.4.1
+        version: 2.5.0
       typescript:
-        specifier: ^5.0.4
-        version: 5.0.4
+        specifier: ^5.0.0
+        version: 5.3.3
+      vite:
+        specifier: ^5.1.6
+        version: 5.1.6(@types/node@20.5.1)(sass@1.69.5)
 
   packages/plugin-slash:
     dependencies:

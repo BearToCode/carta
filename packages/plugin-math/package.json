@@ -1,36 +1,62 @@
 {
 	"name": "@cartamd/plugin-math",
+	"version": "4.0.1",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"license": "MIT",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build && npm run package",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "npm run package",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/BearToCode/carta.git"
 	},
 	"exports": {
 		".": {
-			"import": "./dist/index.js"
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		},
+		"./default.css": {
+			"import": "./dist/default.css",
+			"require": "./dist/default.css"
 		}
 	},
-	"scripts": {
-		"build": "tsc"
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"peerDependencies": {
+		"carta-md": "^4.0.0",
+		"svelte": "^3.54.0 || ^4.0.0"
 	},
 	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.1.1",
+		"@sveltejs/kit": "^2.5.4",
+		"@sveltejs/package": "^2.3.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.2",
+		"@types/node-emoji": "^1.8.2",
 		"carta-md": "workspace:*",
-		"typescript": "^5.0.4"
+		"katex": "^0.16.10",
+		"publint": "^0.1.9",
+		"svelte": "^4.2.12",
+		"svelte-check": "^3.6.7",
+		"tslib": "^2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "^5.1.6"
 	},
-	"peerDependencies": {
-		"carta-md": "^4.0.0"
-	},
-	"files": [
-		"dist"
-	],
 	"dependencies": {
 		"rehype-katex": "^7.0.0",
 		"remark-math": "^6.0.0"
 	},
-	"version": "4.0.1",
+	"svelte": "./dist/index.js",
 	"keywords": [
 		"carta",
 		"markdown",

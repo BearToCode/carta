@@ -1,6 +1,7 @@
 import type { Plugin } from 'carta-md';
 import rehypeKatex, { type Options as RehypeKatexOptions } from 'rehype-katex';
 import remarkMath, { type Options as RemarkMathOptions } from 'remark-math';
+import MathIcon from './icons/MathIcon.svelte';
 
 interface MathExtensionOptions {
 	/**
@@ -32,6 +33,14 @@ interface MathExtensionOptions {
 	 * Options for rehype-katex
 	 */
 	rehypeKatex?: RehypeKatexOptions;
+	/**
+	 * Disable tab outs.
+	 */
+	disableTabOuts?: boolean;
+	/**
+	 * Disable the katex icon.
+	 */
+	disableIcon?: boolean;
 }
 
 /**
@@ -124,6 +133,27 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 					}
 				}
 			}
-		]
+		],
+		tabOuts: options?.disableTabOuts
+			? []
+			: [
+					{
+						id: 'inline-math',
+						delimiter: '$'
+					},
+					{
+						id: 'block-math',
+						delimiter: '\n$$'
+					}
+			  ],
+		icons: options?.disableIcon
+			? []
+			: [
+					{
+						id: 'math',
+						component: MathIcon,
+						action: (input) => input.toggleSelectionSurrounding('$')
+					}
+			  ]
 	};
 };
