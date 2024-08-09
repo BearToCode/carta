@@ -67,7 +67,7 @@ export const svelteCustom = <T extends Record<string, unknown>>(
 				visit(bodyElem, (node, index, parent) => {
 					if (
 						node.type === 'element' &&
-						node.tagName === 'div' &&
+						node.tagName === 'template' &&
 						node.properties['dataSlot'] === ''
 					) {
 						slot = {
