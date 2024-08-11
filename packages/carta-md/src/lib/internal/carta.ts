@@ -2,7 +2,7 @@ import type { SvelteComponent } from 'svelte';
 import { unified, type Processor } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm, { type Options as GfmOptions } from 'remark-gfm';
-import remarkRehype, {Options as RehypeOptions} from 'remark-rehype'
+import remarkRehype, { type Options as RehypeOptions } from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import type { TextAreaHistoryOptions } from './history';
 import { InputEnhancer } from './input';
@@ -125,7 +125,7 @@ export interface Options {
 	/**
 	 * Options that will be passed to rehype
 	 */
-	rehypeOptions?: RehypeOptions
+	rehypeOptions?: RehypeOptions;
 }
 
 /**
@@ -214,7 +214,7 @@ export class Carta {
 	public readonly gfmOptions: GfmOptions | undefined;
 	public readonly syncProcessor: Processor;
 	public readonly asyncProcessor: Promise<Processor>;
-	private readonly rehypeOptions: RehypeOptions
+	private readonly rehypeOptions: RehypeOptions;
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
@@ -279,7 +279,7 @@ export class Carta {
 		this.components = [];
 		this.grammarRules = [];
 		this.highlightingRules = [];
-		this.rehypeOptions = options?.rehypeOptions ?? {}
+		this.rehypeOptions = options?.rehypeOptions ?? {};
 		const listeners = [];
 		for (const ext of options?.extensions ?? []) {
 			this.keyboardShortcuts.push(...(ext.shortcuts ?? []));
@@ -347,8 +347,14 @@ export class Carta {
 		}
 
 		this.gfmOptions = options?.gfmOptions;
-		this.syncProcessor = this.setupSynchronousProcessor({ gfmOptions: this.gfmOptions, rehypeOptions: this.rehypeOptions });
-		this.asyncProcessor = this.setupAsynchronousProcessor({ gfmOptions: this.gfmOptions, rehypeOptions: this.rehypeOptions  });
+		this.syncProcessor = this.setupSynchronousProcessor({
+			gfmOptions: this.gfmOptions,
+			rehypeOptions: this.rehypeOptions
+		});
+		this.asyncProcessor = this.setupAsynchronousProcessor({
+			gfmOptions: this.gfmOptions,
+			rehypeOptions: this.rehypeOptions
+		});
 
 		for (const ext of options?.extensions ?? []) {
 			if (ext.onLoad) {
@@ -359,7 +365,13 @@ export class Carta {
 		}
 	}
 
-	private setupSynchronousProcessor({ gfmOptions, rehypeOptions }: { gfmOptions?: GfmOptions, rehypeOptions?: RehypeOptions }) {
+	private setupSynchronousProcessor({
+		gfmOptions,
+		rehypeOptions
+	}: {
+		gfmOptions?: GfmOptions;
+		rehypeOptions?: RehypeOptions;
+	}) {
 		const syncProcessor = unified();
 
 		const remarkPlugins = this.mSyncTransformers.filter((it) => it.type === 'remark');
@@ -383,7 +395,13 @@ export class Carta {
 		return syncProcessor;
 	}
 
-	private async setupAsynchronousProcessor({ gfmOptions }: { gfmOptions?: GfmOptions, rehypeOptions?: RehypeOptions }) {
+	private async setupAsynchronousProcessor({
+		gfmOptions,
+		rehypeOptions
+	}: {
+		gfmOptions?: GfmOptions;
+		rehypeOptions?: RehypeOptions;
+	}) {
 		const asyncProcessor = unified();
 
 		const remarkPlugins = [...this.mSyncTransformers, ...this.mAsyncTransformers].filter(
