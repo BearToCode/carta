@@ -40,14 +40,16 @@ import{s as Cn,e as c,a as i,c as u,l as d,g as r,p as f,i as p,f as e,H as Y,b 
 
 	<span class="token keyword">export</span> <span class="token keyword">let</span> data<span class="token punctuation">;</span>
 
-  <span class="token keyword">let</span> container<span class="token punctuation">;</span>
+	<span class="token keyword">let</span> container<span class="token punctuation">;</span>
 
-  <span class="token comment">// Needs access to the mapped components</span>
-  <span class="token keyword">const</span> mapped <span class="token operator">=</span> <span class="token comment">/* ... */</span><span class="token punctuation">;</span>
+	<span class="token comment">// Needs access to the mapped components</span>
+	<span class="token keyword">const</span> mapped <span class="token operator">=</span> <span class="token punctuation">[</span>
+		<span class="token comment">/* ... */</span>
+	<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-  <span class="token function">onMount</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-    <span class="token function">initializeComponents</span><span class="token punctuation">(</span>mapped<span class="token punctuation">,</span> container<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token function">onMount</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+		<span class="token function">initializeComponents</span><span class="token punctuation">(</span>mapped<span class="token punctuation">,</span> container<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name"><span class="token namespace">bind:</span>this=</span><span class="token language-javascript"><span class="token punctuation">&#123;</span>container<span class="token punctuation">&#125;</span></span><span class="token punctuation">></span></span>
