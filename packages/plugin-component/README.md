@@ -84,14 +84,16 @@ When pre-rendering content on the server (using the `<PreRendered>` component), 
 
 	export let data;
 
-  let container;
+	let container;
 
-  // Needs access to the mapped components
-  const mapped = /* ... */;
+	// Needs access to the mapped components
+	const mapped = [
+		/* ... */
+	];
 
-  onMount(() => {
-    initializeComponents(mapped, container);
-  })
+	onMount(() => {
+		initializeComponents(mapped, container);
+	});
 </script>
 
 <div bind:this={container}>
