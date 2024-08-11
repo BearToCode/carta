@@ -200,6 +200,7 @@ export class Carta {
 	public readonly historyOptions?: TextAreaHistoryOptions;
 	public readonly theme?: Theme | DualTheme;
 	public readonly shikiOptions?: ShikiOptions;
+	public readonly rehypeOptions: RehypeOptions;
 	public readonly rendererDebounce: number;
 	public readonly keyboardShortcuts: KeyboardShortcut[];
 	public readonly icons: Icon[];
@@ -214,7 +215,6 @@ export class Carta {
 	public readonly gfmOptions: GfmOptions | undefined;
 	public readonly syncProcessor: Processor;
 	public readonly asyncProcessor: Promise<Processor>;
-	private readonly rehypeOptions: RehypeOptions;
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
