@@ -32,6 +32,10 @@
 	 * Additional textarea properties.
 	 */
 	export let props: TextAreaProps = {};
+	/**
+	 * Whether this component is hidden (display: none).
+	 */
+	export let hidden = false;
 
 	let textarea: HTMLTextAreaElement;
 	let highlightElem: HTMLDivElement;
@@ -149,16 +153,17 @@
 	});
 </script>
 
-<div role="tooltip" id="editor-unfocus-suggestion">
+<div role="tooltip" id="editor-unfocus-suggestion" style="display: {hidden ? 'none' : 'unset'};">
 	Press ESC then TAB to move the focus off the field
 </div>
 <div
-	on:click={focus}
-	on:keydown={focus}
-	on:scroll
 	role="textbox"
 	tabindex="-1"
 	class="carta-input"
+	style="display: {hidden ? 'none' : 'unset'};"
+	on:click={focus}
+	on:keydown={focus}
+	on:scroll
 	bind:this={elem}
 >
 	<div class="carta-input-wrapper">

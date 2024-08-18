@@ -167,48 +167,46 @@
 
 	<div class="carta-wrapper">
 		<div class="carta-container mode-{windowMode}">
-			{#if windowMode == 'split' || selectedTab == 'write'}
-				<Input
-					{carta}
-					{placeholder}
-					props={textarea}
-					bind:value
-					bind:resize={resizeInput}
-					bind:elem={inputElem}
-					on:scroll={handleScroll}
-				>
-					<!-- Input extensions components -->
-					{#if mounted}
-						{#each carta.components.filter(({ parent }) => [parent]
-								.flat()
-								.includes('input')) as { component, props }}
-							<svelte:component this={component} {carta} {...props} />
-						{/each}
-					{/if}
-				</Input>
-			{/if}
-			{#if windowMode == 'split' || selectedTab == 'preview'}
-				<Renderer
-					{carta}
-					{value}
-					bind:elem={rendererElem}
-					on:scroll={handleScroll}
-					on:render={() => {
-						if (windowMode != 'split') return;
-						if (scroll != 'sync') return;
-						synchronizeScroll(inputElem, rendererElem);
-					}}
-				>
-					<!-- Renderer extensions components -->
-					{#if mounted}
-						{#each carta.components.filter(({ parent }) => [parent]
-								.flat()
-								.includes('renderer')) as { component, props }}
-							<svelte:component this={component} {carta} {...props} />
-						{/each}
-					{/if}
-				</Renderer>
-			{/if}
+			<Input
+				{carta}
+				{placeholder}
+				props={textarea}
+				hidden={!(windowMode == 'split' || selectedTab == 'write')}
+				bind:value
+				bind:resize={resizeInput}
+				bind:elem={inputElem}
+				on:scroll={handleScroll}
+			>
+				<!-- Input extensions components -->
+				{#if mounted}
+					{#each carta.components.filter(({ parent }) => [parent]
+							.flat()
+							.includes('input')) as { component, props }}
+						<svelte:component this={component} {carta} {...props} />
+					{/each}
+				{/if}
+			</Input>
+			<Renderer
+				{carta}
+				{value}
+				hidden={!(windowMode == 'split' || selectedTab == 'preview')}
+				bind:elem={rendererElem}
+				on:scroll={handleScroll}
+				on:render={() => {
+					if (windowMode != 'split') return;
+					if (scroll != 'sync') return;
+					synchronizeScroll(inputElem, rendererElem);
+				}}
+			>
+				<!-- Renderer extensions components -->
+				{#if mounted}
+					{#each carta.components.filter(({ parent }) => [parent]
+							.flat()
+							.includes('renderer')) as { component, props }}
+						<svelte:component this={component} {carta} {...props} />
+					{/each}
+				{/if}
+			</Renderer>
 		</div>
 	</div>
 
