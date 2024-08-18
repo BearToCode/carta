@@ -117,11 +117,3 @@ export function createTemporaryNode(container: HTMLDivElement) {
 	span.setAttribute('data-temp-node', 'true');
 	return node;
 }
-
-/**
- * Removes all temporary nodes from the highlight overlay container.
- * @param container The highlight overlay container.
- */
-export function removeTemporaryNodes(container: HTMLDivElement) {
-	container.querySelectorAll('[data-temp-node]').forEach((node) => node.remove());
-}

@@ -10,7 +10,7 @@
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
 	import { BROWSER } from 'esm-env';
-	import { removeTemporaryNodes, speculativeHighlightUpdate } from '../speculative';
+	import { speculativeHighlightUpdate } from '../speculative';
 
 	/**
 	 * The Carta instance to use.
@@ -98,8 +98,6 @@
 				themes: highlighter.theme
 			});
 		}
-
-		removeTemporaryNodes(highlightElem);
 
 		if (carta.sanitizer) {
 			highlighted = carta.sanitizer(html);
