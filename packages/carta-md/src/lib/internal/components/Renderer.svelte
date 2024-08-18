@@ -29,7 +29,10 @@
 	const debouncedRenderer = debounce((value: string) => {
 		carta
 			.render(value)
-			.then((rendered) => (renderedHtml = rendered))
+			.then((rendered) => {
+				renderedHtml = ''; // Force @html to re-render everything
+				renderedHtml = rendered;
+			})
 			.then(() => events('render', void 0));
 	}, carta.rendererDebounce ?? 300);
 
