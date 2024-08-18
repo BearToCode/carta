@@ -21,6 +21,10 @@
 	 * The element that wraps the rendered HTML.
 	 */
 	export let elem: HTMLDivElement;
+	/**
+	 * Whether this component is hidden (display: none).
+	 */
+	export let hidden = false;
 
 	let mounted = false;
 	let renderedHtml = carta.renderSSR(value);
@@ -48,7 +52,12 @@
 	const events = createEventDispatcher<{ render: void }>();
 </script>
 
-<div bind:this={elem} on:scroll class="carta-renderer markdown-body">
+<div
+	class="carta-renderer markdown-body"
+	style="display: {hidden ? 'none' : 'unset'};"
+	bind:this={elem}
+	on:scroll
+>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html renderedHtml}
 	{#if mounted}
