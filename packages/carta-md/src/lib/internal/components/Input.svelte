@@ -35,6 +35,7 @@
 
 	let textarea: HTMLTextAreaElement;
 	let highlightElem: HTMLDivElement;
+	let wrapperElem: HTMLDivElement;
 	let highlighted = value;
 	let mounted = false;
 	let prevValue = value;
@@ -46,7 +47,9 @@
 	export const resize = () => {
 		if (!mounted || !textarea) return;
 		textarea.style.height = '0';
+		textarea.style.minHeight = '0';
 		textarea.style.height = textarea.scrollHeight + 'px';
+		textarea.style.minHeight = wrapperElem.clientHeight + 'px';
 		textarea.scrollTop = 0;
 
 		const isFocused = document.activeElement === textarea;
@@ -161,7 +164,7 @@
 	class="carta-input"
 	bind:this={elem}
 >
-	<div class="carta-input-wrapper">
+	<div class="carta-input-wrapper" bind:this={wrapperElem}>
 		<div
 			class="carta-highlight carta-font-code"
 			tabindex="-1"
@@ -199,13 +202,13 @@
 	.carta-input-wrapper {
 		position: relative;
 		font-family: monospace;
+		min-height: 100%;
 	}
 
 	textarea {
 		position: relative;
 		width: 100%;
 		max-width: 100%;
-		min-height: 100%;
 
 		overflow-y: hidden;
 		resize: none;
