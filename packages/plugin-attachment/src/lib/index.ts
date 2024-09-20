@@ -16,7 +16,7 @@ export interface AttachmentExtensionOptions {
 	/**
 	 * Supported mime types.
 	 *
-	 * @default ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'].
+	 * @default ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml', 'image/webp', 'image/avif'].
 	 */
 	supportedMimeTypes?: string[];
 	/**
@@ -35,7 +35,7 @@ export interface AttachmentExtensionOptions {
 	loadingOverlay?: false | typeof SvelteComponent<{ uploadingFiles: Writable<File[]> }>;
 }
 
-const ImageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'];
+const ImageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml', 'image/webp', 'image/avif'];
 
 /**
  * Carta attachment plugin.
