@@ -43,6 +43,7 @@
 	:global(.carta-font-code, code) {
 		font-family: 'Fira Code', monospace;
 		font-variant-ligatures: normal;
+		font-size: 1.1rem;
 	}
 
 	:global(input, textarea, button) {
