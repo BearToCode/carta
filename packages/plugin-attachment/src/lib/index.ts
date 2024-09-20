@@ -64,11 +64,31 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 	async function handleFile(file: File) {
 		if (!allowedMimeTypes.includes(file.type)) return;
 		if (!carta?.input) return;
-		const textarea = carta.input.textarea;
+		const input = carta.input
+		const textarea = input.textarea;
 
+		let pos = input.textarea.selectionStart;
 		const loadingStr = `[Uploading ${file.name}](loading)`;
-		carta.input.insertAt(carta.input.textarea.selectionStart, loadingStr);
+		const isImage = ImageMimeTypes.includes(file.type)
+
+		if (isImage) {
+			// assume images are being inserted as blocks
+			const line = carta.input.getLine();
+			pos = line.end
+			if (line.value) {
+				input.insertAt(pos, '\n\n')
+				pos +=2
+			}
+			input.insertAt(pos,  loadingStr + '\n')
+			pos += loadingStr.length + 1;
+		} else {
+			// non image attachments are inline (could make multiple into comma separated list or bullets)
+			carta.input.insertAt(pos, loadingStr + ' ');
+			pos += loadingStr.length + 1
+		}
+
 		carta.input.update();
+		textarea.setSelectionRange(pos, pos);
 
 		uploadingFiles.update((files) => [...files, file]);
 		const path = await options.upload(file);
@@ -79,16 +99,33 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 		const loadingStrIndex = value.indexOf(loadingStr);
 		if (loadingStrIndex !== -1) carta.input.removeAt(loadingStrIndex, loadingStr.length);
 		carta.input.update();
+		textarea.setSelectionRange(loadingStrIndex, loadingStrIndex);
 
 		if (!path) return;
 
-		const str = ImageMimeTypes.includes(file.type)
+		const str = isImage
 			? `![${file.name}](${path})`
 			: `[${file.name}](${path})`;
 
 		carta.input.insertAt(loadingStrIndex, str);
 		carta.input.update();
+
+		// update cursor position to account for the string replacement
+		if (input.textarea.selectionStart < loadingStrIndex) {
+			// caret is before the loading string, no change required
+			pos = input.textarea.selectionStart
+		} else if (input.textarea.selectionStart >= loadingStrIndex + str.length) {
+			// caret is after the loading string, adjust position by the difference
+			pos = input.textarea.selectionStart - loadingStr.length + str.length
+		} else if (input.textarea.selectionStart >= loadingStrIndex) {
+			// caret is within the loading string, position it just after
+			pos = loadingStrIndex + str.length + 1
+		}
+		textarea.setSelectionRange(pos, pos);
+
 		carta.input.history.saveState(textarea.value, textarea.selectionStart);
+
+		return
 	}
 
 	function handleDrop(this: HTMLTextAreaElement, e: DragEvent) {
@@ -99,6 +136,9 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 		const files = e.dataTransfer?.files;
 		if (!files) return;
 
+		// TODO:
+		// Files may not be processed in order, so move cursor to position of last once completed
+		// but account for user potentially moving cursor / editing while uploads are in progress.
 		for (const file of files) handleFile(file);
 	}
 
