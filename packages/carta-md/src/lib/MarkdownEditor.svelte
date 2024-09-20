@@ -139,7 +139,7 @@
 		currentlyScrolling = scrolled;
 		const targetAvbSpace = target.scrollHeight - target.clientHeight;
 
-		target.scrollTo({ top: percentage * targetAvbSpace, behavior: 'smooth' });
+		target.scrollTo({ top: percentage * targetAvbSpace, behavior: 'auto' });
 		clearCurrentlyScrolling();
 	}
 
