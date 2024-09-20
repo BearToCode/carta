@@ -57,6 +57,10 @@
 		padding: 2rem 0 2rem 0;
 	}
 
+	:global(img) {
+		max-width: 50%;
+	}
+
 	/* Responsive main */
 
 	@media screen and (max-width: 640px) {
