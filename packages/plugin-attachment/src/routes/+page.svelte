@@ -6,11 +6,12 @@
 	import '$lib/default.css';
 
 	const carta = new Carta({
+		sanitizer: false,
 		extensions: [
 			attachment({
-				async upload() {
+				async upload(file) {
 					await new Promise((resolve) => setTimeout(resolve, 1_000));
-					return 'some-path';
+					return URL.createObjectURL(file)
 				}
 			})
 		]
