@@ -11,7 +11,7 @@
 			attachment({
 				async upload(file) {
 					await new Promise((resolve) => setTimeout(resolve, 1_000));
-					return URL.createObjectURL(file)
+					return URL.createObjectURL(file);
 				}
 			})
 		]

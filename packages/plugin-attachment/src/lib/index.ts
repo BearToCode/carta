@@ -35,7 +35,14 @@ export interface AttachmentExtensionOptions {
 	loadingOverlay?: false | typeof SvelteComponent<{ uploadingFiles: Writable<File[]> }>;
 }
 
-const ImageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml', 'image/webp', 'image/avif'];
+const ImageMimeTypes = [
+	'image/png',
+	'image/jpeg',
+	'image/gif',
+	'image/svg+xml',
+	'image/webp',
+	'image/avif'
+];
 
 /**
  * Carta attachment plugin.
@@ -64,27 +71,27 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 	async function handleFile(file: File) {
 		if (!allowedMimeTypes.includes(file.type)) return;
 		if (!carta?.input) return;
-		const input = carta.input
+		const input = carta.input;
 		const textarea = input.textarea;
 
 		let pos = input.textarea.selectionStart;
 		const loadingStr = `[Uploading ${file.name}](loading)`;
-		const isImage = ImageMimeTypes.includes(file.type)
+		const isImage = ImageMimeTypes.includes(file.type);
 
 		if (isImage) {
 			// assume images are being inserted as blocks
 			const line = carta.input.getLine();
-			pos = line.end
+			pos = line.end;
 			if (line.value) {
-				input.insertAt(pos, '\n\n')
-				pos +=2
+				input.insertAt(pos, '\n\n');
+				pos += 2;
 			}
-			input.insertAt(pos,  loadingStr + '\n')
+			input.insertAt(pos, loadingStr + '\n');
 			pos += loadingStr.length + 1;
 		} else {
 			// non image attachments are inline (could make multiple into comma separated list or bullets)
 			carta.input.insertAt(pos, loadingStr + ' ');
-			pos += loadingStr.length + 1
+			pos += loadingStr.length + 1;
 		}
 
 		carta.input.update();
@@ -103,9 +110,7 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 
 		if (!path) return;
 
-		const str = isImage
-			? `![${file.name}](${path})`
-			: `[${file.name}](${path})`;
+		const str = isImage ? `![${file.name}](${path})` : `[${file.name}](${path})`;
 
 		carta.input.insertAt(loadingStrIndex, str);
 		carta.input.update();
@@ -113,19 +118,19 @@ export const attachment = (options: AttachmentExtensionOptions): Plugin => {
 		// update cursor position to account for the string replacement
 		if (input.textarea.selectionStart < loadingStrIndex) {
 			// caret is before the loading string, no change required
-			pos = input.textarea.selectionStart
+			pos = input.textarea.selectionStart;
 		} else if (input.textarea.selectionStart >= loadingStrIndex + str.length) {
 			// caret is after the loading string, adjust position by the difference
-			pos = input.textarea.selectionStart - loadingStr.length + str.length
+			pos = input.textarea.selectionStart - loadingStr.length + str.length;
 		} else if (input.textarea.selectionStart >= loadingStrIndex) {
 			// caret is within the loading string, position it just after
-			pos = loadingStrIndex + str.length + 1
+			pos = loadingStrIndex + str.length + 1;
 		}
 		textarea.setSelectionRange(pos, pos);
 
 		carta.input.history.saveState(textarea.value, textarea.selectionStart);
 
-		return
+		return;
 	}
 
 	function handleDrop(this: HTMLTextAreaElement, e: DragEvent) {
