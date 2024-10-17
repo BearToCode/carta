@@ -554,7 +554,7 @@ export class InputEnhancer {
 			destroy: () => {
 				try {
 					data.portal.removeChild(elem);
-				} catch (e: unknown) {
+				} catch {
 					// Ignore
 				}
 				this.textarea.removeEventListener('input', callback);

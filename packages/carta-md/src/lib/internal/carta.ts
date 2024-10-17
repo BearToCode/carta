@@ -151,7 +151,6 @@ export interface Plugin {
 	 * Unified transformers plugins.
 	 * @important If the plugin is async, it will not run in SSR rendering.
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	transformers?: UnifiedTransformer<'sync' | 'async'>[];
 	/**
 	 * Additional keyboard shortcuts.

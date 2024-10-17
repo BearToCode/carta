@@ -8,7 +8,7 @@
 	let enabled = false;
 
 	$: {
-		$page.url;
+		$page.url = $page.url;
 		enabled = false;
 	}
 </script>

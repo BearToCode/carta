@@ -1,5 +1,5 @@
 // Workaround to add intellisense
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Nothing {}
 type Union<T, U> = T | (U & Nothing);
 

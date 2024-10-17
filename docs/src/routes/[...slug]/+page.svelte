@@ -25,7 +25,7 @@
 	});
 
 	$: if (mounted) {
-		$page.url;
+		$page.url = $page.url;
 		clientSideComponent = null;
 		renderClientSideComponent();
 	}
