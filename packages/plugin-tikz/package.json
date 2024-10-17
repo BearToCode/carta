@@ -24,7 +24,7 @@
 		"esm-env": "^1.0.0",
 		"typescript": "^5.0.4",
 		"unified": "^11.0.4",
-		"vite": "^5.1.6",
+		"vite": "^5.4.9",
 		"vite-plugin-dts": "^3.7.3",
 		"vite-raw-plugin": "^1.0.2"
 	},
@@ -55,6 +55,7 @@
 		"md5": "^2.3.0",
 		"node-tikzjax": "^1.0.3",
 		"rehype-parse": "^9.0.0",
-		"unist-util-visit": "^5.0.0"
+		"unist-util-visit": "^5.0.0",
+		"vue-template-compiler": "^2.7.16"
 	}
 }
