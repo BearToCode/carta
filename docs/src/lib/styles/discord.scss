@@ -50,30 +50,37 @@
 
 	// Plugin emoji
 	&.carta-emoji {
-		width: 18rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+
+		width: 19rem;
 		max-height: 14rem;
-		overflow-y: scroll;
+		overflow-x: auto;
+		overflow-y: auto;
 		border-radius: 4px;
 		font-family: inherit;
 		background-color: $background;
-		padding: 6px;
+		word-break: break-word;
 		scroll-padding: 6px;
-		gap: 6px;
 	}
 
 	&.carta-emoji button {
 		background: $background-light;
 
-		aspect-ratio: 1;
+		cursor: pointer;
+		display: inline-block;
 		border-radius: 4px;
 		border: 0;
 		padding: 0;
 		margin: 0.175rem;
 
-		cursor: pointer;
-
+		min-width: 2rem;
+		height: 2rem;
 		font-size: 1.2rem;
 		line-height: 100%;
+		text-align: center;
+		white-space: nowrap;
 	}
 
 	&.carta-emoji button:hover,
