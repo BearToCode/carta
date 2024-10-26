@@ -44,6 +44,8 @@
 	let mounted = false;
 	let prevValue = value;
 
+	const simpleUUID = Math.random().toString(36).substring(2);
+
 	/**
 	 * Manually resize the textarea to fit the content, so that it
 	 * always perfectly overlaps the highlighting overlay.
@@ -154,7 +156,12 @@
 	});
 </script>
 
-<div role="tooltip" id="editor-unfocus-suggestion" style="display: {hidden ? 'none' : 'unset'};">
+<div
+	role="tooltip"
+	class="editor-unfocus-suggestion"
+	id="editor-unfocus-suggestion-{simpleUUID}"
+	style="display: {hidden ? 'none' : 'unset'};"
+>
 	Press ESC then TAB to move the focus off the field
 </div>
 <div
@@ -181,7 +188,7 @@
 			spellcheck="false"
 			class="carta-font-code"
 			aria-multiline="true"
-			aria-describedby="editor-unfocus-suggestion"
+			aria-describedby="editor-unfocus-suggestion-{simpleUUID}"
 			tabindex="0"
 			{placeholder}
 			{...props}
@@ -260,7 +267,7 @@
 		word-break: break-word;
 	}
 
-	#editor-unfocus-suggestion {
+	.editor-unfocus-suggestion {
 		position: absolute;
 		width: 1px;
 		height: 1px;
