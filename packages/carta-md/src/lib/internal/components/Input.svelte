@@ -196,7 +196,7 @@
 			bind:this={textarea}
 			on:scroll={() => (textarea.scrollTop = 0)}
 			on:keydown={() => (prevValue = value)}
-		/>
+		></textarea>
 	</div>
 
 	{#if mounted}

@@ -98,7 +98,7 @@
 		{/if}
 	</div>
 
-	<div class="carta-filler" bind:clientWidth={availableWidth} />
+	<div class="carta-filler" bind:clientWidth={availableWidth}></div>
 
 	<div class="carta-toolbar-right" bind:this={iconsContainer}>
 		{#if !(mode === 'tabs' && tab === 'preview')}
