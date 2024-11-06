@@ -6,6 +6,7 @@
 
 	import '$lib/styles/math-stack-exchange.scss';
 	import 'katex/dist/katex.min.css';
+	import { debounce } from '$lib/utils';
 
 	const carta = new Carta({
 		sanitizer: false,
@@ -28,12 +29,19 @@
 	});
 
 	export let value = placeholder;
+	let debouncedValue = value;
+
+	const updateValue = debounce((value: string) => {
+		debouncedValue = value;
+	}, 500);
+
+	$: updateValue(value);
 </script>
 
 <div class="math-stack-exchange-container">
 	<MarkdownEditor bind:value mode="tabs" theme="math-stack-exchange" {carta} />
 
-	{#key value}
-		<Markdown theme="math-stack-exchange" {value} {carta} />
+	{#key debouncedValue}
+		<Markdown theme="math-stack-exchange" value={debouncedValue} {carta} />
 	{/key}
 </div>
