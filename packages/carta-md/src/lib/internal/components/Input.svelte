@@ -140,6 +140,8 @@
 		debouncedHighlight(value);
 
 		highlightNestedLanguages(value);
+
+		prevValue = value;
 	};
 
 	$: if (BROWSER) onValueChange(value);
@@ -195,7 +197,6 @@
 			bind:value
 			bind:this={textarea}
 			on:scroll={() => (textarea.scrollTop = 0)}
-			on:keydown={() => (prevValue = value)}
 		></textarea>
 	</div>
 
