@@ -44,14 +44,21 @@ export function speculativeHighlightUpdate(container: HTMLDivElement, from: stri
 		advance(change.value.length);
 	};
 	const addedCallback = (change: Change) => {
-		const node = textNodes.at(currentNodeIdx) ?? createTemporaryNode(container);
+		const node =
+			currentNodeCharIdx == 0
+				? textNodes.at(currentNodeIdx - 1)
+				: textNodes.at(currentNodeIdx) ?? createTemporaryNode(container);
 		if (!node) return; // Could not create a temporary node
 
 		const text = node.textContent ?? '';
-		const pre = text.slice(0, currentNodeCharIdx);
-		const post = text.slice(currentNodeCharIdx);
+		if (currentNodeCharIdx == 0) {
+			node.textContent = text + change.value;
+		} else {
+			const pre = text.slice(0, currentNodeCharIdx);
+			const post = text.slice(currentNodeCharIdx);
+			node.textContent = pre + change.value + post;
+		}
 
-		node.textContent = pre + change.value + post;
 		advance(change.value.length);
 	};
 	const removedCallback = (change: Change) => {
