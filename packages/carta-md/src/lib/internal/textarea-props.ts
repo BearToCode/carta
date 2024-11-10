@@ -4,7 +4,6 @@
 interface BaseTextAreaProps {
 	id?: string;
 	name?: string;
-	spellCheck?: boolean;
 	autoCapitalize?: string;
 	autoComplete?: string;
 	autoFocus?: boolean;

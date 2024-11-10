@@ -187,10 +187,10 @@
 		</div>
 
 		<textarea
-			spellcheck="false"
 			class="carta-font-code"
 			aria-multiline="true"
 			aria-describedby="editor-unfocus-suggestion-{simpleUUID}"
+			spellcheck={props.spellcheck === true}
 			tabindex="0"
 			{placeholder}
 			{...props}
