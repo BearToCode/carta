@@ -73,26 +73,28 @@ export class InputEnhancer {
 		const currentChar = this.textarea.value.at(cursor);
 		// Prevent the browser from selecting the space after the word on double clicks, if any
 		if (e.detail == 2 && currentChar != '\n' && currentChar != ' ') {
-			e.preventDefault();
-			// Select the actual word/special chars
-			const isWordChar = this.isWordCharacter(this.textarea.value[cursor]);
-			let startPosition = cursor,
-				endPosition = cursor;
+			// Do not use e.preventDefault() as it will also capture following drag events
+			requestAnimationFrame(() => {
+				// Select the actual word/special chars
+				const isWordChar = this.isWordCharacter(this.textarea.value[cursor]);
+				let startPosition = cursor,
+					endPosition = cursor;
 
-			while (
-				startPosition >= 0 &&
-				this.isWordCharacter(this.textarea.value[startPosition]) == isWordChar &&
-				this.textarea.value[startPosition] != ' '
-			)
-				startPosition--;
-			while (
-				endPosition < this.textarea.value.length &&
-				this.isWordCharacter(this.textarea.value[endPosition]) == isWordChar &&
-				this.textarea.value[endPosition] != ' '
-			)
-				endPosition++;
+				while (
+					startPosition >= 0 &&
+					this.isWordCharacter(this.textarea.value[startPosition]) == isWordChar &&
+					this.textarea.value[startPosition] != ' '
+				)
+					startPosition--;
+				while (
+					endPosition < this.textarea.value.length &&
+					this.isWordCharacter(this.textarea.value[endPosition]) == isWordChar &&
+					this.textarea.value[endPosition] != ' '
+				)
+					endPosition++;
 
-			this.textarea.setSelectionRange(startPosition + 1, endPosition);
+				this.textarea.setSelectionRange(startPosition + 1, endPosition);
+			});
 		}
 	}
 
