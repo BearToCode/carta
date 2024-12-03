@@ -6,14 +6,18 @@ const spinner = ora().start();
 
 spinner.color = 'red';
 
-for (const [index, pkg] of packages.entries()) {
-	spinner.text = `Building ${pkg} [${index + 1}/${packages.length}]`;
+// Include docs in the build process
+const buildTargets = [...packages, 'docs'];
+
+for (const [index, target] of buildTargets.entries()) {
+	spinner.text = `Building ${target} [${index + 1}/${buildTargets.length}]`;
 	try {
-		await execAsync(`npm run build`, `./packages/${pkg}`);
+		const buildPath = target === 'docs' ? './docs' : `./packages/${target}`;
+		await execAsync(`pnpm run build`, buildPath);
 	} catch (e) {
-		spinner.fail(`Failed to build ${pkg}: \n ${e}`);
+		spinner.fail(`Failed to build ${target}: \n ${e}`);
 		process.exit(1);
 	}
 }
 
-spinner.succeed(`All packages built`);
+spinner.succeed(`All packages and docs built`);
