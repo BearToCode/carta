@@ -151,6 +151,7 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 			: [
 					{
 						id: 'math',
+						label: 'Inline Equation',
 						component: MathIcon,
 						action: (input) => input.toggleSelectionSurrounding('$')
 					}
