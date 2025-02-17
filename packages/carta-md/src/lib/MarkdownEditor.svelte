@@ -1,5 +1,4 @@
 <!--
-	@component
 	This is the main editor component that combines the input and renderer
 	components. It also handles the scroll synchronization between the input and renderer
 	components (if set to sync), and the window mode management (tabs or split).

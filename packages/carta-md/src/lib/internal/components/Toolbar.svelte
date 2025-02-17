@@ -4,6 +4,8 @@
 -->
 
 <script lang="ts">
+	import { run, preventDefault, stopPropagation } from 'svelte/legacy';
+
 	import type { Labels } from '../labels';
 	import { handleArrowKeysNavigation } from '../accessibility';
 	import type { Carta } from '../carta';
@@ -11,33 +13,37 @@
 	import { onMount } from 'svelte';
 	import { debounce } from '../utils';
 
-	/**
-	 * The Carta instance to use.
-	 */
-	export let carta: Carta;
-	/**
-	 * The current editor mode.
-	 */
-	export let mode: 'tabs' | 'split';
-	/**
-	 * The current tab.
-	 */
-	export let tab: 'write' | 'preview';
-	/**
-	 * Editor labels.
-	 */
-	export let labels: Labels;
+	interface Props {
+		/**
+		 * The Carta instance to use.
+		 */
+		carta: Carta;
+		/**
+		 * The current editor mode.
+		 */
+		mode: 'tabs' | 'split';
+		/**
+		 * The current tab.
+		 */
+		tab: 'write' | 'preview';
+		/**
+		 * Editor labels.
+		 */
+		labels: Labels;
+	}
 
-	let toolbar: HTMLDivElement;
-	let menu: HTMLDivElement;
-	let iconsContainer: HTMLDivElement;
+	let { carta, mode, tab = $bindable(), labels }: Props = $props();
 
-	let visibleIcons = [...carta.icons];
-	let availableWidth = 0;
-	let iconWidth = 0;
-	let toolbarHeight = 0;
-	let iconsHidden = false;
-	let showMenu = false;
+	let toolbar: HTMLDivElement | undefined = $state();
+	let menu: HTMLDivElement | undefined = $state();
+	let iconsContainer: HTMLDivElement | undefined = $state();
+
+	let visibleIcons = $state([...carta.icons]);
+	let availableWidth = $state(0);
+	let iconWidth = $state(0);
+	let toolbarHeight = $state(0);
+	let iconsHidden = $state(false);
+	let showMenu = $state(false);
 
 	const IconPadding = 8;
 
@@ -45,7 +51,7 @@
 
 	const onResize = debounce(async () => {
 		if (!toolbar || !iconsContainer) return;
-		const overflowing = () => toolbar.scrollWidth - toolbar.clientWidth > 0;
+		const overflowing = () => (toolbar ? toolbar.scrollWidth - toolbar.clientWidth > 0 : false);
 		while (overflowing()) {
 			visibleIcons.pop();
 			visibleIcons = visibleIcons;
@@ -69,10 +75,12 @@
 
 	onMount(onResize);
 
-	$: iconsHidden = visibleIcons.length !== carta.icons.length;
+	run(() => {
+		iconsHidden = visibleIcons.length !== carta.icons.length;
+	});
 </script>
 
-<svelte:window on:resize={onResize} on:click={onClick} />
+<svelte:window onresize={onResize} onclick={onClick} />
 
 <div class="carta-toolbar" role="toolbar" bind:clientHeight={toolbarHeight} bind:this={toolbar}>
 	<div class="carta-toolbar-left">
@@ -81,8 +89,8 @@
 				type="button"
 				tabindex={0}
 				class={tab === 'write' ? 'carta-active' : ''}
-				on:click={() => (tab = 'write')}
-				on:keydown={handleArrowKeysNavigation}
+				onclick={() => (tab = 'write')}
+				onkeydown={handleArrowKeysNavigation}
 			>
 				{labels.writeTab}
 			</button>
@@ -90,8 +98,8 @@
 				type="button"
 				tabindex={-1}
 				class={tab === 'preview' ? 'carta-active' : ''}
-				on:click={() => (tab = 'preview')}
-				on:keydown={handleArrowKeysNavigation}
+				onclick={() => (tab = 'preview')}
+				onkeydown={handleArrowKeysNavigation}
 			>
 				{labels.previewTab}
 			</button>
@@ -110,14 +118,16 @@
 					title={label}
 					aria-label={label}
 					bind:clientWidth={iconWidth}
-					on:click|preventDefault|stopPropagation={() => {
-						carta.input && icon.action(carta.input);
-						carta.input?.update();
-						carta.input?.textarea.focus();
-					}}
-					on:keydown={handleArrowKeysNavigation}
+					onclick={stopPropagation(
+						preventDefault(() => {
+							carta.input && icon.action(carta.input);
+							carta.input?.update();
+							carta.input?.textarea.focus();
+						})
+					)}
+					onkeydown={handleArrowKeysNavigation}
 				>
-					<svelte:component this={icon.component} />
+					<icon.component />
 				</button>
 			{/each}
 			{#if iconsHidden}
@@ -127,8 +137,8 @@
 					tabindex={-1}
 					title={label}
 					aria-label={label}
-					on:keydown={handleArrowKeysNavigation}
-					on:click|preventDefault|stopPropagation={() => (showMenu = !showMenu)}
+					onkeydown={handleArrowKeysNavigation}
+					onclick={stopPropagation(preventDefault(() => (showMenu = !showMenu)))}
 				>
 					<MenuIcon />
 				</button>
@@ -145,15 +155,17 @@
 			<button
 				class="carta-icon-full"
 				aria-label={label}
-				on:click|preventDefault|stopPropagation={() => {
-					carta.input && icon.action(carta.input);
-					carta.input?.update();
-					carta.input?.textarea.focus();
-					showMenu = false;
-				}}
-				on:keydown={handleArrowKeysNavigation}
+				onclick={stopPropagation(
+					preventDefault(() => {
+						carta.input && icon.action(carta.input);
+						carta.input?.update();
+						carta.input?.textarea.focus();
+						showMenu = false;
+					})
+				)}
+				onkeydown={handleArrowKeysNavigation}
 			>
-				<svelte:component this={icon.component} />
+				<icon.component />
 				<span>{label}</span>
 			</button>
 		{/each}

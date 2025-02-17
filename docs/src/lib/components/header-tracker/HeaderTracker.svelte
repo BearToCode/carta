@@ -5,11 +5,13 @@
 
 	const PADDING = 80;
 
-	export { className as class };
+	interface Props {
+		class?: string;
+	}
 
-	let className = '';
-	let headers: HTMLElement[] = [];
-	let selectedHeaderIndex = 0;
+	let { class: className = '' }: Props = $props();
+	let headers: HTMLElement[] = $state([]);
+	let selectedHeaderIndex = $state(0);
 
 	function retrieveHeaders() {
 		headers = Array.from(
@@ -42,7 +44,7 @@
 </script>
 
 <svelte:window
-	on:scroll={() => {
+	onscroll={() => {
 		throttledHighlightHeader();
 		debouncedHighlightHeader(); // So it is called at the end of the scroll event
 	}}

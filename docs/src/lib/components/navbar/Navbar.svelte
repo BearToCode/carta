@@ -13,16 +13,16 @@
 			<img src="{base}/logo.png" class="h-8" alt="carta logo" />
 		</Link>
 
-		<div class="flex-grow" />
+		<div class="flex-grow"></div>
 
 		<Search class="mx-auto" />
 
-		<div class="hidden flex-grow md:block" />
+		<div class="hidden flex-grow md:block"></div>
 
 		<GitHub class="ml-auto" />
 	</div>
 
 	<div
 		class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-900"
-	/>
+	></div>
 </nav>

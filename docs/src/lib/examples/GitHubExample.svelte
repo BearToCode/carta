@@ -21,10 +21,12 @@
 		]
 	});
 
-	export let value = `This is an example inspired by [GitHub](https://github.com)
+	let {
+		value = $bindable(`This is an example inspired by [GitHub](https://github.com)
 \`\`\`js
 console.log('Hello, World!');
-\`\`\``;
+\`\`\``)
+	} = $props();
 </script>
 
 <MarkdownEditor bind:value mode="tabs" theme="github" {carta} />
