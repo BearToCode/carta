@@ -1,17 +1,26 @@
 <script lang="ts">
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { base } from '$app/paths';
 
-	export let href = '';
+	interface Props {
+		href?: string;
+		children?: import('svelte').Snippet;
+		[key: string]: any;
+	}
+
+	let { href = '', children, ...rest }: Props = $props();
 </script>
 
 <a
-	{...$$restProps}
+	{...rest}
 	href={href.startsWith('/') ? `${base}${href}` : href}
-	on:click
-	on:focusin
-	on:focusout
-	on:mouseenter
-	on:mouseleave
+	onclick={bubble('click')}
+	onfocusin={bubble('focusin')}
+	onfocusout={bubble('focusout')}
+	onmouseenter={bubble('mouseenter')}
+	onmouseleave={bubble('mouseleave')}
 >
-	<slot />
+	{@render children?.()}
 </a>

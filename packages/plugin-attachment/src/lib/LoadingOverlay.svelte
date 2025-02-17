@@ -4,9 +4,13 @@
 	import type { Writable } from 'svelte/store';
 	import type { SvelteComponent } from 'svelte';
 
-	export let carta: Carta;
-	export let uploadingFiles: Writable<File[]>;
-	export let loadingOverlay: typeof SvelteComponent | false | undefined;
+	interface Props {
+		carta: Carta;
+		uploadingFiles: Writable<File[]>;
+		loadingOverlay: typeof SvelteComponent | false | undefined;
+	}
+
+	let { carta, uploadingFiles, loadingOverlay }: Props = $props();
 
 	// Prevent unused property warning
 	carta;
@@ -14,7 +18,8 @@
 
 {#if loadingOverlay !== false}
 	{#if loadingOverlay}
-		<svelte:component this={loadingOverlay} uploadingFiles={$uploadingFiles} />
+		{@const SvelteComponent_1 = loadingOverlay}
+		<SvelteComponent_1 uploadingFiles={$uploadingFiles} />
 	{:else if $uploadingFiles.length > 0}
 		<div class="carta-loading-overlay">
 			<SpinnerIcon />

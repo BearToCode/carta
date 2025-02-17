@@ -1,1 +1,1 @@
-<template data-slot />
+<template data-slot></template>
