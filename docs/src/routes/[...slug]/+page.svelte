@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { PageData } from './$types';
 	import { onMount, type SvelteComponent } from 'svelte';
 	import { page } from '$app/stores';
@@ -7,10 +9,14 @@
 	import '$lib/styles/markdown.scss';
 	import '$lib/styles/coldark.scss';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	let mounted = false;
-	let clientSideComponent: typeof SvelteComponent | null = null;
+	let { data }: Props = $props();
+
+	let mounted = $state(false);
+	let clientSideComponent: typeof SvelteComponent | null = $state(null);
 	async function renderClientSideComponent() {
 		// Load a reactive version of the page to keep reactivity
 		const pages = import.meta.glob('../../pages/**/*.svelte.md');
@@ -24,11 +30,13 @@
 		renderClientSideComponent();
 	});
 
-	$: if (mounted) {
-		$page.url;
-		clientSideComponent = null;
-		renderClientSideComponent();
-	}
+	run(() => {
+		if (mounted) {
+			$page.url;
+			clientSideComponent = null;
+			renderClientSideComponent();
+		}
+	});
 </script>
 
 <svelte:head>
@@ -41,7 +49,8 @@
 
 <div class="markdown">
 	{#if clientSideComponent}
-		<svelte:component this={clientSideComponent} />
+		{@const SvelteComponent_1 = clientSideComponent}
+		<SvelteComponent_1 />
 	{:else}
 		{#key $page.url}
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->

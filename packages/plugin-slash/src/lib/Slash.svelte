@@ -1,21 +1,29 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Carta } from 'carta-md';
 	import type { SlashSnippet } from './snippets';
 	import type { TransitionConfig } from 'svelte/transition';
 	import { onDestroy, onMount } from 'svelte';
 
-	export let carta: Carta;
-	export let snippets: SlashSnippet[];
-	export let inTransition: (node: Element) => TransitionConfig;
-	export let outTransition: (node: Element) => TransitionConfig;
+	interface Props {
+		carta: Carta;
+		snippets: SlashSnippet[];
+		inTransition: (node: Element) => TransitionConfig;
+		outTransition: (node: Element) => TransitionConfig;
+	}
 
-	let visible = false;
-	let hoveringIndex = 0;
+	let { carta = $bindable(), snippets, inTransition, outTransition }: Props = $props();
+
+	let visible = $state(false);
+	let hoveringIndex = $state(0);
 	let filter = '';
 	let slashPosition = 0;
-	let filteredSnippets = snippets;
-	let groupedSnippets: [string, SlashSnippet[]][];
-	let snippetsElements: HTMLButtonElement[] = Array(snippets.length);
+	let filteredSnippets = $state(snippets);
+	let groupedSnippets: [string, SlashSnippet[]][] = $derived(
+		Object.entries(groupBy(filteredSnippets, 'group'))
+	);
+	let snippetsElements: HTMLButtonElement[] = $state(Array(snippets.length));
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -123,9 +131,7 @@
 		carta.input.update();
 	}
 
-	$: groupedSnippets = Object.entries(groupBy(filteredSnippets, 'group'));
-
-	$: {
+	run(() => {
 		// Scroll to make hovering snippet always visible
 		const hovering = filteredSnippets.at(hoveringIndex);
 		if (hovering) {
@@ -135,7 +141,7 @@
 				block: 'nearest'
 			});
 		}
-	}
+	});
 </script>
 
 {#if visible && filteredSnippets.length > 0}
@@ -147,7 +153,7 @@
 			{#each snippets as snippet, elemIndex}
 				<button
 					bind:this={snippetsElements[getSnippetIndex(groupIndex, elemIndex)]}
-					on:click={() => useSnippet(snippet)}
+					onclick={() => useSnippet(snippet)}
 					class={getSnippetIndex(groupIndex, elemIndex) === hoveringIndex ? 'carta-active' : ''}
 				>
 					<span class="carta-snippet-title">

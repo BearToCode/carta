@@ -1,13 +1,18 @@
 <script lang="ts">
-	let elem: HTMLElement;
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
+	let elem: HTMLElement = $state();
 </script>
 
 <div bind:this={elem} class="relative">
-	<slot />
+	{@render children?.()}
 	<!-- Copy button -->
 	<button
 		title="Copy"
-		on:click={() => {
+		onclick={() => {
 			navigator.clipboard.writeText(elem.innerText);
 		}}
 		class="

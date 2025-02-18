@@ -1,9 +1,11 @@
 <script lang="ts">
 	import SidebarLink from './SidebarLink.svelte';
 
-	export { className as class };
+	interface Props {
+		class?: string;
+	}
 
-	let className = '';
+	let { class: className = '' }: Props = $props();
 </script>
 
 <div class="h-full {className}">

@@ -1,20 +1,26 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Carta } from 'carta-md';
 	import { onDestroy, onMount } from 'svelte';
 	import * as nodeEmoji from 'node-emoji';
 	import type { TransitionConfig } from 'svelte/transition';
 
-	export let carta: Carta;
-	export let inTransition: (node: Element) => TransitionConfig;
-	export let outTransition: (node: Element) => TransitionConfig;
-	export let maxResults: number;
+	interface Props {
+		carta: Carta;
+		inTransition: (node: Element) => TransitionConfig;
+		outTransition: (node: Element) => TransitionConfig;
+		maxResults: number;
+	}
 
-	let visible = false;
-	let filter = '';
+	let { carta, inTransition, outTransition, maxResults }: Props = $props();
+
+	let visible = $state(false);
+	let filter = $state('');
 	let colonPosition = 0;
-	let hoveringIndex = 0;
-	let emojis: { emoji: string; name: string }[] = [];
-	let emojisElements: HTMLButtonElement[] = Array(maxResults);
+	let hoveringIndex = $state(0);
+	let emojis: { emoji: string; name: string }[] = $state([]);
+	let emojisElements: HTMLButtonElement[] = $state(Array(maxResults));
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -195,7 +201,7 @@
 		carta.input.update();
 	}
 
-	$: {
+	run(() => {
 		// Scroll to make hovering emoji always visible
 		const hovering = emojisElements.at(hoveringIndex);
 		if (hovering) {
@@ -205,7 +211,7 @@
 				block: 'nearest'
 			});
 		}
-	}
+	});
 </script>
 
 {#if visible && filter.length > 0 && emojis.length > 0}
@@ -214,7 +220,7 @@
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}
 				title={emoji.name}
-				on:click={() => selectEmoji(emoji)}
+				onclick={() => selectEmoji(emoji)}
 				bind:this={emojisElements[i]}
 			>
 				{emoji.emoji}

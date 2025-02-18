@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	export { className as class };
+	interface Props {
+		class?: string;
+	}
 
-	let className = '';
-	let loading = true;
-	let stars: number;
+	let { class: className = '' }: Props = $props();
+	let loading = $state(true);
+	let stars: number = $state();
 	onMount(async () => {
 		const res = await fetch('https://api.github.com/repos/BearToCode/carta');
 		const json = await res.json();
@@ -22,7 +24,7 @@
 	<div class="hidden h-min flex-col justify-center space-y-1 md:flex">
 		<p class="text-[0.9rem] font-semibold leading-3">BearToCode/carta</p>
 		{#if loading}
-			<div class="pulse my-1.5 h-3 w-[80px] rounded-full bg-neutral-800" />
+			<div class="pulse my-1.5 h-3 w-[80px] rounded-full bg-neutral-800"></div>
 		{:else}
 			<div class="inline-flex items-center space-x-1">
 				<iconify-icon icon="ic:round-star" class="h-3 w-3"></iconify-icon>

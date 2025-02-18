@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import * as Command from '$lib/components/ui/command';
 	import type { Document } from 'flexsearch';
 	import {
@@ -11,13 +13,15 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 
-	export { className as class };
+	let open = $state(false);
+	let value = $state('');
+	interface Props {
+		class?: string;
+	}
 
-	let open = false;
-	let value = '';
-	let className = '';
+	let { class: className = '' }: Props = $props();
 	let index: Document<SearchResult, true>;
-	let results: EnrichedSearchResult[] = [];
+	let results: EnrichedSearchResult[] = $state([]);
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -48,18 +52,20 @@
 		index = await initializeSearch();
 	});
 
-	$: search(value);
+	run(() => {
+		search(value);
+	});
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} />
 
-<button on:click={() => (open = !open)} class="mr-2 block aspect-square md:hidden">
+<button onclick={() => (open = !open)} class="mr-2 block aspect-square md:hidden">
 	<iconify-icon icon="ion:search" class="text-2xl text-neutral-200"></iconify-icon>
 </button>
 
 <button
 	class="hidden w-[360px] items-center justify-between rounded-lg border border-neutral-700 bg-neutral-900 px-2 py-1.5 text-sm md:flex {className}"
-	on:click={() => (open = !open)}
+	onclick={() => (open = !open)}
 >
 	<div class="inline-flex items-center space-x-2">
 		<iconify-icon icon="ion:search" class="text-xl text-neutral-500"></iconify-icon>

@@ -6,6 +6,11 @@
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import { base } from '$app/paths';
 	import '../app.postcss';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 <Navbar />
@@ -21,7 +26,7 @@
 		<main
 			class="container max-w-4xl flex-shrink-0 flex-grow px-0 xl:max-w-3xl xl:px-4 2xl:max-w-4xl"
 		>
-			<slot />
+			{@render children?.()}
 			<Footer />
 		</main>
 		<HeaderTracker class="sticky top-24 hidden w-[15rem] flex-shrink-0 xl:block" />

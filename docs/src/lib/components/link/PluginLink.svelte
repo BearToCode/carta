@@ -1,10 +1,15 @@
 <script lang="ts">
-	export let npmLink: string;
-	export let githubLink: string;
+	interface Props {
+		npmLink: string;
+		githubLink: string;
+		children?: import('svelte').Snippet;
+	}
+
+	let { npmLink, githubLink, children }: Props = $props();
 </script>
 
 <div class="plugin-link mb-2 mt-6 flex items-end space-x-3">
-	<slot />
+	{@render children?.()}
 
 	<a href={githubLink} class="flex aspect-square">
 		<iconify-icon icon="mdi:github" class="text-3xl text-white hover:text-sky-300"></iconify-icon>

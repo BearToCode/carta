@@ -15,7 +15,7 @@
 		"ignoreDeprecations": "5.0",
 		"plugins": []
 	},
-	"include": ["./src"]
+	"include": ["src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes

@@ -1,14 +1,22 @@
 <script lang="ts">
+	import { createBubbler, preventDefault } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import type { Carta } from 'carta-md';
 	import type { Writable } from 'svelte/store';
 	import UploadIcon from './icons/UploadIcon.svelte';
 	import type { SvelteComponent } from 'svelte';
 
-	export let carta: Carta;
-	export let draggingOverTextArea: Writable<boolean>;
-	export let draggingOverOverlay: Writable<boolean>;
-	export let handleDrop: (event: DragEvent) => void;
-	export let dropOverlay: typeof SvelteComponent | false | undefined;
+	interface Props {
+		carta: Carta;
+		draggingOverTextArea: Writable<boolean>;
+		draggingOverOverlay: Writable<boolean>;
+		handleDrop: (event: DragEvent) => void;
+		dropOverlay: typeof SvelteComponent | false | undefined;
+	}
+
+	let { carta, draggingOverTextArea, draggingOverOverlay, handleDrop, dropOverlay }: Props =
+		$props();
 
 	// Prevent unused property warning
 	carta;
@@ -17,16 +25,17 @@
 {#if dropOverlay !== false && ($draggingOverTextArea || $draggingOverOverlay)}
 	<div
 		class="carta-drop-overlay"
-		on:dragover|preventDefault
-		on:dragenter={() => draggingOverOverlay.set(true)}
-		on:dragleave={() => draggingOverOverlay.set(false)}
-		on:drop={handleDrop}
+		ondragover={preventDefault(bubble('dragover'))}
+		ondragenter={() => draggingOverOverlay.set(true)}
+		ondragleave={() => draggingOverOverlay.set(false)}
+		ondrop={handleDrop}
 		role="button"
 		tabindex="0"
 		aria-label="Drop files to upload"
 	>
 		{#if dropOverlay}
-			<svelte:component this={dropOverlay} />
+			{@const SvelteComponent_1 = dropOverlay}
+			<SvelteComponent_1 />
 		{:else}
 			<div class="carta-drop-overlay-container">
 				<div class="carta-drop-overlay-content">

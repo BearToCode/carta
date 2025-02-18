@@ -3,13 +3,18 @@
 	import { cn } from '$lib/utils';
 
 	// type $$Props = CommandPrimitive.ListProps;
-	let className: string | undefined | null = undefined;
-	export { className as class };
+	interface Props {
+		class?: string | undefined | null;
+		children?: import('svelte').Snippet;
+		[key: string]: any;
+	}
+
+	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>
 
 <CommandPrimitive.List
 	class={cn('max-h-[300px] overflow-y-auto overflow-x-hidden', className)}
-	{...$$restProps}
+	{...rest}
 >
-	<slot />
+	{@render children?.()}
 </CommandPrimitive.List>

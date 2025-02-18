@@ -2,9 +2,14 @@
 	import Link from '$lib/components/link/Link.svelte';
 	import { cn } from '$lib/utils';
 
-	let className = '';
-	export { className as class };
-	export let href: string;
+	interface Props {
+		class?: string;
+		href: string;
+		children?: import('svelte').Snippet;
+		[key: string]: any;
+	}
+
+	let { class: className = '', href, children, ...rest }: Props = $props();
 </script>
 
 <Link
@@ -13,12 +18,12 @@
 		'bg-card text-card-foreground block rounded-xl border bg-opacity-30 shadow hover:border-sky-300',
 		className
 	)}
-	{...$$restProps}
+	{...rest}
 	on:click
 	on:focusin
 	on:focusout
 	on:mouseenter
 	on:mouseleave
 >
-	<slot />
+	{@render children?.()}
 </Link>

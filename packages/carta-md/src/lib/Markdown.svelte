@@ -1,5 +1,5 @@
 <!-- 
-	@component
+	component
 	This component is used to render Markdown once after being parsed twice
 	by Carta. The first parsing is done in the server-side rendering (SSR) and the
 	second (async) parsing is done in the client-side rendering.
@@ -10,25 +10,32 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Carta } from '.';
+	import type { Carta } from './internal/carta';
 
-	/**
-	 * The Carta instance to use.
-	 */
-	export let carta: Carta;
-	/**
-	 * Content to render.
-	 */
-	export let value: string;
-	/**
-	 * The theme to use, which translates to the CSS class `carta-theme__{theme}`.
-	 */
-	export let theme = 'default';
+	interface Props {
+		/**
+		 * The Carta instance to use.
+		 */
+		carta: Carta;
+		/**
+		 * Content to render.
+		 */
+		value: string;
+		/**
+		 * The theme to use, which translates to the CSS class `carta-theme__{theme}`.
+		 */
+		theme?: string;
+	}
 
-	let elem: HTMLDivElement;
+	let { carta, value, theme = 'default' }: Props = $props();
 
-	let rendered = carta.renderSSR(value);
+	let elem: HTMLDivElement | undefined = $state();
+
+	let rendered = $state(carta.renderSSR(value));
 	onMount(async () => {
+		if (!elem) {
+			throw new Error('No element found.');
+		}
 		// Register the renderer element
 		carta.$setRenderer(elem);
 

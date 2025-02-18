@@ -1,13 +1,15 @@
 <script lang="ts">
-	let className = '';
-	let theme: 'light' | 'dark' = 'light';
+	interface Props {
+		class?: string;
+	}
 
-	export { className as class };
+	let { class: className = '' }: Props = $props();
+	let theme: 'light' | 'dark' = $state('light');
 </script>
 
 <button
 	class="{className} {theme}"
-	on:click={() => {
+	onclick={() => {
 		if (theme === 'light') {
 			document.documentElement.classList.add('dark');
 			theme = 'dark';

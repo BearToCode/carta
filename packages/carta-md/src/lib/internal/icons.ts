@@ -1,4 +1,4 @@
-import type { ComponentType } from 'svelte';
+import type { Component } from 'svelte';
 import type { InputEnhancer } from './input';
 import HeadingIcon from './components/icons/HeadingIcon.svelte';
 import ItalicIcon from './components/icons/ItalicIcon.svelte';
@@ -27,7 +27,7 @@ export interface Icon {
 	/**
 	 * The icon's component.
 	 */
-	readonly component: ComponentType;
+	readonly component: Component;
 	/**
 	 * The icon's label (used as aria-label).
 	 */

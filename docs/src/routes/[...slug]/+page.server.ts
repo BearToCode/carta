@@ -1,7 +1,9 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { base } from '$app/paths';
+import { render } from 'svelte/server';
+
 
 export const load: PageServerLoad = async (event) => {
 	const pages = import.meta.glob('../../pages/**/*.svelte.md');
@@ -10,10 +12,10 @@ export const load: PageServerLoad = async (event) => {
 	if (!match) throw error(404, 'Not found');
 
 	const Markdown = (await match()) as {
-		default: SvelteComponent;
+		default: Component;
 		metadata: Record<string, unknown>;
 	};
-	const content = Markdown.default.render();
+	const content =  render(Markdown.default);
 	const metadata = Markdown.metadata;
 
 	return {
