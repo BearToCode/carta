@@ -22,9 +22,9 @@
 		"@types/md5": "^2.3.2",
 		"carta-md": "workspace:*",
 		"esm-env": "^1.0.0",
-		"typescript": "^5.5.0",
+		"typescript": "catalog:",
 		"unified": "^11.0.4",
-		"vite": "^5.4.9",
+		"vite": "catalog:",
 		"vite-plugin-dts": "^3.7.3",
 		"vite-raw-plugin": "^1.0.2"
 	},
