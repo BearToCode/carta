@@ -65,6 +65,9 @@ importers:
       semantic-release-monorepo:
         specifier: ^8.0.2
         version: 8.0.2(semantic-release@24.2.2(typescript@5.3.3))
+      svelte-eslint-parser:
+        specifier: ^0.43.0
+        version: 0.43.0(svelte@4.2.19)
 
   docs:
     dependencies:

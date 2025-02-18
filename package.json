@@ -38,7 +38,8 @@
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.5.14",
 		"semantic-release": "^24.2.2",
-		"semantic-release-monorepo": "^8.0.2"
+		"semantic-release-monorepo": "^8.0.2",
+		"svelte-eslint-parser": "^0.43.0"
 	},
 	"lint-staged": {
 		"*.{js,ts,svelte}": "eslint --cache --fix --no-error-on-unmatched-pattern",
