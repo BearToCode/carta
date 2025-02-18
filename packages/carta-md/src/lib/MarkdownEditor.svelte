@@ -1,4 +1,5 @@
 <!--
+	@component
 	This is the main editor component that combines the input and renderer
 	components. It also handles the scroll synchronization between the input and renderer
 	components (if set to sync), and the window mode management (tabs or split).
@@ -14,88 +15,102 @@
 	import { defaultLabels, type Labels } from './internal/labels';
 	import Toolbar from './internal/components/Toolbar.svelte';
 
-	/**
-	 * The Carta instance to use.
-	 */
-	export let carta: Carta;
-	/**
-	 * The theme to use, which translates to the CSS class `carta-theme__{theme}`.
-	 */
-	export let theme = 'default';
-	/**
-	 * The editor content.
-	 */
-	export let value = '';
-	/**
-	 * The mode to use. Can be 'tabs', 'split', or 'auto'
-	 * - 'tabs': The input and renderer are displayed in tabs.
-	 * - 'split': The input and renderer are displayed side by side.
-	 * - 'auto': The mode is automatically selected based on the window width.
-	 */
-	export let mode: 'tabs' | 'split' | 'auto' = 'auto';
-	/**
-	 * The scroll synchronization mode. Can be 'sync' or 'async'.
-	 * - 'sync': The scroll is synchronized between the input and renderer.
-	 * - 'async': The scroll is not synchronized between the input and renderer.
-	 */
-	export let scroll: 'sync' | 'async' = 'sync';
-	/**
-	 * Whether to disable the toolbar.
-	 */
-	export let disableToolbar = false;
-	/**
-	 * The placeholder text for the textarea.
-	 */
-	export let placeholder = '';
-	/**
-	 * Additional textarea properties.
-	 */
-	export let textarea: TextAreaProps = {};
-	/**
-	 * The selected tab. Can be 'write' or 'preview'.
-	 */
-	export let selectedTab: 'write' | 'preview' = 'write';
-	/**
-	 * Highlight delay in milliseconds.
-	 * @default 250
-	 */
-	export let highlightDelay = 250;
+	interface Props {
+		/**
+		 * The Carta instance to use.
+		 */
+		carta: Carta;
+		/**
+		 * The theme to use, which translates to the CSS class `carta-theme__{theme}`.
+		 */
+		theme?: string;
+		/**
+		 * The editor content.
+		 */
+		value?: string;
+		/**
+		 * The mode to use. Can be 'tabs', 'split', or 'auto'
+		 * - 'tabs': The input and renderer are displayed in tabs.
+		 * - 'split': The input and renderer are displayed side by side.
+		 * - 'auto': The mode is automatically selected based on the window width.
+		 */
+		mode?: 'tabs' | 'split' | 'auto';
+		/**
+		 * The scroll synchronization mode. Can be 'sync' or 'async'.
+		 * - 'sync': The scroll is synchronized between the input and renderer.
+		 * - 'async': The scroll is not synchronized between the input and renderer.
+		 */
+		scroll?: 'sync' | 'async';
+		/**
+		 * Whether to disable the toolbar.
+		 */
+		disableToolbar?: boolean;
+		/**
+		 * The placeholder text for the textarea.
+		 */
+		placeholder?: string;
+		/**
+		 * Additional textarea properties.
+		 */
+		textarea?: TextAreaProps;
+		/**
+		 * The selected tab. Can be 'write' or 'preview'.
+		 */
+		selectedTab?: 'write' | 'preview';
+		/**
+		 * The labels to use for the editor.
+		 */
+		userLabels?: Partial<Labels>;
+		/**
+		 * Highlight delay in milliseconds.
+		 * @default 250
+		 */
+		highlightDelay?: number;
+	}
 
-	/**
-	 * The labels to use for the editor.
-	 */
-	let userLabels: Partial<Labels> = {};
-	export { userLabels as labels };
-	const labels: Labels = {
+	let {
+		carta,
+		theme = 'default',
+		value = '',
+		mode = 'auto',
+		scroll = 'sync',
+		disableToolbar = false,
+		placeholder = '',
+		textarea = {},
+		selectedTab = 'write',
+		userLabels = {}
+	}: Props = $props();
+
+	const labels = $derived({
 		...defaultLabels,
 		...userLabels
-	};
+	});
 
-	let width: number;
-	let windowMode: 'tabs' | 'split';
-	let mounted = false;
-	let resizeInput: () => void;
+	let width = $state(0);
+	let mounted = $state(false);
 
 	let editorElem: HTMLDivElement;
-	let inputElem: HTMLDivElement;
-	let rendererElem: HTMLDivElement;
+	let inputElem: HTMLDivElement | undefined = $state();
+	let rendererElem: HTMLDivElement | undefined = $state();
 	let currentlyScrolling: HTMLDivElement | null;
 	let currentScrollPercentage = 0;
+	let input: Input | undefined = $state();
 
-	$: {
-		// Change the window mode based on the width
-		windowMode = mode === 'auto' ? (width > 768 ? 'split' : 'tabs') : mode;
-	}
+	// Change the window mode based on the width
+	const windowMode: 'tabs' | 'split' = $derived(
+		mode === 'auto' ? (width && width > 768 ? 'split' : 'tabs') : mode
+	);
 
-	$: {
+	$effect(() => {
 		windowMode; // Resize when changing from tabs to split
-		resizeInput && resizeInput();
-	}
+		input && input.resize();
+	});
 
-	$: {
-		inputElem, rendererElem;
+	$effect(() => {
+		inputElem;
+		rendererElem;
 		loadScrollPosition(selectedTab);
-	}
+	});
 
 	/**
 	 * Calculate the scroll percentage of an element.
@@ -126,7 +141,9 @@
 		if (windowMode != 'split') return;
 		if (scroll != 'sync') return;
 
-		synchronizeScroll(scrolled, target);
+		if (scrolled && target) {
+			synchronizeScroll(scrolled, target);
+		}
 	}
 
 	/**
@@ -178,16 +195,16 @@
 				props={textarea}
 				hidden={!(windowMode == 'split' || selectedTab == 'write')}
 				bind:value
-				bind:resize={resizeInput}
+				bind:this={input}
 				bind:elem={inputElem}
-				on:scroll={handleScroll}
+				onscroll={handleScroll}
 			>
 				<!-- Input extensions components -->
 				{#if mounted}
 					{#each carta.components.filter(({ parent }) => [parent]
 							.flat()
 							.includes('input')) as { component, props }}
-						<svelte:component this={component} {carta} {...props} />
+						<component {carta} {...props}></component>
 					{/each}
 				{/if}
 			</Input>
@@ -196,10 +213,12 @@
 				{value}
 				hidden={!(windowMode == 'split' || selectedTab == 'preview')}
 				bind:elem={rendererElem}
-				on:scroll={handleScroll}
-				on:render={() => {
+				onscroll={handleScroll}
+				onrender={() => {
 					if (windowMode != 'split') return;
 					if (scroll != 'sync') return;
+					if (!inputElem) return;
+					if (!rendererElem) return;
 					synchronizeScroll(inputElem, rendererElem);
 				}}
 			>
@@ -208,7 +227,7 @@
 					{#each carta.components.filter(({ parent }) => [parent]
 							.flat()
 							.includes('renderer')) as { component, props }}
-						<svelte:component this={component} {carta} {...props} />
+						<component {carta} {...props}></component>
 					{/each}
 				{/if}
 			</Renderer>
@@ -221,7 +240,7 @@
 		{#each carta.components.filter(({ parent }) => [parent]
 				.flat()
 				.includes('editor')) as { component, props }}
-			<svelte:component this={component} {carta} {...props} />
+			<component {carta} {...props}></component>
 		{/each}
 	{/if}
 </div>
