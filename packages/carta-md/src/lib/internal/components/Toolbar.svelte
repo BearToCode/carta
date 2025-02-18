@@ -4,8 +4,7 @@
 -->
 
 <script lang="ts">
-	import { run, preventDefault, stopPropagation } from 'svelte/legacy';
-
+	import { preventDefault, stopPropagation } from 'svelte/legacy';
 	import type { Labels } from '../labels';
 	import { handleArrowKeysNavigation } from '../accessibility';
 	import type { Carta } from '../carta';
@@ -75,7 +74,7 @@
 
 	onMount(onResize);
 
-	run(() => {
+	$effect(() => {
 		iconsHidden = visibleIcons.length !== carta.icons.length;
 	});
 </script>
@@ -83,29 +82,6 @@
 <svelte:window onresize={onResize} onclick={onClick} />
 
 <div class="carta-toolbar" role="toolbar" bind:clientHeight={toolbarHeight} bind:this={toolbar}>
-	<div class="carta-toolbar-left">
-		{#if mode == 'tabs'}
-			<button
-				type="button"
-				tabindex={0}
-				class={tab === 'write' ? 'carta-active' : ''}
-				onclick={() => (tab = 'write')}
-				onkeydown={handleArrowKeysNavigation}
-			>
-				{labels.writeTab}
-			</button>
-			<button
-				type="button"
-				tabindex={-1}
-				class={tab === 'preview' ? 'carta-active' : ''}
-				onclick={() => (tab = 'preview')}
-				onkeydown={handleArrowKeysNavigation}
-			>
-				{labels.previewTab}
-			</button>
-		{/if}
-	</div>
-
 	<div class="carta-filler" bind:clientWidth={availableWidth}></div>
 
 	<div class="carta-toolbar-right" bind:this={iconsContainer}>
@@ -143,6 +119,28 @@
 					<MenuIcon />
 				</button>
 			{/if}
+		{/if}
+	</div>
+	<div class="carta-toolbar-left">
+		{#if mode == 'tabs'}
+			<button
+				type="button"
+				tabindex={0}
+				class={tab === 'write' ? 'carta-active' : ''}
+				onclick={() => (tab = 'write')}
+				onkeydown={handleArrowKeysNavigation}
+			>
+				{labels.writeTab}
+			</button>
+			<button
+				type="button"
+				tabindex={-1}
+				class={tab === 'preview' ? 'carta-active' : ''}
+				onclick={() => (tab = 'preview')}
+				onkeydown={handleArrowKeysNavigation}
+			>
+				{labels.previewTab}
+			</button>
 		{/if}
 	</div>
 </div>

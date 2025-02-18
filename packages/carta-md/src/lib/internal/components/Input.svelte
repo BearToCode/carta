@@ -7,43 +7,59 @@
 -->
 
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import type { Carta } from '../carta';
 	import type { TextAreaProps } from '../textarea-props';
 	import { debounce } from '../utils';
 	import { BROWSER } from 'esm-env';
 	import { speculativeHighlightUpdate } from '../speculative';
+	import type { UIEventHandler } from 'svelte/elements';
 
-	/**
-	 * The Carta instance to use.
-	 */
-	export let carta: Carta;
-	/**
-	 * The editor content.
-	 */
-	export let value = '';
-	/**
-	 * The placeholder text for the textarea.
-	 */
-	export let placeholder = '';
-	/**
-	 * The element of the wrapper div.
-	 */
-	export let elem: HTMLDivElement;
-	/**
-	 * Additional textarea properties.
-	 */
-	export let props: TextAreaProps = {};
-	/**
-	 * Whether this component is hidden (display: none).
-	 */
-	export let hidden = false;
+	interface Props {
+		/**
+		 * The Carta instance to use.
+		 */
+		carta: Carta;
+		/**
+		 * The editor content.
+		 */
+		value: string;
+		/**
+		 * The placeholder text for the textarea.
+		 */
+		placeholder: string;
+		/**
+		 * The element of the wrapper div.
+		 */
+		elem: HTMLDivElement | undefined;
+		/**
+		 * Additional textarea properties.
+		 */
+		props: TextAreaProps;
+		/**
+		 * Whether this component is hidden (display: none).
+		 */
+		hidden: boolean;
+		onscroll: UIEventHandler<HTMLDivElement>;
+		children: Snippet;
+	}
+
+	let {
+		carta,
+		value = $bindable(''),
+		placeholder = '',
+		elem = $bindable(),
+		props = {},
+		hidden = false,
+		onscroll,
+		children
+	}: Props = $props();
 
 	let textarea: HTMLTextAreaElement;
 	let highlightElem: HTMLDivElement;
 	let wrapperElem: HTMLDivElement;
-	let highlighted = value;
-	let mounted = false;
+	let highlighted = $state(value);
+	let mounted = $state(false);
 	let prevValue = value;
 
 	const simpleUUID = Math.random().toString(36).substring(2);
@@ -67,10 +83,12 @@
 		if (!coords) return;
 
 		if (
-			coords.top < 0 ||
-			coords.top + carta.input.getRowHeight() >= elem.scrollTop + elem.clientHeight
-		)
+			elem &&
+			(coords.top < 0 ||
+				coords.top + carta.input.getRowHeight() >= elem.scrollTop + elem.clientHeight)
+		) {
 			elem.scrollTo({ top: coords?.top, behavior: 'instant' });
+		}
 	};
 
 	const focus = () => {
@@ -146,7 +164,9 @@
 		prevValue = value;
 	};
 
-	$: if (BROWSER) onValueChange(value);
+	$effect(() => {
+		if (BROWSER) onValueChange(value);
+	});
 
 	onMount(() => {
 		mounted = true;
@@ -154,7 +174,7 @@
 		requestAnimationFrame(resize);
 	});
 	onMount(() => {
-		carta.$setInput(textarea, elem, () => {
+		carta.$setInput(textarea, elem!, () => {
 			value = textarea.value;
 		});
 	});
@@ -173,9 +193,9 @@
 	tabindex="-1"
 	class="carta-input"
 	style="display: {hidden ? 'none' : 'unset'};"
-	on:click={focus}
-	on:keydown={focus}
-	on:scroll
+	onclick={focus}
+	onkeydown={focus}
+	{onscroll}
 	bind:this={elem}
 >
 	<div class="carta-input-wrapper" bind:this={wrapperElem}>
@@ -198,12 +218,12 @@
 			{...props}
 			bind:value
 			bind:this={textarea}
-			on:scroll={() => (textarea.scrollTop = 0)}
+			onscroll={() => (textarea.scrollTop = 0)}
 		></textarea>
 	</div>
 
 	{#if mounted}
-		<slot />
+		{@render children()}
 	{/if}
 </div>
 
