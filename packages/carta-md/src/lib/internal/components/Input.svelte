@@ -135,9 +135,13 @@
 
 	const onValueChange = (value: string) => {
 		if (highlightElem) {
-			highlighted = speculativeHighlightUpdate(currentlyHighlightedValue, value, highlighted);
-			currentlyHighlightedValue = value;
-			requestAnimationFrame(resize);
+			try {
+				highlighted = speculativeHighlightUpdate(currentlyHighlightedValue, value, highlighted);
+				currentlyHighlightedValue = value;
+				requestAnimationFrame(resize);
+			} catch (e) {
+				console.error(`Error executing speculative update: ${e}`);
+			}
 		}
 
 		debouncedHighlight(value);

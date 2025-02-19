@@ -6,70 +6,6 @@ type Position = {
 	char: number;
 };
 
-function checkPosition(position: Position, lines: Element[]): Position {
-	const { line, span, char } = position;
-	const lineElement = lines[line];
-	const spanElement = lineElement.children[span] ?? lineElement;
-	const text = spanElement.textContent ?? '';
-
-	const nextPosition = { line, span, char };
-
-	if (char >= text.length) {
-		nextPosition.char = 0;
-		nextPosition.span = span + 1;
-	}
-
-	if (nextPosition.span >= lineElement.children.length) {
-		nextPosition.char = 0;
-		nextPosition.span = 0;
-		nextPosition.line = line + 1;
-	}
-
-	return nextPosition;
-}
-
-function nextPosition(position: Position, lines: Element[]): Position {
-	const { line, span, char } = position;
-	const lineElement = lines[line];
-	const spanElement = lineElement.children[span] ?? lineElement;
-	const text = spanElement.textContent ?? '';
-
-	const nextPosition = { line, span, char: char + 1 };
-
-	if (char + 1 >= text.length) {
-		nextPosition.char = 0;
-		nextPosition.span = span + 1;
-
-		if (nextPosition.span >= lineElement.children.length) {
-			nextPosition.span = 0;
-			nextPosition.line = line + 1;
-		}
-	}
-
-	return nextPosition;
-}
-
-function isAtEndOfText(position: Position, lines: Element[]): boolean {
-	return position.line >= lines.length - 1 && isAtEndOfLine(position, lines);
-}
-
-function isAtEndOfLine(position: Position, lines: Element[]): boolean {
-	const line = lines[position.line];
-	return position.span >= line.children.length - 1 && isAtEndOfSpan(position, lines);
-}
-
-function isAtEndOfSpan(position: Position, lines: Element[]): boolean {
-	const line = lines[position.line];
-	const span = line.children[position.span] ?? line;
-	return position.char >= (span.textContent ?? '').length - 1;
-}
-
-function getCurrentSpan(position: Position, lines: Element[]): HTMLElement {
-	const line = lines[position.line];
-
-	return (line.children[position.span] as HTMLElement) ?? line;
-}
-
 /**
  * Temporary updates the highlight overlay to reflect the changes between two text strings,
  * waiting for the actual update to be applied. This way, the user can immediately see the changes,
@@ -252,4 +188,92 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 	}
 
 	return tree.innerHTML;
+}
+
+/**
+ * Create a new span at the end of the line element.
+ * @param line The line element to append the span to.
+ * @returns A new span element.
+ */
+function createSpan(line: Element): HTMLElement {
+	const span = document.createElement('span');
+	line.appendChild(span);
+	return span;
+}
+
+/**
+ * Check whether the current position is valid, which means that the
+ * the character index is within the text of the span, the span index is within the line,
+ * @param position The position to check
+ * @param lines The lines to work on.
+ * @returns The next valid position.
+ */
+function checkPosition(position: Position, lines: Element[]): Position {
+	const { line, span, char } = position;
+	const lineElement = lines[line];
+	const spanElement = Array.from(lineElement.children).at(span);
+	const text = spanElement?.textContent ?? '';
+
+	const nextPosition = { line, span, char };
+
+	if (char >= text.length) {
+		nextPosition.char = 0;
+		nextPosition.span = span + 1;
+	}
+
+	if (nextPosition.span >= lineElement.children.length) {
+		nextPosition.char = 0;
+		nextPosition.span = 0;
+		nextPosition.line = line + 1;
+	}
+
+	return nextPosition;
+}
+
+/**
+ * Get the next position in the tree.
+ * @param position Current position
+ * @param lines The lines to work on.
+ * @returns The next position.
+ */
+function nextPosition(position: Position, lines: Element[]): Position {
+	const { line, span, char } = position;
+	const lineElement = lines[line];
+	const spanElement = lineElement.children[span] ?? createSpan(lineElement);
+	const text = spanElement.textContent ?? '';
+
+	const nextPosition = { line, span, char: char + 1 };
+
+	if (char + 1 >= text.length) {
+		nextPosition.char = 0;
+		nextPosition.span = span + 1;
+
+		if (nextPosition.span >= lineElement.children.length) {
+			nextPosition.span = 0;
+			nextPosition.line = line + 1;
+		}
+	}
+
+	return nextPosition;
+}
+
+function isAtEndOfText(position: Position, lines: Element[]): boolean {
+	return position.line >= lines.length - 1 && isAtEndOfLine(position, lines);
+}
+
+function isAtEndOfLine(position: Position, lines: Element[]): boolean {
+	const line = lines[position.line];
+	return position.span >= line.children.length - 1 && isAtEndOfSpan(position, lines);
+}
+
+function isAtEndOfSpan(position: Position, lines: Element[]): boolean {
+	const line = lines[position.line];
+	const span = line.children[position.span] ?? line;
+	return position.char >= (span.textContent ?? '').length - 1;
+}
+
+function getCurrentSpan(position: Position, lines: Element[]): HTMLElement {
+	const line = lines[position.line];
+
+	return (line.children[position.span] as HTMLElement) ?? createSpan(line);
 }
