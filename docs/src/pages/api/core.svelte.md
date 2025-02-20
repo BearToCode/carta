@@ -156,6 +156,12 @@ Type: `Partial<Labels>`
 
 Can be used to provide custom text for labels in the editor.
 
+### `highlightDelay`
+
+Type: `number`
+
+Highlight delay in milliseconds. Defaults to 250ms.
+
 # `Markdown` options
 
 List of options that can be used in the `<Markdown>` component.

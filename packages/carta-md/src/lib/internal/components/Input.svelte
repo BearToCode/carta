@@ -36,6 +36,10 @@
 	 * Whether this component is hidden (display: none).
 	 */
 	export let hidden = false;
+	/**
+	 * Highlight delay in milliseconds.
+	 */
+	export let highlightDelay: number;
 
 	let textarea: HTMLTextAreaElement;
 	let highlightElem: HTMLDivElement;
@@ -114,7 +118,7 @@
 		requestAnimationFrame(resize);
 	};
 
-	const debouncedHighlight = debounce(highlight, 250);
+	const debouncedHighlight = debounce(highlight, highlightDelay);
 
 	/**
 	 * Highlight the nested languages in the markdown, loading the necessary

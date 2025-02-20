@@ -56,6 +56,11 @@
 	 * The selected tab. Can be 'write' or 'preview'.
 	 */
 	export let selectedTab: 'write' | 'preview' = 'write';
+	/**
+	 * Highlight delay in milliseconds.
+	 * @default 250
+	 */
+	export let highlightDelay = 250;
 
 	/**
 	 * The labels to use for the editor.
@@ -170,6 +175,7 @@
 			<Input
 				{carta}
 				{placeholder}
+				{highlightDelay}
 				props={textarea}
 				hidden={!(windowMode == 'split' || selectedTab == 'write')}
 				bind:value
