@@ -120,6 +120,8 @@ npm i @cartamd/plugin-name
 	:global(.carta-font-code) {
 		font-family: '...', monospace;
 		font-size: 1.1rem;
+		line-height: 1.1rem;
+		letter-spacing: normal;
 	}
 </style>
 ```

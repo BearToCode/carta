@@ -46,7 +46,7 @@
 	let wrapperElem: HTMLDivElement;
 	let highlighted = value;
 	let mounted = false;
-	let prevValue = value;
+	let currentlyHighlightedValue = value;
 
 	const simpleUUID = Math.random().toString(36).substring(2);
 
@@ -115,6 +115,8 @@
 			highlighted = html;
 		}
 
+		currentlyHighlightedValue = value;
+
 		requestAnimationFrame(resize);
 	};
 
@@ -137,15 +139,18 @@
 
 	const onValueChange = (value: string) => {
 		if (highlightElem) {
-			speculativeHighlightUpdate(highlightElem, prevValue, value);
-			requestAnimationFrame(resize);
+			try {
+				highlighted = speculativeHighlightUpdate(currentlyHighlightedValue, value, highlighted);
+				currentlyHighlightedValue = value;
+				requestAnimationFrame(resize);
+			} catch (e) {
+				console.error(`Error executing speculative update: ${e}`);
+			}
 		}
 
 		debouncedHighlight(value);
 
 		highlightNestedLanguages(value);
-
-		prevValue = value;
 	};
 
 	$: if (BROWSER) onValueChange(value);
