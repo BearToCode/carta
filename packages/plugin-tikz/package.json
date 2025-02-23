@@ -30,7 +30,7 @@
 	},
 	"peerDependencies": {
 		"carta-md": "^4.0.0",
-		"unified": "catalog:"
+		"unified": "^11.0.0"
 	},
 	"files": [
 		"dist"
@@ -44,7 +44,7 @@
 		"remark",
 		"text editor",
 		"tikz",
-		"marked editor",
+		"markdown editor",
 		"slash",
 		"syntax highlighting",
 		"emoji",

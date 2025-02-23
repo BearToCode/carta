@@ -61,9 +61,9 @@
 	let textarea: HTMLTextAreaElement;
 	let highlightElem: HTMLDivElement;
 	let wrapperElem: HTMLDivElement;
-	let highlighted = value;
-	let mounted = false;
-	let prevValue = value;
+	let highlighted = $state(value);
+	let mounted = $state(false);
+	let currentlyHighlightedValue = value;
 
 	const simpleUUID = Math.random().toString(36).substring(2);
 
@@ -223,7 +223,7 @@
 			spellcheck={textareaProps.spellcheck === true}
 			tabindex="0"
 			{placeholder}
-			{...props}
+			{...textareaProps}
 			bind:value
 			bind:this={textarea}
 			onscroll={() => (textarea.scrollTop = 0)}

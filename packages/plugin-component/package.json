@@ -35,7 +35,7 @@
 	],
 	"peerDependencies": {
 		"carta-md": "^4.0.0",
-		"unified": "catalog:"
+		"unified": "^11.0.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "catalog:",
@@ -45,7 +45,7 @@
 		"@types/hast": "^3.0.4",
 		"@types/node-emoji": "catalog:",
 		"carta-md": "workspace:*",
-		"publint": "^0.1.9",
+		"publint": "catalog",
 		"svelte": "catalog:",
 		"svelte-check": "catalog:",
 		"tslib": "catalog:",

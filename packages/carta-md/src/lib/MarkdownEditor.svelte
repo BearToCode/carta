@@ -78,7 +78,8 @@
 		placeholder = '',
 		textarea = {},
 		selectedTab = 'write',
-		userLabels = {}
+		userLabels = {},
+		highlightDelay = 250
 	}: Props = $props();
 
 	const labels = $derived({
@@ -203,8 +204,8 @@
 				{#if mounted}
 					{#each carta.components.filter(({ parent }) => [parent]
 							.flat()
-							.includes('input')) as { component, props }}
-						<component {carta} {...props}></component>
+							.includes('input')) as { component: DynamicComponent, props }}
+						<DynamicComponent {carta} {...props}></DynamicComponent>
 					{/each}
 				{/if}
 			</Input>
@@ -226,8 +227,8 @@
 				{#if mounted}
 					{#each carta.components.filter(({ parent }) => [parent]
 							.flat()
-							.includes('renderer')) as { component, props }}
-						<component {carta} {...props}></component>
+							.includes('renderer')) as { component: DynamicComponent, props }}
+						<DynamicComponent {carta} {...props}></DynamicComponent>
 					{/each}
 				{/if}
 			</Renderer>
@@ -239,8 +240,8 @@
 	{#if mounted}
 		{#each carta.components.filter(({ parent }) => [parent]
 				.flat()
-				.includes('editor')) as { component, props }}
-			<component {carta} {...props}></component>
+				.includes('editor')) as { component: DynamicComponent, props }}
+			<DynamicComponent {carta} {...props}></DynamicComponent>
 		{/each}
 	{/if}
 </div>

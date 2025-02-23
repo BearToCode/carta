@@ -22,10 +22,6 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
-		},
-		"./default.css": {
-			"import": "./dist/default.css",
-			"require": "./dist/default.css"
 		}
 	},
 	"files": [
@@ -35,7 +31,7 @@
 	],
 	"peerDependencies": {
 		"carta-md": "^4.0.0",
-		"svelte": "catalog:"
+		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "catalog:",
@@ -45,7 +41,7 @@
 		"@types/node-emoji": "catalog:",
 		"carta-md": "workspace:*",
 		"katex": "^0.16.10",
-		"publint": "^0.1.9",
+		"publint": "catalog:",
 		"svelte": "catalog:",
 		"svelte-check": "catalog:",
 		"tslib": "catalog:",
@@ -64,7 +60,7 @@
 		"unified",
 		"remark",
 		"text editor",
-		"marked editor",
+		"markdown editor",
 		"slash",
 		"syntax highlighting",
 		"emoji",
