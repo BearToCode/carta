@@ -9,6 +9,7 @@
 
 <button
 	class="{className} {theme}"
+	aria-label="Toggle theme"
 	onclick={() => {
 		if (theme === 'light') {
 			document.documentElement.classList.add('dark');
