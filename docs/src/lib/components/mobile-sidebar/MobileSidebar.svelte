@@ -18,7 +18,11 @@
 </script>
 
 <div class="container mb-4 w-full border-b border-neutral-800 px-4 pb-1 sm:px-6 {className}">
-	<button onclick={() => (enabled = !enabled)} class="text-neutral-500 hover:text-neutral-200">
+	<button
+		aria-label="Open sidebar"
+		onclick={() => (enabled = !enabled)}
+		class="text-neutral-500 hover:text-neutral-200"
+	>
 		<iconify-icon icon="ci:hamburger-lg" class="text-3xl"></iconify-icon>
 	</button>
 </div>
@@ -29,6 +33,7 @@
 	<div class="fixed bottom-0 left-0 top-0 z-10 rounded-r-xl bg-neutral-900">
 		<Sidebar class="w-[20rem] px-4 py-4" />
 		<button
+			aria-label="Close sidebar"
 			onclick={() => (enabled = false)}
 			class="absolute right-4 top-4 text-neutral-500 hover:text-neutral-200"
 		>

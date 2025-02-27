@@ -59,7 +59,11 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<button onclick={() => (open = !open)} class="mr-2 block aspect-square md:hidden">
+<button
+	aria-label="Search"
+	onclick={() => (open = !open)}
+	class="mr-2 block aspect-square md:hidden"
+>
 	<iconify-icon icon="ion:search" class="text-2xl text-neutral-200"></iconify-icon>
 </button>
 

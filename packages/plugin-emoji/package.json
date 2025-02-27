@@ -46,7 +46,7 @@
 		"@sveltejs/vite-plugin-svelte": "catalog:",
 		"@types/node-emoji": "catalog:",
 		"carta-md": "workspace:*",
-		"publint": "catalog",
+		"publint": "catalog:",
 		"svelte": "catalog:",
 		"svelte-check": "catalog:",
 		"tslib": "catalog:",

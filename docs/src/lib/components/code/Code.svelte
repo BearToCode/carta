@@ -4,16 +4,17 @@
 	}
 
 	let { children }: Props = $props();
-	let elem: HTMLElement = $state();
+	let elem: HTMLElement | undefined = $state();
 </script>
 
 <div bind:this={elem} class="relative">
 	{@render children?.()}
 	<!-- Copy button -->
 	<button
+		aria-label="Copy code"
 		title="Copy"
 		onclick={() => {
-			navigator.clipboard.writeText(elem.innerText);
+			navigator.clipboard.writeText(elem!.innerText);
 		}}
 		class="
       absolute right-4 top-[min(50%_,_32px)] aspect-square -translate-y-1/2 transform
