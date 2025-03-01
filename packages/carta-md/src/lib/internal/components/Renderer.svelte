@@ -5,10 +5,10 @@
 -->
 
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
 	import type { Carta } from '../carta';
-	import { debounce } from '../utils';
 	import type { UIEventHandler } from 'svelte/elements';
+	import { onMount, type Snippet } from 'svelte';
+	import { debounce } from '../utils';
 
 	interface Props {
 		/**

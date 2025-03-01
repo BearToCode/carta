@@ -2,7 +2,7 @@
 	import { run } from 'svelte/legacy';
 
 	import { Carta, MarkdownEditor, Markdown } from 'carta-md';
-	import placeholder from './math-stack-exchange-placeholder.tex?raw';
+	import placeholder from './assets/math-stack-exchange-placeholder.tex?raw';
 	import { math } from '@cartamd/plugin-math';
 	import { tikz } from '@cartamd/plugin-tikz';
 

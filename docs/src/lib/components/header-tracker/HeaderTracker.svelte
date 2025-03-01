@@ -1,29 +1,21 @@
 <script lang="ts">
-	import { onNavigate } from '$app/navigation';
 	import { debounce, throttle } from '$lib/utils';
-	import { onMount } from 'svelte';
+	import { trackedHeaders } from './headers.svelte';
 
-	const PADDING = 80;
+	const Padding = 80;
 
 	interface Props {
 		class?: string;
 	}
 
 	let { class: className = '' }: Props = $props();
-	let headers: HTMLElement[] = $state([]);
 	let selectedHeaderIndex = $state(0);
 
-	function retrieveHeaders() {
-		headers = Array.from(
-			document.querySelectorAll('.markdown > h1, .markdown > h2')
-		) as HTMLElement[];
-	}
-
 	const highlightHeader = () => {
-		for (let index = headers.length - 1; index >= 0; index--) {
-			const header = headers[index];
-			const rect = header.getBoundingClientRect();
-			if (rect.top < PADDING) {
+		for (let index = trackedHeaders.length - 1; index >= 0; index--) {
+			const header = trackedHeaders[index];
+			const rect = header.element.getBoundingClientRect();
+			if (rect.top < Padding) {
 				selectedHeaderIndex = index;
 				return;
 			}
@@ -33,14 +25,6 @@
 
 	const [throttledHighlightHeader] = throttle(highlightHeader, 100);
 	const debouncedHighlightHeader = debounce(highlightHeader, 100);
-
-	onNavigate(() => {
-		setTimeout(() => {
-			retrieveHeaders();
-			highlightHeader();
-		}, 300);
-	});
-	onMount(retrieveHeaders);
 </script>
 
 <svelte:window
@@ -51,16 +35,16 @@
 />
 
 <div class="h-full space-y-3 {className}">
-	{#each headers as header, i}
-		{@const margin = Number(header.tagName.split('')[1]) - 1}
+	{#each trackedHeaders as header, i}
+		{@const margin = Number(header.element.tagName.split('')[1]) - 1}
 		{#key selectedHeaderIndex}
-			{#if header.children[0] instanceof HTMLAnchorElement && header.children[0].href}
+			{#if header.element.children[0] instanceof HTMLAnchorElement && header.element.children[0].href}
 				<a
 					style="margin-left: {margin * 0.75}rem;"
 					class="block text-sm {selectedHeaderIndex === i
 						? 'font-medium text-sky-300'
 						: 'text-neutral-400'}"
-					href={header.children[0].href}>{header.innerText}</a
+					href={header.element.children[0].href}>{header.element.innerText}</a
 				>
 			{/if}
 		{/key}

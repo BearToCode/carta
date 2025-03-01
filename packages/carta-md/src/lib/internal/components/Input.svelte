@@ -163,7 +163,7 @@
 				currentlyHighlightedValue = value;
 				requestAnimationFrame(resize);
 			} catch (e) {
-				console.error(`Error executing speculative update: ${e}`);
+				console.error(`Error executing speculative update: ${e}.`);
 			}
 		}
 

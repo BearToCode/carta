@@ -5,7 +5,10 @@
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import { base } from '$app/paths';
+
 	import '../app.postcss';
+	import '$lib/styles/main.scss';
+
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
@@ -24,7 +27,7 @@
 	<div class="container relative mx-auto flex px-4 sm:px-6">
 		<Sidebar class="sticky top-24 hidden xl:block" />
 		<main
-			class="container max-w-4xl flex-shrink-0 flex-grow px-0 xl:max-w-3xl xl:px-4 2xl:max-w-4xl"
+			class="main-container container max-w-4xl flex-shrink-0 flex-grow px-0 xl:max-w-3xl xl:px-4 2xl:max-w-4xl"
 		>
 			{@render children?.()}
 			<Footer />

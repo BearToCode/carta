@@ -1,15 +1,6 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import * as Command from '$lib/components/ui/command';
-	import type { Document } from 'flexsearch';
-	import {
-		enrichResult,
-		initializeSearch,
-		type EnrichedSearchResult,
-		type SearchResult
-	} from '$lib/search';
-	import { onMount } from 'svelte';
+	import { type EnrichedSearchResult } from '$lib/search';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 
@@ -20,7 +11,7 @@
 	}
 
 	let { class: className = '' }: Props = $props();
-	let index: Document<SearchResult, true>;
+	// let index: Document<SearchResult, true>;
 	let results: EnrichedSearchResult[] = $state([]);
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -30,31 +21,27 @@
 		}
 	}
 
-	function search(query: string) {
-		if (!index || !query) {
-			results = [];
-			return;
-		}
+	// function search(query: string) {
+	// 	if (!index || !query) {
+	// 		results = [];
+	// 		return;
+	// 	}
 
-		const pages = new Map<string, SearchResult>();
-		const searchResult = index
-			.search(query, 5, { enrich: true })
-			.map((res) => res.result)
-			.flat();
-		for (const res of searchResult) {
-			pages.set(res.doc.path, enrichResult(res.doc, value));
-		}
+	// 	const pages = new Map<string, SearchResult>();
+	// 	const searchResult = index
+	// 		.search(query, 5, { enrich: true })
+	// 		.map((res) => res.result)
+	// 		.flat();
+	// 	for (const res of searchResult) {
+	// 		pages.set(res.doc.path, enrichResult(res.doc, value));
+	// 	}
 
-		results = Array.from(pages.values()).slice(0, 5);
-	}
+	// 	results = Array.from(pages.values()).slice(0, 5);
+	// }
 
-	onMount(async () => {
-		index = await initializeSearch();
-	});
-
-	run(() => {
-		search(value);
-	});
+	// onMount(async () => {
+	// 	index = await initializeSearch();
+	// });
 </script>
 
 <svelte:window onkeydown={handleKeydown} />

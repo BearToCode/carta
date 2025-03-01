@@ -23,6 +23,9 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "catalog:",
 		"@sveltejs/kit": "catalog:",

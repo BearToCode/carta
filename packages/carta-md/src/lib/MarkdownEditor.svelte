@@ -7,12 +7,12 @@
 
 <script lang="ts">
 	import type { Carta } from './internal/carta';
+	import type { TextAreaProps } from './internal/textarea-props';
 	import { onMount } from 'svelte';
+	import { debounce } from './internal/utils';
+	import { defaultLabels, type Labels } from './internal/labels';
 	import Renderer from './internal/components/Renderer.svelte';
 	import Input from './internal/components/Input.svelte';
-	import { debounce } from './internal/utils';
-	import type { TextAreaProps } from './internal/textarea-props';
-	import { defaultLabels, type Labels } from './internal/labels';
 	import Toolbar from './internal/components/Toolbar.svelte';
 
 	interface Props {
@@ -71,7 +71,7 @@
 	let {
 		carta,
 		theme = 'default',
-		value = '',
+		value = $bindable(''),
 		mode = 'auto',
 		scroll = 'sync',
 		disableToolbar = false,

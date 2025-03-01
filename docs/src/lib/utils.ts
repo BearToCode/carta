@@ -92,3 +92,27 @@ export function debounce<T extends unknown[]>(cb: (...args: T) => unknown, wait 
 		timeout = setTimeout(() => cb(...args), wait);
 	};
 }
+
+/**
+ * Remove common indentation from a string
+ * @param str The string to deindent
+ * @param tabSize The size of the tab
+ * @returns The de-indented string
+ */
+export function deindent(strings: TemplateStringsArray, { tabSize = 2 } = {}) {
+	let str = strings.join('');
+	str = str.replace(/\t/g, ' '.repeat(tabSize));
+
+	const lines = str.split('\n');
+	// Remove first line if it's empty
+	if (lines[0].trim() === '') lines.shift();
+
+	const countWhitespace = (line: string) => line.match(/^ */)![0].length;
+
+	const maxCommonIndent = lines
+		.filter((line) => line.trim() !== '')
+		.map(countWhitespace)
+		.reduce((max, indent) => Math.min(max, indent), Infinity);
+
+	return lines.map((line) => line.slice(maxCommonIndent)).join('\n');
+}

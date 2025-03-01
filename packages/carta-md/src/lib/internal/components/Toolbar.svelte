@@ -4,13 +4,12 @@
 -->
 
 <script lang="ts">
-	import { preventDefault, stopPropagation } from 'svelte/legacy';
 	import type { Labels } from '../labels';
-	import { handleArrowKeysNavigation } from '../accessibility';
 	import type { Carta } from '../carta';
-	import MenuIcon from './icons/MenuIcon.svelte';
+	import { handleArrowKeysNavigation } from '../accessibility';
 	import { onMount } from 'svelte';
 	import { debounce } from '../utils';
+	import MenuIcon from './icons/MenuIcon.svelte';
 
 	interface Props {
 		/**
@@ -82,45 +81,6 @@
 <svelte:window onresize={onResize} onclick={onClick} />
 
 <div class="carta-toolbar" role="toolbar" bind:clientHeight={toolbarHeight} bind:this={toolbar}>
-	<div class="carta-filler" bind:clientWidth={availableWidth}></div>
-
-	<div class="carta-toolbar-right" bind:this={iconsContainer}>
-		{#if !(mode === 'tabs' && tab === 'preview')}
-			{#each visibleIcons as icon, index}
-				{@const label = labels.iconsLabels[icon.id] ?? icon.label}
-				<button
-					class="carta-icon"
-					tabindex={index == 0 ? 0 : -1}
-					title={label}
-					aria-label={label}
-					bind:clientWidth={iconWidth}
-					onclick={stopPropagation(
-						preventDefault(() => {
-							carta.input && icon.action(carta.input);
-							carta.input?.update();
-							carta.input?.textarea.focus();
-						})
-					)}
-					onkeydown={handleArrowKeysNavigation}
-				>
-					<icon.component />
-				</button>
-			{/each}
-			{#if iconsHidden}
-				{@const label = labels.iconsLabels['menu'] ?? 'Menu'}
-				<button
-					class="carta-icon"
-					tabindex={-1}
-					title={label}
-					aria-label={label}
-					onkeydown={handleArrowKeysNavigation}
-					onclick={stopPropagation(preventDefault(() => (showMenu = !showMenu)))}
-				>
-					<MenuIcon />
-				</button>
-			{/if}
-		{/if}
-	</div>
 	<div class="carta-toolbar-left">
 		{#if mode == 'tabs'}
 			<button
@@ -143,6 +103,50 @@
 			</button>
 		{/if}
 	</div>
+
+	<div class="carta-filler" bind:clientWidth={availableWidth}></div>
+
+	<div class="carta-toolbar-right" bind:this={iconsContainer}>
+		{#if !(mode === 'tabs' && tab === 'preview')}
+			{#each visibleIcons as icon, index}
+				{@const label = labels.iconsLabels[icon.id] ?? icon.label}
+				<button
+					class="carta-icon"
+					tabindex={index == 0 ? 0 : -1}
+					title={label}
+					aria-label={label}
+					bind:clientWidth={iconWidth}
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						carta.input && icon.action(carta.input);
+						carta.input?.update();
+						carta.input?.textarea.focus();
+					}}
+					onkeydown={handleArrowKeysNavigation}
+				>
+					<icon.component />
+				</button>
+			{/each}
+			{#if iconsHidden}
+				{@const label = labels.iconsLabels['menu'] ?? 'Menu'}
+				<button
+					class="carta-icon"
+					tabindex={-1}
+					title={label}
+					aria-label={label}
+					onkeydown={handleArrowKeysNavigation}
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						showMenu = !showMenu;
+					}}
+				>
+					<MenuIcon />
+				</button>
+			{/if}
+		{/if}
+	</div>
 </div>
 
 {#if showMenu && iconsHidden}
@@ -153,14 +157,14 @@
 			<button
 				class="carta-icon-full"
 				aria-label={label}
-				onclick={stopPropagation(
-					preventDefault(() => {
-						carta.input && icon.action(carta.input);
-						carta.input?.update();
-						carta.input?.textarea.focus();
-						showMenu = false;
-					})
-				)}
+				onclick={(e) => {
+					e.stopPropagation();
+					e.preventDefault();
+					carta.input && icon.action(carta.input);
+					carta.input?.update();
+					carta.input?.textarea.focus();
+					showMenu = false;
+				}}
 				onkeydown={handleArrowKeysNavigation}
 			>
 				<icon.component />

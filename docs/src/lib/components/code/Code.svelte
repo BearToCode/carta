@@ -1,14 +1,17 @@
 <script lang="ts">
+	import type { HighlightedCodeBlock } from '.';
+
 	interface Props {
-		children?: import('svelte').Snippet;
+		code: HighlightedCodeBlock;
 	}
 
-	let { children }: Props = $props();
+	let { code }: Props = $props();
 	let elem: HTMLElement | undefined = $state();
 </script>
 
-<div bind:this={elem} class="relative">
-	{@render children?.()}
+<div bind:this={elem} class="code-block relative">
+	<!-- eslint-disable-line svelte/no-at-html-tags -->{@html code.html}
+
 	<!-- Copy button -->
 	<button
 		aria-label="Copy code"

@@ -180,18 +180,12 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.31)
-      mdsvex:
-        specifier: ^0.12.3
-        version: 0.12.3(svelte@5.20.1)
-      rehype-autolink-headings:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rehype-slug:
-        specifier: ^6.0.0
-        version: 6.0.0
       sass:
         specifier: ^1.69.5
         version: 1.69.5
+      shiki:
+        specifier: ^1.4.0
+        version: 1.4.0
       svelte:
         specifier: 'catalog:'
         version: 5.20.1
@@ -1367,9 +1361,6 @@ packages:
 
   '@types/semver@7.5.8':
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
-
-  '@types/unist@2.0.10':
-    resolution: {integrity: sha512-IfYcSBWE3hLpBg8+X2SEa8LVkJdJEkT2Ese2aaLs3ptGdVtABxndrMaxuFlQ1qdFf9Q5rDvDpxI3WwgvKFAsQA==}
 
   '@types/unist@3.0.2':
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
@@ -3089,11 +3080,6 @@ packages:
   mdn-data@2.0.30:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
 
-  mdsvex@0.12.3:
-    resolution: {integrity: sha512-C/uIJamjNo5PHHnR3JHqsBPoLcfUBpzRmAEB6FLMXI/s7XHOceswjDMKqSPEW2WHmYpKm0taZ3U20GSyhMridA==}
-    peerDependencies:
-      svelte: ^3.56.0 || ^4.0.0 || ^5.0.0-next.120
-
   memfs@4.9.2:
     resolution: {integrity: sha512-f16coDZlTG1jskq3mxarwB+fGRrd0uXWt+o1WIhRfOwbXQZqUDsTVxQBFK9JjRQHblg8eAG2JSbprDXKjc7ijQ==}
     engines: {node: '>= 4.0.0'}
@@ -3786,13 +3772,6 @@ packages:
   pretty-ms@9.2.0:
     resolution: {integrity: sha512-4yf0QO/sllf/1zbZWYnvWw3NxCQwLXKzIj0G849LSufP15BXKM0rbD2Z3wVnkMfjdn/CB0Dpp444gYAACdsplg==}
     engines: {node: '>=18'}
-
-  prism-svelte@0.4.7:
-    resolution: {integrity: sha512-yABh19CYbM24V7aS7TuPYRNMqthxwbvx6FF/Rw920YbyBWO3tnyPIqRMgHuSVsLmuHkkBS1Akyof463FVdkeDQ==}
-
-  prismjs@1.29.0:
-    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
-    engines: {node: '>=6'}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -4493,9 +4472,6 @@ packages:
   unist-util-remove-position@5.0.0:
     resolution: {integrity: sha512-Hp5Kh3wLxv0PHj9m2yZhhLt58KzPtEYKQQ4yxfYFEO7EvHwzyDYnduhHnY1mDxoqr7VUwVuHXk9RXKIiYS1N8Q==}
 
-  unist-util-stringify-position@2.0.3:
-    resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
-
   unist-util-stringify-position@4.0.0:
     resolution: {integrity: sha512-0ASV06AAoKCDkS2+xw5RXJywruurpbC4JZSm7nr7MOt1ojAzvyyaO+UxZf18j8FCF6kmzCZKcAgN/yu2gm2XgQ==}
 
@@ -4555,9 +4531,6 @@ packages:
 
   vfile-location@5.0.2:
     resolution: {integrity: sha512-NXPYyxyBSH7zB5U6+3uDdd6Nybz6o6/od9rk8bp9H8GR3L+cm/fC0uUTbqBmUTnMCUDslAGBOIKNfvvb+gGlDg==}
-
-  vfile-message@2.0.4:
-    resolution: {integrity: sha512-DjssxRGkMvifUOJre00juHoP9DPWuzjxKuMDrhNbk2TdaYYBNMStsNhEOt3idrtI12VQYM/1+iM0KOzXi4pxwQ==}
 
   vfile-message@4.0.2:
     resolution: {integrity: sha512-jRDZ1IMLttGj41KcZvlrYAaI3CfqpLpfpf+Mfig13viT6NKvRzWZ+lXz0Y5D60w6uJIBAOGq9mSHf0gktF0duw==}
@@ -5530,8 +5503,6 @@ snapshots:
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/semver@7.5.8': {}
-
-  '@types/unist@2.0.10': {}
 
   '@types/unist@3.0.2': {}
 
@@ -7530,14 +7501,6 @@ snapshots:
 
   mdn-data@2.0.30: {}
 
-  mdsvex@0.12.3(svelte@5.20.1):
-    dependencies:
-      '@types/unist': 2.0.10
-      prism-svelte: 0.4.7
-      prismjs: 1.29.0
-      svelte: 5.20.1
-      vfile-message: 2.0.4
-
   memfs@4.9.2:
     dependencies:
       '@jsonjoy.com/json-pack': 1.0.4(tslib@2.8.1)
@@ -8178,10 +8141,6 @@ snapshots:
   pretty-ms@9.2.0:
     dependencies:
       parse-ms: 4.0.0
-
-  prism-svelte@0.4.7: {}
-
-  prismjs@1.29.0: {}
 
   process-nextick-args@2.0.1: {}
 
@@ -9064,10 +9023,6 @@ snapshots:
       '@types/unist': 3.0.2
       unist-util-visit: 5.0.0
 
-  unist-util-stringify-position@2.0.3:
-    dependencies:
-      '@types/unist': 2.0.10
-
   unist-util-stringify-position@4.0.0:
     dependencies:
       '@types/unist': 3.0.2
@@ -9126,11 +9081,6 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.2
       vfile: 6.0.1
-
-  vfile-message@2.0.4:
-    dependencies:
-      '@types/unist': 2.0.10
-      unist-util-stringify-position: 2.0.3
 
   vfile-message@4.0.2:
     dependencies:

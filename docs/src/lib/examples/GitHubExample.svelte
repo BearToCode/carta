@@ -22,7 +22,7 @@
 	});
 
 	let {
-		value = $bindable(`This is an example inspired by [GitHub](https://github.com)
+		value = $bindable<string>(`This is an example inspired by [GitHub](https://github.com)
 \`\`\`js
 console.log('Hello, World!');
 \`\`\``)

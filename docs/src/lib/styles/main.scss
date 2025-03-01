@@ -1,0 +1,114 @@
+.main-container {
+	& {
+		@apply text-[1.05rem] leading-7 text-neutral-300;
+	}
+
+	h1 {
+		@apply mb-4 mt-8 text-5xl font-bold text-white first:mt-0;
+
+		&.title {
+			@apply mt-0;
+		}
+	}
+
+	h2 {
+		@apply mb-4 mt-8 text-3xl font-semibold text-white first:mt-0;
+	}
+
+	h3 {
+		@apply mb-3 mt-7 text-2xl font-medium text-white first:mt-0;
+	}
+
+	h4 {
+		@apply mb-3 mt-3 text-lg font-medium text-white first:mt-0;
+	}
+
+	span.section {
+		@apply mb-2 font-medium text-sky-300;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		@apply scroll-mt-16;
+	}
+
+	blockquote {
+		@apply mb-3 text-lg italic text-neutral-300;
+	}
+
+	ol {
+		@apply list-decimal;
+	}
+
+	ul {
+		@apply list-disc;
+	}
+
+	li {
+		@apply ml-4;
+	}
+
+	strong {
+		@apply text-neutral-300;
+	}
+
+	a:not(h1 > a, h2 > a, h3 > a, h4 > a, .bg-card) {
+		@apply font-medium text-sky-300 underline;
+	}
+
+	p + p {
+		@apply mt-4;
+	}
+
+	pre > code {
+		@apply px-0;
+	}
+
+	code {
+		@apply rounded-md bg-neutral-800 px-1 py-0.5 text-neutral-50;
+		font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	}
+
+	.code-block {
+		pre.shiki {
+			@apply my-2 border border-neutral-800;
+			background: rgba(10, 10, 10, 0.5) !important;
+
+			& > code {
+				@apply rounded p-0 text-neutral-50;
+			}
+		}
+
+		code,
+		pre.shiki {
+			@apply rounded-md p-4;
+			background: unset;
+
+			font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+			text-align: left;
+
+			white-space: pre;
+			word-spacing: normal;
+			word-break: normal;
+			word-wrap: normal;
+
+			line-height: 1.5;
+			-moz-tab-size: 4;
+			-o-tab-size: 4;
+			tab-size: 4;
+
+			-webkit-hyphens: none;
+			-moz-hyphens: none;
+			-ms-hyphens: none;
+			hyphens: none;
+		}
+	}
+
+	.carta-editor code {
+		font-family: 'Fira Code', monospace;
+		background: transparent;
+		padding: 0;
+	}
+}
