@@ -5,29 +5,45 @@
 -->
 
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
 	import type { Carta } from '../carta';
+	import type { UIEventHandler } from 'svelte/elements';
+	import { onMount, type Snippet } from 'svelte';
 	import { debounce } from '../utils';
 
-	/**
-	 * The Carta instance to use.
-	 */
-	export let carta: Carta;
-	/**
-	 * The markdown content to render.
-	 */
-	export let value: string;
-	/**
-	 * The element that wraps the rendered HTML.
-	 */
-	export let elem: HTMLDivElement;
-	/**
-	 * Whether this component is hidden (display: none).
-	 */
-	export let hidden = false;
+	interface Props {
+		/**
+		 * The Carta instance to use.
+		 */
+		carta: Carta;
+		/**
+		 * The markdown content to render.
+		 */
+		value: string;
+		/**
+		 * The element that wraps the rendered HTML.
+		 */
+		elem: HTMLDivElement | undefined;
+		/**
+		 * Whether this component is hidden (display: none).
+		 */
+		hidden?: boolean;
+		children?: Snippet;
+		onscroll: UIEventHandler<HTMLDivElement>;
+		onrender: () => void;
+	}
 
-	let mounted = false;
-	let renderedHtml = carta.renderSSR(value);
+	let {
+		carta,
+		value,
+		elem = $bindable(),
+		hidden = false,
+		children,
+		onscroll,
+		onrender
+	}: Props = $props();
+
+	let mounted = $state(false);
+	let renderedHtml = $state(carta.renderSSR(value));
 
 	// Debounce the rendering
 	const debouncedRenderer = debounce((value: string) => {
@@ -37,31 +53,33 @@
 				renderedHtml = ''; // Force @html to re-render everything
 				renderedHtml = rendered;
 			})
-			.then(() => events('render', void 0));
+			.then(() => onrender());
 	}, carta.rendererDebounce ?? 300);
 
 	const onValueChange = (value: string) => {
 		debouncedRenderer(value);
 	};
 
-	$: if (mounted) onValueChange(value);
+	$effect(() => {
+		if (mounted) onValueChange(value);
+	});
 
-	onMount(() => carta.$setRenderer(elem));
-	onMount(() => (mounted = true));
-
-	const events = createEventDispatcher<{ render: void }>();
+	onMount(() => {
+		if (elem) carta.$setRenderer(elem);
+		mounted = true;
+	});
 </script>
 
 <div
 	class="carta-renderer markdown-body"
 	style="display: {hidden ? 'none' : 'unset'};"
 	bind:this={elem}
-	on:scroll
+	{onscroll}
 >
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html renderedHtml}
 	{#if mounted}
-		<slot />
+		{@render children?.()}
 	{/if}
 </div>
 

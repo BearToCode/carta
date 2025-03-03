@@ -2,15 +2,16 @@
 	import { Dialog as DialogPrimitive } from 'bits-ui';
 	import { cn } from '$lib/utils';
 
-	type $$Props = DialogPrimitive.TitleProps;
+	type Props = {
+		children?: import('svelte').Snippet;
+	} & DialogPrimitive.TitleProps;
 
-	let className: $$Props['class'] = undefined;
-	export { className as class };
+	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>
 
 <DialogPrimitive.Title
 	class={cn('text-lg font-semibold leading-none tracking-tight', className)}
-	{...$$restProps}
+	{...rest}
 >
-	<slot />
+	{@render children?.()}
 </DialogPrimitive.Title>

@@ -7,6 +7,10 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	interface ImportMeta {
+		dirname: string;
+	}
 }
 
 export {};

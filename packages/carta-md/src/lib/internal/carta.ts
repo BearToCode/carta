@@ -1,4 +1,4 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import { unified, type Processor } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm, { type Options as GfmOptions } from 'remark-gfm';
@@ -55,7 +55,7 @@ export interface ExtensionComponent<T extends object | undefined> {
 	/**
 	 * Svelte components that exports `carta: Carta` and all the other properties specified in `props`.
 	 */
-	component: typeof SvelteComponent<T & { carta: Carta }>;
+	component: Component<T & { carta: Carta }>;
 	/**
 	 * Properties that will be handed to the component.
 	 */

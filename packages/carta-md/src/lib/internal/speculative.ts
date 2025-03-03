@@ -24,6 +24,8 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 	let writingPosition: Position = { line: 0, span: 0, char: 0 };
 	let readingPosition: Position = { line: 0, span: 0, char: 0 };
 
+	if (lines.length === 0) return to;
+
 	const charAt = (position: Position): string => {
 		const span = getCurrentSpan(position, lines);
 		const text = span.textContent ?? '';

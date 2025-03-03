@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { component } from '$lib';
-	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { initializeComponents, svelte } from '$lib/svelte';
 	import Heading from './Heading.svelte';
 	import Img from './Img.svelte';
@@ -33,7 +33,7 @@
 
 <main>
 	<MarkdownEditor {carta} />
-	<Markdown {carta} value="# Heading" />
+	<!-- <Markdown {carta} value="# Heading" /> -->
 </main>
 
 <style>

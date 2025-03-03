@@ -1,5 +1,6 @@
 import type { DefaultTag, MappedComponent } from '$lib';
-import type { SvelteComponent } from 'svelte';
+import { mount, type Component } from 'svelte';
+import { render } from 'svelte/server';
 import type * as hast from 'hast';
 import { BROWSER } from 'esm-env';
 import { unified } from 'unified';
@@ -17,10 +18,11 @@ export { default as Slot } from './Slot.svelte';
  * @param component The Svelte component to replace the tag with
  * @returns The mapped component
  */
-export const svelte = <T extends Record<string, unknown>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const svelte = <T extends Record<string, any>>(
 	tag: DefaultTag,
-	component: typeof SvelteComponent<T>
-): MappedComponent<typeof SvelteComponent> => {
+	component: Component<T>
+): MappedComponent<Component> => {
 	return svelteCustom(tag, (node) => node.tagName === tag, component);
 };
 
@@ -34,12 +36,12 @@ export const svelte = <T extends Record<string, unknown>>(
 export const svelteCustom = <T extends Record<string, unknown>>(
 	id: string,
 	match: (node: hast.Element) => boolean,
-	component: typeof SvelteComponent<T>
-): MappedComponent<typeof SvelteComponent> => {
+	component: Component<T>
+): MappedComponent<Component> => {
 	return {
 		id,
 		match,
-		component: component as typeof SvelteComponent,
+		component: component as Component,
 		render(node) {
 			if (BROWSER) {
 				const placeholder: hast.Element = {
@@ -53,18 +55,14 @@ export const svelteCustom = <T extends Record<string, unknown>>(
 				};
 				return [placeholder];
 			} else {
-				// @ts-expect-error The .render component is not picked up by Svelte intellisense
-				// docs here: https://svelte.dev/docs/server-side-component-api
-				const html: string = component.render(node.properties).html;
+				const html: string = render(component, { props: node.properties as T }).body;
 
 				const root = unified().use(rehypeParse).parse(html);
-				const htmlElem = root.children[0] as hast.Element;
-				const bodyElem = htmlElem.children[1] as hast.Element;
 
 				// Find the `slot` component and add children to it
 				let slot: { elem: hast.Element; index: number; parent: hast.Element } | undefined;
 
-				visit(bodyElem, (node, index, parent) => {
+				visit(root, (node, index, parent) => {
 					if (
 						node.type === 'element' &&
 						node.tagName === 'template' &&
@@ -83,14 +81,14 @@ export const svelteCustom = <T extends Record<string, unknown>>(
 					slot.parent.children.splice(slot.index, 1, ...node.children);
 				}
 
-				return bodyElem.children as hast.Element[];
+				return root.children as hast.Element[];
 			}
 		}
 	};
 };
 
 export const initializeComponents = (
-	components: MappedComponent<typeof SvelteComponent>[],
+	components: MappedComponent<Component>[],
 	renderer = document.body
 ) => {
 	// Remove previously mounted components
@@ -128,7 +126,7 @@ export const initializeComponents = (
 		wrapper.style.display = 'contents';
 		placeholder.replaceWith(wrapper);
 
-		new component.component({
+		mount(component.component, {
 			target: wrapper,
 			props
 		});

@@ -1,5 +1,6 @@
-import type { ComponentType } from 'svelte';
+import type { Component } from 'svelte';
 import type { InputEnhancer } from './input';
+
 import HeadingIcon from './components/icons/HeadingIcon.svelte';
 import ItalicIcon from './components/icons/ItalicIcon.svelte';
 import BoldIcon from './components/icons/BoldIcon.svelte';
@@ -27,7 +28,7 @@ export interface Icon {
 	/**
 	 * The icon's component.
 	 */
-	readonly component: ComponentType;
+	readonly component: Component;
 	/**
 	 * The icon's label (used as aria-label).
 	 */
@@ -38,37 +39,37 @@ export const defaultIcons = [
 	{
 		id: 'heading',
 		action: (input) => input.toggleLinePrefix('###'),
-		component: HeadingIcon,
+		component: HeadingIcon as Component,
 		label: 'Heading'
 	},
 	{
 		id: 'bold',
 		action: (input) => input.toggleSelectionSurrounding('**'),
-		component: BoldIcon,
+		component: BoldIcon as Component,
 		label: 'Bold'
 	},
 	{
 		id: 'italic',
 		action: (input) => input.toggleSelectionSurrounding('*'),
-		component: ItalicIcon,
+		component: ItalicIcon as Component,
 		label: 'Italic'
 	},
 	{
 		id: 'strikethrough',
 		action: (input) => input.toggleSelectionSurrounding('~~'),
-		component: StrikethroughIcon,
+		component: StrikethroughIcon as Component,
 		label: 'Strikethrough'
 	},
 	{
 		id: 'quote',
 		action: (input) => input.toggleLinePrefix('>'),
-		component: QuoteIcon,
+		component: QuoteIcon as Component,
 		label: 'Quote'
 	},
 	{
 		id: 'code',
 		action: (input) => input.toggleSelectionSurrounding('`'),
-		component: CodeIcon,
+		component: CodeIcon as Component,
 		label: 'Code'
 	},
 	{
@@ -79,25 +80,25 @@ export const defaultIcons = [
 			input.insertAt(position, '(url)');
 			input.textarea.setSelectionRange(position + 1, position + 4);
 		},
-		component: LinkIcon,
+		component: LinkIcon as Component,
 		label: 'Link'
 	},
 	{
 		id: 'bulletedList',
 		action: (input) => input.toggleLinePrefix('- ', 'detach'),
-		component: ListBulletedIcon,
+		component: ListBulletedIcon as Component,
 		label: 'Bulleted list'
 	},
 	{
 		id: 'numberedList',
 		action: (input) => input.toggleLinePrefix('1. ', 'detach'),
-		component: ListNumberedIcon,
+		component: ListNumberedIcon as Component,
 		label: 'Numbered list'
 	},
 	{
 		id: 'taskList',
 		action: (input) => input.toggleLinePrefix('- [ ] ', 'detach'),
-		component: ListTaskIcon,
+		component: ListTaskIcon as Component,
 		label: 'Task list'
 	}
 ] as const satisfies readonly Icon[];

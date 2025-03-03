@@ -28,11 +28,6 @@
 
 # Introduction
 
-> **NOTE**:
-> Carta has recently been updated to `v4`, which features numerous major changes.
->
-> Follow the [Migration Guide](http://beartocode.github.io/carta/migration) to update your project.
-
 Carta is a **lightweight**, **fast** and **extensible** Svelte Markdown editor and viewer. It is powered by [unified](https://github.com/unifiedjs/unified), [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype). Check out the [examples](http://beartocode.github.io/carta/examples) to see it in action.
 Differently from most editors, Carta does not include a code editor, but it is _just_ a textarea with syntax highlighting, shortcuts and more.
 
@@ -51,8 +46,8 @@ Differently from most editors, Carta does not include a code editor, but it is _
 - ✏️ **TikZ** support (plugin);
 - 📂 **Attachment** support (plugin);
 - ⚓ **Anchor** links in headings (plugin);
-- 🌈 Code blocks **syntax highlighting** (plugin).
-- ⚙️ Embed **Components** (plugin);
+- 🌈 Code blocks **syntax highlighting** (plugin);
+- ⚙️ Embed **Components** (plugin).
 
 ## Packages
 
@@ -110,16 +105,21 @@ npm i @cartamd/plugin-name
 		// Remember to use a sanitizer to prevent XSS attacks
 		// sanitizer: mySanitizer
 	});
+
+	let value = $state('');
 </script>
 
-<MarkdownEditor {carta} />
+<MarkdownEditor bind:value {carta} />
 
 <style>
 	/* Or in global stylesheet */
-	/* Set your monospace font (Required to have the editor working correctly!) */
+	/* Set your monospace font */
+	/* Required to have the editor working correctly! */
 	:global(.carta-font-code) {
 		font-family: '...', monospace;
 		font-size: 1.1rem;
+		line-height: 1.1rem;
+		letter-spacing: normal;
 	}
 </style>
 ```

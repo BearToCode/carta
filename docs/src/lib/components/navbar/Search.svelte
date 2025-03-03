@@ -1,23 +1,42 @@
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command';
-	import type { Document } from 'flexsearch';
 	import {
-		enrichResult,
-		initializeSearch,
 		type EnrichedSearchResult,
-		type SearchResult
+		type IndexablePageFragment,
+		type StoredDocument,
+		createNewIndex,
+		documentName,
+		enrichResult
 	} from '$lib/search';
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 
-	export { className as class };
+	interface Props {
+		class?: string;
+	}
 
-	let open = false;
-	let value = '';
-	let className = '';
-	let index: Document<SearchResult, true>;
-	let results: EnrichedSearchResult[] = [];
+	let { class: className = '' }: Props = $props();
+
+	let open = $state(false);
+	let value = $state('');
+	let index: StoredDocument | null = null;
+	let results: EnrichedSearchResult[] = $state([]);
+
+	async function downloadIndex() {
+		const response = await fetch(`/${documentName}`);
+		const json = await response.json();
+
+		const index = await createNewIndex();
+		for (const [key, value] of Object.entries(json)) {
+			index.import(key, value as IndexablePageFragment);
+		}
+
+		return index;
+	}
+
+	async function getIndex() {
+		return (index = index ?? (await downloadIndex()));
+	}
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -26,13 +45,15 @@
 		}
 	}
 
-	function search(query: string) {
-		if (!index || !query) {
+	async function search(query: string) {
+		if (!query) {
 			results = [];
 			return;
 		}
 
-		const pages = new Map<string, SearchResult>();
+		const index = await getIndex();
+
+		const pages = new Map<string, IndexablePageFragment>();
 		const searchResult = index
 			.search(query, 5, { enrich: true })
 			.map((res) => res.result)
@@ -44,22 +65,24 @@
 		results = Array.from(pages.values()).slice(0, 5);
 	}
 
-	onMount(async () => {
-		index = await initializeSearch();
+	$effect(() => {
+		search(value);
 	});
-
-	$: search(value);
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} />
 
-<button on:click={() => (open = !open)} class="mr-2 block aspect-square md:hidden">
+<button
+	aria-label="Search"
+	onclick={() => (open = !open)}
+	class="mr-2 block aspect-square md:hidden"
+>
 	<iconify-icon icon="ion:search" class="text-2xl text-neutral-200"></iconify-icon>
 </button>
 
 <button
 	class="hidden w-[360px] items-center justify-between rounded-lg border border-neutral-700 bg-neutral-900 px-2 py-1.5 text-sm md:flex {className}"
-	on:click={() => (open = !open)}
+	onclick={() => (open = !open)}
 >
 	<div class="inline-flex items-center space-x-2">
 		<iconify-icon icon="ion:search" class="text-xl text-neutral-500"></iconify-icon>
@@ -81,8 +104,8 @@
 				{#each results as result}
 					<Command.Item
 						onSelect={() => {
-							if (result.match?.heading) goto(`${base}/${result.path}#${result.match.heading.id}`);
-							else goto(`${base}/${result.path}`);
+							if (result.match?.heading) goto(`${base}${result.path}#${result.match.heading.id}`);
+							else goto(`${base}${result.path}`);
 							open = false;
 						}}
 						class="group"

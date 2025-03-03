@@ -4,8 +4,12 @@
 -->
 
 <script lang="ts">
-	export let html: string;
-	export let theme = 'default';
+	interface Props {
+		html: string;
+		theme?: string;
+	}
+
+	let { html, theme = 'default' }: Props = $props();
 </script>
 
 <div class="carta-viewer carta-theme__{theme} markdown-body">

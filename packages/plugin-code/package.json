@@ -19,7 +19,7 @@
 		"@shikijs/rehype": "^1.4.0",
 		"@types/node": "^18.16.3",
 		"carta-md": "workspace:*",
-		"typescript": "^5.0.4",
+		"typescript": "catalog:",
 		"typescript-cp": "^0.1.8"
 	},
 	"peerDependencies": {
@@ -31,7 +31,7 @@
 	"version": "4.0.0",
 	"dependencies": {
 		"@shikijs/rehype": "^1.4.0",
-		"unified": "^11.0.4"
+		"unified": "catalog:"
 	},
 	"keywords": [
 		"carta",
@@ -40,7 +40,7 @@
 		"unified",
 		"remark",
 		"text editor",
-		"marked editor",
+		"markdown editor",
 		"slash",
 		"syntax highlighting",
 		"emoji",

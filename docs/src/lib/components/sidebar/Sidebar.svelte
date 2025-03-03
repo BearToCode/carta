@@ -1,16 +1,18 @@
 <script lang="ts">
 	import SidebarLink from './SidebarLink.svelte';
 
-	export { className as class };
+	interface Props {
+		class?: string;
+	}
 
-	let className = '';
+	let { class: className = '' }: Props = $props();
 </script>
 
 <div class="h-full {className}">
 	<h3 class="mb-3 ml-4 mt-6 text-sm font-medium first:mt-0 last:mb-0">Overview</h3>
 
 	<!-- Introduction -->
-	<SidebarLink href="/introduction">
+	<SidebarLink href="/">
 		<iconify-icon icon="radix-icons:dashboard" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Introduction</span>
 	</SidebarLink>
@@ -31,12 +33,6 @@
 	<SidebarLink href="/editing-styles">
 		<iconify-icon icon="lucide:palette" class="text-xl"></iconify-icon>
 		<span class="text-[0.95rem]">Editing Styles</span>
-	</SidebarLink>
-
-	<!-- Migration -->
-	<SidebarLink href="/migration">
-		<iconify-icon icon="material-symbols:upgrade" class="text-xl"></iconify-icon>
-		<span class="text-[0.95rem]">Migration</span>
 	</SidebarLink>
 
 	<!-- Community Plugins -->

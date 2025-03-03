@@ -35,24 +35,23 @@
 		"bezier-easing": "^2.1.0"
 	},
 	"peerDependencies": {
-		"carta-md": "^4.0.0",
-		"svelte": "^3.54.0 || ^4.0.0 || ^5.0.0-next.1"
+		"carta-md": "^4.0.0"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.2.5",
-		"@sveltejs/kit": "^2.7.1",
-		"@sveltejs/package": "^2.3.0",
-		"@sveltejs/vite-plugin-svelte": "^3.0.2",
-		"@types/node-emoji": "^1.8.2",
+		"@sveltejs/adapter-auto": "catalog:",
+		"@sveltejs/kit": "catalog:",
+		"@sveltejs/package": "catalog:",
+		"@sveltejs/vite-plugin-svelte": "catalog:",
+		"@types/node-emoji": "catalog:",
 		"carta-md": "workspace:*",
-		"publint": "^0.1.9",
-		"svelte": "^4.2.19",
-		"svelte-check": "^3.6.7",
-		"tslib": "^2.4.1",
-		"typescript": "^5.0.0",
-		"vite": "^5.4.9"
+		"publint": "catalog:",
+		"svelte": "catalog:",
+		"svelte-check": "catalog:",
+		"tslib": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:"
 	},
-	"svelte": "./dist/index.js",
+	"svelte": "catalog:",
 	"keywords": [
 		"carta",
 		"markdown",
@@ -60,7 +59,7 @@
 		"unified",
 		"remark",
 		"text editor",
-		"marked editor",
+		"markdown editor",
 		"slash",
 		"syntax highlighting",
 		"emoji",

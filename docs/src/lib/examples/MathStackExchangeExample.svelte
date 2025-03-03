@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { Carta, MarkdownEditor, Markdown } from 'carta-md';
-	import placeholder from './math-stack-exchange-placeholder.tex?raw';
+	import placeholder from './assets/math-stack-exchange-placeholder.tex?raw';
 	import { math } from '@cartamd/plugin-math';
 	import { tikz } from '@cartamd/plugin-tikz';
 
@@ -28,14 +30,16 @@
 		]
 	});
 
-	export let value = placeholder;
-	let debouncedValue = value;
+	let { value = $bindable(placeholder) } = $props();
+	let debouncedValue = $state(value);
 
 	const updateValue = debounce((value: string) => {
 		debouncedValue = value;
 	}, 500);
 
-	$: updateValue(value);
+	run(() => {
+		updateValue(value);
+	});
 </script>
 
 <div class="math-stack-exchange-container">

@@ -2,12 +2,17 @@
 	import { Command as CommandPrimitive } from 'cmdk-sv';
 	import { cn } from '$lib/utils';
 
-	type $$Props = CommandPrimitive.CommandProps;
+	type Props = {
+		class?: string | undefined | null;
+		children?: import('svelte').Snippet;
+	} & CommandPrimitive.CommandProps;
 
-	export let value: $$Props['value'] = undefined;
-
-	let className: string | undefined | null = undefined;
-	export { className as class };
+	let {
+		value = $bindable(undefined),
+		class: className = undefined,
+		children,
+		...rest
+	}: Props = $props();
 </script>
 
 <CommandPrimitive.Root
@@ -16,7 +21,7 @@
 		className
 	)}
 	bind:value
-	{...$$restProps}
+	{...rest}
 >
-	<slot />
+	{@render children?.()}
 </CommandPrimitive.Root>

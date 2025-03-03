@@ -6,13 +6,10 @@ const spinner = ora().start();
 
 spinner.color = 'red';
 
-// Include docs in the build process
-const buildTargets = [...packages, 'docs'];
-
-for (const [index, target] of buildTargets.entries()) {
-	spinner.text = `Building ${target} [${index + 1}/${buildTargets.length}]`;
+for (const [index, target] of packages.entries()) {
+	spinner.text = `Building ${target} [${index + 1}/${packages.length}]`;
 	try {
-		const buildPath = target === 'docs' ? './docs' : `./packages/${target}`;
+		const buildPath = `./packages/${target}`;
 		await execAsync(`pnpm run build`, buildPath);
 	} catch (e) {
 		spinner.fail(`Failed to build ${target}: \n ${e}`);

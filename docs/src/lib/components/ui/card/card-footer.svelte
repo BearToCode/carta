@@ -2,12 +2,13 @@
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { cn } from '$lib/utils';
 
-	type $$Props = HTMLAttributes<HTMLDivElement>;
+	type Props = {
+		children?: import('svelte').Snippet;
+	} & HTMLAttributes<HTMLElement>;
 
-	let className: $$Props['class'] = undefined;
-	export { className as class };
+	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>
 
-<div class={cn('flex items-center p-6 pt-0', className)} {...$$restProps}>
-	<slot />
+<div class={cn('flex items-center p-6 pt-0', className)} {...rest}>
+	{@render children?.()}
 </div>
