@@ -23,7 +23,7 @@
 	let results: EnrichedSearchResult[] = $state([]);
 
 	async function downloadIndex() {
-		const response = await fetch(`/${documentName}`);
+		const response = await fetch(`${base}${documentName}`);
 		const json = await response.json();
 
 		const index = await createNewIndex();
