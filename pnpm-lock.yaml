@@ -39,9 +39,6 @@ catalogs:
     typescript:
       specifier: ^5.4.5
       version: 5.7.3
-    unified:
-      specifier: ^11.0.5
-      version: 11.0.5
     vite:
       specifier: ^6.1.0
       version: 6.1.0
@@ -241,7 +238,7 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
       unified:
-        specifier: 'catalog:'
+        specifier: ^11.0.5
         version: 11.0.5
     devDependencies:
       '@sveltejs/adapter-auto':
@@ -363,7 +360,7 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
       unified:
-        specifier: 'catalog:'
+        specifier: ^11.0.5
         version: 11.0.5
     devDependencies:
       '@types/node':
@@ -589,6 +586,9 @@ importers:
       rehype-parse:
         specifier: ^9.0.0
         version: 9.0.0
+      unified:
+        specifier: ^11.0.0
+        version: 11.0.5
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -611,9 +611,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
-      unified:
-        specifier: 'catalog:'
-        version: 11.0.5
       vite:
         specifier: 'catalog:'
         version: 6.1.0(@types/node@20.5.1)(jiti@2.4.2)(sass@1.69.5)(yaml@2.7.0)
@@ -9496,7 +9493,7 @@ snapshots:
       emoticon: 4.0.1
       mdast-util-find-and-replace: 3.0.1
       node-emoji: 2.1.3
-      unified: 11.0.4
+      unified: 11.0.5
 
   remark-gfm@4.0.0:
     dependencies:
