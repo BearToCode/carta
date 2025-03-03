@@ -49,7 +49,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (!event.isDataRequest) {
 		if (!response.bodyUsed) {
-			const html = await response.clone().text();
+			const clone = response.clone();
+			const html = await clone.text();
 			await saveHtml(html, pathname);
 		} else {
 			console.warn(`Response body already used for ${pathname}`);
