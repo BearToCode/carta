@@ -105,8 +105,9 @@ export async function writeIndexToFile(index: StoredDocument) {
 		const completeSave = debounce(() => {
 			const text = JSON.stringify(exportRecord, null, 2);
 
-			console.log(`Writing ${text.length} to ${filepath}...`);
+			console.log(`Writing ${text.length} bytes to ${filepath}...`);
 			writeFileSync(filepath, text, { encoding: 'utf8', flag: 'w' });
+			console.log('Search index written to file');
 			resolve();
 		}, 100);
 

@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "vite build && cpx ./static/search-index.json ./build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
@@ -24,6 +24,7 @@
 		"@types/jsdom": "^21.1.7",
 		"@types/katex": "^0.16.0",
 		"autoprefixer": "^10.4.19",
+		"cpx": "^1.5.0",
 		"jsom": "^1.0.0",
 		"sass": "^1.69.5",
 		"shiki": "^1.4.0",
