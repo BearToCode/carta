@@ -104,7 +104,7 @@
 				{#each results as result}
 					<Command.Item
 						onSelect={() => {
-							if (result.match?.heading) goto(`${base}${result.path}#${result.match.heading.id}`);
+							if (result.match?.heading) goto(`${base}/${result.path}#${result.match.heading.id}`);
 							else goto(`${base}${result.path}`);
 							open = false;
 						}}
