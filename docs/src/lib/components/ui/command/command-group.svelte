@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { Command as CommandPrimitive } from 'cmdk-sv';
 	import { cn } from '$lib/utils';
-	// type $$Props = CommandPrimitive.GroupProps;
 
-	interface Props {
+	type Props = {
 		class?: string | undefined | null;
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & CommandPrimitive.GroupProps;
 
 	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>

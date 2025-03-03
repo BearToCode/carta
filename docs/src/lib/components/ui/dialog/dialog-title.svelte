@@ -2,13 +2,9 @@
 	import { Dialog as DialogPrimitive } from 'bits-ui';
 	import { cn } from '$lib/utils';
 
-	type $$Props = DialogPrimitive.TitleProps;
-
-	interface Props {
-		class?: $$Props['class'];
+	type Props = {
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & DialogPrimitive.TitleProps;
 
 	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>

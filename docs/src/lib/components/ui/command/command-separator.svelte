@@ -2,11 +2,9 @@
 	import { Command as CommandPrimitive } from 'cmdk-sv';
 	import { cn } from '$lib/utils';
 
-	// type $$Props = CommandPrimitive.SeparatorProps;
-	interface Props {
+	type Props = {
 		class?: string | undefined | null;
-		[key: string]: any;
-	}
+	} & CommandPrimitive.SeparatorProps;
 
 	let { class: className = undefined, ...rest }: Props = $props();
 </script>

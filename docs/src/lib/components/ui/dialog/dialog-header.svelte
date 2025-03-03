@@ -2,13 +2,9 @@
 	import { cn } from '$lib/utils';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	type $$Props = HTMLAttributes<HTMLDivElement>;
-
-	interface Props {
-		class?: $$Props['class'];
+	type Props = {
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & HTMLAttributes<HTMLDivElement>;
 
 	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>

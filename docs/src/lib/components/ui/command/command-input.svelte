@@ -2,13 +2,10 @@
 	import { Command as CommandPrimitive } from 'cmdk-sv';
 	import { cn } from '$lib/utils';
 
-	// type $$Props = CommandPrimitive.InputProps;
-
-	interface Props {
+	type Props = {
 		class?: string | undefined | null;
 		value?: string;
-		[key: string]: any;
-	}
+	} & CommandPrimitive.InputProps;
 
 	let { class: className = undefined, value = $bindable(''), ...rest }: Props = $props();
 </script>

@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { Dialog as DialogPrimitive } from 'bits-ui';
-	interface Props {
+	type Props = {
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & DialogPrimitive.PortalProps;
 
 	let { children, ...rest }: Props = $props();
-
-	// type $$Props = DialogPrimitive.PortalProps;
 </script>
 
 <DialogPrimitive.Portal {...rest}>

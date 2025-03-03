@@ -1,18 +1,11 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { cn } from '$lib/utils';
-	import type { HeadingLevel } from '.';
 
-	type $$Props = HTMLAttributes<HTMLHeadingElement> & {
-		tag?: HeadingLevel;
-	};
-
-	interface Props {
-		class?: $$Props['class'];
-		tag?: $$Props['tag'];
+	type Props = {
+		tag: string;
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & HTMLAttributes<HTMLElement>;
 
 	let { class: className = undefined, tag = 'h3', children, ...rest }: Props = $props();
 </script>

@@ -2,12 +2,10 @@
 	import { Command as CommandPrimitive } from 'cmdk-sv';
 	import { cn } from '$lib/utils';
 
-	// type $$Props = CommandPrimitive.ListProps;
-	interface Props {
+	type Props = {
 		class?: string | undefined | null;
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & CommandPrimitive.ListProps;
 
 	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>

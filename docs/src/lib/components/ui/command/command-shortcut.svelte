@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
+	import type { HTMLAttributes } from 'svelte/elements';
 
-	// type $$Props = HTMLAttributes<HTMLSpanElement>;
-
-	interface Props {
+	type Props = {
 		class?: string | undefined | null;
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & HTMLAttributes<HTMLSpanElement>;
 
 	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>

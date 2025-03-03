@@ -2,13 +2,9 @@
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { cn } from '$lib/utils';
 
-	type $$Props = HTMLAttributes<HTMLParagraphElement>;
-
-	interface Props {
-		class?: $$Props['class'];
+	type Props = {
 		children?: import('svelte').Snippet;
-		[key: string]: any;
-	}
+	} & HTMLAttributes<HTMLElement>;
 
 	let { class: className = undefined, children, ...rest }: Props = $props();
 </script>
