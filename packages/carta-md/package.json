@@ -47,7 +47,7 @@
 		"remark-parse": "^11.0.0",
 		"remark-rehype": "^11.1.0",
 		"shiki": "^1.4.0",
-		"unified": "catalog:"
+		"unified": "^11.0.5"
 	},
 	"keywords": [
 		"carta",

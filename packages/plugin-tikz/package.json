@@ -23,7 +23,6 @@
 		"carta-md": "workspace:*",
 		"esm-env": "^1.0.0",
 		"typescript": "catalog:",
-		"unified": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-dts": "^3.7.3",
 		"vite-raw-plugin": "^1.0.2"
