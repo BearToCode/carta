@@ -23,7 +23,7 @@
 	let results: EnrichedSearchResult[] = $state([]);
 
 	async function downloadIndex() {
-		const response = await fetch(`${base}${documentName}`);
+		const response = await fetch(`${base}/${documentName}`);
 		const json = await response.json();
 
 		const index = await createNewIndex();
@@ -104,7 +104,7 @@
 				{#each results as result}
 					<Command.Item
 						onSelect={() => {
-							if (result.match?.heading) goto(`${base}/${result.path}#${result.match.heading.id}`);
+							if (result.match?.heading) goto(`${base}${result.path}#${result.match.heading.id}`);
 							else goto(`${base}${result.path}`);
 							open = false;
 						}}
