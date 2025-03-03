@@ -1,6 +1,5 @@
-import { debounce } from '$lib/utils';
 import flexsearch from 'flexsearch';
-import { mkdir, readFile, writeFile } from 'fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
 export const documentName = 'search-index.json';
@@ -54,15 +53,7 @@ export async function loadIndexFromFile(): Promise<StoredDocument | null> {
 
 	const filepath = getFilePath(documentName);
 	try {
-		const text = await new Promise<string>((resolve, reject) => {
-			readFile(filepath, 'utf8', (err, data) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(data);
-				}
-			});
-		});
+		const text = readFileSync(filepath, 'utf8');
 
 		const json = await JSON.parse(text);
 
@@ -99,43 +90,17 @@ export async function writeIndexToFile(index: StoredDocument) {
 
 	console.log(`Writing search index to file: ${filepath}`);
 
-	// create directory recursively
-	await new Promise<void>((resolve, reject) => {
-		mkdir(dirpath, { recursive: true }, (err) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve();
-			}
-		});
+	// Create directory recursively
+	mkdirSync(dirpath, {
+		recursive: true
 	});
 
-	// FIXME: causing errors!
-	return new Promise<void>((resolve) => {
-		const exportRecord: Record<string, IndexablePageFragment> = {};
-
-		const finalSave = debounce(async () => {
-			const text = JSON.stringify(exportRecord);
-
-			await new Promise<void>((r, reject) => {
-				writeFile(filepath, text, { encoding: 'utf8', flag: 'w' }, (err) => {
-					if (err) {
-						reject(err);
-					} else {
-						r();
-						resolve();
-					}
-				});
-
-				console.log(`Written search index to file`);
-			});
-		}, 100);
-
-		index.export(function (key, value) {
-			exportRecord[key] = value;
-			finalSave();
-		});
+	const exportRecord: Record<string, IndexablePageFragment> = {};
+	await index.export(function (key, value) {
+		exportRecord[key] = value;
 	});
+
+	writeFileSync(filepath, JSON.stringify(exportRecord, null, 2), { encoding: 'utf8', flag: 'w' });
 }
 
 export async function addPageToIndex(index: StoredDocument, page: IndexablePageFragment) {
