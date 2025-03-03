@@ -10,7 +10,11 @@ type TrackableHeader = {
  */
 export const trackedHeaders: TrackableHeader[] = $state([]);
 
-function toSlug(text: string) {
+/**
+ * Converts a string to a slug
+ * @param text The string to convert
+ */
+export function toSlug(text: string) {
 	return text
 		.toLowerCase()
 		.replace(/\s+/g, '-')
@@ -23,14 +27,19 @@ function toSlug(text: string) {
  */
 export const track: Action = (node) => {
 	const text = node.textContent;
-	const id = toSlug(text ?? '');
+	const id = node.id;
+	if (!id) {
+		console.warn(`Header element with text "${text}" does not have an id`);
+		return;
+	}
+
 	const element = node as HTMLElement;
 	element.id = id;
 
 	// Wrap the inner content in a Anchor tag
 	const anchor = document.createElement('a');
 	anchor.href = `#${id}`;
-	anchor.textContent = text;
+	anchor.innerHTML = element.innerHTML;
 	element.innerHTML = '';
 	element.appendChild(anchor);
 

@@ -5,11 +5,19 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>Editing Styles - Carta</title>
+	<meta
+		name="description"
+		content="Learn how to customize the editor styles, including syntax highlighting and markdown stylesheets."
+	/>
+</svelte:head>
+
 <span class="section">Overview</span>
 
 <h1 class="title">Editing Styles</h1>
 
-<h2 use:track>Customizing editor styles</h2>
+<h2 use:track id="editor-styles">Customizing editor styles</h2>
 
 <p>
 	While the core styles are embedded in the Svelte components, the others can be set in a custom
@@ -18,14 +26,14 @@
 
 <Code code={data.codeBlocks.structure} />
 
-<h3 use:track>Using multiple themes</h3>
+<h3 use:track id="multiple-themes">Using multiple themes</h3>
 
 <p>
 	By using the <code>theme</code> property in <code> &lt;MarkdownEditor&gt; </code> you can differentiate
 	the themes of multiple editors.
 </p>
 
-<h2 use:track>Dark mode</h2>
+<h2 use:track id="dark-mode">Dark mode</h2>
 
 <p>
 	When using dark mode, there are two different themes that have to be changed: the editor theme and
@@ -34,7 +42,7 @@
 
 <Code code={data.codeBlocks.darkMode} />
 
-<h2 use:track>Highlighting theme</h2>
+<h2 use:track id="highlighting-theme">Highlighting theme</h2>
 
 <p>
 	Carta uses <a href="https://shiki.matsu.io/" target="_blank">Shiki</a> for syntax highlighting.
@@ -56,7 +64,7 @@
 
 <Code code={data.codeBlocks.shikiOptions} />
 
-<h2 use:track>Markdown stylesheets</h2>
+<h2 use:track id="markdown-stylesheets">Markdown stylesheets</h2>
 
 <p>
 	Markdown is converted into standard HTML, so you can edit the final styles by using standard CSS

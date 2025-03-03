@@ -1,14 +1,22 @@
+import { debounce } from '$lib/utils';
 import flexsearch from 'flexsearch';
-import type { SvelteComponent } from 'svelte';
+import { mkdir, readFile, writeFile } from 'fs';
+import path from 'path';
 
-export interface SearchResult {
+export const documentName = 'search-index.json';
+
+const getFilePath = (filename: string) => path.resolve('./static', filename);
+
+export type StoredDocument = flexsearch.Document<IndexablePageFragment, true>;
+
+export interface IndexablePageFragment {
 	path: string;
 	content: string;
 	html: string;
 	title: string;
 }
 
-export type EnrichedSearchResult = SearchResult & {
+export type EnrichedSearchResult = IndexablePageFragment & {
 	match?: {
 		heading?: {
 			text: string;
@@ -18,8 +26,14 @@ export type EnrichedSearchResult = SearchResult & {
 	};
 };
 
-export async function initializeSearch() {
-	const indexedPages = new flexsearch.Document<SearchResult, true>({
+/**
+ * Create a new search index
+ * @returns A promise that resolves to a new search index
+ */
+export async function createNewIndex(): Promise<StoredDocument> {
+	console.log('Generating new search index...');
+
+	return new flexsearch.Document<IndexablePageFragment, true>({
 		tokenize: 'full',
 		cache: true,
 		context: true,
@@ -29,43 +43,107 @@ export async function initializeSearch() {
 			store: true
 		}
 	});
+}
 
-	const pages = import.meta.glob('../../pages/**/*.svelte.md');
-	await Promise.all(
-		Object.keys(pages).map(async (page) => {
-			const module = (await pages[page]()) as {
-				default: typeof SvelteComponent;
-				metadata: Record<string, unknown>;
-			};
-			const elem = document.createElement('div');
-			new module.default({ target: elem });
+/**
+ * Load the search index from the file
+ * @returns A promise that resolves to the search index loaded from the file, or null if the file does not exist
+ */
+export async function loadIndexFromFile(): Promise<StoredDocument | null> {
+	console.log('Loading search index from file...');
 
-			const path = page.replace('../../pages/', '').replace('.svelte.md', '');
-			const title = module.metadata.title as string;
-			const html = elem.innerHTML;
-			const content = extractText(module.default);
-
-			indexedPages.add({
-				path,
-				html,
-				title,
-				content
+	const filepath = getFilePath(documentName);
+	try {
+		const text = await new Promise<string>((resolve, reject) => {
+			readFile(filepath, 'utf8', (err, data) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(data);
+				}
 			});
-		})
-	);
-	return indexedPages;
+		});
+
+		const json = await JSON.parse(text);
+
+		const index = await createNewIndex();
+		for (const [key, value] of Object.entries(json)) {
+			index.add(key, value as IndexablePageFragment);
+		}
+
+		console.log('Search index loaded from file');
+
+		return index;
+	} catch (e) {
+		const error = e as NodeJS.ErrnoException;
+
+		// Check if the file was not found
+		if (error.code === 'ENOENT') {
+			console.log('Search index file not found');
+			return null;
+		}
+
+		// Otherwise, log as error
+		console.error('Error loading search index from file', e);
+		return null;
+	}
 }
 
-function extractText(component: typeof SvelteComponent) {
-	const parentElem = document.createElement('div');
-	new component({ target: parentElem });
+/**
+ * Write the index to the file, overwriting the existing file if it exists
+ * @param index The index to write to the file
+ */
+export async function writeIndexToFile(index: StoredDocument) {
+	const filepath = getFilePath(documentName);
+	const dirpath = path.dirname(filepath);
 
-	const text = parentElem.textContent ?? '';
-	// Remove extra spaces
-	return text.replace(/\s+/g, ' ').trim();
+	console.log(`Writing search index to file: ${filepath}`);
+
+	// create directory recursively
+	await new Promise<void>((resolve, reject) => {
+		mkdir(dirpath, { recursive: true }, (err) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve();
+			}
+		});
+	});
+
+	// FIXME: causing errors!
+	return new Promise<void>((resolve) => {
+		const exportRecord: Record<string, IndexablePageFragment> = {};
+
+		const finalSave = debounce(async () => {
+			const text = JSON.stringify(exportRecord);
+
+			await new Promise<void>((r, reject) => {
+				writeFile(filepath, text, { encoding: 'utf8', flag: 'w' }, (err) => {
+					if (err) {
+						reject(err);
+					} else {
+						r();
+						resolve();
+					}
+				});
+
+				console.log(`Written search index to file`);
+			});
+		}, 100);
+
+		index.export(function (key, value) {
+			exportRecord[key] = value;
+			finalSave();
+		});
+	});
 }
 
-export function enrichResult(result: SearchResult, query: string): EnrichedSearchResult {
+export async function addPageToIndex(index: StoredDocument, page: IndexablePageFragment) {
+	console.log('Adding page to search index:', page.path);
+	index.add(page.path, page);
+}
+
+export function enrichResult(result: IndexablePageFragment, query: string): EnrichedSearchResult {
 	let heading: HTMLHeadingElement | null = null;
 
 	const parentElem = document.createElement('div');

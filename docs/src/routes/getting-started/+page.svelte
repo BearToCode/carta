@@ -5,11 +5,19 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>Getting Started - Carta</title>
+	<meta
+		name="description"
+		content="Getting started guide to use Carta, a Markdown editor and renderer for SvelteKit."
+	/>
+</svelte:head>
+
 <span class="section">Overview</span>
 
 <h1 class="title">Getting Started</h1>
 
-<h2 use:track>Installation</h2>
+<h2 use:track id="installation">Installation</h2>
 
 <p>Installing the core package:</p>
 
@@ -19,7 +27,7 @@
 
 <Code code={data.codeBlocks.installingPlugins}></Code>
 
-<h2 use:track>Setup</h2>
+<h2 use:track id="setup">Setup</h2>
 
 <p>Setup a basic editor:</p>
 
@@ -29,7 +37,7 @@
 
 <Code code={data.codeBlocks.contentOnly}></Code>
 
-<h2 use:track>Reactivity</h2>
+<h2 use:track id="reactivity">Reactivity</h2>
 
 <p>
 	The <code>&lt;Markdown&gt;</code> component is not reactive. If you want to make it reactive, you
@@ -40,7 +48,7 @@
 
 <Code code={data.codeBlocks.reactive}></Code>
 
-<h2 use:track>Sanitization</h2>
+<h2 use:track id="sanitization">Sanitization</h2>
 
 <p>
 	Beware that rendering Markdown can become quite resources-expensive, especially if you are using
@@ -63,7 +71,7 @@
 
 <Code code={data.codeBlocks.purify}></Code>
 
-<h2 use:track>Pre-Rendering</h2>
+<h2 use:track id="pre-rendering">Pre-Rendering</h2>
 
 <p>
 	While the <code> &lt;Markdown&gt; </code> component is SSR compatible and allows you to pre-render

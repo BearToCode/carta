@@ -3,6 +3,11 @@
 	import * as Card from '$lib/components/ui/card';
 </script>
 
+<svelte:head>
+	<title>Carta</title>
+	<meta name="description" content="Modern, lightweight, powerful Markdown Editor." />
+</svelte:head>
+
 <span class="section">Overview</span>
 
 <h1 class="title">Carta</h1>
@@ -14,7 +19,7 @@
 	flexibility. It works natively in SvelteKit, and supports Server Side Rendering.
 </p>
 
-<h2 use:track>Features</h2>
+<h2 use:track id="features">Features</h2>
 
 <ul>
 	<li>
@@ -43,7 +48,7 @@
 	<li>⚙️ Embed Components (plugin).</li>
 </ul>
 
-<h2 use:track>Official Plugins</h2>
+<h2 use:track id="official-plugins">Official Plugins</h2>
 
 <p>Carta comes with a set of official plugins for the most common use cases.</p>
 
@@ -123,7 +128,7 @@
 	</Card.Root>
 </div>
 
-<h2 use:track>Examples</h2>
+<h2 use:track id="examples">Examples</h2>
 
 <p>A list of examples inspired by popular platforms.</p>
 
