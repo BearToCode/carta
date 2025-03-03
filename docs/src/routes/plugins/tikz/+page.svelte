@@ -44,11 +44,11 @@
 
 <Code code={data.codeBlocks.installation} />
 
-<h2 use:track id="setup">Installation</h2>
+<h2 use:track id="setup">Setup</h2>
 
 <Code code={data.codeBlocks.extension} />
 
-<h2 use:track id="options">Installation</h2>
+<h2 use:track id="options">Options</h2>
 
 <p>
 	Here are the options you can pass to <code>tikz()</code>:

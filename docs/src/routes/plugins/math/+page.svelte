@@ -34,7 +34,7 @@
 
 <Code code={data.codeBlocks.installation} />
 
-<h2 use:track id="setup">Installation</h2>
+<h2 use:track id="setup">Setup</h2>
 
 <h3>Styles</h3>
 
@@ -72,7 +72,7 @@ Block mode:
 	<Markdown {carta} value={data.codeBlocks.usageBlock.code} />
 </div>
 
-<h2 use:track id="options">Installation</h2>
+<h2 use:track id="options">Options</h2>
 
 <p>
 	You can pass options to the plugin by passing an object to the <code>math</code> function.

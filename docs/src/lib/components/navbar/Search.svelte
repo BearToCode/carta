@@ -1,18 +1,42 @@
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command';
-	import { type EnrichedSearchResult } from '$lib/search';
+	import {
+		type EnrichedSearchResult,
+		type IndexablePageFragment,
+		type StoredDocument,
+		createNewIndex,
+		documentName,
+		enrichResult
+	} from '$lib/search';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 
-	let open = $state(false);
-	let value = $state('');
 	interface Props {
 		class?: string;
 	}
 
 	let { class: className = '' }: Props = $props();
-	// let index: Document<SearchResult, true>;
+
+	let open = $state(false);
+	let value = $state('');
+	let index: StoredDocument | null = null;
 	let results: EnrichedSearchResult[] = $state([]);
+
+	async function downloadIndex() {
+		const response = await fetch(`/${documentName}`);
+		const json = await response.json();
+
+		const index = await createNewIndex();
+		for (const [key, value] of Object.entries(json)) {
+			index.import(key, value as IndexablePageFragment);
+		}
+
+		return index;
+	}
+
+	async function getIndex() {
+		return (index = index ?? (await downloadIndex()));
+	}
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -21,27 +45,29 @@
 		}
 	}
 
-	// function search(query: string) {
-	// 	if (!index || !query) {
-	// 		results = [];
-	// 		return;
-	// 	}
+	async function search(query: string) {
+		if (!query) {
+			results = [];
+			return;
+		}
 
-	// 	const pages = new Map<string, SearchResult>();
-	// 	const searchResult = index
-	// 		.search(query, 5, { enrich: true })
-	// 		.map((res) => res.result)
-	// 		.flat();
-	// 	for (const res of searchResult) {
-	// 		pages.set(res.doc.path, enrichResult(res.doc, value));
-	// 	}
+		const index = await getIndex();
 
-	// 	results = Array.from(pages.values()).slice(0, 5);
-	// }
+		const pages = new Map<string, IndexablePageFragment>();
+		const searchResult = index
+			.search(query, 5, { enrich: true })
+			.map((res) => res.result)
+			.flat();
+		for (const res of searchResult) {
+			pages.set(res.doc.path, enrichResult(res.doc, value));
+		}
 
-	// onMount(async () => {
-	// 	index = await initializeSearch();
-	// });
+		results = Array.from(pages.values()).slice(0, 5);
+	}
+
+	$effect(() => {
+		search(value);
+	});
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -78,8 +104,8 @@
 				{#each results as result}
 					<Command.Item
 						onSelect={() => {
-							if (result.match?.heading) goto(`${base}/${result.path}#${result.match.heading.id}`);
-							else goto(`${base}/${result.path}`);
+							if (result.match?.heading) goto(`${base}${result.path}#${result.match.heading.id}`);
+							else goto(`${base}${result.path}`);
 							open = false;
 						}}
 						class="group"

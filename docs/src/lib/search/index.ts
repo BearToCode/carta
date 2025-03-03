@@ -1,6 +1,6 @@
 import flexsearch from 'flexsearch';
-import { mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
+import { debounce } from '$lib/utils';
 
 export const documentName = 'search-index.json';
 
@@ -51,6 +51,8 @@ export async function createNewIndex(): Promise<StoredDocument> {
 export async function loadIndexFromFile(): Promise<StoredDocument | null> {
 	console.log('Loading search index from file...');
 
+	const { readFileSync } = await import('fs');
+
 	const filepath = getFilePath(documentName);
 	try {
 		const text = readFileSync(filepath, 'utf8');
@@ -59,7 +61,7 @@ export async function loadIndexFromFile(): Promise<StoredDocument | null> {
 
 		const index = await createNewIndex();
 		for (const [key, value] of Object.entries(json)) {
-			index.add(key, value as IndexablePageFragment);
+			await index.import(key, value as IndexablePageFragment);
 		}
 
 		console.log('Search index loaded from file');
@@ -88,6 +90,8 @@ export async function writeIndexToFile(index: StoredDocument) {
 	const filepath = getFilePath(documentName);
 	const dirpath = path.dirname(filepath);
 
+	const { writeFileSync, mkdirSync } = await import('fs');
+
 	console.log(`Writing search index to file: ${filepath}`);
 
 	// Create directory recursively
@@ -95,12 +99,22 @@ export async function writeIndexToFile(index: StoredDocument) {
 		recursive: true
 	});
 
-	const exportRecord: Record<string, IndexablePageFragment> = {};
-	await index.export(function (key, value) {
-		exportRecord[key] = value;
-	});
+	return new Promise<void>((resolve) => {
+		const exportRecord: Record<string, IndexablePageFragment> = {};
 
-	writeFileSync(filepath, JSON.stringify(exportRecord, null, 2), { encoding: 'utf8', flag: 'w' });
+		const completeSave = debounce(() => {
+			const text = JSON.stringify(exportRecord, null, 2);
+
+			console.log(`Writing ${text.length} to ${filepath}...`);
+			writeFileSync(filepath, text, { encoding: 'utf8', flag: 'w' });
+			resolve();
+		}, 100);
+
+		index.export(function (key, value) {
+			exportRecord[key] = value;
+			completeSave();
+		});
+	});
 }
 
 export async function addPageToIndex(index: StoredDocument, page: IndexablePageFragment) {
