@@ -48,12 +48,12 @@
 
 <Code code={data.codeBlocks.reactive}></Code>
 
-<h2 use:track id="sanitization">Sanitization</h2>
-
 <p>
 	Beware that rendering Markdown can become quite resources-expensive, especially if you are using
 	different plugins.
 </p>
+
+<h2 use:track id="sanitization">Sanitization</h2>
 
 <p>
 	By default Carta does <strong>NOT</strong> sanitize user input, which can include malicious code
