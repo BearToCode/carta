@@ -100,7 +100,7 @@ const codeBlocks = {
 		code: deindent`
     <!-- +page.svelte -->
     <script lang="ts">
-      import PreRendered from 'carta-md';
+      import { PreRendered } from 'carta-md';
 
       let data = $props();
     </script>
