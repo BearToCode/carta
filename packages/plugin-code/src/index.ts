@@ -38,14 +38,19 @@ export const code = (options?: CodeExtensionOptions): Plugin => {
 
 					const highlighter = await carta.highlighter();
 					if (highlighter) {
+						const shikiHighlighter = highlighter.shikiHighlighter();
+
 						if (!theme) {
-							theme = highlighter.theme; // Use the theme specified in the highlighter
+							theme = highlighter.settings.themeHash; // Use the theme specified in the highlighter
 						}
 
 						if (isSingleTheme(theme)) {
-							processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, theme });
+							processor.use(rehypeShikiFromHighlighter, shikiHighlighter, { ...options, theme });
 						} else {
-							processor.use(rehypeShikiFromHighlighter, highlighter, { ...options, themes: theme });
+							processor.use(rehypeShikiFromHighlighter, shikiHighlighter, {
+								...options,
+								themes: theme
+							});
 						}
 					}
 				}
