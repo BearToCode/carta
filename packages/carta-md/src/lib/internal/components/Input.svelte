@@ -109,24 +109,8 @@
 	const highlight = async (text: string) => {
 		const highlighter = await carta.highlighter();
 		if (!highlighter) return;
-		let html: string;
 
-		const hl = await import('$lib/internal/highlight');
-		const { isSingleTheme } = hl;
-
-		if (isSingleTheme(highlighter.theme)) {
-			// Single theme
-			html = highlighter.codeToHtml(text, {
-				lang: highlighter.lang,
-				theme: highlighter.theme
-			});
-		} else {
-			// Dual theme
-			html = highlighter.codeToHtml(text, {
-				lang: highlighter.lang,
-				themes: highlighter.theme
-			});
-		}
+		const html = highlighter.codeToHtml(text);
 
 		if (carta.sanitizer) {
 			highlighted = carta.sanitizer(html);
