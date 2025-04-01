@@ -207,6 +207,16 @@ export type Highlighter = {
 					dark: string;
 			  };
 	};
+	/**
+	 * Reexported utilities functions.
+	 */
+	utils: {
+		isBundleLanguage: typeof isBundleLanguage;
+		isBundleTheme: typeof isBundleTheme;
+		isDualTheme: typeof isDualTheme;
+		isSingleTheme: typeof isSingleTheme;
+		isThemeRegistration: typeof isThemeRegistration;
+	};
 };
 
 export type ShikiHighlighter = shiki.HighlighterGeneric<shiki.BundledLanguage, shiki.BundledTheme>;
@@ -222,13 +232,16 @@ let manager: MaybePromise<HighlighterManager> | null = null;
 async function getManager() {
 	if (manager !== null) return manager;
 
-	manager = {
+	// Immediately assign a promise to the manager variable
+	// to prevent multiple calls to getManager from creating multiple instances
+	// since shiki.getHighlighter is an async function.
+	manager = (async () => ({
 		shikiHighlighter: await shiki.getHighlighter({
 			langs: [],
 			themes: []
 		}),
 		highlighters: []
-	};
+	}))();
 
 	return manager;
 }
@@ -299,10 +312,11 @@ export async function loadHighlighter(options: HighlighterOptions): Promise<High
 	);
 
 	if (!langAlreadyLoaded) {
+		const langClone = structuredClone(langDefinition);
 		// Load the custom language
-		injectGrammarRules(langDefinition, grammarRules);
-		(langDefinition as shiki.LanguageRegistration).name = langHash;
-		await manager.shikiHighlighter.loadLanguage(langDefinition);
+		injectGrammarRules(langClone, grammarRules);
+		(langClone as shiki.LanguageRegistration).name = langHash;
+		await manager.shikiHighlighter.loadLanguage(langClone);
 	}
 
 	let themeHash: string | { light: string; dark: string };
@@ -323,9 +337,10 @@ export async function loadHighlighter(options: HighlighterOptions): Promise<High
 		);
 
 		if (!existingHighlighter) {
-			injectHighlightRules(themeRegistration, highlightingRules);
-			themeRegistration.name = themeHash;
-			await manager.shikiHighlighter.loadTheme(themeRegistration);
+			const langClone: shiki.ThemeRegistration = structuredClone(langDefinition);
+			injectHighlightRules(langClone, highlightingRules);
+			langClone.name = themeHash;
+			await manager.shikiHighlighter.loadTheme(langClone);
 		}
 	} else {
 		const { light, dark } = theme;
@@ -362,12 +377,14 @@ export async function loadHighlighter(options: HighlighterOptions): Promise<High
 		);
 
 		if (!existingHighlighter) {
-			injectHighlightRules(lightRegistration, highlightingRules);
-			injectHighlightRules(darkRegistration, highlightingRules);
-			lightRegistration.name = lightHash;
-			darkRegistration.name = darkHash;
-			await manager.shikiHighlighter.loadTheme(lightRegistration);
-			await manager.shikiHighlighter.loadTheme(darkRegistration);
+			const lightClone: shiki.ThemeRegistration = structuredClone(lightRegistration);
+			const darkClone: shiki.ThemeRegistration = structuredClone(darkRegistration);
+			injectHighlightRules(lightClone, highlightingRules);
+			injectHighlightRules(darkClone, highlightingRules);
+			lightClone.name = lightHash;
+			darkClone.name = darkHash;
+			await manager.shikiHighlighter.loadTheme(lightClone);
+			await manager.shikiHighlighter.loadTheme(darkClone);
 		}
 	}
 
@@ -394,6 +411,13 @@ export async function loadHighlighter(options: HighlighterOptions): Promise<High
 		settings: {
 			langHash,
 			themeHash
+		},
+		utils: {
+			isBundleLanguage,
+			isBundleTheme,
+			isDualTheme,
+			isSingleTheme,
+			isThemeRegistration
 		}
 	};
 
