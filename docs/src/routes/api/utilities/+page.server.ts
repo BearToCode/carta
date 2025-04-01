@@ -35,7 +35,9 @@ const codeBlocks = {
 		lang: 'ts',
 		code: deindent`
       const highlighter = await carta.highlighter();
-      const userTheme = carta.theme;`
+			const shiki = highlighter.shikiHighlighter();
+			const html = await shiki.codeToHtml('console.log('Hello World!')', { lang: 'js' });
+			`
 	},
 	isBundleLanguage: {
 		lang: 'ts',

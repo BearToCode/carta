@@ -194,6 +194,12 @@ export interface Plugin {
 	onLoad?: (data: { carta: Carta }) => void;
 }
 
+const USE_HIGHLIGHTER =
+	BROWSER ||
+	// Replaced at build time to tree-shake shiki on the server, if specified
+	typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ === 'undefined' ||
+	__ENABLE_CARTA_SSR_HIGHLIGHTER__ === true;
+
 export class Carta {
 	public readonly sanitizer?: (html: string) => string;
 	public readonly historyOptions?: TextAreaHistoryOptions;
@@ -233,13 +239,7 @@ export class Carta {
 
 	public async highlighter(): Promise<Highlighter | undefined> {
 		if (this.mHighlighter) return this.mHighlighter;
-		if (
-			!BROWSER &&
-			// Replaced at build time to tree-shake shiki on the server, if specified
-			typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ !== 'undefined' &&
-			__ENABLE_CARTA_SSR_HIGHLIGHTER__ === false
-		)
-			return;
+		if (!USE_HIGHLIGHTER) return;
 
 		this.mHighlighter = (async () => {
 			const hl = await import('./highlight');
@@ -434,12 +434,7 @@ export class Carta {
 	 * @returns Rendered html.
 	 */
 	public async render(markdown: string): Promise<string> {
-		if (
-			BROWSER ||
-			// Replaced at build time to tree-shake shiki on the server, if specified
-			typeof __ENABLE_CARTA_SSR_HIGHLIGHTER__ === 'undefined' ||
-			__ENABLE_CARTA_SSR_HIGHLIGHTER__ === true
-		) {
+		if (USE_HIGHLIGHTER) {
 			const hl = await import('./highlight');
 			const { loadNestedLanguages } = hl;
 

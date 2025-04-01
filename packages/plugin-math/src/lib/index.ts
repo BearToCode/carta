@@ -51,7 +51,7 @@ export const math = (options?: MathExtensionOptions): Plugin => {
 		onLoad: async ({ carta }) => {
 			const highlighter = await carta.highlighter();
 			if (!highlighter) return;
-			await highlighter.loadLanguage('tex');
+			await highlighter.shikiHighlighter().loadLanguage('tex');
 			carta.input?.update();
 		},
 		transformers: [
