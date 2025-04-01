@@ -17,4 +17,4 @@ for (const [index, target] of packages.entries()) {
 	}
 }
 
-spinner.succeed(`All packages and docs built`);
+spinner.succeed(`All packages built`);
