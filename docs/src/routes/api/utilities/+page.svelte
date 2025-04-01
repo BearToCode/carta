@@ -46,7 +46,7 @@
 	<code>Carta.highlighter</code>
 </h2>
 
-<p>Get the Shiki highlighter.</p>
+<p>Get the highlighter used by Carta.</p>
 
 <Code code={data.codeBlocks.carta_highlighter} />
 
