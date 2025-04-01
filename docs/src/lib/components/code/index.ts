@@ -29,6 +29,8 @@ const carta = new Carta({
 	}
 });
 
+export const highlighter = await carta.highlighter();
+
 /**
  * Highlights the code blocks.
  * @param codeBlocks The code blocks to highlight
@@ -39,22 +41,23 @@ export async function highlightCodeBlocks<T extends string>(
 ): Promise<HighlightedCodeBlocks<T>> {
 	const highlightedCodeBlocks: HighlightedCodeBlocks<T> = {} as HighlightedCodeBlocks<T>;
 
-	const highlighter = await carta.highlighter();
 	if (!highlighter) {
 		throw new Error('Failed to get highlighter');
 	}
 
-	const loadedLanguages = highlighter.getLoadedLanguages();
+	const shiki = highlighter.shikiHighlighter();
+
+	const loadedLanguages = shiki.getLoadedLanguages();
 
 	for (const key in codeBlocks) {
 		const codeBlock = codeBlocks[key];
 
 		if (isBundleLanguage(codeBlock.lang) && !loadedLanguages.includes(codeBlock.lang)) {
-			await highlighter.loadLanguage(codeBlock.lang);
+			await shiki.loadLanguage(codeBlock.lang);
 			loadedLanguages.push(codeBlock.lang);
 		}
 
-		const html = highlighter.codeToHtml(codeBlock.code, {
+		const html = shiki.codeToHtml(codeBlock.code, {
 			lang: codeBlock.lang,
 			theme: 'houston'
 		});

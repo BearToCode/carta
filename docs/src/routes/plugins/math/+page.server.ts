@@ -1,4 +1,4 @@
-import { highlightCodeBlocks } from '$lib/components/code';
+import { highlightCodeBlocks, highlighter } from '$lib/components/code';
 import { deindent } from '$lib/utils';
 
 const codeBlocks = {
@@ -39,11 +39,11 @@ const codeBlocks = {
       <MarkdownEditor {carta} />`
 	},
 	usageInline: {
-		lang: 'cartamd',
+		lang: highlighter?.settings.langHash as string,
 		code: 'Pythagorean theorem: $a^2+b^2=c^2$'
 	},
 	usageBlock: {
-		lang: 'cartamd',
+		lang: highlighter?.settings.langHash as string,
 		code: deindent`
       **Laplace** transform:
       $$
