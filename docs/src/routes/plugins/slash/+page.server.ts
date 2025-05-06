@@ -8,7 +8,7 @@ const codeBlocks = {
 	},
 	styles: {
 		lang: 'js',
-		code: "import '@cartamd/plugin-slash/default.css;"
+		code: "import '@cartamd/plugin-slash/default.css';"
 	},
 	extension: {
 		lang: 'svelte',
