@@ -13,12 +13,13 @@ export type NonNullable<T> = Exclude<T, null | undefined>;
  * @param cb Callback function.
  * @param wait The time to wait in milliseconds.
  */
-export function debounce<T extends unknown[]>(cb: (...args: T) => unknown, wait = 1000) {
+export function debounce<T extends unknown[], K>(cb: (...args: T) => K, wait = 1000) {
 	let timeout: NodeJS.Timeout;
-	return (...args: T) => {
-		clearTimeout(timeout);
-		timeout = setTimeout(() => cb(...args), wait);
-	};
+	return (...args: T) =>
+		new Promise<K>((resolve) => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => resolve(cb(...args)), wait);
+		});
 }
 
 /**

@@ -5,13 +5,13 @@
 -->
 
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
 	import type { Carta } from '../carta';
+	import type { UIEventHandler } from 'svelte/elements';
 	import type { TextAreaProps } from '../textarea-props';
+	import { onMount, type Snippet } from 'svelte';
 	import { debounce } from '../utils';
 	import { BROWSER } from 'esm-env';
 	import { speculativeHighlightUpdate } from '../speculative';
-	import type { UIEventHandler } from 'svelte/elements';
 
 	interface Props {
 		/**
@@ -61,8 +61,6 @@
 	let textarea: HTMLTextAreaElement;
 	let highlightElem: HTMLDivElement;
 	let wrapperElem: HTMLDivElement;
-	let highlighted = $state(value);
-	let mounted = $state(false);
 	let currentlyHighlightedValue = value;
 
 	const simpleUUID = Math.random().toString(36).substring(2);
@@ -94,6 +92,9 @@
 		}
 	};
 
+	/**
+	 * Focus the textarea element.
+	 */
 	const focus = () => {
 		// Allow text selection
 		const selectedText = window.getSelection()?.toString();
@@ -106,24 +107,51 @@
 	 * Highlight the text in the textarea.
 	 * @param text The text to highlight.
 	 */
-	const highlight = async (text: string) => {
+	async function highlight(text: string) {
 		const highlighter = await carta.highlighter();
-		if (!highlighter) return;
+		if (!highlighter) return null;
 
 		const html = highlighter.codeToHtml(text);
+		const timestamp = new Date().getTime();
 
 		if (carta.sanitizer) {
-			highlighted = carta.sanitizer(html);
+			return { html: carta.sanitizer(html), timestamp };
 		} else {
-			highlighted = html;
+			return { html, timestamp };
+		}
+	}
+
+	/**
+	 * Debounced version of the highlight function.
+	 */
+	const debouncedHighlight = debounce(highlight, highlightDelay);
+
+	/**
+	 * Returns the highlighted text using a speculative update.
+	 * @param text The text to highlight.
+	 */
+	function speculativeHighlight(value: string) {
+		const timestamp = new Date().getTime();
+
+		if (!mounted) return { html: '', timestamp };
+
+		const currentOverlay = highlightElem.innerHTML;
+		if (highlightElem) {
+			try {
+				const html = speculativeHighlightUpdate(currentlyHighlightedValue, value, currentOverlay);
+				currentlyHighlightedValue = value;
+
+				return { html, timestamp };
+			} catch (e) {
+				console.error(`Error executing speculative update: ${e}.`);
+			}
 		}
 
-		currentlyHighlightedValue = value;
-
-		requestAnimationFrame(resize);
-	};
-
-	const debouncedHighlight = debounce(highlight, highlightDelay);
+		return {
+			html: highlightElem.innerHTML,
+			timestamp
+		};
+	}
 
 	/**
 	 * Highlight the nested languages in the markdown, loading the necessary
@@ -137,35 +165,50 @@
 
 		if (!highlighter) return;
 		const { updated } = await loadNestedLanguages(highlighter, text);
-		if (updated) debouncedHighlight(text);
+		if (updated) overlayPromise = debouncedHighlight(text);
 	}, 300);
 
-	const onValueChange = (value: string) => {
-		if (highlightElem) {
-			try {
-				highlighted = speculativeHighlightUpdate(currentlyHighlightedValue, value, highlighted);
-				currentlyHighlightedValue = value;
-				requestAnimationFrame(resize);
-			} catch (e) {
-				console.error(`Error executing speculative update: ${e}.`);
-			}
-		}
-
-		debouncedHighlight(value);
-
+	/**
+	 * Value change handler.
+	 */
+	const onchange = (value: string) => {
 		highlightNestedLanguages(value);
 	};
 
+	/**
+	 * Runes
+	 */
+	let mounted = $state(false);
+	let overlayPromise = $derived(debouncedHighlight(value));
+	let overlay = $state<Awaited<typeof overlayPromise>>(null);
+	let speculativeOverlay = $derived(speculativeHighlight(value));
+	let displayedOverlay = $derived(
+		overlay && overlay.timestamp > speculativeOverlay.timestamp ? overlay : speculativeOverlay
+	);
+
 	$effect(() => {
-		if (BROWSER) onValueChange(value);
+		if (BROWSER) onchange(value);
 	});
 
+	$effect(() => {
+		overlayPromise.then(async (o) => (overlay = await o));
+	});
+
+	$effect(() => {
+		if (mounted) {
+			displayedOverlay; // When the overlay changes
+			requestAnimationFrame(resize); // Resize the textarea
+		}
+	});
+
+	/**
+	 * Mount callback
+	 */
 	onMount(() => {
 		mounted = true;
 		// Resize once the DOM is updated.
 		requestAnimationFrame(resize);
-	});
-	onMount(() => {
+
 		carta.$setInput(textarea, elem!, () => {
 			value = textarea.value;
 		});
@@ -197,7 +240,8 @@
 			aria-hidden="true"
 			bind:this={highlightElem}
 		>
-			<!-- eslint-disable-line svelte/no-at-html-tags -->{@html highlighted}
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html displayedOverlay.html}
 		</div>
 
 		<textarea
