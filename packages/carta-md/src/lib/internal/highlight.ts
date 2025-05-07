@@ -236,7 +236,7 @@ async function getManager() {
 	// to prevent multiple calls to getManager from creating multiple instances
 	// since shiki.getHighlighter is an async function.
 	manager = (async () => ({
-		shikiHighlighter: await shiki.getHighlighter({
+		shikiHighlighter: await shiki.createHighlighter({
 			langs: [],
 			themes: []
 		}),
