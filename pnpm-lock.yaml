@@ -357,8 +357,8 @@ importers:
   packages/plugin-code:
     dependencies:
       '@shikijs/rehype':
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: ^3.4.0
+        version: 3.4.0
       unified:
         specifier: ^11.0.5
         version: 11.0.5
@@ -1273,14 +1273,11 @@ packages:
   '@shikijs/langs@3.4.0':
     resolution: {integrity: sha512-bQkR+8LllaM2duU9BBRQU0GqFTx7TuF5kKlw/7uiGKoK140n1xlLAwCgXwSxAjJ7Htk9tXTFwnnsJTCU5nDPXQ==}
 
-  '@shikijs/rehype@1.4.0':
-    resolution: {integrity: sha512-Ba6QHYx+EIEvmqyNy/B49KAz3rXsTfAqYRY3KTZjPWonytokGOiJ1q/FV9l13D/ad6Qv+eWKhkAz6ITxx6ziFA==}
+  '@shikijs/rehype@3.4.0':
+    resolution: {integrity: sha512-wm7RTSmrcmjZg+F9JRrsH0Brwi36joUMXkUWIDmBGW+XExNEi8Xjmmp2NOBXa3DujZtnL6Dbcg7V6gtZabGoXw==}
 
   '@shikijs/themes@3.4.0':
     resolution: {integrity: sha512-YPP4PKNFcFGLxItpbU0ZW1Osyuk8AyZ24YEFaq04CFsuCbcqydMvMUTi40V2dkc0qs1U2uZFrnU6s5zI6IH+uA==}
-
-  '@shikijs/transformers@1.4.0':
-    resolution: {integrity: sha512-kzvlWmWYYSeaLKRce/kgmFFORUtBtFahfXRKndor0b60ocYiXufBQM6d6w1PlMuUkdk55aor9xLvy9wy7hTEJg==}
 
   '@shikijs/types@3.4.0':
     resolution: {integrity: sha512-EUT/0lGiE//7j5N/yTMNMT3eCWNcHJLrRKxT0NDXWIfdfSmFJKfPX7nMmRBrQnWboAzIsUziCThrYMMhjbMS1A==}
@@ -2875,6 +2872,9 @@ packages:
 
   hast-util-to-string@3.0.0:
     resolution: {integrity: sha512-OGkAxX1Ua3cbcW6EJ5pT/tslVb90uViVkcJ4ZZIMW/R33DX/AkcJcRrPebPwJkHYwlDHXz4aIwvAAaAdtrACFA==}
+
+  hast-util-to-string@3.0.1:
+    resolution: {integrity: sha512-XelQVTDWvqcl3axRfI0xSeoVKzyIFPwsAGSLIsKdJKQMXDYJS4WYrBNF/8J7RdhIcFI2BOHgAifggsvsxp/3+A==}
 
   hast-util-to-text@4.0.1:
     resolution: {integrity: sha512-RHL7Vo2n06ZocCFWqmbyhZ1pCYX/mSKdywt9YD5U6Hquu5syV+dImCXFKLFt02JoK5QxkQFS0PoVdFdPXuPffQ==}
@@ -6064,22 +6064,18 @@ snapshots:
     dependencies:
       '@shikijs/types': 3.4.0
 
-  '@shikijs/rehype@1.4.0':
+  '@shikijs/rehype@3.4.0':
     dependencies:
-      '@shikijs/transformers': 1.4.0
+      '@shikijs/types': 3.4.0
       '@types/hast': 3.0.4
-      hast-util-to-string: 3.0.0
-      shiki: 1.4.0
+      hast-util-to-string: 3.0.1
+      shiki: 3.4.0
       unified: 11.0.5
       unist-util-visit: 5.0.0
 
   '@shikijs/themes@3.4.0':
     dependencies:
       '@shikijs/types': 3.4.0
-
-  '@shikijs/transformers@1.4.0':
-    dependencies:
-      shiki: 1.4.0
 
   '@shikijs/types@3.4.0':
     dependencies:
@@ -7967,6 +7963,10 @@ snapshots:
       zwitch: 2.0.4
 
   hast-util-to-string@3.0.0:
+    dependencies:
+      '@types/hast': 3.0.4
+
+  hast-util-to-string@3.0.1:
     dependencies:
       '@types/hast': 3.0.4
 
