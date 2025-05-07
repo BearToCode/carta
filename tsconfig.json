@@ -6,7 +6,7 @@
 		"checkJs": false,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"moduleResolution": "node",
+		"moduleResolution": "Bundler",
 		"resolveJsonModule": false,
 		"skipLibCheck": true,
 		"sourceMap": true,
