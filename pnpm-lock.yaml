@@ -193,8 +193,8 @@ importers:
         specifier: ^1.69.5
         version: 1.69.5
       shiki:
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: ^3.4.0
+        version: 3.4.0
       svelte:
         specifier: 'catalog:'
         version: 5.20.1
@@ -1257,9 +1257,6 @@ packages:
     engines: {node: '>=20.8.1'}
     peerDependencies:
       semantic-release: '>=20.1.0'
-
-  '@shikijs/core@1.4.0':
-    resolution: {integrity: sha512-CxpKLntAi64h3j+TwWqVIQObPTED0FyXLHTTh3MKXtqiQNn2JGcMQQ362LftDbc9kYbDtrksNMNoVmVXzKFYUQ==}
 
   '@shikijs/core@3.4.0':
     resolution: {integrity: sha512-0YOzTSRDn/IAfQWtK791gs1u8v87HNGToU6IwcA3K7nPoVOrS2Dh6X6A6YfXgPTSkTwR5y6myk0MnI0htjnwrA==}
@@ -4616,9 +4613,6 @@ packages:
     resolution: {integrity: sha512-AzqKpGKjrj7EM6rKVQEPpB288oCfnrEIuyoT9cyF4nmGa7V8Zk6f7RRqYisX8X9m+Q7bd632aZW4ky7EhbQztA==}
     engines: {node: '>= 0.4'}
 
-  shiki@1.4.0:
-    resolution: {integrity: sha512-5WIn0OL8PWm7JhnTwRWXniy6eEDY234mRrERVlFa646V2ErQqwIFd2UML7e0Pq9eqSKLoMa3Ke+xbsF+DAuy+Q==}
-
   shiki@3.4.0:
     resolution: {integrity: sha512-Ni80XHcqhOEXv5mmDAvf5p6PAJqbUc/RzFeaOqk+zP5DLvTPS3j0ckvA+MI87qoxTQ5RGJDVTbdl/ENLSyyAnQ==}
 
@@ -6039,8 +6033,6 @@ snapshots:
       semantic-release: 24.2.2(typescript@5.7.3)
     transitivePeerDependencies:
       - supports-color
-
-  '@shikijs/core@1.4.0': {}
 
   '@shikijs/core@3.4.0':
     dependencies:
@@ -9870,10 +9862,6 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   shell-quote@1.8.2: {}
-
-  shiki@1.4.0:
-    dependencies:
-      '@shikijs/core': 1.4.0
 
   shiki@3.4.0:
     dependencies:

@@ -27,7 +27,7 @@
 		"cpx": "^1.5.0",
 		"jsom": "^1.0.0",
 		"sass": "^1.69.5",
-		"shiki": "^1.4.0",
+		"shiki": "^3.4.0",
 		"svelte": "catalog:",
 		"svelte-check": "catalog:",
 		"tailwindcss": "^3.3.5",
