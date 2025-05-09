@@ -46,7 +46,7 @@
 		"remark-gfm": "^4.0.0",
 		"remark-parse": "^11.0.0",
 		"remark-rehype": "^11.1.0",
-		"shiki": "^1.4.0",
+		"shiki": "^3.4.0",
 		"unified": "^11.0.5"
 	},
 	"keywords": [
