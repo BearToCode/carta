@@ -6,6 +6,14 @@ type Position = {
 	char: number;
 };
 
+const clonePosition = (position: Position): Position => {
+	return {
+		line: position.line,
+		span: position.span,
+		char: position.char
+	};
+};
+
 /**
  * Temporary updates the highlight overlay to reflect the changes between two text strings,
  * waiting for the actual update to be applied. This way, the user can immediately see the changes,
@@ -26,14 +34,8 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 
 	if (lines.length === 0) return to;
 
-	const charAt = (position: Position): string => {
-		const span = getCurrentSpan(position, lines);
-		const text = span.textContent ?? '';
-		return text[position.char];
-	};
-
 	const advance = () => {
-		writingPosition = structuredClone(readingPosition);
+		writingPosition = clonePosition(readingPosition);
 		writingPosition.char++; // Always advance the writing position
 		// Cannot read past the end of the text
 		if (!isAtEndOfText(readingPosition, lines)) {
@@ -46,13 +48,8 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 			writingPosition.char = 0;
 			writingPosition.span = 0;
 			writingPosition.line++;
-			readingPosition = structuredClone(writingPosition);
+			readingPosition = clonePosition(writingPosition);
 			return;
-		}
-
-		const c = charAt(readingPosition);
-		if (c !== char) {
-			console.warn(`Character mismatch: "${char}" !== "${c}" at: `, readingPosition, lines);
 		}
 
 		advance();
@@ -100,7 +97,7 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 
 			lines.splice(writingPosition.line + 1, 0, line);
 			readingPosition = { line: readingPosition.line + 1, span: 0, char: 0 };
-			writingPosition = structuredClone(readingPosition);
+			writingPosition = clonePosition(readingPosition);
 			return;
 		}
 
@@ -139,7 +136,7 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 			lines.splice(readingPosition.line, 1);
 
 			// Move the reading position to the end of the previous line (writing position is already there)
-			readingPosition = structuredClone(writingPosition);
+			readingPosition = clonePosition(writingPosition);
 			// make sure that the reading position is not in an invalid state
 			readingPosition = checkPosition(readingPosition, lines);
 
