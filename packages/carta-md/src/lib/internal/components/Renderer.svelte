@@ -50,7 +50,7 @@
 	const debouncedRenderer = debounce((value: string) => {
 		carta
 			.render(value)
-			.then((rendered) => renderedHtml = rendered)
+			.then((rendered) => (renderedHtml = rendered))
 			.then(() => onrender());
 	}, carta.rendererDebounce ?? 300);
 
@@ -69,8 +69,8 @@
 
 	function render(div: HTMLDivElement) {
 		$effect(() => {
-			innerHTML(div, renderedHtml, { executeScripts: false, disableMutationObserver: true })
-		})
+			innerHTML(div, renderedHtml, { executeScripts: false, disableMutationObserver: true });
+		});
 	}
 </script>
 
