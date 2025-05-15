@@ -9,6 +9,7 @@
 	import type { UIEventHandler } from 'svelte/elements';
 	import { onMount, type Snippet } from 'svelte';
 	import { debounce } from '../utils';
+	import { innerHTML } from 'diffhtml';
 
 	interface Props {
 		/**
@@ -49,10 +50,7 @@
 	const debouncedRenderer = debounce((value: string) => {
 		carta
 			.render(value)
-			.then((rendered) => {
-				renderedHtml = ''; // Force @html to re-render everything
-				renderedHtml = rendered;
-			})
+			.then((rendered) => renderedHtml = rendered)
 			.then(() => onrender());
 	}, carta.rendererDebounce ?? 300);
 
@@ -68,6 +66,12 @@
 		if (elem) carta.$setRenderer(elem);
 		mounted = true;
 	});
+
+	function render(div: HTMLDivElement) {
+		$effect(() => {
+			innerHTML(div, renderedHtml, { executeScripts: false, disableMutationObserver: true })
+		})
+	}
 </script>
 
 <div
@@ -76,8 +80,7 @@
 	bind:this={elem}
 	{onscroll}
 >
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html renderedHtml}
+	<div style="display:contents" use:render></div>
 	{#if mounted}
 		{@render children?.()}
 	{/if}
