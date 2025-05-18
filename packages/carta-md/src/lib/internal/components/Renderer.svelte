@@ -43,15 +43,14 @@
 	}: Props = $props();
 
 	let mounted = $state(false);
-	let renderedHtml = $state(carta.renderSSR(value));
+	let htmlContainer = $state<HTMLDivElement>();
 
 	// Debounce the rendering
 	const debouncedRenderer = debounce((value: string) => {
 		carta
 			.render(value)
 			.then((rendered) => {
-				renderedHtml = ''; // Force @html to re-render everything
-				renderedHtml = rendered;
+				htmlContainer!.innerHTML = rendered;
 			})
 			.then(() => onrender());
 	}, carta.rendererDebounce ?? 300);
@@ -76,8 +75,10 @@
 	bind:this={elem}
 	{onscroll}
 >
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html renderedHtml}
+	<div bind:this={htmlContainer} style="display: contents;">
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+		{@html carta.renderSSR(value)}
+	</div>
 	{#if mounted}
 		{@render children?.()}
 	{/if}
