@@ -4,6 +4,7 @@
 	import { initializeComponents, svelte } from '$lib/svelte';
 	import Heading from './Heading.svelte';
 	import Img from './Img.svelte';
+	import Anchor from './Anchor.svelte';
 	import UnorderedList from './UnorderedList.svelte';
 
 	import 'carta-md/default.css';
@@ -12,11 +13,20 @@
 		sanitizer: false,
 		extensions: [
 			component(
-				[svelte('h1', Heading), svelte('img', Img), svelte('ul', UnorderedList)],
+				[
+					svelte('h1', Heading),
+					svelte('img', Img),
+					svelte('ul', UnorderedList),
+					svelte('a', Anchor)
+				],
 				initializeComponents
 			)
 		]
 	});
+
+	let value = $state('');
+
+	$inspect(value);
 </script>
 
 <svelte:head>
@@ -32,7 +42,7 @@
 </svelte:head>
 
 <main>
-	<MarkdownEditor {carta} />
+	<MarkdownEditor bind:value {carta} />
 	<!-- <Markdown {carta} value="# Heading" /> -->
 </main>
 

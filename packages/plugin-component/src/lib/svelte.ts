@@ -45,7 +45,7 @@ export const svelteCustom = <T extends Record<string, unknown>>(
 		render(node) {
 			if (BROWSER) {
 				const placeholder: hast.Element = {
-					tagName: 'div',
+					tagName: 'span', // Use a span to avoid breaking the layout
 					type: 'element',
 					children: node.children,
 					properties: {
