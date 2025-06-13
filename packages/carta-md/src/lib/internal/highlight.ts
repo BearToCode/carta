@@ -394,7 +394,8 @@ export async function loadHighlighter(options: HighlighterOptions): Promise<High
 				// Single theme
 				return manager.shikiHighlighter.codeToHtml(code, {
 					lang: langHash,
-					theme: themeHash as string
+					theme: themeHash as string,
+					tabindex: -1
 				});
 			} else {
 				// Dual theme
@@ -403,7 +404,8 @@ export async function loadHighlighter(options: HighlighterOptions): Promise<High
 					themes: {
 						light: (themeHash as { light: string; dark: string }).light as string,
 						dark: (themeHash as { light: string; dark: string }).dark as string
-					}
+					},
+					tabindex: -1
 				});
 			}
 		},
