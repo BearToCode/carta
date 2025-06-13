@@ -25,6 +25,7 @@ export interface InputSettings {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly listeners: Listener<any>[];
 	readonly historyOpts?: Partial<TextAreaHistoryOptions>;
+	readonly disableTabCapture?: boolean;
 }
 
 export class InputEnhancer {
@@ -131,7 +132,7 @@ export class InputEnhancer {
 		if (key === 'enter') {
 			// Check prefixes
 			this.handleNewLine(e);
-		} else if (key == 'tab' && !this.escapePressed) {
+		} else if (key == 'tab' && !this.escapePressed && !this.settings.disableTabCapture) {
 			e.preventDefault(); // Don't select other stuff
 
 			// Check for tab-outs

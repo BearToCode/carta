@@ -121,11 +121,14 @@ export interface Options {
 	 * @default 'carta-light' for light mode and 'carta-dark' for dark mode.
 	 */
 	theme?: Theme | DualTheme;
-
 	/**
 	 * Options that will be passed to rehype
 	 */
 	rehypeOptions?: RehypeOptions;
+	/**
+	 * Whether to avoid capturing tab events.
+	 */
+	disableTabCapture?: boolean;
 }
 
 /**
@@ -220,6 +223,7 @@ export class Carta {
 	public readonly gfmOptions: GfmOptions | undefined;
 	public readonly syncProcessor: Processor;
 	public readonly asyncProcessor: Promise<Processor>;
+	public readonly disableTabCapture: boolean;
 	private mElement: HTMLDivElement | undefined;
 	private mInput: InputEnhancer | undefined;
 	private mRenderer: Renderer | undefined;
@@ -330,6 +334,9 @@ export class Carta {
 				options?.disableTabOuts === true ? false : !options?.disableTabOuts?.includes(tabOut.id)
 			)
 		);
+
+		// Set disableTabCapture
+		this.disableTabCapture = options?.disableTabCapture ?? false;
 
 		// Load unified extensions
 		this.mSyncTransformers = [];
@@ -489,7 +496,8 @@ export class Carta {
 			prefixes: this.prefixes,
 			tabOuts: this.tabOuts,
 			listeners: this.textareaListeners,
-			historyOpts: this.historyOptions
+			historyOpts: this.historyOptions,
+			disableTabCapture: this.disableTabCapture
 		});
 
 		if (previousInput) {

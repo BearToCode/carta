@@ -144,6 +144,19 @@ Maximum history size in bytes. Defaults to 1MB.
 
 <p>Shiki theme to use to highlight Markdown.</p>
 
+<h3 use:track id="disable-tab-capture">
+	<code>disableTabCapture</code>
+</h3>
+
+<p>
+	Type: <code>boolean</code>
+</p>
+
+<p>
+	Disable tab capture. This will prevent the editor from capturing the tab key and using it for
+	indentation.
+</p>
+
 <h2 use:track id="markdown-editor-options">
 	<code>MarkdownEditor</code>
 	options
