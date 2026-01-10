@@ -8,7 +8,7 @@ const codeBlocks = {
 	},
 	styles: {
 		lang: 'js',
-		code: "import '@cartamd/plugin-emoji/default.css;"
+		code: "import '@cartamd/plugin-emoji/default.css';"
 	},
 	extension: {
 		lang: 'svelte',
