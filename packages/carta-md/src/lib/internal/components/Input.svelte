@@ -62,6 +62,7 @@
 	let highlightElem: HTMLDivElement;
 	let wrapperElem: HTMLDivElement;
 	let currentlyHighlightedValue = value;
+	let wasHidden = $state(hidden);
 
 	const simpleUUID = Math.random().toString(36).substring(2);
 
@@ -71,6 +72,7 @@
 	 */
 	export const resize = () => {
 		if (!mounted || !textarea) return;
+
 		textarea.style.height = '0';
 		textarea.style.minHeight = '0';
 		textarea.style.height = textarea.scrollHeight + 'px';
@@ -198,6 +200,15 @@
 		if (mounted) {
 			displayedOverlay; // When the overlay changes
 			requestAnimationFrame(resize); // Resize the textarea
+		}
+	});
+
+	$effect(() => {
+		if (hidden) {
+			wasHidden = true;
+		} else if (wasHidden && mounted) {
+			wasHidden = false;
+			queueMicrotask(focus);
 		}
 	});
 
