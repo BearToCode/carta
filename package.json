@@ -37,7 +37,7 @@
 		"prettier": "3.1.0",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.5.14",
-		"semantic-release": "^24.2.2",
+		"semantic-release": "^25.0.3",
 		"semantic-release-monorepo": "^8.0.2",
 		"svelte-eslint-parser": "^0.43.0"
 	},
@@ -54,7 +54,8 @@
 		"plugins": [
 			"@semantic-release/commit-analyzer",
 			"@semantic-release/release-notes-generator",
-			"@semantic-release/github"
+			"@semantic-release/github",
+			"@semantic-release/npm"
 		]
 	}
 }
