@@ -204,7 +204,7 @@
 				{#if mounted}
 					{#each carta.components.filter(({ parent }) => [parent]
 							.flat()
-							.includes('input')) as { component: DynamicComponent, props }}
+							.includes('input')) as { component: DynamicComponent, props }, index (index)}
 						<DynamicComponent {carta} {...props}></DynamicComponent>
 					{/each}
 				{/if}
@@ -227,7 +227,7 @@
 				{#if mounted}
 					{#each carta.components.filter(({ parent }) => [parent]
 							.flat()
-							.includes('renderer')) as { component: DynamicComponent, props }}
+							.includes('renderer')) as { component: DynamicComponent, props }, index (index)}
 						<DynamicComponent {carta} {...props}></DynamicComponent>
 					{/each}
 				{/if}
@@ -240,7 +240,7 @@
 	{#if mounted}
 		{#each carta.components.filter(({ parent }) => [parent]
 				.flat()
-				.includes('editor')) as { component: DynamicComponent, props }}
+				.includes('editor')) as { component: DynamicComponent, props }, index (index)}
 			<DynamicComponent {carta} {...props}></DynamicComponent>
 		{/each}
 	{/if}

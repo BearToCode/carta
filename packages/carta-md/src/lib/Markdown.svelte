@@ -9,7 +9,7 @@
 -->
 
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import type { Carta } from './internal/carta';
 
 	interface Props {
@@ -31,7 +31,7 @@
 
 	let elem: HTMLDivElement | undefined = $state();
 
-	let rendered = $state(carta.renderSSR(value));
+	let rendered = $state(untrack(() => carta.renderSSR(value)));
 	onMount(async () => {
 		if (!elem) {
 			throw new Error('No element found.');

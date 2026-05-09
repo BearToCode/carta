@@ -2,7 +2,7 @@
 	import { run } from 'svelte/legacy';
 
 	import type { Carta } from 'carta-md';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import * as nodeEmoji from 'node-emoji';
 	import type { TransitionConfig } from 'svelte/transition';
 
@@ -20,7 +20,7 @@
 	let colonPosition = 0;
 	let hoveringIndex = $state(0);
 	let emojis: { emoji: string; name: string }[] = $state([]);
-	let emojisElements: HTMLButtonElement[] = $state(Array(maxResults));
+	let emojisElements: HTMLButtonElement[] = $state(untrack(() => Array(maxResults).fill(null)));
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -216,7 +216,7 @@
 
 {#if visible && filter.length > 0 && emojis.length > 0}
 	<div class="carta-emoji" in:inTransition out:outTransition use:carta.bindToCaret>
-		{#each emojis as emoji, i}
+		{#each emojis as emoji, i (emoji.name)}
 			<button
 				class={i === hoveringIndex ? 'carta-active' : ''}
 				title={emoji.name}

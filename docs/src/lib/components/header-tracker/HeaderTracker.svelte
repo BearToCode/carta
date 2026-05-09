@@ -57,7 +57,7 @@
 />
 
 <div class="h-full space-y-3 {className}">
-	{#each trackedHeaders as header, i}
+	{#each trackedHeaders as header, i (header.id)}
 		{@const headerLevel = getHeaderLevel(header.element)}
 		{@const margin = headerLevel - 1}
 		{@const parentHeader = trackedHeaders

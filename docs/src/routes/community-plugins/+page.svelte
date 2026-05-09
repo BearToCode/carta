@@ -19,7 +19,7 @@
 
 Here are is a list of several plugins developed by the community:
 
-{#each data.plugins as plugin}
+{#each data.plugins as plugin (plugin.name)}
 	<PluginLink npmLink={plugin.npm} githubLink={plugin.github} name={plugin.name} />
 
 	{plugin.description}

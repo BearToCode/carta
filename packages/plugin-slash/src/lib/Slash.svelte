@@ -4,7 +4,7 @@
 	import type { Carta } from 'carta-md';
 	import type { SlashSnippet } from './snippets';
 	import type { TransitionConfig } from 'svelte/transition';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, untrack } from 'svelte';
 
 	interface Props {
 		carta: Carta;
@@ -19,11 +19,11 @@
 	let hoveringIndex = $state(0);
 	let filter = '';
 	let slashPosition = 0;
-	let filteredSnippets = $state(snippets);
+	let filteredSnippets = $state(untrack(() => snippets));
 	let groupedSnippets: [string, SlashSnippet[]][] = $derived(
 		Object.entries(groupBy(filteredSnippets, 'group'))
 	);
-	let snippetsElements: HTMLButtonElement[] = $state(Array(snippets.length));
+	let snippetsElements: HTMLButtonElement[] = $state(Array(untrack(() => filteredSnippets.length)));
 
 	onMount(() => {
 		carta.input?.textarea.addEventListener('keydown', handleKeyDown);
@@ -146,11 +146,11 @@
 
 {#if visible && filteredSnippets.length > 0}
 	<div class="carta-slash" in:inTransition out:outTransition use:carta.bindToCaret>
-		{#each groupedSnippets as [group, snippets], groupIndex}
+		{#each groupedSnippets as [group, snippets], groupIndex (groupIndex)}
 			<span class="carta-slash-group">
 				{group}
 			</span>
-			{#each snippets as snippet, elemIndex}
+			{#each snippets as snippet, elemIndex (elemIndex)}
 				<button
 					bind:this={snippetsElements[getSnippetIndex(groupIndex, elemIndex)]}
 					onclick={() => useSnippet(snippet)}

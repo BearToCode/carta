@@ -10,6 +10,7 @@
 	} from '$lib/search';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { SvelteMap } from 'svelte/reactivity';
 
 	interface Props {
 		class?: string;
@@ -53,7 +54,7 @@
 
 		const index = await getIndex();
 
-		const pages = new Map<string, IndexablePageFragment>();
+		const pages = new SvelteMap<string, IndexablePageFragment>();
 		const searchResult = index
 			.search(query, 5, { enrich: true })
 			.map((res) => res.result)
@@ -101,7 +102,7 @@
 		{#if value}
 			<Command.Empty>No results found.</Command.Empty>
 			<Command.Group>
-				{#each results as result}
+				{#each results as result (result.id)}
 					<Command.Item
 						onSelect={() => {
 							if (result.match?.heading) goto(`${base}${result.path}#${result.match.heading.id}`);

@@ -8,7 +8,7 @@
 	import type { Carta } from '../carta';
 	import type { UIEventHandler } from 'svelte/elements';
 	import type { TextAreaProps } from '../textarea-props';
-	import { onMount, type Snippet } from 'svelte';
+	import { onMount, untrack, type Snippet } from 'svelte';
 	import { debounce } from '../utils';
 	import { BROWSER } from 'esm-env';
 	import { speculativeHighlightUpdate } from '../speculative';
@@ -62,7 +62,7 @@
 	let highlightElem: HTMLDivElement;
 	let wrapperElem: HTMLDivElement;
 	let currentlyHighlightedValue = value;
-	let wasHidden = $state(hidden);
+	let wasHidden = $state(untrack(() => hidden));
 
 	const simpleUUID = Math.random().toString(36).substring(2);
 
@@ -126,7 +126,7 @@
 	/**
 	 * Debounced version of the highlight function.
 	 */
-	const debouncedHighlight = debounce(highlight, highlightDelay);
+	const debouncedHighlight = $derived(debounce(highlight, highlightDelay));
 
 	/**
 	 * Returns the highlighted text using a speculative update.
