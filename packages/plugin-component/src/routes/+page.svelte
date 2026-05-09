@@ -25,8 +25,6 @@
 	});
 
 	let value = $state('');
-
-	$inspect(value);
 </script>
 
 <svelte:head>

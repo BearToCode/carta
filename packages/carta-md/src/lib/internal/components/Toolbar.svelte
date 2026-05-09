@@ -7,7 +7,7 @@
 	import type { Labels } from '../labels';
 	import type { Carta } from '../carta';
 	import { handleArrowKeysNavigation } from '../accessibility';
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import { debounce } from '../utils';
 	import MenuIcon from './icons/MenuIcon.svelte';
 
@@ -36,11 +36,11 @@
 	let menu: HTMLDivElement | undefined = $state();
 	let iconsContainer: HTMLDivElement | undefined = $state();
 
-	let visibleIcons = $state([...carta.icons]);
+	let visibleIcons = $state(untrack(() => [...carta.icons]));
 	let availableWidth = $state(0);
 	let iconWidth = $state(0);
 	let toolbarHeight = $state(0);
-	let iconsHidden = $state(false);
+	let iconsHidden = $derived(visibleIcons.length !== carta.icons.length);
 	let showMenu = $state(false);
 
 	const IconPadding = 8;
@@ -72,10 +72,6 @@
 	}
 
 	onMount(onResize);
-
-	$effect(() => {
-		iconsHidden = visibleIcons.length !== carta.icons.length;
-	});
 </script>
 
 <svelte:window onresize={onResize} onclick={onClick} />
@@ -108,7 +104,7 @@
 
 	<div class="carta-toolbar-right" bind:this={iconsContainer}>
 		{#if !(mode === 'tabs' && tab === 'preview')}
-			{#each visibleIcons as icon, index}
+			{#each visibleIcons as icon, index (icon.id)}
 				{@const label = labels.iconsLabels[icon.id] ?? icon.label}
 				<button
 					class="carta-icon"
@@ -151,7 +147,7 @@
 
 {#if showMenu && iconsHidden}
 	<div class="carta-icons-menu" style="top: {toolbarHeight}px;" bind:this={menu}>
-		{#each carta.icons.filter((icon) => !visibleIcons.includes(icon)) as icon}
+		{#each carta.icons.filter((icon) => !visibleIcons.includes(icon)) as icon (icon.id)}
 			{@const label = labels.iconsLabels[icon.id] ?? icon.label}
 
 			<button

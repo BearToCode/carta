@@ -46,14 +46,16 @@
 	let htmlContainer = $state<HTMLDivElement>();
 
 	// Debounce the rendering
-	const debouncedRenderer = debounce((value: string) => {
-		carta
-			.render(value)
-			.then((rendered) => {
-				htmlContainer!.innerHTML = rendered;
-			})
-			.then(() => onrender());
-	}, carta.rendererDebounce ?? 300);
+	const debouncedRenderer = $derived(
+		debounce((value: string) => {
+			carta
+				.render(value)
+				.then((rendered) => {
+					htmlContainer!.innerHTML = rendered;
+				})
+				.then(() => onrender());
+		}, carta.rendererDebounce ?? 300)
+	);
 
 	const onValueChange = (value: string) => {
 		debouncedRenderer(value);
