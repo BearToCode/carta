@@ -1,0 +1,4 @@
+import{d as m,b as p,a as v,f as b}from"./CaRbQ9x6.js";import{p as f,a as u,s as h,g as r,c,ae as g,r as n,d as _}from"./DTHFoKrR.js";import{h as y}from"./BpaQTibF.js";import{c as x,d as k}from"./CbiUktmN.js";import{b as C}from"./CL3sA2cS.js";var T=b(`<div class="code-block relative"><!> <button aria-label="Copy code" title="Copy" class="
+      absolute right-4 top-[min(50%_,_32px)] aspect-square -translate-y-1/2 transform
+      rounded hover:bg-neutral-800 hover:text-neutral-300 active:text-sky-300
+    "><iconify-icon></iconify-icon></button></div>`,2);function B(l,o){f(o,!0);let a=g(void 0);var t=T(),i=c(t);y(i,()=>o.code.html);var e=h(i,2),s=c(e);x(s,"icon","octicon:copy-16"),k(s,1,"p-2 text-lg"),n(e),n(t),C(t,d=>_(a,d),()=>r(a)),p("click",e,()=>{navigator.clipboard.writeText(r(a).innerText)}),v(l,t),u()}m(["click"]);export{B as C};
