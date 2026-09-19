@@ -146,6 +146,11 @@
 				return { html, timestamp };
 			} catch (e) {
 				console.error(`Error executing speculative update: ${e}.`);
+				// The overlay still holds the previous text, but the debounced highlight is already
+				// on its way and will render `value`. Keep the baseline in sync with it, otherwise it
+				// stays at the pre-change text and the next patch sees the whole document as added,
+				// replaying it into the overlay (the text is duplicated until the debounce lands).
+				currentlyHighlightedValue = value;
 			}
 		}
 
