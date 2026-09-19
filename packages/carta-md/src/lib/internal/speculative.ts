@@ -223,7 +223,12 @@ function checkPosition(position: Position, lines: Element[]): Position {
 	if (nextPosition.span >= lineElement.children.length) {
 		nextPosition.char = 0;
 		nextPosition.span = 0;
-		nextPosition.line = line + 1;
+		// Only advance to the next line if there is one. The overlay of an empty document is a
+		// single line without spans (`<span class="line"></span>`), so wrapping past it would
+		// leave `line` at `lines.length`; writing there reads `children` of `undefined`.
+		if (line + 1 < lines.length) {
+			nextPosition.line = line + 1;
+		}
 	}
 
 	return nextPosition;
