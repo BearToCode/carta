@@ -384,6 +384,9 @@ importers:
       esm-env:
         specifier: ^1.0.0
         version: 1.0.0
+      property-information:
+        specifier: ^7.0.0
+        version: 7.0.0
       rehype-parse:
         specifier: ^9.0.0
         version: 9.0.0
