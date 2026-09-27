@@ -35,6 +35,11 @@
 
 <Code code={data.codeBlocks.extension} />
 
+<p>
+	Attributes of the matched element are passed to the component as props, using hast property names:
+	for example, <code>data-item-id="1"</code> is available as the <code>dataItemId</code> prop.
+</p>
+
 <h3>Custom logic</h3>
 
 <p>You can use custom logic when selecting which nodes to map:</p>

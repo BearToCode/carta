@@ -3,6 +3,7 @@ import { mount, type Component } from 'svelte';
 import { render } from 'svelte/server';
 import type * as hast from 'hast';
 import { BROWSER } from 'esm-env';
+import { find, html as htmlSchema } from 'property-information';
 import { unified } from 'unified';
 import rehypeParse from 'rehype-parse';
 import { EXIT, visit } from 'unist-util-visit';
@@ -114,12 +115,13 @@ export const initializeComponents = (
 			continue;
 		}
 
-		const props = Array.from(placeholder.attributes)
-			.filter((attr) => attr.name !== 'data-component')
-			.map((attr) => ({
-				[attr.name]: attr.value
-			}))
-			.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+		// Use hast property names, so that components receive the same props
+		// on the server and on the client (e.g. `data-item-id` -> `dataItemId`).
+		const props: Record<string, string> = {};
+		for (const attr of Array.from(placeholder.attributes)) {
+			if (attr.name === 'data-component') continue;
+			props[find(htmlSchema, attr.name).property] = attr.value;
+		}
 
 		const wrapper = document.createElement('div');
 		wrapper.setAttribute('data-mounted-component', id);

@@ -67,6 +67,7 @@
 	],
 	"dependencies": {
 		"esm-env": "^1.0.0",
+		"property-information": "^7.0.0",
 		"rehype-parse": "^9.0.0",
 		"unist-util-visit": "^5.0.0"
 	}
