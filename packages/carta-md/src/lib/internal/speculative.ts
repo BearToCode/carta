@@ -14,10 +14,6 @@ const clonePosition = (position: Position): Position => {
 	};
 };
 
-/** Escape text so it is parsed as text, and not as markup, by the overlay. */
-const escapeHtml = (text: string): string =>
-	text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-
 /**
  * Temporary updates the highlight overlay to reflect the changes between two text strings,
  * waiting for the actual update to be applied. This way, the user can immediately see the changes,
@@ -35,12 +31,6 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 	const lines = Array.from(tree.querySelectorAll('.line'));
 	let writingPosition: Position = { line: 0, span: 0, char: 0 };
 	let readingPosition: Position = { line: 0, span: 0, char: 0 };
-
-	// No highlighted lines to patch: the overlay is empty until the highlighter's first pass, or
-	// forever when a sanitizer strips Shiki's `.line` spans. The caller parses the return value as
-	// HTML and never runs the configured sanitizer over it, so the escape has to happen here;
-	// returning the text raw let markup typed into the editor execute in the overlay.
-	if (lines.length === 0) return escapeHtml(to);
 
 	const advance = () => {
 		writingPosition = clonePosition(readingPosition);

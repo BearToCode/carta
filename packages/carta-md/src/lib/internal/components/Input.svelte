@@ -143,7 +143,11 @@
 				const html = speculativeHighlightUpdate(currentlyHighlightedValue, value, currentOverlay);
 				currentlyHighlightedValue = value;
 
-				return { html, timestamp };
+				if (carta.sanitizer) {
+					return { html: carta.sanitizer(html), timestamp };
+				} else {
+					return { html, timestamp };
+				}
 			} catch (e) {
 				console.error(`Error executing speculative update: ${e}.`);
 				// The overlay still holds the previous text, but the debounced highlight is already
