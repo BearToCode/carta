@@ -32,6 +32,8 @@ export function speculativeHighlightUpdate(from: string, to: string, currentHTML
 	let writingPosition: Position = { line: 0, span: 0, char: 0 };
 	let readingPosition: Position = { line: 0, span: 0, char: 0 };
 
+	if (lines.length === 0) return to;
+
 	const advance = () => {
 		writingPosition = clonePosition(readingPosition);
 		writingPosition.char++; // Always advance the writing position
